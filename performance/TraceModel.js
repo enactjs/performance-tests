@@ -19,6 +19,30 @@ const FPS = (filename) => {
 	return avgDuration;
 };
 
+const FCP = (filename) => {
+	const events = fs.readFileSync(filename, 'utf8');
+	const result = JSON.parse(events);
+
+	const baseEvent = result.traceEvents.filter(i => i.name == 'TracingStartedInBrowser')[0].ts;
+	const firstContentfulPaint = result.traceEvents.filter(i => i.name == 'firstContentfulPaint')[0].ts;
+
+	const FCPTime = (firstContentfulPaint - baseEvent) / 1000;
+
+	return FCPTime;
+};
+
+const DCL = (filename) => {
+	const events = fs.readFileSync(filename, 'utf8');
+	const result = JSON.parse(events);
+
+	const baseEvent = result.traceEvents.filter(i => i.name == 'TracingStartedInBrowser')[0].ts;
+	const domContentLoadedEventEnd = result.traceEvents.filter(i => i.name == 'domContentLoadedEventEnd')[0].ts;
+
+	const DCLTime = (domContentLoadedEventEnd - baseEvent) / 1000;
+
+	return DCLTime;
+};
+
 const Mount = (filename, component) => {
 	const events = fs.readFileSync(filename, 'utf8');
 	const model = new DevtoolsTimelineModel(events);
@@ -53,6 +77,8 @@ const Update = (filename, component) => {
 };
 
 module.exports = {
+	DCL,
+	FCP,
 	FPS,
 	Mount,
 	Update

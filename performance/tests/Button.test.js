@@ -1,4 +1,4 @@
-const {FPS, Mount, Update} = require('../TraceModel');
+const {DCL, FCP, FPS} = require('../TraceModel');
 const {getFileName} = require('../utils');
 const TestResults = require('../TestResults');
 
@@ -28,9 +28,6 @@ describe('Button', () => {
 
 			const actualFPS = FPS(filename);
 			TestResults.addResult({component: 'Button', type: 'Frames Per Second', actualValue: actualFPS});
-
-			const actualUpdateTime = Update(filename, 'Touchable');
-			TestResults.addResult({component: 'Button', type: 'Update', actualValue: actualUpdateTime});
 		});
 	});
 
@@ -60,13 +57,10 @@ describe('Button', () => {
 
 			const actualFPS = FPS(filename);
 			TestResults.addResult({component: 'Button', type: 'Frames Per Second', actualValue: actualFPS});
-
-			const actualUpdateTime = Update(filename, 'Touchable');
-			TestResults.addResult({component: 'Button', type: 'Update', actualValue: actualUpdateTime});
 		});
 	});
 
-	it('should mount Button under threshold', async () => {
+	it('should have a good FCP', async () => {
 		const filename = getFileName('Button');
 
 		await page.tracing.start({path: filename, screenshots: false});
@@ -75,8 +69,21 @@ describe('Button', () => {
 
 		await page.tracing.stop();
 
-		const actualMount = Mount(filename, 'Touchable');
-		TestResults.addResult({component: 'Button', type: 'Mount', actualValue: actualMount});
+		const actualFCP = await FCP(filename);
+		TestResults.addResult({component: 'Button', type: 'FCP', actualValue: actualFCP});
+	});
+
+	it('should have a good DCL', async () => {
+		const filename = getFileName('Button');
+
+		await page.tracing.start({path: filename, screenshots: false});
+		await page.goto('http://localhost:8080/button');
+		await page.waitForSelector('#button');
+
+		await page.tracing.stop();
+
+		const actualDCL = await DCL(filename);
+		TestResults.addResult({component: 'Button', type: 'DCL', actualValue: actualDCL});
 	});
 });
 

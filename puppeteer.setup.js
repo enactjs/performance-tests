@@ -1,9 +1,15 @@
 const puppeteer = require('puppeteer');
 
+global.stepNumber = 100;
+global.percent = 75;
+global.maxFCP = 1800;
+global.maxDCL = 2000;
+
 let browser;
 
 global.beforeAll(async () => {
 	browser = await puppeteer.launch();
+	global.testMultiple = browser;
 });
 
 global.beforeEach(async () => {

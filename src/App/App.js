@@ -1,6 +1,5 @@
 import kind from '@enact/core/kind';
-import MoonstoneDecorator from '@enact/moonstone/MoonstoneDecorator';
-import React from 'react';
+import ThemeDecorator from '@enact/sandstone/ThemeDecorator';
 import Picker from '../views/Picker';
 import ScrollerPanel from '../views/ScrollerPanel';
 import Panels from '../views/Panels';
@@ -56,4 +55,4 @@ const App = kind({
 	)
 });
 
-export default MoonstoneDecorator(App);
+export default ThemeDecorator(App);

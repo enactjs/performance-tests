@@ -4,19 +4,16 @@ import Button from '@enact/sandstone/Button';
 import {Profiler} from 'react';
 
 function putRenderedMark(id, phase, actualDuration, baseDuration, startTime, commitTime) {
+	if (!window._prf) {
+		window._prf = [];
+	}
+
+	window._prf.push({id, phase, actualDuration, baseDuration, startTime, commitTime});
+
 	if (!putRenderedMark._done) {
 		putRenderedMark._done = true;
 		window.performance.mark('button-rendered');
 	}
-
-	console.log(
-		`id: ${id}, 
-		phase: ${phase}, 
-		actualDuration: ${actualDuration}, 
-		baseDuration: ${baseDuration}, 
-		startTime: ${startTime}, 
-		commitTime: ${commitTime}`
-	);
 }
 
 const ButtonView = kind({

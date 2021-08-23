@@ -1,7 +1,7 @@
 import kind from '@enact/core/kind';
 import Button from '@enact/sandstone/Button';
 
-import React, {Profiler} from 'react';
+import {Profiler} from 'react';
 
 function putRenderedMark(id, phase, actualDuration, baseDuration, startTime, commitTime) {
 	if (!putRenderedMark._done) {

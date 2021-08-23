@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 
-global.stepNumber = 100;
-global.percent = 75;
+global.stepNumber = 10;
+global.percent = 7;
 global.maxFCP = 1800;
 global.maxDCL = 2000;
 

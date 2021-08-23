@@ -1,6 +1,7 @@
+const getCustomMetrics = require('../ProfilerMetrics');
+const TestResults = require('../TestResults');
 const {DCL, FCP, FPS} = require('../TraceModel');
 const {getFileName} = require('../utils');
-const TestResults = require('../TestResults');
 
 describe('Button', () => {
 	describe('click', () => {
@@ -58,6 +59,22 @@ describe('Button', () => {
 			const actualFPS = FPS(filename);
 			TestResults.addResult({component: 'Button', type: 'Frames Per Second', actualValue: actualFPS});
 		});
+	});
+
+	it('should have a good First-Input time', async () => {
+		const filename = getFileName('Button');
+
+		await page.goto('http://localhost:8080/button');
+		await page.tracing.start({path: filename, screenshots: false});
+		await page.waitForSelector('#button');
+		await page.focus('#button');
+		// await page.waitFor(200);
+		await page.keyboard.down('Enter');
+
+		await page.tracing.stop();
+
+		const actualFirstInput = (await getCustomMetrics(page))['first-input'];
+		TestResults.addResult({component: 'Button', type: 'First Input', actualValue: actualFirstInput});
 	});
 
 	it('should have a good FCP', async () => {

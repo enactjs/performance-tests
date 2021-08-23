@@ -98,7 +98,7 @@ describe('Button', () => {
 				cont += 1;
 			await FCPPage.close();
 		}
-		TestResults.addResult({component: 'Button', type: 'FCP', actualValue: avg});
+		TestResults.addResult({component: 'Button', type: 'average FCP', actualValue: avg});
 
 		expect(cont).toBeGreaterThan(percent);
 		expect(avg).toBeLessThan(maxFCP);
@@ -124,7 +124,7 @@ describe('Button', () => {
 				cont += 1;
 			await DCLPage.close();
 		}
-		TestResults.addResult({component: 'Button', type: 'DCL', actualValue: avg});
+		TestResults.addResult({component: 'Button', type: 'average DCL', actualValue: avg});
 
 		expect(cont).toBeGreaterThan(percent);
 		expect(avg).toBeLessThan(maxDCL);

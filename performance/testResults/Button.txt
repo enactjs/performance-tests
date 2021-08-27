@@ -1,0 +1,7 @@
+{"ReactVersion":"17.0.2","EnactVersion":"4.0.5","component":"Button","type":"Frames Per Second","actualValue":65.21761906301921}
+{"ReactVersion":"17.0.2","EnactVersion":"4.0.5","component":"Button","type":"Frames Per Second","actualValue":61.131905357123905}
+{"ReactVersion":"17.0.2","EnactVersion":"4.0.5","component":"Button","type":"First Input","actualValue":638.2299999968382}
+{"ReactVersion":"17.0.2","EnactVersion":"4.0.5","component":"Button","type":"Mount Time","actualValue":330.549999998766}
+{"ReactVersion":"17.0.2","EnactVersion":"4.0.5","component":"Button","type":"average Update Time","actualValue":0.9443333343369886}
+{"ReactVersion":"17.0.2","EnactVersion":"4.0.5","component":"Button","type":"average FCP","actualValue":366.40855664062497}
+{"ReactVersion":"17.0.2","EnactVersion":"4.0.5","component":"Button","type":"average DCL","actualValue":373.4195859375}

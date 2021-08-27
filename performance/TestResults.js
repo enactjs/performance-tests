@@ -1,4 +1,6 @@
 require('dotenv').config();
+const  fs = require('fs');
+const path = require('path');
 const fetch = require('node-fetch');
 
 const {version: ReactVersion} = require('react/package.json');
@@ -22,9 +24,17 @@ const TestResult = module.exports = {
 				.catch(err => console.log(err));
 		} else {
 			console.log(result);
+			const txtPath = path.join(__dirname, 'testResults', `${component}.txt`);
+
+		 	fs.appendFileSync(txtPath, JSON.stringify(result) + '\n');
 		}
 	},
 	getResults: () => {
 		return TestResult.results;
+	},
+	emptyFile: (component) => {
+		const txtPath = path.join(__dirname, 'testResults', `${component}.txt`);
+
+		fs.writeFileSync(txtPath,'');
 	}
 };

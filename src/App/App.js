@@ -1,5 +1,10 @@
 import kind from '@enact/core/kind';
 import ThemeDecorator from '@enact/sandstone/ThemeDecorator';
+
+import Alert from '../views/Alert';
+import Button from '../views/Button';
+import BodyText from '../views/BodyText';
+import Checkbox from '../views/Checkbox';
 import Picker from '../views/Picker';
 import ScrollerPanel from '../views/ScrollerPanel';
 import Panels from '../views/Panels';
@@ -7,7 +12,6 @@ import ExpandableItem from '../views/ExpandableItem';
 import Popup from '../views/Popup';
 import Marquee from '../views/Marquee';
 import Spinner from '../views/Spinner';
-import Button from '../views/Button';
 import VirtualList from '../views/VirtualList';
 import VirtualListClientSize from '../views/VirtualListClientSize';
 import GridListImageItem from '../views/GridListImageItem';
@@ -33,6 +37,11 @@ const App = kind({
 	render: (props) => (
 		<Router>
 			<div {...props}>
+				<Route path="/alert" component={Alert} />
+				<Route path="/button" component={Button} />
+				<Route path="/bodyText" component={BodyText} />
+				<Route path="/checkbox" component={Checkbox} />
+
 				<Route path="/panels" component={Panels} />
 				<Route path="/picker" component={Picker} />
 				<Route path="/scroller" component={ScrollerPanel} />
@@ -40,7 +49,6 @@ const App = kind({
 				<Route path="/popup" component={Popup} />
 				<Route path="/marquee" component={Marquee} />
 				<Route path="/spinner" component={Spinner} />
-				<Route path="/button" component={Button} />
 				<Route path="/virtualList" component={VirtualList} />
 				<Route path="/virtualListClientSize" component={VirtualListClientSize} />
 				<Route path="/gridListImageItem" component={GridListImageItem} />

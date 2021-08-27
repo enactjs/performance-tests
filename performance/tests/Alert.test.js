@@ -3,14 +3,14 @@ const TestResults = require('../TestResults');
 const {DCL, FCP, FPS} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
-describe('Button', () => {
-	const component = 'Button';
+describe('Alert', () => {
+	const component = 'Alert';
 	TestResults.emptyFile(component);
 
 	describe('click', () => {
 		it('animates', async () => {
 			const filename = getFileName(component);
-			await page.goto('http://localhost:8080/button');
+			await page.goto('http://localhost:8080/alert');
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitFor(500);
 
@@ -39,7 +39,7 @@ describe('Button', () => {
 		it('animates', async () => {
 			const filename = getFileName(component);
 
-			await page.goto('http://localhost:8080/button');
+			await page.goto('http://localhost:8080/alert');
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#button');
 			await page.focus('#button');
@@ -67,7 +67,7 @@ describe('Button', () => {
 	it('should have a good First-Input time', async () => {
 		const filename = getFileName(component);
 
-		await page.goto('http://localhost:8080/button');
+		await page.goto('http://localhost:8080/alert');
 		await page.tracing.start({path: filename, screenshots: false});
 		await page.waitForSelector('#button');
 		await page.focus('#button');
@@ -82,10 +82,9 @@ describe('Button', () => {
 	it('mount time', async () => {
 		const filename = getFileName(component);
 
-		await page.goto('http://localhost:8080/button');
+		await page.goto('http://localhost:8080/alert');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#button');
-		await page.focus('#button');
+		await page.waitForSelector('#alert');
 
 		await page.tracing.stop();
 
@@ -95,7 +94,7 @@ describe('Button', () => {
 
 	it('update time', async () => {
 		const filename = getFileName(component);
-		await page.goto('http://localhost:8080/button');
+		await page.goto('http://localhost:8080/alert');
 		await page.tracing.start({path: filename, screenshots: false});
 		await page.waitFor(500);
 
@@ -128,8 +127,8 @@ describe('Button', () => {
 			const FCPPage = await testMultiple.newPage();
 
 			await FCPPage.tracing.start({path: filename, screenshots: false});
-			await FCPPage.goto('http://localhost:8080/button');
-			await FCPPage.waitForSelector('#button');
+			await FCPPage.goto('http://localhost:8080/alert');
+			await FCPPage.waitForSelector('#alert');
 
 			await FCPPage.tracing.stop();
 
@@ -154,8 +153,8 @@ describe('Button', () => {
 		for(let step = 0; step < stepNumber; step++) {
 			const DCLPage = await testMultiple.newPage();
 			await DCLPage.tracing.start({path: filename, screenshots: false});
-			await DCLPage.goto('http://localhost:8080/button');
-			await DCLPage.waitForSelector('#button');
+			await DCLPage.goto('http://localhost:8080/alert');
+			await DCLPage.waitForSelector('#alert');
 
 			await DCLPage.tracing.stop();
 
@@ -172,4 +171,3 @@ describe('Button', () => {
 		expect(avg).toBeLessThan(maxDCL);
 	});
 });
-

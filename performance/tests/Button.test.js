@@ -134,12 +134,14 @@ describe('Button', () => {
 			await FCPPage.tracing.stop();
 
 			const actualFCP = await FCP(filename);
-			avg = (avg + actualFCP) / (step ? 2 : 1);
+			avg = avg + actualFCP;
 
 			if(actualFCP < maxFCP)
 				cont += 1;
 			await FCPPage.close();
 		}
+		avg = avg / stepNumber;
+
 		TestResults.addResult({component: component, type: 'average FCP', actualValue: avg});
 
 		expect(cont).toBeGreaterThan(percent);
@@ -160,12 +162,14 @@ describe('Button', () => {
 			await DCLPage.tracing.stop();
 
 			const actualDCL = await DCL(filename);
-			avg = (avg + actualDCL) / (step ? 2 : 1);
+			avg = avg + actualDCL;
 
 			if(actualDCL < maxDCL)
 				cont += 1;
 			await DCLPage.close();
 		}
+		avg = avg / stepNumber;
+
 		TestResults.addResult({component: component, type: 'average DCL', actualValue: avg});
 
 		expect(cont).toBeGreaterThan(percent);

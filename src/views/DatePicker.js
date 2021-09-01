@@ -1,20 +1,8 @@
 import kind from '@enact/core/kind';
 import DatePicker from '@enact/sandstone/DatePicker';
+import {putRenderedMark} from '../utils';
 
 import {Profiler} from 'react';
-
-function putRenderedMark(id, phase, actualDuration, baseDuration, startTime, commitTime) {
-	if (!window._prf) {
-		window._prf = [];
-	}
-
-	window._prf.push({id, phase, actualDuration, baseDuration, startTime, commitTime});
-
-	if (!putRenderedMark._done) {
-		putRenderedMark._done = true;
-		window.performance.mark('datePicker-rendered');
-	}
-}
 
 const DatePickerView = kind({
 	name: 'DatePickerView',

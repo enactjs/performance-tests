@@ -1,13 +1,21 @@
 function getFirstInput(entries) {
 	const appFirstInput = entries.find((x) => x.name === 'keydown');
 	// We used keydown to test this (should work the same for click);
-	return appFirstInput?.startTime ?? 0;
+	if(!appFirstInput) {
+		return 0;
+	}
+
+	return appFirstInput.startTime;
 }
 
 function getMountDuration(entries) {
 	const appMountTime = entries.find((x) => x.phase === 'mount');
 
-	return appMountTime?.startTime ?? 0;
+	if(!appMountTime) {
+		return 0;
+	}
+
+	return appMountTime.startTime;
 }
 
 function getUpdateDuration(entries) {

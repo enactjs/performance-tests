@@ -5,6 +5,11 @@ import Alert from '../views/Alert';
 import Button from '../views/Button';
 import BodyText from '../views/BodyText';
 import Checkbox from '../views/Checkbox';
+import CheckboxItem from '../views/CheckboxItem';
+import ContextualMenuDecorator from '../views/ContextualMenuDecorator';
+import ContextualPopupDecorator from '../views/ContextualPopupDecorator';
+import DatePicker from '../views/DatePicker';
+
 import Picker from '../views/Picker';
 import ScrollerPanel from '../views/ScrollerPanel';
 import Panels from '../views/Panels';
@@ -41,6 +46,10 @@ const App = kind({
 				<Route path="/button" component={Button} />
 				<Route path="/bodyText" component={BodyText} />
 				<Route path="/checkbox" component={Checkbox} />
+				<Route path="/checkboxItem" component={CheckboxItem} />
+				<Route path="/contextualMenuDecorator" component={ContextualMenuDecorator} />
+				<Route path="/contextualPopupDecorator" component={ContextualPopupDecorator} />
+				<Route path="/datePicker" component={DatePicker} />
 
 				<Route path="/panels" component={Panels} />
 				<Route path="/picker" component={Picker} />

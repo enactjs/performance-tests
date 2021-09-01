@@ -21,6 +21,7 @@ import MarqueeMultiple from '../views/MarqueeMultiple';
 import ViewManager from '../views/ViewManager';
 import ScrollerMultipleChildren from '../views/ScrollerMultipleChildren';
 import TransitionVsCSSAnimation from '../views/TransitionVsCSSAnimation';
+import WizardPanels from '../views/WizardPanels';
 
 import css from './App.less';
 
@@ -58,6 +59,7 @@ const App = kind({
 				<Route path="/viewManager" component={ViewManager} />
 				<Route path="/scrollerMultipleChildren" component={ScrollerMultipleChildren} />
 				<Route path="/transitionVsCSSAnimation" component={TransitionVsCSSAnimation} />
+				<Route path="/wizardPanels" component={WizardPanels} />
 			</div>
 		</Router>
 	)

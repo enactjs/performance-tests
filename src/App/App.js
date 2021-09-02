@@ -24,7 +24,9 @@ import Slider from '../views/Slider';
 import MarqueeMultiple from '../views/MarqueeMultiple';
 import ViewManager from '../views/ViewManager';
 import ScrollerMultipleChildren from '../views/ScrollerMultipleChildren';
-import TransitionVsCSSAnimation from '../views/TransitionVsCSSAnimation';
+import TimePicker from '../views/TimePicker';
+import TooltipDecorator from '../views/TooltipDecorator';
+import VideoPlayer from '../views/VideoPlayer';
 import WizardPanels from '../views/WizardPanels';
 
 import css from './App.less';
@@ -65,7 +67,9 @@ const App = kind({
 				<Route path="/marqueeMultiple" component={MarqueeMultiple} />
 				<Route path="/viewManager" component={ViewManager} />
 				<Route path="/scrollerMultipleChildren" component={ScrollerMultipleChildren} />
-				<Route path="/transitionVsCSSAnimation" component={TransitionVsCSSAnimation} />
+				<Route path="/timePicker" component={TimePicker} />
+				<Route path="/tooltipDecorator" component={TooltipDecorator} />>
+				<Route path="/videoPlayer" component={VideoPlayer} />
 				<Route path="/wizardPanels" component={WizardPanels} />
 			</div>
 		</Router>

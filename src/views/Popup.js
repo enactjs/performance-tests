@@ -1,6 +1,7 @@
 import Popup from '@enact/moonstone/Popup';
+import {Component} from 'react';
 
-class PopupView extends React.Component {
+class PopupView extends Component {
 	constructor (props) {
 		super(props);
 

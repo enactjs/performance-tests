@@ -11,7 +11,7 @@ const WizardPanelsView = kind({
 	name: 'WizardPanelView',
 
 	render: () => (
-		<Profiler id="wizardPanel-rendered" onRender={putRenderedMark}>
+		<Profiler id="wizardPanels-rendered" onRender={putRenderedMark}>
 			<WizardPanels id="wizardPanels">
 				<WizardPanels.Panel
 					footer="Footer in View 1"

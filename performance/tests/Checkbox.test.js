@@ -128,7 +128,7 @@ describe('Checkbox', () => {
 
 		let cont = 0;
 		let avg = 0;
-		for(let step = 0; step < stepNumber; step++) {
+		for (let step = 0; step < stepNumber; step++) {
 			const FCPPage = await testMultiple.newPage();
 
 			await FCPPage.tracing.start({path: filename, screenshots: false});
@@ -140,8 +140,9 @@ describe('Checkbox', () => {
 			const actualFCP = await FCP(filename);
 			avg = avg + actualFCP;
 
-			if(actualFCP < maxFCP)
+			if (actualFCP < maxFCP) {
 				cont += 1;
+			}
 			await FCPPage.close();
 		}
 		avg = avg / stepNumber;
@@ -157,7 +158,7 @@ describe('Checkbox', () => {
 
 		let cont = 0;
 		let avg = 0;
-		for(let step = 0; step < stepNumber; step++) {
+		for (let step = 0; step < stepNumber; step++) {
 			const DCLPage = await testMultiple.newPage();
 			await DCLPage.tracing.start({path: filename, screenshots: false});
 			await DCLPage.goto('http://localhost:8080/checkbox');
@@ -168,8 +169,9 @@ describe('Checkbox', () => {
 			const actualDCL = await DCL(filename);
 			avg = avg + actualDCL;
 
-			if(actualDCL < maxDCL)
+			if (actualDCL < maxDCL) {
 				cont += 1;
+			}
 			await DCLPage.close();
 		}
 		avg = avg / stepNumber;

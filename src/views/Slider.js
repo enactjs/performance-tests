@@ -1,5 +1,4 @@
 import kind from '@enact/core/kind';
-import React from 'react';
 import Slider from '@enact/moonstone/Slider';
 
 const SliderView = kind({

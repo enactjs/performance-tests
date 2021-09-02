@@ -1,5 +1,5 @@
 import kind from '@enact/core/kind';
-import Button from "@enact/sandstone/Button";
+import Button from '@enact/sandstone/Button';
 import ContextualMenuDecorator from '@enact/sandstone/ContextualMenuDecorator';
 import {putRenderedMark} from '../utils';
 

@@ -1,5 +1,4 @@
 import {ActivityPanels, Panel} from '@enact/moonstone/Panels';
-import React from 'react';
 
 class PanelsView extends React.Component {
 	constructor (props) {
@@ -9,11 +8,11 @@ class PanelsView extends React.Component {
 		};
 	}
 
-	handleSelectBreadcrumb = ({index}) => this.setState({index})
+	handleSelectBreadcrumb = ({index}) => this.setState({index});
 
 	handleClick = () => this.setState(state => {
 		return {index: state.index ? 0 : 1};
-	})
+	});
 
 	render () {
 		return (

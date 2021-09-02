@@ -1,5 +1,4 @@
 import kind from '@enact/core/kind';
-import React from 'react';
 import Picker from '@enact/moonstone/Picker';
 
 const airports = [

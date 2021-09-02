@@ -1,4 +1,3 @@
-import React from 'react';
 import MultipleComponents from '../components/MultipleComponents';
 import ScrollerJS, {ScrollerNative} from '@enact/moonstone/Scroller';
 import UiScrollerJS, {ScrollerNative as UiScrollerNative} from '@enact/ui/Scroller';

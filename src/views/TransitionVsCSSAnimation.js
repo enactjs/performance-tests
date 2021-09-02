@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import Spinner from '@enact/moonstone/Spinner';
 import ViewManager, {SlideLeftArranger} from '@enact/ui/ViewManager';
 

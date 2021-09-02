@@ -1,5 +1,4 @@
 import kind from '@enact/core/kind';
-import React from 'react';
 import Scroller from '@enact/moonstone/Scroller';
 
 const ScrollerView = kind({

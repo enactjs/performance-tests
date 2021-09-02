@@ -1,5 +1,4 @@
 import Popup from '@enact/moonstone/Popup';
-import React from 'react';
 
 class PopupView extends React.Component {
 	constructor (props) {
@@ -12,7 +11,7 @@ class PopupView extends React.Component {
 
 	handleToggle = () => {
 		this.setState(({open}) => ({open: !open}));
-	}
+	};
 
 	render () {
 		return (

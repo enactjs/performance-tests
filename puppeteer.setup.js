@@ -20,8 +20,8 @@ global.beforeEach(async () => {
 		height: 1080
 	});
 
-	//const client = await newPage.target().createCDPSession();
-	//await client.send('Emulation.setCPUThrottlingRate', {rate: 6});
+	// const client = await newPage.target().createCDPSession();
+	// await client.send('Emulation.setCPUThrottlingRate', {rate: 6});
 	global.page = newPage;
 });
 

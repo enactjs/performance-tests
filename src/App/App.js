@@ -18,7 +18,6 @@ import Popup from '../views/Popup';
 import Marquee from '../views/Marquee';
 import Spinner from '../views/Spinner';
 import VirtualList from '../views/VirtualList';
-import VirtualListClientSize from '../views/VirtualListClientSize';
 import GridListImageItem from '../views/GridListImageItem';
 import Item from '../views/Item';
 import Slider from '../views/Slider';
@@ -60,7 +59,6 @@ const App = kind({
 				<Route path="/marquee" component={Marquee} />
 				<Route path="/spinner" component={Spinner} />
 				<Route path="/virtualList" component={VirtualList} />
-				<Route path="/virtualListClientSize" component={VirtualListClientSize} />
 				<Route path="/gridListImageItem" component={GridListImageItem} />
 				<Route path="/item" component={Item} />
 				<Route path="/slider" component={Slider} />

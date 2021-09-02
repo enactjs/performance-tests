@@ -15,7 +15,7 @@ class DelayedRender extends React.Component {
 
 	state = {
 		show: false
-	}
+	};
 
 	render () {
 		return this.state.show ? this.props.children : '';

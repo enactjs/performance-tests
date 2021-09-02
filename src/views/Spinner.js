@@ -1,5 +1,4 @@
 import kind from '@enact/core/kind';
-import React from 'react';
 import Spinner from '@enact/moonstone/Spinner';
 
 const SpinnerView = kind({

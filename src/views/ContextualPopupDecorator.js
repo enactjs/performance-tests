@@ -1,5 +1,5 @@
 import kind from '@enact/core/kind';
-import Button from "@enact/sandstone/Button";
+import Button from '@enact/sandstone/Button';
 import ContextualPopupDecorator from '@enact/sandstone/ContextualPopupDecorator';
 import {putRenderedMark} from '../utils';
 
@@ -7,7 +7,7 @@ import {Profiler} from 'react';
 
 const ContextualPopupButton = ContextualPopupDecorator(Button);
 
-const popup = () => <h2>Popup</h2>
+const popup = () => <h2>Popup</h2>;
 
 const ContextualPopupDecoratorView = kind({
 	name: 'ContextualPopupDecoratorView',

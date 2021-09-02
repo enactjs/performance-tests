@@ -10,7 +10,7 @@ const putRenderedMark = (id, phase, actualDuration, baseDuration, startTime, com
 		putRenderedMark._done = true;
 		window.performance.mark(id);
 	}
-}
+};
 
 export {
 	putRenderedMark

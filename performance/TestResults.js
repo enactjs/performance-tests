@@ -35,6 +35,6 @@ const TestResult = module.exports = {
 	emptyFile: (component) => {
 		const txtPath = path.join(__dirname, 'testResults', `${component}.txt`);
 
-		fs.writeFileSync(txtPath,'');
+		fs.writeFileSync(txtPath, '');
 	}
 };

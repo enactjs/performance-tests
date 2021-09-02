@@ -10,12 +10,12 @@ const AlertView = kind({
 
 	render: () => (
 		<Profiler id="alert-rendered" onRender={putRenderedMark}>
-			<Alert id='alert' open type="fullscreen">
+			<Alert id="alert" open type="fullscreen">
 				<span>
 					This is alert Fullscreen.
 				</span>
 				<buttons>
-					<Button id='button'>yes</Button>
+					<Button id="button">yes</Button>
 				</buttons>
 			</Alert>
 		</Profiler>

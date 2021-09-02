@@ -9,7 +9,7 @@ const BodyTextView = kind({
 
 	render: () => (
 		<Profiler id="bodyText-rendered" onRender={putRenderedMark}>
-			<BodyText id='bodyText'>
+			<BodyText id="bodyText">
 				This is a text on the screen!
 			</BodyText>
 		</Profiler>

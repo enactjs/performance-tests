@@ -1,19 +1,18 @@
 const getCustomMetrics = require('../ProfilerMetrics');
 const TestResults = require('../TestResults');
-const {DCL, FCP, FPS, Mount} = require('../TraceModel');
+const {DCL, FCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
-describe('Spinner', () => {
+describe('Steps', () => {
 	const component = 'Steps';
 	TestResults.emptyFile(component);
 
 	it('mount time', async () => {
 		const filename = getFileName(component);
 
-		await page.goto('http://localhost:8080/spinner');
+		await page.goto('http://localhost:8080/steps');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#spinner');
-		await page.waitFor(200);
+		await page.waitForSelector('#steps');
 
 		await page.tracing.stop();
 
@@ -31,9 +30,8 @@ describe('Spinner', () => {
 			const FCPPage = await testMultiple.newPage();
 
 			await FCPPage.tracing.start({path: filename, screenshots: false});
-			await FCPPage.goto('http://localhost:8080/spinner');
-			await FCPPage.waitForSelector('#spinner');
-			await FCPPage.waitFor(200);
+			await FCPPage.goto('http://localhost:8080/steps');
+			await FCPPage.waitForSelector('#steps');
 
 			await FCPPage.tracing.stop();
 
@@ -61,9 +59,8 @@ describe('Spinner', () => {
 		for (let step = 0; step < stepNumber; step++) {
 			const DCLPage = await testMultiple.newPage();
 			await DCLPage.tracing.start({path: filename, screenshots: false});
-			await DCLPage.goto('http://localhost:8080/spinner');
-			await DCLPage.waitForSelector('#spinner');
-			await DCLPage.waitFor(200);
+			await DCLPage.goto('http://localhost:8080/steps');
+			await DCLPage.waitForSelector('#steps');
 
 			await DCLPage.tracing.stop();
 

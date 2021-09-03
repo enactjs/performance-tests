@@ -1,4 +1,3 @@
-import React from 'react';
 import qs from 'qs';
 import Item from '@enact/moonstone/Item';
 

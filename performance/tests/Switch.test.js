@@ -1,19 +1,54 @@
 const getCustomMetrics = require('../ProfilerMetrics');
 const TestResults = require('../TestResults');
-const {DCL, FCP, FPS, Mount} = require('../TraceModel');
+const {DCL, FCP, FPS} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
-describe('Spinner', () => {
-	const component = 'Steps';
+describe('Switch', () => {
+	const component = 'Switch';
 	TestResults.emptyFile(component);
+
+	describe('click', () => {
+		it('animates', async () => {
+			const filename = getFileName(component);
+
+			await page.goto('http://localhost:8080/switch');
+			await page.tracing.start({path: filename, screenshots: false});
+			await page.waitForSelector('#switch');
+			await page.waitFor(200);
+			await page.click('#switch');
+
+			await page.tracing.stop();
+
+			const actualFPS = FPS(filename);
+			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: actualFPS});
+
+			const actualUpdateTime = (await getCustomMetrics(page))['update'];
+			TestResults.addResult({component: component, type: 'average Update Time', actualValue: actualUpdateTime});
+		});
+	});
+
+	it('should have a good First-Input time', async () => {
+		const filename = getFileName(component);
+
+		await page.goto('http://localhost:8080/switch');
+		await page.tracing.start({path: filename, screenshots: false});
+		await page.waitForSelector('#switch');
+		await page.waitFor(100);
+		await page.click('#switch');
+		await page.waitFor(100);
+
+		await page.tracing.stop();
+
+		const actualFirstInput = (await getCustomMetrics(page))['first-input'];
+		TestResults.addResult({component: component, type: 'First Input', actualValue: actualFirstInput});
+	});
 
 	it('mount time', async () => {
 		const filename = getFileName(component);
 
-		await page.goto('http://localhost:8080/spinner');
+		await page.goto('http://localhost:8080/switch');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#spinner');
-		await page.waitFor(200);
+		await page.waitForSelector('#switch');
 
 		await page.tracing.stop();
 
@@ -31,9 +66,8 @@ describe('Spinner', () => {
 			const FCPPage = await testMultiple.newPage();
 
 			await FCPPage.tracing.start({path: filename, screenshots: false});
-			await FCPPage.goto('http://localhost:8080/spinner');
-			await FCPPage.waitForSelector('#spinner');
-			await FCPPage.waitFor(200);
+			await FCPPage.goto('http://localhost:8080/switch');
+			await FCPPage.waitForSelector('#switch');
 
 			await FCPPage.tracing.stop();
 
@@ -61,9 +95,8 @@ describe('Spinner', () => {
 		for (let step = 0; step < stepNumber; step++) {
 			const DCLPage = await testMultiple.newPage();
 			await DCLPage.tracing.start({path: filename, screenshots: false});
-			await DCLPage.goto('http://localhost:8080/spinner');
-			await DCLPage.waitForSelector('#spinner');
-			await DCLPage.waitFor(200);
+			await DCLPage.goto('http://localhost:8080/switch');
+			await DCLPage.waitForSelector('#switch');
 
 			await DCLPage.tracing.stop();
 

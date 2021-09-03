@@ -24,6 +24,10 @@ import Slider from '../views/Slider';
 import MarqueeMultiple from '../views/MarqueeMultiple';
 import ViewManager from '../views/ViewManager';
 import ScrollerMultipleChildren from '../views/ScrollerMultipleChildren';
+import Steps from '../views/Steps';
+import Switch from '../views/Switch';
+import SwitchItem from '../views/SwitchItem';
+import TabLayout from '../views/TabLayout';
 import TimePicker from '../views/TimePicker';
 import TooltipDecorator from '../views/TooltipDecorator';
 import VideoPlayer from '../views/VideoPlayer';
@@ -67,6 +71,10 @@ const App = kind({
 				<Route path="/marqueeMultiple" component={MarqueeMultiple} />
 				<Route path="/viewManager" component={ViewManager} />
 				<Route path="/scrollerMultipleChildren" component={ScrollerMultipleChildren} />
+				<Route path="/steps" component={Steps} />
+				<Route path="/switch" component={Switch} />
+				<Route path="/switchItem" component={SwitchItem} />
+				<Route path="/tabLayout" component={TabLayout} />
 				<Route path="/timePicker" component={TimePicker} />
 				<Route path="/tooltipDecorator" component={TooltipDecorator} />
 				<Route path="/videoPlayer" component={VideoPlayer} />

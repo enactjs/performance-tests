@@ -21,6 +21,9 @@ describe('TimePicker', () => {
 
 			const actualFPS = FPS(filename);
 			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: actualFPS});
+
+			const actualUpdateTime = (await getCustomMetrics(page))['update'];
+			TestResults.addResult({component: component, type: 'average Update Time', actualValue: actualUpdateTime});
 		});
 	});
 
@@ -40,6 +43,9 @@ describe('TimePicker', () => {
 
 			const actualFPS = FPS(filename);
 			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: actualFPS});
+
+			const actualUpdateTime = (await getCustomMetrics(page))['update'];
+			TestResults.addResult({component: component, type: 'average Update Time', actualValue: actualUpdateTime});
 		});
 	});
 

@@ -68,7 +68,7 @@ const App = kind({
 				<Route path="/viewManager" component={ViewManager} />
 				<Route path="/scrollerMultipleChildren" component={ScrollerMultipleChildren} />
 				<Route path="/timePicker" component={TimePicker} />
-				<Route path="/tooltipDecorator" component={TooltipDecorator} />>
+				<Route path="/tooltipDecorator" component={TooltipDecorator} />
 				<Route path="/videoPlayer" component={VideoPlayer} />
 				<Route path="/wizardPanels" component={WizardPanels} />
 			</div>

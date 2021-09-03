@@ -14,7 +14,7 @@ const TooltipDecoratorView = kind({
 		<Profiler id="tooltipDecorator-rendered" onRender={putRenderedMark}>
 			<TooltipButton
 				id="tooltipDecorator"
-				tooltipText='tooltip!'
+				tooltipText="tooltip!"
 			>
 				Click me
 			</TooltipButton>

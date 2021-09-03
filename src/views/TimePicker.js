@@ -9,7 +9,7 @@ const TimePickerView = kind({
 
 	render: () => (
 		<Profiler id="timePicker-rendered" onRender={putRenderedMark}>
-			<TimePicker	id="timePicker"	/>
+			<TimePicker id="timePicker"	/>
 		</Profiler>
 	)
 });

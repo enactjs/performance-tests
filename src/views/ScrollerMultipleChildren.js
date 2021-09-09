@@ -1,9 +1,9 @@
-import MultipleComponents from '../components/MultipleComponents';
 import ScrollerJS from '@enact/sandstone/Scroller';
 import UiScrollerJS from '@enact/ui/Scroller';
 import qs from 'qs';
 import {Profiler} from 'react';
 
+import MultipleComponents from '../components/MultipleComponents';
 import {putRenderedMark} from '../utils';
 
 const types = {

@@ -17,4 +17,3 @@ const ImageItemView = kind({
 });
 
 export default ImageItemView;
-

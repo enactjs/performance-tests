@@ -111,4 +111,3 @@ describe('ImageItem', () => {
 		expect(avg).toBeLessThan(maxDCL);
 	});
 });
-

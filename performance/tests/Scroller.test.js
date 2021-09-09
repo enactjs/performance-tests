@@ -4,13 +4,16 @@ const {getFileName, scrollAtPoint} = require('../utils');
 const TestResults = require('../TestResults');
 
 describe( 'Scroller', () => {
-	describe('ScrollButton', () => {
+	const component = 'Scroller';
+	TestResults.emptyFile(component);
+
+	describe('keypress', () => {
 		it('scrolls down', async () => {
 			const filename = getFileName('Scroller');
 			await page.goto('http://localhost:8080/scroller');
 			await page.tracing.start({path: filename, screenshots: false});
 
-			await page.focus('[aria-label="scroll down"]');
+			await page.focus('[aria-label="scroll up or down with up down button"]');
 			await page.keyboard.down('Enter');
 			await page.keyboard.down('Enter');
 			await page.waitFor(2000);
@@ -19,6 +22,9 @@ describe( 'Scroller', () => {
 
 			const actual = FPS(filename);
 			TestResults.addResult({component: 'Scroller', type: 'Frames Per Second', actualValue: actual});
+
+			const actualUpdateTime = (await getCustomMetrics(page))['update'];
+			TestResults.addResult({component: component, type: 'average Update Time', actualValue: actualUpdateTime});
 		});
 	});
 
@@ -43,15 +49,18 @@ describe( 'Scroller', () => {
 
 			const actual = FPS(filename);
 			TestResults.addResult({component: 'Scroller', type: 'Frames Per Second', actualValue: actual});
+
+			const actualUpdateTime = (await getCustomMetrics(page))['update'];
+			TestResults.addResult({component: component, type: 'average Update Time', actualValue: actualUpdateTime});
 		});
 	});
 
 	it('mount time', async () => {
 		const filename = getFileName(component);
 
-		await page.goto('http://localhost:8080/switchItem');
+		await page.goto('http://localhost:8080/scroller');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#switchItem');
+		await page.waitForSelector('#scroller');
 
 		await page.tracing.stop();
 
@@ -69,8 +78,9 @@ describe( 'Scroller', () => {
 			const FCPPage = await testMultiple.newPage();
 
 			await FCPPage.tracing.start({path: filename, screenshots: false});
-			await FCPPage.goto('http://localhost:8080/switchItem');
-			await FCPPage.waitForSelector('#switchItem');
+			await FCPPage.goto('http://localhost:8080/scroller');
+			await FCPPage.waitForSelector('#scroller');
+			await FCPPage.waitFor(200);
 
 			await FCPPage.tracing.stop();
 
@@ -98,8 +108,9 @@ describe( 'Scroller', () => {
 		for (let step = 0; step < stepNumber; step++) {
 			const DCLPage = await testMultiple.newPage();
 			await DCLPage.tracing.start({path: filename, screenshots: false});
-			await DCLPage.goto('http://localhost:8080/switchItem');
-			await DCLPage.waitForSelector('#switchItem');
+			await DCLPage.goto('http://localhost:8080/scroller');
+			await DCLPage.waitForSelector('#scroller');
+			await DCLPage.waitFor(200);
 
 			await DCLPage.tracing.stop();
 
@@ -120,7 +131,6 @@ describe( 'Scroller', () => {
 	});
 
 	describe('mount with various children', () => {
-
 		const counts = [10, 40, 70, 100];
 		let results = [];
 		const types = [
@@ -140,33 +150,27 @@ describe( 'Scroller', () => {
 
 					await page.tracing.stop();
 
-					const actual = Mount(filename, 'ScrollerMultipleChildren');
-					results.push({count: count, value: actual, type: type});
-					TestResults.addResult({component: 'Scroller', type: `Mount ${count} ${type}`, actualValue: actual});
-
 					const actualMountTime = (await getCustomMetrics(page))['mount'];
-					TestResults.addResult({component: component, type: 'Mount Time', actualValue: actualMountTime});
+					TestResults.addResult({component: component, type: `Mount ${count} ${type}`, actualValue: actualMountTime});
 				});
 			}
 		}
 	});
 
-
 	it('scroll down with 5-way with Scroller Native', async () => {
-		const filename = getFileName('ScrollerNative');
+		const filename = getFileName(component);
 
-		await page.tracing.start({path: filename, screenshots: false});
+		await page.tracing.start({path: filename, screenshots: true});
 		await page.goto('http://localhost:8080/scrollerMultipleChildren?count=100&type=ScrollerNative');
 		await page.waitForSelector('#Scroller');
-		const item = '[class^="Item_item"]';
-		await page.focus(item);
+		await page.focus('#Scroller > div:first-child > div:first-child');
 
 		for (let i = 0; i < 300; i++) {
 			await page.keyboard.down('ArrowDown');
 			await page.waitFor(10);
 		}
 
-		await page.waitFor(2000);
+		await page.waitFor(1000);
 
 		await page.tracing.stop();
 

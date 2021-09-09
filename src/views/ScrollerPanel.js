@@ -11,7 +11,9 @@ const ScrollerView = kind({
 		<Profiler id="scroller-rendered" onRender={putRenderedMark}>
 			<div style={{height: '700px'}}>
 				<Scroller id="scroller" focusableScrollbar>
-					<div style={{height: '5000px'}} />
+					<div style={{height: '5000px'}}>
+						Content
+					</div>
 				</Scroller>
 			</div>
 		</Profiler>

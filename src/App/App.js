@@ -10,6 +10,7 @@ import ContextualMenuDecorator from '../views/ContextualMenuDecorator';
 import ContextualPopupDecorator from '../views/ContextualPopupDecorator';
 import DatePicker from '../views/DatePicker';
 import Dropdown from '../views/Dropdown';
+import FormCheckboxItem from '../views/FormCheckboxItem';
 
 
 import Picker from '../views/Picker';
@@ -59,6 +60,7 @@ const App = kind({
 				<Route path="/contextualPopupDecorator" component={ContextualPopupDecorator} />
 				<Route path="/datePicker" component={DatePicker} />
 				<Route path="/dropdown" component={Dropdown} />
+				<Route path="/formCheckboxItem" component={FormCheckboxItem} />
 
 				<Route path="/panels" component={Panels} />
 				<Route path="/picker" component={Picker} />

@@ -17,17 +17,13 @@ import Icon from '../views/Icon';
 import Image from '../views/Image';
 import ImageItem from '../views/ImageItem';
 import Item from '../views/Item';
+import Marquee from '../views/Marquee';
+import MarqueeMultiple from '../views/MarqueeMultiple';
+import Panels from '../views/Panels';
+import Picker from '../views/Picker';
+import Popup from '../views/Popup';
 import RadioItem from '../views/RadioItem';
 import RangePicker from '../views/RangePicker';
-
-import Picker from '../views/Picker';
-import Panels from '../views/Panels';
-import ExpandableItem from '../views/ExpandableItem';
-import Popup from '../views/Popup';
-import Marquee from '../views/Marquee';
-import GridListImageItem from '../views/GridListImageItem';
-import MarqueeMultiple from '../views/MarqueeMultiple';
-
 import ScrollerPanel from '../views/ScrollerPanel';
 import ScrollerMultipleChildren from '../views/ScrollerMultipleChildren';
 import Slider from '../views/Slider';
@@ -74,22 +70,17 @@ const App = kind({
 				<Route path="/image" component={Image} />
 				<Route path="/imageItem" component={ImageItem} />
 				<Route path="/item" component={Item} />
-				<Route path="/radioItem" component={RadioItem} />
-				<Route path="/rangePicker" component={RangePicker} />
-
+				<Route path="/marquee" component={Marquee} />
+				<Route path="/marqueeMultiple" component={MarqueeMultiple} />
 				<Route path="/panels" component={Panels} />
 				<Route path="/picker" component={Picker} />
-				<Route path="/expandableItem" component={ExpandableItem} />
 				<Route path="/popup" component={Popup} />
-				<Route path="/marquee" component={Marquee} />
-				<Route path="/spinner" component={Spinner} />
-				<Route path="/virtualList" component={VirtualList} />
-				<Route path="/gridListImageItem" component={GridListImageItem} />
-				<Route path="/marqueeMultiple" component={MarqueeMultiple} />
-
+				<Route path="/radioItem" component={RadioItem} />
+				<Route path="/rangePicker" component={RangePicker} />
 				<Route path="/scroller" component={ScrollerPanel} />
 				<Route path="/scrollerMultipleChildren" component={ScrollerMultipleChildren} />
 				<Route path="/slider" component={Slider} />
+				<Route path="/spinner" component={Spinner} />
 				<Route path="/steps" component={Steps} />
 				<Route path="/switch" component={Switch} />
 				<Route path="/switchItem" component={SwitchItem} />
@@ -98,6 +89,7 @@ const App = kind({
 				<Route path="/tooltipDecorator" component={TooltipDecorator} />
 				<Route path="/videoPlayer" component={VideoPlayer} />
 				<Route path="/viewManager" component={ViewManager} />
+				<Route path="/virtualList" component={VirtualList} />
 				<Route path="/wizardPanels" component={WizardPanels} />
 			</div>
 		</Router>

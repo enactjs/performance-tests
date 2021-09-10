@@ -13,8 +13,10 @@ import DayPicker from '../views/DayPicker';
 import Dropdown from '../views/Dropdown';
 import FormCheckboxItem from '../views/FormCheckboxItem';
 import Heading from '../views/Heading';
+import Icon from '../views/Icon';
 import Image from '../views/Image';
 import ImageItem from '../views/ImageItem';
+import Item from '../views/Item';
 import RadioItem from '../views/RadioItem';
 import RangePicker from '../views/RangePicker';
 
@@ -24,7 +26,6 @@ import ExpandableItem from '../views/ExpandableItem';
 import Popup from '../views/Popup';
 import Marquee from '../views/Marquee';
 import GridListImageItem from '../views/GridListImageItem';
-import Item from '../views/Item';
 import MarqueeMultiple from '../views/MarqueeMultiple';
 
 import ScrollerPanel from '../views/ScrollerPanel';
@@ -69,8 +70,10 @@ const App = kind({
 				<Route path="/dropdown" component={Dropdown} />
 				<Route path="/formCheckboxItem" component={FormCheckboxItem} />
 				<Route path="/heading" component={Heading} />
+				<Route path="/icon" component={Icon} />
 				<Route path="/image" component={Image} />
 				<Route path="/imageItem" component={ImageItem} />
+				<Route path="/item" component={Item} />
 				<Route path="/radioItem" component={RadioItem} />
 				<Route path="/rangePicker" component={RangePicker} />
 
@@ -82,7 +85,6 @@ const App = kind({
 				<Route path="/spinner" component={Spinner} />
 				<Route path="/virtualList" component={VirtualList} />
 				<Route path="/gridListImageItem" component={GridListImageItem} />
-				<Route path="/item" component={Item} />
 				<Route path="/marqueeMultiple" component={MarqueeMultiple} />
 
 				<Route path="/scroller" component={ScrollerPanel} />

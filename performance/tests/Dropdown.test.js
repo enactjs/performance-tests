@@ -152,7 +152,7 @@ describe('Dropdown', () => {
 		expect(avg).toBeLessThan(maxFCP);
 	});
 
-	it('should have a good DCL', async() => {
+	it('should have a good DCL', async () => {
 		const filename = getFileName(component);
 
 		let cont = 0;

@@ -8,7 +8,7 @@ const FormCheckboxItemView = kind({
 	name: 'FormCheckboxItemView',
 
 	render: () => (
-		<Profiler id='formCheckboxItem-renderer' onRender={putRenderedMark}>
+		<Profiler id="formCheckboxItem-renderer" onRender={putRenderedMark}>
 			<FormCheckboxItem id="formCheckboxItem">
 				A Checkbox for a form
 			</FormCheckboxItem>

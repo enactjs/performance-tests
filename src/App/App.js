@@ -18,14 +18,11 @@ import ImageItem from '../views/ImageItem';
 import RadioItem from '../views/RadioItem';
 import RangePicker from '../views/RangePicker';
 
-
 import Picker from '../views/Picker';
 import Panels from '../views/Panels';
 import ExpandableItem from '../views/ExpandableItem';
 import Popup from '../views/Popup';
 import Marquee from '../views/Marquee';
-import Spinner from '../views/Spinner';
-import VirtualList from '../views/VirtualList';
 import GridListImageItem from '../views/GridListImageItem';
 import Item from '../views/Item';
 import MarqueeMultiple from '../views/MarqueeMultiple';
@@ -33,6 +30,7 @@ import MarqueeMultiple from '../views/MarqueeMultiple';
 import ScrollerPanel from '../views/ScrollerPanel';
 import ScrollerMultipleChildren from '../views/ScrollerMultipleChildren';
 import Slider from '../views/Slider';
+import Spinner from '../views/Spinner';
 import Steps from '../views/Steps';
 import Switch from '../views/Switch';
 import SwitchItem from '../views/SwitchItem';
@@ -40,6 +38,7 @@ import TabLayout from '../views/TabLayout';
 import TimePicker from '../views/TimePicker';
 import TooltipDecorator from '../views/TooltipDecorator';
 import VideoPlayer from '../views/VideoPlayer';
+import VirtualList from '../views/VirtualList';
 import ViewManager from '../views/ViewManager';
 import WizardPanels from '../views/WizardPanels';
 

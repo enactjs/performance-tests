@@ -15,6 +15,7 @@ import ScrollerPanel from '../views/ScrollerPanel';
 import Panels from '../views/Panels';
 import ExpandableItem from '../views/ExpandableItem';
 import Popup from '../views/Popup';
+import PopupTabLayout from '../views/PopupTabLayout';
 import Marquee from '../views/Marquee';
 import Spinner from '../views/Spinner';
 import VirtualList from '../views/VirtualList';
@@ -62,6 +63,7 @@ const App = kind({
 				<Route path="/scroller" component={ScrollerPanel} />
 				<Route path="/expandableItem" component={ExpandableItem} />
 				<Route path="/popup" component={Popup} />
+				<Route path="/popupTabLayout" component={PopupTabLayout} />
 				<Route path="/marquee" component={Marquee} />
 				<Route path="/spinner" component={Spinner} />
 				<Route path="/virtualList" component={VirtualList} />

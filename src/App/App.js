@@ -9,6 +9,7 @@ import CheckboxItem from '../views/CheckboxItem';
 import ContextualMenuDecorator from '../views/ContextualMenuDecorator';
 import ContextualPopupDecorator from '../views/ContextualPopupDecorator';
 import DatePicker from '../views/DatePicker';
+import DayPicker from '../views/DayPicker';
 import Dropdown from '../views/Dropdown';
 import FormCheckboxItem from '../views/FormCheckboxItem';
 import Heading from '../views/Heading';
@@ -17,21 +18,20 @@ import Image from '../views/Image';
 import ImageItem from '../views/ImageItem';
 import Item from '../views/Item';
 import RadioItem from '../views/RadioItem';
-
+import RangePicker from '../views/RangePicker';
 
 import Picker from '../views/Picker';
 import Panels from '../views/Panels';
 import ExpandableItem from '../views/ExpandableItem';
 import Popup from '../views/Popup';
 import Marquee from '../views/Marquee';
-import Spinner from '../views/Spinner';
-import VirtualList from '../views/VirtualList';
 import GridListImageItem from '../views/GridListImageItem';
 import MarqueeMultiple from '../views/MarqueeMultiple';
 
 import ScrollerPanel from '../views/ScrollerPanel';
 import ScrollerMultipleChildren from '../views/ScrollerMultipleChildren';
 import Slider from '../views/Slider';
+import Spinner from '../views/Spinner';
 import Steps from '../views/Steps';
 import Switch from '../views/Switch';
 import SwitchItem from '../views/SwitchItem';
@@ -39,6 +39,7 @@ import TabLayout from '../views/TabLayout';
 import TimePicker from '../views/TimePicker';
 import TooltipDecorator from '../views/TooltipDecorator';
 import VideoPlayer from '../views/VideoPlayer';
+import VirtualList from '../views/VirtualList';
 import ViewManager from '../views/ViewManager';
 import WizardPanels from '../views/WizardPanels';
 
@@ -65,6 +66,7 @@ const App = kind({
 				<Route path="/contextualMenuDecorator" component={ContextualMenuDecorator} />
 				<Route path="/contextualPopupDecorator" component={ContextualPopupDecorator} />
 				<Route path="/datePicker" component={DatePicker} />
+				<Route path="/dayPicker" component={DayPicker} />
 				<Route path="/dropdown" component={Dropdown} />
 				<Route path="/formCheckboxItem" component={FormCheckboxItem} />
 				<Route path="/heading" component={Heading} />
@@ -73,6 +75,7 @@ const App = kind({
 				<Route path="/imageItem" component={ImageItem} />
 				<Route path="/item" component={Item} />
 				<Route path="/radioItem" component={RadioItem} />
+				<Route path="/rangePicker" component={RangePicker} />
 
 				<Route path="/panels" component={Panels} />
 				<Route path="/picker" component={Picker} />

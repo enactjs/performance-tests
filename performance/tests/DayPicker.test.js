@@ -3,19 +3,18 @@ const TestResults = require('../TestResults');
 const {DCL, FCP, FPS} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
-describe('Dropdown', () => {
-	const component = 'Dropdown';
+describe('DayPicker', () => {
+	const component = 'DayPicker';
 	TestResults.emptyFile(component);
 
 	describe('click', () => {
 		it('animates', async () => {
 			const filename = getFileName(component);
-
-			await page.goto('http://localhost:8080/dropdown');
+			await page.goto('http://localhost:8080/dayPicker');
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.waitForSelector('#dropdown');
+			await page.waitFor(500);
 
-			await page.click('#dropdown'); // to move mouse on dropdown
+			await page.click('#dayPicker'); // to move mouse on the dayPicker.
 			await page.mouse.down();
 			await page.waitFor(200);
 			await page.mouse.up();
@@ -40,11 +39,12 @@ describe('Dropdown', () => {
 		it('animates', async () => {
 			const filename = getFileName(component);
 
-			await page.goto('http://localhost:8080/dropdown');
+			await page.goto('http://localhost:8080/dayPicker');
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.waitForSelector('#dropdown');
+			await page.waitForSelector('#dayPicker');
 
-			await page.focus('#dropdown');
+			await page.focus('#dayPicker');
+			await page.keyboard.down('ArrowDown');
 			await page.waitFor(200);
 			await page.keyboard.down('Enter');
 			await page.waitFor(200);
@@ -69,10 +69,10 @@ describe('Dropdown', () => {
 	it('should have a good First-Input time', async () => {
 		const filename = getFileName(component);
 
-		await page.goto('http://localhost:8080/dropdown');
+		await page.goto('http://localhost:8080/dayPicker');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#dropdown');
-		await page.focus('#dropdown');
+		await page.waitForSelector('#dayPicker');
+		await page.keyboard.down('ArrowDown');
 		await page.keyboard.down('Enter');
 
 		await page.tracing.stop();
@@ -84,10 +84,9 @@ describe('Dropdown', () => {
 	it('mount time', async () => {
 		const filename = getFileName(component);
 
-		await page.goto('http://localhost:8080/dropdown');
+		await page.goto('http://localhost:8080/dayPicker');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#dropdown');
-		await page.focus('#dropdown');
+		await page.waitForSelector('#dayPicker');
 
 		await page.tracing.stop();
 
@@ -98,23 +97,22 @@ describe('Dropdown', () => {
 	it('update time', async () => {
 		const filename = getFileName(component);
 
-		await page.goto('http://localhost:8080/dropdown');
+		await page.goto('http://localhost:8080/dayPicker');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#dropdown');
-
-		await page.click('#dropdown'); // to move mouse on the dropdown.
-		await page.mouse.down();
+		await page.waitForSelector('#dayPicker');
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.down('Enter');
 		await page.waitFor(200);
-		await page.mouse.up();
-		await page.mouse.down();
+		await page.keyboard.up('Enter');
+		await page.keyboard.down('Enter');
 		await page.waitFor(200);
-		await page.mouse.up();
-		await page.mouse.down();
+		await page.keyboard.up('Enter');
+		await page.keyboard.down('Enter');
 		await page.waitFor(200);
-		await page.mouse.up();
-		await page.mouse.down();
+		await page.keyboard.up('Enter');
+		await page.keyboard.down('Enter');
 		await page.waitFor(200);
-		await page.mouse.up();
+		await page.keyboard.up('Enter');
 
 		await page.tracing.stop();
 
@@ -129,10 +127,9 @@ describe('Dropdown', () => {
 		let avg = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const FCPPage = await testMultiple.newPage();
-
 			await FCPPage.tracing.start({path: filename, screenshots: false});
-			await FCPPage.goto('http://localhost:8080/dropdown');
-			await FCPPage.waitForSelector('#dropdown');
+			await FCPPage.goto('http://localhost:8080/dayPicker');
+			await FCPPage.waitForSelector('#dayPicker');
 
 			await FCPPage.tracing.stop();
 
@@ -159,10 +156,9 @@ describe('Dropdown', () => {
 		let avg = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const DCLPage = await testMultiple.newPage();
-
 			await DCLPage.tracing.start({path: filename, screenshots: false});
-			await DCLPage.goto('http://localhost:8080/dropdown');
-			await DCLPage.waitForSelector('#dropdown');
+			await DCLPage.goto('http://localhost:8080/dayPicker');
+			await DCLPage.waitForSelector('#dayPicker');
 
 			await DCLPage.tracing.stop();
 

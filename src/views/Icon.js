@@ -8,7 +8,7 @@ const IconView = kind({
 	name: 'IconView',
 
 	render: () => (
-		<Profiler id="bodyText-rendered" onRender={putRenderedMark}>
+		<Profiler id="icon-rendered" onRender={putRenderedMark}>
 			<div>Icon</div>
 			<Icon id="icon">plus</Icon>
 		</Profiler>

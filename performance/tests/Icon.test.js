@@ -4,7 +4,7 @@ const {DCL, FCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
 describe('Icon', () => {
-	const component = 'BodyText';
+	const component = 'Icon';
 	TestResults.emptyFile(component);
 
 	it('mount time', async () => {

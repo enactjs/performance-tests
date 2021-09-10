@@ -9,6 +9,10 @@ import CheckboxItem from '../views/CheckboxItem';
 import ContextualMenuDecorator from '../views/ContextualMenuDecorator';
 import ContextualPopupDecorator from '../views/ContextualPopupDecorator';
 import DatePicker from '../views/DatePicker';
+import Heading from '../views/Heading';
+import Image from '../views/Image';
+import ImageItem from '../views/ImageItem';
+import RadioItem from '../views/RadioItem';
 
 import Picker from '../views/Picker';
 import Panels from '../views/Panels';
@@ -57,6 +61,10 @@ const App = kind({
 				<Route path="/contextualMenuDecorator" component={ContextualMenuDecorator} />
 				<Route path="/contextualPopupDecorator" component={ContextualPopupDecorator} />
 				<Route path="/datePicker" component={DatePicker} />
+				<Route path="/heading" component={Heading} />
+				<Route path="/image" component={Image} />
+				<Route path="/imageItem" component={ImageItem} />
+				<Route path="/radioItem" component={RadioItem} />
 
 				<Route path="/panels" component={Panels} />
 				<Route path="/picker" component={Picker} />

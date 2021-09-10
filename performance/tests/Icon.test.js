@@ -3,17 +3,16 @@ const TestResults = require('../TestResults');
 const {DCL, FCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
-describe('Item', () => {
-	const component = 'Item';
+describe('Icon', () => {
+	const component = 'Icon';
 	TestResults.emptyFile(component);
 
 	it('mount time', async () => {
 		const filename = getFileName(component);
 
-		await page.goto('http://localhost:8080/item');
+		await page.goto('http://localhost:8080/icon');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#item');
-		await page.focus('#item');
+		await page.waitForSelector('#icon');
 
 		await page.tracing.stop();
 
@@ -30,8 +29,8 @@ describe('Item', () => {
 			const FCPPage = await testMultiple.newPage();
 
 			await FCPPage.tracing.start({path: filename, screenshots: false});
-			await FCPPage.goto('http://localhost:8080/item');
-			await FCPPage.waitForSelector('#item');
+			await FCPPage.goto('http://localhost:8080/icon');
+			await FCPPage.waitForSelector('#icon');
 
 			await FCPPage.tracing.stop();
 
@@ -58,10 +57,9 @@ describe('Item', () => {
 		let avg = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const DCLPage = await testMultiple.newPage();
-
 			await DCLPage.tracing.start({path: filename, screenshots: false});
-			await DCLPage.goto('http://localhost:8080/item');
-			await DCLPage.waitForSelector('#item');
+			await DCLPage.goto('http://localhost:8080/icon');
+			await DCLPage.waitForSelector('#icon');
 
 			await DCLPage.tracing.stop();
 

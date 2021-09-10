@@ -74,66 +74,65 @@ describe('Slider', () => {
 		TestResults.addResult({component: component, type: 'Mount Time', actualValue: actualMountTime});
 	});
 
+	it('should have a good FCP', async () => {
+		const filename = getFileName(component);
 
-	// it('should have a good FCP', async () => {
-	// 	const filename = getFileName(component);
-	//
-	// 	let cont = 0;
-	// 	let avg = 0;
-	// 	for (let step = 0; step < stepNumber; step++) {
-	// 		const FCPPage = await testMultiple.newPage();
-	//
-	// 		await FCPPage.tracing.start({path: filename, screenshots: false});
-	// 		await FCPPage.goto('http://localhost:8080/slider');
-	// 		await FCPPage.waitForSelector('#slider');
-	// 		await FCPPage.waitFor(200);
-	//
-	// 		await FCPPage.tracing.stop();
-	//
-	// 		const actualFCP = await FCP(filename);
-	// 		avg = avg + actualFCP;
-	//
-	// 		if (actualFCP < maxFCP) {
-	// 			cont += 1;
-	// 		}
-	// 		await FCPPage.close();
-	// 	}
-	// 	avg = avg / stepNumber;
-	//
-	// 	TestResults.addResult({component: component, type: 'average FCP', actualValue: avg});
-	//
-	// 	expect(cont).toBeGreaterThan(percent);
-	// 	expect(avg).toBeLessThan(maxFCP);
-	// });
-	//
-	// it('should have a good DCL', async () => {
-	// 	const filename = getFileName(component);
-	//
-	// 	let cont = 0;
-	// 	let avg = 0;
-	// 	for (let step = 0; step < stepNumber; step++) {
-	// 		const DCLPage = await testMultiple.newPage();
-	// 		await DCLPage.tracing.start({path: filename, screenshots: false});
-	// 		await DCLPage.goto('http://localhost:8080/slider');
-	// 		await DCLPage.waitForSelector('#slider');
-	// 		await DCLPage.waitFor(200);
-	//
-	// 		await DCLPage.tracing.stop();
-	//
-	// 		const actualDCL = await DCL(filename);
-	// 		avg = avg + actualDCL;
-	//
-	// 		if (actualDCL < maxDCL) {
-	// 			cont += 1;
-	// 		}
-	// 		await DCLPage.close();
-	// 	}
-	// 	avg = avg / stepNumber;
-	//
-	// 	TestResults.addResult({component: component, type: 'average DCL', actualValue: avg});
-	//
-	// 	expect(cont).toBeGreaterThan(percent);
-	// 	expect(avg).toBeLessThan(maxDCL);
-	// });
+		let cont = 0;
+		let avg = 0;
+		for (let step = 0; step < stepNumber; step++) {
+			const FCPPage = await testMultiple.newPage();
+
+			await FCPPage.tracing.start({path: filename, screenshots: false});
+			await FCPPage.goto('http://localhost:8080/slider');
+			await FCPPage.waitForSelector('#slider');
+			await FCPPage.waitFor(200);
+
+			await FCPPage.tracing.stop();
+
+			const actualFCP = await FCP(filename);
+			avg = avg + actualFCP;
+
+			if (actualFCP < maxFCP) {
+				cont += 1;
+			}
+			await FCPPage.close();
+		}
+		avg = avg / stepNumber;
+
+		TestResults.addResult({component: component, type: 'average FCP', actualValue: avg});
+
+		expect(cont).toBeGreaterThan(percent);
+		expect(avg).toBeLessThan(maxFCP);
+	});
+
+	it('should have a good DCL', async () => {
+		const filename = getFileName(component);
+
+		let cont = 0;
+		let avg = 0;
+		for (let step = 0; step < stepNumber; step++) {
+			const DCLPage = await testMultiple.newPage();
+			await DCLPage.tracing.start({path: filename, screenshots: false});
+			await DCLPage.goto('http://localhost:8080/slider');
+			await DCLPage.waitForSelector('#slider');
+			await DCLPage.waitFor(200);
+
+			await DCLPage.tracing.stop();
+
+			const actualDCL = await DCL(filename);
+			avg = avg + actualDCL;
+
+			if (actualDCL < maxDCL) {
+				cont += 1;
+			}
+			await DCLPage.close();
+		}
+		avg = avg / stepNumber;
+
+		TestResults.addResult({component: component, type: 'average DCL', actualValue: avg});
+
+		expect(cont).toBeGreaterThan(percent);
+		expect(avg).toBeLessThan(maxDCL);
+	});
 });
 

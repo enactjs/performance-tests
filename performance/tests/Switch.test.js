@@ -56,7 +56,6 @@ describe('Switch', () => {
 		TestResults.addResult({component: component, type: 'Mount Time', actualValue: actualMountTime});
 	});
 
-
 	it('should have a good FCP', async () => {
 		const filename = getFileName(component);
 

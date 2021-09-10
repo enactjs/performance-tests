@@ -1,13 +1,14 @@
-import MultipleComponents from '../components/MultipleComponents';
-import ScrollerJS, {ScrollerNative} from '@enact/moonstone/Scroller';
-import UiScrollerJS, {ScrollerNative as UiScrollerNative} from '@enact/ui/Scroller';
+import ScrollerJS from '@enact/sandstone/Scroller';
+import UiScrollerJS from '@enact/ui/Scroller';
 import qs from 'qs';
+import {Profiler} from 'react';
+
+import MultipleComponents from '../components/MultipleComponents';
+import {putRenderedMark} from '../utils';
 
 const types = {
 	ScrollerJS,
-	ScrollerNative,
-	UiScrollerJS,
-	UiScrollerNative
+	UiScrollerJS
 };
 
 const ScrollerMultipleChildren = ({location}) => {
@@ -16,9 +17,11 @@ const ScrollerMultipleChildren = ({location}) => {
 	const Scroller = types[type] || ScrollerJS;
 
 	return (
-		<Scroller id="Scroller" animate>
-			<MultipleComponents location={location} />
-		</Scroller>
+		<Profiler id="scroller-rendered" onRender={putRenderedMark}>
+			<Scroller id="Scroller" animate>
+				<MultipleComponents location={location} />
+			</Scroller>
+		</Profiler>
 	);
 };
 

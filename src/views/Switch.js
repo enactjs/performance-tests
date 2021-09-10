@@ -9,9 +9,7 @@ const SwitchView = kind({
 
 	render: () => (
 		<Profiler id="switch-rendered" onRender={putRenderedMark}>
-			<Switch id="switch">
-				Hello Switch
-			</Switch>
+			<Switch id="switch" />
 		</Profiler>
 	)
 });

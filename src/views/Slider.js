@@ -9,6 +9,7 @@ const SliderView = kind({
 
 	render: () => (
 		<Profiler id="slider-rendered" onRender={putRenderedMark}>
+			Slider
 			<Slider id="slider" min={0} max={100} defaultValue={0} />
 		</Profiler>
 	)

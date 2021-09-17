@@ -46,7 +46,7 @@
 	"devDependencies": {
 		"chalk": "^2.4.2",
 		"concurrently": "^4.1.0",
-		"devtools-timeline-model": "https://github.com/paulirish/devtools-timeline-model.git#latestbump",
+		"devtools-timeline-model": "1.4.0",
 		"jest": "^24.1.0",
 		"prettier": "^1.15.3",
 		"puppeteer": "^1.11.0",

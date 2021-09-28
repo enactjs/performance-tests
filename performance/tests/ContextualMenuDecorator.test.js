@@ -12,23 +12,23 @@ describe('ContextualMenuDecorator', () => {
 			const filename = getFileName(component);
 			await page.goto('http://localhost:8080/contextualMenuDecorator');
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.waitFor(500);
+			await page.waitForTimeout(500);
 
 			await page.click('[data-index="0"]'); // to move mouse on the first element of the menu.
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.click('[data-index="1"]'); // to move mouse on the first element of the menu.
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.click('[data-index="2"]'); // to move mouse on the first element of the menu.
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.click('[data-index="0"]'); // to move mouse on the first element of the menu.
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 
 			await page.tracing.stop();
@@ -44,27 +44,27 @@ describe('ContextualMenuDecorator', () => {
 
 			await page.goto('http://localhost:8080/contextualMenuDecorator');
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.waitFor(500);
+			await page.waitForTimeout(500);
 
 			await page.focus('[data-index="0"]');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.focus('[data-index="1"]');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.focus('[data-index="2"]');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.focus('[data-index="0"]');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 
 			await page.tracing.stop();
@@ -107,24 +107,24 @@ describe('ContextualMenuDecorator', () => {
 		const filename = getFileName(component);
 		await page.goto('http://localhost:8080/contextualMenuDecorator');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 
 		await page.click('[data-index="0"]'); // to move mouse on the first element of the menu.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.click('[data-index="0"]'); // to move mouse on the first element of the menu.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 
 		await page.tracing.stop();

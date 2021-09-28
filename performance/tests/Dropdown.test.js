@@ -17,16 +17,16 @@ describe('Dropdown', () => {
 
 			await page.click('#dropdown'); // to move mouse on dropdown
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 
 			await page.tracing.stop();
@@ -45,18 +45,18 @@ describe('Dropdown', () => {
 			await page.waitForSelector('#dropdown');
 
 			await page.focus('#dropdown');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 
 			await page.tracing.stop();
@@ -104,16 +104,16 @@ describe('Dropdown', () => {
 
 		await page.click('#dropdown'); // to move mouse on the dropdown.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 
 		await page.tracing.stop();

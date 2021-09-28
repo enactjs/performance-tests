@@ -12,15 +12,15 @@ describe('Popup', () => {
 		await page.tracing.start({path: filename, screenshots: false});
 		await page.waitForSelector('#popup');
 		await page.click(close);
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 		await page.click(open);
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 		await page.click(close);
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 		await page.click(open);
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 		await page.click(close);
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 
 		await page.tracing.stop();
 

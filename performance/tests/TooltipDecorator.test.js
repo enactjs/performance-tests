@@ -15,7 +15,7 @@ describe('TooltipDecorator', () => {
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#tooltipDecorator');
 			await page.focus('#tooltipDecorator');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 
 			await page.tracing.stop();
 

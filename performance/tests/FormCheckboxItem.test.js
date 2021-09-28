@@ -17,16 +17,16 @@ describe('FormCheckboxItem', () => {
 
 			await page.click('#formCheckboxItem'); // to move mouse on formCheckboxItem
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 
 			await page.tracing.stop();
@@ -45,18 +45,18 @@ describe('FormCheckboxItem', () => {
 			await page.waitForSelector('#formCheckboxItem');
 
 			await page.focus('#formCheckboxItem');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 
 			await page.tracing.stop();
@@ -104,16 +104,16 @@ describe('FormCheckboxItem', () => {
 
 		await page.click('#formCheckboxItem'); // to move mouse on the formCheckboxItem.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 
 		await page.tracing.stop();

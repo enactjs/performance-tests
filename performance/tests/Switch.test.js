@@ -14,7 +14,7 @@ describe('Switch', () => {
 			await page.goto('http://localhost:8080/switch');
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#switch');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.click('#switch');
 
 			await page.tracing.stop();
@@ -33,9 +33,9 @@ describe('Switch', () => {
 		await page.goto('http://localhost:8080/switch');
 		await page.tracing.start({path: filename, screenshots: false});
 		await page.waitForSelector('#switch');
-		await page.waitFor(100);
+		await page.waitForTimeout(100);
 		await page.click('#switch');
-		await page.waitFor(100);
+		await page.waitForTimeout(100);
 
 		await page.tracing.stop();
 

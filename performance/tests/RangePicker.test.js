@@ -13,20 +13,20 @@ describe('RangePicker', () => {
 				const filename = getFileName(component);
 				await page.goto('http://localhost:8080/rangePicker');
 				await page.tracing.start({path: filename, screenshots: false});
-				await page.waitFor(500);
+				await page.waitForTimeout(500);
 
 				await page.click('[aria-label$="press ok button to increase the value"]'); // to move mouse on the rangePicker.
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 
 				await page.tracing.stop();
@@ -47,18 +47,18 @@ describe('RangePicker', () => {
 				await page.tracing.start({path: filename, screenshots: false});
 				await page.waitForSelector('#rangePickerDefault');
 				await page.focus('[aria-label$="press ok button to increase the value"]');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 
 				await page.tracing.stop();
@@ -77,9 +77,9 @@ describe('RangePicker', () => {
 			await page.goto('http://localhost:8080/rangePicker');
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#rangePickerDefault');
-			await page.waitFor(100);
+			await page.waitForTimeout(100);
 			await page.click('[aria-label$="press ok button to increase the value"]');
-			await page.waitFor(100);
+			await page.waitForTimeout(100);
 
 			await page.tracing.stop();
 
@@ -94,20 +94,20 @@ describe('RangePicker', () => {
 				const filename = getFileName(component);
 				await page.goto('http://localhost:8080/rangePicker');
 				await page.tracing.start({path: filename, screenshots: false});
-				await page.waitFor(500);
+				await page.waitForTimeout(500);
 
 				await page.click('#rangePickerJoined'); // to move mouse on the rangePicker.
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 
 				await page.tracing.stop();
@@ -128,18 +128,18 @@ describe('RangePicker', () => {
 				await page.tracing.start({path: filename, screenshots: false});
 				await page.waitForSelector('#rangePickerJoined');
 				await page.focus('#rangePickerJoined');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 
 				await page.tracing.stop();
@@ -158,9 +158,9 @@ describe('RangePicker', () => {
 			await page.goto('http://localhost:8080/rangePicker');
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#rangePickerJoined');
-			await page.waitFor(100);
+			await page.waitForTimeout(100);
 			await page.click('#rangePickerJoined');
-			await page.waitFor(100);
+			await page.waitForTimeout(100);
 
 			await page.tracing.stop();
 

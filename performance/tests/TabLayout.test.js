@@ -14,9 +14,9 @@ describe('TabLayout', () => {
 			await page.goto('http://localhost:8080/tabLayout');
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#tabLayout');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('ArrowRight');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 
 			await page.tracing.stop();
 

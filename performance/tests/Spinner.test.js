@@ -13,7 +13,7 @@ describe('Spinner', () => {
 		await page.goto('http://localhost:8080/spinner');
 		await page.tracing.start({path: filename, screenshots: false});
 		await page.waitForSelector('#spinner');
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 
 		await page.tracing.stop();
 
@@ -33,7 +33,7 @@ describe('Spinner', () => {
 			await FCPPage.tracing.start({path: filename, screenshots: false});
 			await FCPPage.goto('http://localhost:8080/spinner');
 			await FCPPage.waitForSelector('#spinner');
-			await FCPPage.waitFor(200);
+			await FCPPage.waitForTimeout(200);
 
 			await FCPPage.tracing.stop();
 
@@ -63,7 +63,7 @@ describe('Spinner', () => {
 			await DCLPage.tracing.start({path: filename, screenshots: false});
 			await DCLPage.goto('http://localhost:8080/spinner');
 			await DCLPage.waitForSelector('#spinner');
-			await DCLPage.waitFor(200);
+			await DCLPage.waitForTimeout(200);
 
 			await DCLPage.tracing.stop();
 

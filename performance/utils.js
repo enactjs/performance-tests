@@ -44,7 +44,7 @@ const extractFirstContentfulPaintTime = async () => {
 const getAveragePaintTimeFor = async (waitFor, count = 1) => {
 	let total = 0;
 	for (let i = 0; i < count; i++) {
-		await page.waitFor(waitFor);
+		await page.waitForTimeout(waitFor);
 		total += await extractFirstContentfulPaintTime();
 		if (i !== count - 1) {
 			await page.reload();

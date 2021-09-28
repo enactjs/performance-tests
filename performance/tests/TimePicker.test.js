@@ -13,9 +13,9 @@ describe('TimePicker', () => {
 			await page.goto('http://localhost:8080/timePicker');
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#timePicker');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.click('[aria-label$="hour change a value with up down button"]');
-			await page.waitFor(1000);
+			await page.waitForTimeout(1000);
 
 			await page.tracing.stop();
 
@@ -35,9 +35,9 @@ describe('TimePicker', () => {
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#timePicker');
 			await page.focus('[aria-label$="hour change a value with up down button"]');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('ArrowDown');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 
 			await page.tracing.stop();
 

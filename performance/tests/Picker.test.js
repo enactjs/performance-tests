@@ -9,15 +9,15 @@ describe('Picker', () => {
 			const incrementer = '[class^="Picker_incrementer"]';
 			await page.goto('http://localhost:8080/picker');
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.waitFor(500);
+			await page.waitForTimeout(500);
 			await page.click(incrementer);
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.click(incrementer);
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.click(incrementer);
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.click(incrementer);
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 
 			await page.tracing.stop();
 
@@ -35,17 +35,17 @@ describe('Picker', () => {
 			const filename = getFileName('Picker');
 			await page.goto('http://localhost:8080/picker');
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.waitFor(500);
+			await page.waitForTimeout(500);
 			await page.keyboard.press('ArrowRight');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.press('ArrowRight');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.press('ArrowRight');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.press('ArrowRight');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.press('ArrowRight');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 
 			await page.tracing.stop();
 
@@ -62,7 +62,7 @@ describe('Picker', () => {
 
 		await page.tracing.start({path: filename, screenshots: false});
 		await page.goto('http://localhost:8080/picker');
-		await page.waitFor(2000);
+		await page.waitForTimeout(2000);
 
 		await page.tracing.stop();
 

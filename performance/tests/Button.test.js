@@ -12,20 +12,20 @@ describe('Button', () => {
 			const filename = getFileName(component);
 			await page.goto('http://localhost:8080/button');
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.waitFor(500);
+			await page.waitForTimeout(500);
 
 			await page.click('#button'); // to move mouse on the button.
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 
 			await page.tracing.stop();
@@ -43,18 +43,18 @@ describe('Button', () => {
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#button');
 			await page.focus('#button');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 
 			await page.tracing.stop();
@@ -97,20 +97,20 @@ describe('Button', () => {
 		const filename = getFileName(component);
 		await page.goto('http://localhost:8080/button');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 
 		await page.click('#button'); // to move mouse on the button.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 
 		await page.tracing.stop();
@@ -130,6 +130,7 @@ describe('Button', () => {
 			await FCPPage.tracing.start({path: filename, screenshots: false});
 			await FCPPage.goto('http://localhost:8080/button');
 			await FCPPage.waitForSelector('#button');
+			await page.waitForTimeout(200);
 
 			await FCPPage.tracing.stop();
 

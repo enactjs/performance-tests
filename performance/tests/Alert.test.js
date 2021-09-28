@@ -12,20 +12,20 @@ describe('Alert', () => {
 			const filename = getFileName(component);
 			await page.goto('http://localhost:8080/alert');
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.waitFor(500);
+			await page.waitForTimeout(500);
 
 			await page.click('#button'); // to move mouse on the button.
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 
 			await page.tracing.stop();
@@ -43,18 +43,18 @@ describe('Alert', () => {
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#button');
 			await page.focus('#button');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 
 			await page.tracing.stop();
@@ -96,20 +96,20 @@ describe('Alert', () => {
 		const filename = getFileName(component);
 		await page.goto('http://localhost:8080/alert');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 
 		await page.click('#button'); // to move mouse on the button.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 
 		await page.tracing.stop();

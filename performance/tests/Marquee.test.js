@@ -11,7 +11,7 @@ describe('Marquee', () => {
 		await page.tracing.start({path: filename, screenshots: false});
 		await page.waitForSelector('#marquee');
 		await page.hover(MarqueeText);
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 
 		await page.tracing.stop();
 
@@ -28,7 +28,7 @@ describe('Marquee', () => {
 		await page.tracing.start({path: filename, screenshots: false});
 		await page.goto('http://localhost:8080/marquee');
 		await page.waitForSelector('#marquee');
-		await page.waitFor(2000);
+		await page.waitForTimeout(2000);
 
 		await page.tracing.stop();
 
@@ -46,7 +46,7 @@ describe('Marquee', () => {
 				await page.tracing.start({path: filename, screenshots: false});
 				await page.goto(`http://localhost:8080/marqueeMultiple?count=${count}`);
 				await page.waitForSelector('#Container');
-				await page.waitFor(500);
+				await page.waitForTimeout(500);
 
 				await page.tracing.stop();
 
@@ -63,10 +63,10 @@ describe('Marquee', () => {
 				await page.tracing.start({path: filename, screenshots: false});
 				await page.goto(`http://localhost:8080/marqueeMultiple?count=${count}`);
 				await page.waitForSelector('#Container');
-				await page.waitFor(500);
+				await page.waitForTimeout(500);
 
 				await page.hover('#Marquee_5');
-				await page.waitFor(500);
+				await page.waitForTimeout(500);
 
 				await page.tracing.stop();
 
@@ -83,7 +83,7 @@ describe('Marquee', () => {
 				await page.tracing.start({path: filename, screenshots: false});
 				await page.goto(`http://localhost:8080/marqueeMultiple?count=${count}&marqueeOn=render`);
 				await page.waitForSelector('#Container');
-				await page.waitFor(500);
+				await page.waitForTimeout(500);
 
 				await page.tracing.stop();
 

@@ -12,20 +12,20 @@ describe('Checkbox', () => {
 			const filename = getFileName(component);
 			await page.goto('http://localhost:8080/checkbox');
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.waitFor(500);
+			await page.waitForTimeout(500);
 
 			await page.click('#checkbox'); // to move mouse on the checkbox.
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 
 			await page.tracing.stop();
@@ -43,18 +43,18 @@ describe('Checkbox', () => {
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#checkbox');
 			await page.focus('#checkbox');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 
 			await page.tracing.stop();
@@ -97,24 +97,24 @@ describe('Checkbox', () => {
 		const filename = getFileName(component);
 		await page.goto('http://localhost:8080/checkbox');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 
 		await page.click('#checkbox'); // to move mouse on the checkbox.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.click('#checkbox'); // to move mouse on the checkbox.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 
 		await page.tracing.stop();

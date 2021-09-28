@@ -14,7 +14,7 @@ describe('SwitchItem', () => {
 			await page.goto('http://localhost:8080/switchItem');
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#switchItem');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.click('#switchItem');
 
 			await page.tracing.stop();
@@ -33,9 +33,9 @@ describe('SwitchItem', () => {
 		await page.goto('http://localhost:8080/switchItem');
 		await page.tracing.start({path: filename, screenshots: false});
 		await page.waitForSelector('#switchItem');
-		await page.waitFor(100);
+		await page.waitForTimeout(100);
 		await page.click('#switchItem');
-		await page.waitFor(100);
+		await page.waitForTimeout(100);
 
 		await page.tracing.stop();
 
@@ -68,7 +68,7 @@ describe('SwitchItem', () => {
 			await FCPPage.tracing.start({path: filename, screenshots: false});
 			await FCPPage.goto('http://localhost:8080/switchItem');
 			await FCPPage.waitForSelector('#switchItem');
-			await FCPPage.waitFor(100);
+			await FCPPage.waitForTimeout(100);
 
 			await FCPPage.tracing.stop();
 
@@ -98,7 +98,7 @@ describe('SwitchItem', () => {
 			await DCLPage.tracing.start({path: filename, screenshots: false});
 			await DCLPage.goto('http://localhost:8080/switchItem');
 			await DCLPage.waitForSelector('#switchItem');
-			await DCLPage.waitFor(100);
+			await DCLPage.waitForTimeout(100);
 
 			await DCLPage.tracing.stop();
 

@@ -12,20 +12,20 @@ describe('RadioItem', () => {
 			const filename = getFileName(component);
 			await page.goto('http://localhost:8080/radioItem');
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.waitFor(500);
+			await page.waitForTimeout(500);
 
 			await page.click('#radioItem'); // to move mouse on the radioItem.
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 
 			await page.tracing.stop();
@@ -43,18 +43,18 @@ describe('RadioItem', () => {
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#radioItem');
 			await page.focus('#radioItem');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 
 			await page.tracing.stop();
@@ -70,9 +70,9 @@ describe('RadioItem', () => {
 		await page.goto('http://localhost:8080/radioItem');
 		await page.tracing.start({path: filename, screenshots: false});
 		await page.waitForSelector('#radioItem');
-		await page.waitFor(100);
+		await page.waitForTimeout(100);
 		await page.click('#radioItem');
-		await page.waitFor(100);
+		await page.waitForTimeout(100);
 
 		await page.tracing.stop();
 
@@ -98,24 +98,24 @@ describe('RadioItem', () => {
 		const filename = getFileName(component);
 		await page.goto('http://localhost:8080/radioItem');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 
 		await page.click('#radioItem'); // to move mouse on the radioItem.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.click('#radioItem'); // to move mouse on the radioItem.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 
 		await page.tracing.stop();

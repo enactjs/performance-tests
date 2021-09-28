@@ -12,23 +12,23 @@ describe('DatePicker', () => {
 			const filename = getFileName(component);
 			await page.goto('http://localhost:8080/datePicker');
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.waitFor(500);
+			await page.waitForTimeout(500);
 
 			await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.click('[data-webos-voice-group-label="day"]'); // to move mouse on the increment button.
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.click('[data-webos-voice-group-label="year"]'); // to move mouse on the increment button.
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 
 			await page.tracing.stop();
@@ -46,24 +46,24 @@ describe('DatePicker', () => {
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('[data-webos-voice-group-label="month"]');
 			await page.focus('[data-webos-voice-group-label="month"]');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.focus('[data-webos-voice-group-label="day"]');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.focus('[data-webos-voice-group-label="year"]');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.focus('[data-webos-voice-group-label="month"]');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 
 			await page.tracing.stop();
@@ -106,23 +106,23 @@ describe('DatePicker', () => {
 		const filename = getFileName(component);
 		await page.goto('http://localhost:8080/datePicker');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 
 		await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.click('[data-webos-voice-group-label="day"]'); // to move mouse on the increment button.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.click('[data-webos-voice-group-label="year"]'); // to move mouse on the increment button.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 
 		await page.tracing.stop();

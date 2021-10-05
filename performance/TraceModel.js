@@ -1,23 +1,37 @@
 const fs = require('fs');
 const DevtoolsTimelineModel = require('devtools-timeline-model');
 
-const FPS = (filename) => {
-	const events = fs.readFileSync(filename, 'utf8');
-	const model = new DevtoolsTimelineModel(events);
-	const results = model.frameModel();
+let FPSValues = [];
+const FPS = () => {
+	let before, now;
+	before = performance.now();
 
-	let counter = 0;
-	const avgDuration = results._frames.reduce((accumulator, currentValue) => {
-		if (!currentValue.idle) {
-			counter += 1;
-			return accumulator + 1000 / currentValue.duration;
-		} else {
-			return accumulator;
+	requestAnimationFrame(
+		function loop() {
+			now = performance.now();
+			FPSValues.push(Math.round(1000 / (now - before)));
+			before = now;
+			requestAnimationFrame(loop);
+			//console.log("fps", FPSValues)
 		}
-	}, 0) / counter;
+	);
+	console.log(FPSValues);
+	console.log(FPSValues.length);
+	return FPSValues;
 
-	return avgDuration;
 };
+
+const LCP = (filename) => {
+	const events = fs.readFileSync(filename, 'utf8');
+	const result = JSON.parse(events);
+
+	const baseEvent = result.traceEvents.filter(i => i.name == 'TracingStartedInBrowser')[0].ts;
+	const largestContentfulPaint = result.traceEvents.filter(i => i.name == 'largestContentfulPaint::Candidate')[0].ts;
+
+	const LCPTime = (largestContentfulPaint - baseEvent) / 1000;
+
+	return LCPTime;
+}
 
 const FCP = (filename) => {
 	const events = fs.readFileSync(filename, 'utf8');
@@ -80,6 +94,7 @@ module.exports = {
 	DCL,
 	FCP,
 	FPS,
+	LCP,
 	Mount,
 	Update
 };

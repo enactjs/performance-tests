@@ -4,6 +4,7 @@ global.stepNumber = 10;
 global.percent = 7;
 global.maxFCP = 1800;
 global.maxDCL = 2000;
+global.maxLCP = 2500;
 
 let browser;
 

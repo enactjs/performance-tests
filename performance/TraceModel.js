@@ -2,16 +2,16 @@ const fs = require('fs');
 const DevtoolsTimelineModel = require('devtools-timeline-model');
 
 const FPS = () =>  {
-	let before, now;
+	let previousFrame, currentFrame;
 	let FPSValues = [];
-	before = performance.now();
+	previousFrame = performance.now();
 
 	requestAnimationFrame(
-		function loop () {
-			now = performance.now();
-			FPSValues.push(Math.round(1000 / (now - before)));
-			before = now;
-			requestAnimationFrame(loop);
+		function calculateNewFPS () {
+			currentFrame = performance.now();
+			FPSValues.push(Math.round(1000 / (currentFrame - previousFrame)));
+			previousFrame = currentFrame;
+			requestAnimationFrame(calculateNewFPS);
 		}
 	);
 	return FPSValues;

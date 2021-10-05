@@ -1,9 +1,9 @@
 const fs = require('fs');
 const DevtoolsTimelineModel = require('devtools-timeline-model');
 
-let FPSValues = [];
-const FPS = () => {
+const FPS = () =>  {
 	let before, now;
+	let FPSValues = [];
 	before = performance.now();
 
 	requestAnimationFrame(
@@ -12,14 +12,30 @@ const FPS = () => {
 			FPSValues.push(Math.round(1000 / (now - before)));
 			before = now;
 			requestAnimationFrame(loop);
-			//console.log("fps", FPSValues)
 		}
 	);
-	console.log(FPSValues);
-	console.log(FPSValues.length);
 	return FPSValues;
-
 };
+
+const FID = () => {
+	window.fid = 0;
+	new PerformanceObserver(entryList => {
+		let fidEntry = entryList.getEntries()[0];
+		window.fid = fidEntry.processingStart - fidEntry.startTime;
+	}).observe({ type: "first-input", buffered: true });
+}
+
+const CLS = () => {
+	window.cls = 0;
+	new PerformanceObserver(entryList => {
+		let entries = entryList.getEntries() || [];
+		entries.forEach(e => {
+			if (!e.hadRecentInput) { // omit entries likely caused by user input
+				window.cls += e.value;
+			}
+		});
+	}).observe({ type: "layout-shift", buffered: true })
+}
 
 const LCP = (filename) => {
 	const events = fs.readFileSync(filename, 'utf8');
@@ -91,8 +107,10 @@ const Update = (filename, component) => {
 };
 
 module.exports = {
+	CLS,
 	DCL,
 	FCP,
+	FID,
 	FPS,
 	LCP,
 	Mount,

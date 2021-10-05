@@ -12,20 +12,20 @@ describe('DayPicker', () => {
 			const filename = getFileName(component);
 			await page.goto('http://localhost:8080/dayPicker');
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.waitFor(500);
+			await page.waitForTimeout(500);
 
 			await page.click('#dayPicker'); // to move mouse on the dayPicker.
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.mouse.up();
 
 			await page.tracing.stop();
@@ -45,18 +45,18 @@ describe('DayPicker', () => {
 
 			await page.focus('#dayPicker');
 			await page.keyboard.down('ArrowDown');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 
 			await page.tracing.stop();
@@ -102,16 +102,16 @@ describe('DayPicker', () => {
 		await page.waitForSelector('#dayPicker');
 		await page.keyboard.down('ArrowDown');
 		await page.keyboard.down('Enter');
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.keyboard.up('Enter');
 		await page.keyboard.down('Enter');
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.keyboard.up('Enter');
 		await page.keyboard.down('Enter');
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.keyboard.up('Enter');
 		await page.keyboard.down('Enter');
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.keyboard.up('Enter');
 
 		await page.tracing.stop();

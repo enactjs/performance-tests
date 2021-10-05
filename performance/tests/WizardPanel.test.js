@@ -12,9 +12,9 @@ describe('WizardPanels', () => {
 			const filename = getFileName(component);
 			await page.goto('http://localhost:8080/wizardPanels');
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.click('#nextButton'); // to animate the WizardPanel.
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 
 			await page.tracing.stop();
 
@@ -31,9 +31,9 @@ describe('WizardPanels', () => {
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#wizardPanels');
 			await page.focus('#nextButton');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 
 			await page.tracing.stop();
 
@@ -75,20 +75,20 @@ describe('WizardPanels', () => {
 		const filename = getFileName(component);
 		await page.goto('http://localhost:8080/wizardPanels');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 
 		await page.click('#nextButton'); // to move mouse on the wizardPanels.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 
 		await page.tracing.stop();

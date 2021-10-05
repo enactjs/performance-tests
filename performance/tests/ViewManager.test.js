@@ -13,11 +13,11 @@ describe('ViewManager', () => {
 
 		await page.goto('http://localhost:8080/viewManager');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitFor(1000);
+		await page.waitForTimeout(1000);
 		await page.click(view);
-		await page.waitFor(1000);
+		await page.waitForTimeout(1000);
 		await page.click(view);
-		await page.waitFor(1000);
+		await page.waitForTimeout(1000);
 
 		await page.tracing.stop();
 

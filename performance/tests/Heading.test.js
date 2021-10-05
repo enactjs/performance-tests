@@ -31,7 +31,7 @@ describe('Heading', () => {
 			await FCPPage.tracing.start({path: filename, screenshots: false});
 			await FCPPage.goto('http://localhost:8080/heading');
 			await FCPPage.waitForSelector('#heading');
-			await FCPPage.waitFor(200);
+			await FCPPage.waitForTimeout(200);
 
 			await FCPPage.tracing.stop();
 

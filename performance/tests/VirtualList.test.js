@@ -15,13 +15,13 @@ describe('VirtualList', () => {
 			await page.waitForSelector('#virtualList');
 			await page.focus('[aria-label="scroll up or down with up down button"]');
 			await page.keyboard.down('ArrowDown');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('ArrowDown');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('ArrowDown');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('ArrowDown');
-			await page.waitFor(2000);
+			await page.waitForTimeout(2000);
 
 			await page.tracing.stop();
 
@@ -39,13 +39,13 @@ describe('VirtualList', () => {
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector(VirtualList);
 			await scrollAtPoint(page, VirtualList, 1000);
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await scrollAtPoint(page, VirtualList, 1000);
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await scrollAtPoint(page, VirtualList, 1000);
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await scrollAtPoint(page, VirtualList, 1000);
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 
 			await page.tracing.stop();
 
@@ -87,20 +87,20 @@ describe('VirtualList', () => {
 		const filename = getFileName(component);
 		await page.goto('http://localhost:8080/virtualList');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 
 		await page.click('#virtualList'); // to move mouse on the wizardPanels.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 
 		await page.tracing.stop();

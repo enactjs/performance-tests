@@ -16,7 +16,7 @@ describe( 'Scroller', () => {
 			await page.focus('[aria-label="scroll up or down with up down button"]');
 			await page.keyboard.down('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitFor(2000);
+			await page.waitForTimeout(2000);
 
 			await page.tracing.stop();
 
@@ -37,13 +37,13 @@ describe( 'Scroller', () => {
 			const scroller = '#scroller';
 
 			await scrollAtPoint(page, scroller, 1000);
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await scrollAtPoint(page, scroller, 1000);
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await scrollAtPoint(page, scroller, 1000);
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await scrollAtPoint(page, scroller, 1000);
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 
 			await page.tracing.stop();
 
@@ -80,7 +80,7 @@ describe( 'Scroller', () => {
 			await FCPPage.tracing.start({path: filename, screenshots: false});
 			await FCPPage.goto('http://localhost:8080/scroller');
 			await FCPPage.waitForSelector('#scroller');
-			await FCPPage.waitFor(200);
+			await FCPPage.waitForTimeout(200);
 
 			await FCPPage.tracing.stop();
 
@@ -110,7 +110,7 @@ describe( 'Scroller', () => {
 			await DCLPage.tracing.start({path: filename, screenshots: false});
 			await DCLPage.goto('http://localhost:8080/scroller');
 			await DCLPage.waitForSelector('#scroller');
-			await DCLPage.waitFor(200);
+			await DCLPage.waitForTimeout(200);
 
 			await DCLPage.tracing.stop();
 
@@ -146,7 +146,7 @@ describe( 'Scroller', () => {
 
 					await page.tracing.start({path: filename, screenshots: false});
 					await page.goto(`http://localhost:8080/scrollerMultipleChildren?count=${count}&type=${type}`);
-					await page.waitFor(2000);
+					await page.waitForTimeout(2000);
 
 					await page.tracing.stop();
 
@@ -167,10 +167,10 @@ describe( 'Scroller', () => {
 
 		for (let i = 0; i < 300; i++) {
 			await page.keyboard.down('ArrowDown');
-			await page.waitFor(10);
+			await page.waitForTimeout(10);
 		}
 
-		await page.waitFor(1000);
+		await page.waitForTimeout(1000);
 
 		await page.tracing.stop();
 

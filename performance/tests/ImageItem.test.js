@@ -25,24 +25,24 @@ describe('ImageItem', () => {
 		const filename = getFileName(component);
 		await page.goto('http://localhost:8080/imageItem');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 
 		await page.click('#imageItem'); // to move mouse on the imageItem.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.click('#imageItem'); // to move mouse on the imageItem.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 
 		await page.tracing.stop();
@@ -62,7 +62,7 @@ describe('ImageItem', () => {
 			await FCPPage.tracing.start({path: filename, screenshots: false});
 			await FCPPage.goto('http://localhost:8080/imageItem');
 			await FCPPage.waitForSelector('#imageItem');
-			await FCPPage.waitFor(200);
+			await FCPPage.waitForTimeout(200);
 
 			await FCPPage.tracing.stop();
 

@@ -12,9 +12,9 @@ describe('VideoPlayer', () => {
 			const filename = getFileName(component);
 			await page.goto('http://localhost:8080/videoPlayer');
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.click('[aria-label="Play"]'); // to start the video.
-			await page.waitFor(1000);
+			await page.waitForTimeout(1000);
 
 			await page.tracing.stop();
 
@@ -31,9 +31,9 @@ describe('VideoPlayer', () => {
 			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#videoPlayer');
 			await page.focus('[aria-label="Play"]');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
-			await page.waitFor(200);
+			await page.waitForTimeout(200);
 
 			await page.tracing.stop();
 
@@ -75,20 +75,20 @@ describe('VideoPlayer', () => {
 		const filename = getFileName(component);
 		await page.goto('http://localhost:8080/videoPlayer');
 		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 
 		await page.click('[aria-label="Play"]'); // to play the video.
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitFor(200);
+		await page.waitForTimeout(200);
 		await page.mouse.up();
 
 		await page.tracing.stop();

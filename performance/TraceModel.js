@@ -7,7 +7,7 @@ const FPS = () =>  {
 	before = performance.now();
 
 	requestAnimationFrame(
-		function loop() {
+		function loop () {
 			now = performance.now();
 			FPSValues.push(Math.round(1000 / (now - before)));
 			before = now;
@@ -22,8 +22,8 @@ const FID = () => {
 	new PerformanceObserver(entryList => {
 		let fidEntry = entryList.getEntries()[0];
 		window.fid = fidEntry.processingStart - fidEntry.startTime;
-	}).observe({ type: "first-input", buffered: true });
-}
+	}).observe({type: 'first-input', buffered: true});
+};
 
 const CLS = () => {
 	window.cls = 0;
@@ -34,8 +34,8 @@ const CLS = () => {
 				window.cls += e.value;
 			}
 		});
-	}).observe({ type: "layout-shift", buffered: true })
-}
+	}).observe({type: 'layout-shift', buffered: true});
+};
 
 const LCP = (filename) => {
 	const events = fs.readFileSync(filename, 'utf8');
@@ -47,7 +47,7 @@ const LCP = (filename) => {
 	const LCPTime = (largestContentfulPaint - baseEvent) / 1000;
 
 	return LCPTime;
-}
+};
 
 const FCP = (filename) => {
 	const events = fs.readFileSync(filename, 'utf8');

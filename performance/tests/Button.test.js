@@ -26,7 +26,7 @@ describe('Button', () => {
 			await page.mouse.up();
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
-			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS });
+			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS});
 
 		});
 	});
@@ -52,7 +52,7 @@ describe('Button', () => {
 			await page.keyboard.up('Enter');
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
-			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS });
+			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS});
 		});
 	});
 

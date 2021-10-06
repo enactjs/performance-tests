@@ -11,7 +11,8 @@ const API_URL = process.env.API_URL;
 const TestResult = module.exports = {
 	results: [],
 	addResult: ({component, type, actualValue}) => {
-		const result = {ReactVersion, EnactVersion, component, type, actualValue};
+		const timestamp = Date.now();
+		const result = {ReactVersion, EnactVersion, timestamp, component, type, actualValue};
 		TestResult.results.push(result);
 		// batch this in the future
 		if (API_URL) {
@@ -35,6 +36,10 @@ const TestResult = module.exports = {
 	emptyFile: (component) => {
 		const txtPath = path.join(__dirname, 'testResults', `${component}.txt`);
 
-		fs.writeFileSync(txtPath, '');
+		fs.access(txtPath, fs.F_OK, (err) => {
+			if (err) {
+				fs.writeFileSync(txtPath, '');
+			}
+		})
 	}
 };

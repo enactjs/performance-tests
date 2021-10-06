@@ -26,8 +26,7 @@ describe('Button', () => {
 			await page.mouse.up();
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
-			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS});
-
+			TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
 		});
 	});
 
@@ -52,7 +51,7 @@ describe('Button', () => {
 			await page.keyboard.up('Enter');
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
-			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS});
+			TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
 		});
 	});
 
@@ -121,36 +120,6 @@ describe('Button', () => {
 		expect(avg).toBeLessThan(maxFCP);
 	});
 
-	it('should have a good DCL', async () => {
-		const filename = getFileName(component);
-
-		let cont = 0;
-		let avg = 0;
-		for (let step = 0; step < stepNumber; step++) {
-			const DCLPage = await testMultiple.newPage();
-			await DCLPage.tracing.start({path: filename, screenshots: false});
-			await DCLPage.goto('http://localhost:8080/button');
-			await DCLPage.waitForSelector('#button');
-
-			await DCLPage.tracing.stop();
-
-			const actualDCL = await DCL(filename);
-			avg = avg + actualDCL;
-
-			if (actualDCL < maxDCL) {
-				cont += 1;
-			}
-			await DCLPage.close();
-		}
-		avg = avg / stepNumber;
-
-		TestResults.addResult({component: component, type: 'average DCL', actualValue: avg});
-
-		expect(cont).toBeGreaterThan(percent);
-		expect(avg).toBeLessThan(maxDCL);
-	});
-
-
 	it('should have a good LCP', async () => {
 		const filename = getFileName(component);
 
@@ -180,6 +149,35 @@ describe('Button', () => {
 
 		expect(cont).toBeGreaterThan(percent);
 		expect(avg).toBeLessThan(maxLCP);
+	});
+
+	it('should have a good DCL', async () => {
+		const filename = getFileName(component);
+
+		let cont = 0;
+		let avg = 0;
+		for (let step = 0; step < stepNumber; step++) {
+			const DCLPage = await testMultiple.newPage();
+			await DCLPage.tracing.start({path: filename, screenshots: false});
+			await DCLPage.goto('http://localhost:8080/button');
+			await DCLPage.waitForSelector('#button');
+
+			await DCLPage.tracing.stop();
+
+			const actualDCL = await DCL(filename);
+			avg = avg + actualDCL;
+
+			if (actualDCL < maxDCL) {
+				cont += 1;
+			}
+			await DCLPage.close();
+		}
+		avg = avg / stepNumber;
+
+		TestResults.addResult({component: component, type: 'average DCL', actualValue: avg});
+
+		expect(cont).toBeGreaterThan(percent);
+		expect(avg).toBeLessThan(maxDCL);
 	});
 });
 

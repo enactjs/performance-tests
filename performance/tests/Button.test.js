@@ -1,6 +1,5 @@
-const getCustomMetrics = require('../ProfilerMetrics');
 const TestResults = require('../TestResults');
-const {DCL, FCP, FPS} = require('../TraceModel');
+const {CLS, DCL, FCP, FID, FPS, LCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
 describe('Button', () => {
@@ -9,11 +8,9 @@ describe('Button', () => {
 
 	describe('click', () => {
 		it('animates', async () => {
-			const filename = getFileName(component);
+			const FPSValues = await FPS();
 			await page.goto('http://localhost:8080/button');
-			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForTimeout(500);
-
 			await page.click('#button'); // to move mouse on the button.
 			await page.mouse.down();
 			await page.waitForTimeout(200);
@@ -28,19 +25,15 @@ describe('Button', () => {
 			await page.waitForTimeout(200);
 			await page.mouse.up();
 
-			await page.tracing.stop();
-
-			const actualFPS = FPS(filename);
-			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: actualFPS});
+			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
 		});
 	});
 
 	describe('keypress', () => {
 		it('animates', async () => {
-			const filename = getFileName(component);
-
+			const FPSValues = await FPS();
 			await page.goto('http://localhost:8080/button');
-			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#button');
 			await page.focus('#button');
 			await page.waitForTimeout(200);
@@ -57,66 +50,43 @@ describe('Button', () => {
 			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 
-			await page.tracing.stop();
-
-			const actualFPS = FPS(filename);
-			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: actualFPS});
+			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
 		});
 	});
 
-	it('should have a good First-Input time', async () => {
-		const filename = getFileName(component);
-
+	it('should have a good First-Input Delay', async () => {
+		await page.evaluateOnNewDocument(FID);
 		await page.goto('http://localhost:8080/button');
-		await page.tracing.start({path: filename, screenshots: false});
 		await page.waitForSelector('#button');
 		await page.focus('#button');
 		await page.keyboard.down('Enter');
+		await page.waitForTimeout(200);
 
-		await page.tracing.stop();
+		let actualFirstInput = await page.evaluate(() => {
+			return window.fid;
+		});
 
-		const actualFirstInput = (await getCustomMetrics(page))['first-input'];
-		TestResults.addResult({component: component, type: 'First Input', actualValue: actualFirstInput});
+		TestResults.addResult({component: component, type: 'First Input Delay', actualValue: actualFirstInput});
+
+		expect(actualFirstInput).toBeLessThan(maxFID);
 	});
 
-	it('mount time', async () => {
-		const filename = getFileName(component);
-
+	it('should have a good CLS', async () => {
+		await page.evaluateOnNewDocument(CLS);
 		await page.goto('http://localhost:8080/button');
-		await page.tracing.start({path: filename, screenshots: false});
 		await page.waitForSelector('#button');
 		await page.focus('#button');
-
-		await page.tracing.stop();
-
-		const actualMountTime = (await getCustomMetrics(page))['mount'];
-		TestResults.addResult({component: component, type: 'Mount Time', actualValue: actualMountTime});
-	});
-
-	it('update time', async () => {
-		const filename = getFileName(component);
-		await page.goto('http://localhost:8080/button');
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForTimeout(500);
-
-		await page.click('#button'); // to move mouse on the button.
-		await page.mouse.down();
+		await page.keyboard.down('Enter');
 		await page.waitForTimeout(200);
-		await page.mouse.up();
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
 
-		await page.tracing.stop();
+		let actualCLS = await page.evaluate(() => {
+			return window.cls;
+		});
 
-		const actualUpdateTime = (await getCustomMetrics(page))['update'];
-		TestResults.addResult({component: component, type: 'average Update Time', actualValue: actualUpdateTime});
+		TestResults.addResult({component: component, type: 'CLS', actualValue: actualCLS});
+
+		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
 	it('should have a good FCP', async () => {
@@ -130,7 +100,7 @@ describe('Button', () => {
 			await FCPPage.tracing.start({path: filename, screenshots: false});
 			await FCPPage.goto('http://localhost:8080/button');
 			await FCPPage.waitForSelector('#button');
-			await page.waitForTimeout(200);
+			await FCPPage.waitForTimeout(200);
 
 			await FCPPage.tracing.stop();
 
@@ -148,6 +118,37 @@ describe('Button', () => {
 
 		expect(cont).toBeGreaterThan(percent);
 		expect(avg).toBeLessThan(maxFCP);
+	});
+
+	it('should have a good LCP', async () => {
+		const filename = getFileName(component);
+
+		let cont = 0;
+		let avg = 0;
+		for (let step = 0; step < stepNumber; step++) {
+			const LCPPage = await testMultiple.newPage();
+
+			await LCPPage.tracing.start({path: filename, screenshots: false});
+			await LCPPage.goto('http://localhost:8080/button');
+			await LCPPage.waitForSelector('#button');
+			await LCPPage.waitForTimeout(200);
+
+			await LCPPage.tracing.stop();
+
+			const actualLCP = await LCP(filename);
+			avg = avg + actualLCP;
+
+			if (actualLCP < maxLCP) {
+				cont += 1;
+			}
+			await LCPPage.close();
+		}
+		avg = avg / stepNumber;
+
+		TestResults.addResult({component: component, type: 'average LCP', actualValue: avg});
+
+		expect(cont).toBeGreaterThan(percent);
+		expect(avg).toBeLessThan(maxLCP);
 	});
 
 	it('should have a good DCL', async () => {

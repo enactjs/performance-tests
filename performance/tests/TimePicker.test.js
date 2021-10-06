@@ -1,4 +1,3 @@
-const getCustomMetrics = require('../ProfilerMetrics');
 const TestResults = require('../TestResults');
 const {DCL, FCP, FPS} = require('../TraceModel');
 const {getFileName} = require('../utils');
@@ -63,21 +62,6 @@ describe('TimePicker', () => {
 		const actualFirstInput = (await getCustomMetrics(page))['first-input'];
 		TestResults.addResult({component: component, type: 'First Input', actualValue: actualFirstInput});
 	});
-
-	it('mount time', async () => {
-		const filename = getFileName(component);
-
-		await page.goto('http://localhost:8080/timePicker');
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#timePicker');
-		await page.focus('[aria-label$="hour change a value with up down button"]');
-
-		await page.tracing.stop();
-
-		const actualMountTime = (await getCustomMetrics(page))['mount'];
-		TestResults.addResult({component: component, type: 'Mount Time', actualValue: actualMountTime});
-	});
-
 
 	it('should have a good FCP', async () => {
 		const filename = getFileName(component);

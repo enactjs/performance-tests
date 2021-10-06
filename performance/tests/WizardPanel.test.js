@@ -1,4 +1,3 @@
-const getCustomMetrics = require('../ProfilerMetrics');
 const TestResults = require('../TestResults');
 const {DCL, FCP, FPS} = require('../TraceModel');
 const {getFileName} = require('../utils');
@@ -55,46 +54,6 @@ describe('WizardPanels', () => {
 
 		const actualFirstInput = (await getCustomMetrics(page))['first-input'];
 		TestResults.addResult({component: component, type: 'First Input', actualValue: actualFirstInput});
-	});
-
-	it('mount time', async () => {
-		const filename = getFileName(component);
-
-		await page.goto('http://localhost:8080/wizardPanels');
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#wizardPanels');
-		await page.focus('#wizardPanels');
-
-		await page.tracing.stop();
-
-		const actualMountTime = (await getCustomMetrics(page))['mount'];
-		TestResults.addResult({component: component, type: 'Mount Time', actualValue: actualMountTime});
-	});
-
-	it('update time', async () => {
-		const filename = getFileName(component);
-		await page.goto('http://localhost:8080/wizardPanels');
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForTimeout(500);
-
-		await page.click('#nextButton'); // to move mouse on the wizardPanels.
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-
-		await page.tracing.stop();
-
-		const actualUpdateTime = (await getCustomMetrics(page))['update'];
-		TestResults.addResult({component: component, type: 'average Update Time', actualValue: actualUpdateTime});
 	});
 
 	it('should have a good FCP', async () => {

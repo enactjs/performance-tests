@@ -1,4 +1,3 @@
-const getCustomMetrics = require('../ProfilerMetrics');
 const {DCL, FCP, FPS} = require('../TraceModel');
 const {getFileName} = require('../utils');
 const TestResults = require('../TestResults');

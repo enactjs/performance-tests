@@ -26,17 +26,17 @@ describe('Panels', () => {
 
 	});
 
-	it('should mount panels under threshold', async () => {
-		const filename = getFileName('Panels');
-
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.goto('http://localhost:8080/panels');
-		await page.waitForSelector('#panel-1');
-
-		await page.tracing.stop();
-
-		const actualMount = Mount(filename, 'Cancelable');
-		TestResults.addResult({component: 'Panels', type: 'Mount', actualValue: actualMount});
-	});
+	// it('should mount panels under threshold', async () => {
+	// 	const filename = getFileName('Panels');
+	//
+	// 	await page.tracing.start({path: filename, screenshots: false});
+	// 	await page.goto('http://localhost:8080/panels');
+	// 	await page.waitForSelector('#panel-1');
+	//
+	// 	await page.tracing.stop();
+	//
+	// 	const actualMount = Mount(filename, 'Cancelable');
+	// 	TestResults.addResult({component: 'Panels', type: 'Mount', actualValue: actualMount});
+	// });
 });
 

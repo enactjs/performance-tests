@@ -1,4 +1,3 @@
-const getCustomMetrics = require('../ProfilerMetrics');
 const TestResults = require('../TestResults');
 const {DCL, FCP, FPS} = require('../TraceModel');
 const {getFileName} = require('../utils');
@@ -9,11 +8,9 @@ describe('DayPicker', () => {
 
 	describe('click', () => {
 		it('animates', async () => {
-			const filename = getFileName(component);
+			const FPSValues = await FPS();
 			await page.goto('http://localhost:8080/dayPicker');
-			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForTimeout(500);
-
 			await page.click('#dayPicker'); // to move mouse on the dayPicker.
 			await page.mouse.down();
 			await page.waitForTimeout(200);
@@ -28,21 +25,16 @@ describe('DayPicker', () => {
 			await page.waitForTimeout(200);
 			await page.mouse.up();
 
-			await page.tracing.stop();
-
-			const actualFPS = FPS(filename);
-			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: actualFPS});
+			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
 		});
 	});
 
 	describe('keypress', () => {
 		it('animates', async () => {
-			const filename = getFileName(component);
-
+			const FPSValues = await FPS();
 			await page.goto('http://localhost:8080/dayPicker');
-			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#dayPicker');
-
 			await page.focus('#dayPicker');
 			await page.keyboard.down('ArrowDown');
 			await page.waitForTimeout(200);
@@ -59,10 +51,8 @@ describe('DayPicker', () => {
 			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 
-			await page.tracing.stop();
-
-			const actualFPS = FPS(filename);
-			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: actualFPS});
+			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
 		});
 	});
 
@@ -79,45 +69,6 @@ describe('DayPicker', () => {
 
 		const actualFirstInput = (await getCustomMetrics(page))['first-input'];
 		TestResults.addResult({component: component, type: 'First Input', actualValue: actualFirstInput});
-	});
-
-	it('mount time', async () => {
-		const filename = getFileName(component);
-
-		await page.goto('http://localhost:8080/dayPicker');
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#dayPicker');
-
-		await page.tracing.stop();
-
-		const actualMountTime = (await getCustomMetrics(page))['mount'];
-		TestResults.addResult({component: component, type: 'Mount Time', actualValue: actualMountTime});
-	});
-
-	it('update time', async () => {
-		const filename = getFileName(component);
-
-		await page.goto('http://localhost:8080/dayPicker');
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#dayPicker');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
-		await page.keyboard.up('Enter');
-		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
-		await page.keyboard.up('Enter');
-		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
-		await page.keyboard.up('Enter');
-		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
-		await page.keyboard.up('Enter');
-
-		await page.tracing.stop();
-
-		const actualUpdateTime = (await getCustomMetrics(page))['update'];
-		TestResults.addResult({component: component, type: 'average Update Time', actualValue: actualUpdateTime});
 	});
 
 	it('should have a good FCP', async () => {

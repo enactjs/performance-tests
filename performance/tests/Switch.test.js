@@ -1,4 +1,3 @@
-const getCustomMetrics = require('../ProfilerMetrics');
 const TestResults = require('../TestResults');
 const {DCL, FCP, FPS} = require('../TraceModel');
 const {getFileName} = require('../utils');
@@ -41,19 +40,6 @@ describe('Switch', () => {
 
 		const actualFirstInput = (await getCustomMetrics(page))['first-input'];
 		TestResults.addResult({component: component, type: 'First Input', actualValue: actualFirstInput});
-	});
-
-	it('mount time', async () => {
-		const filename = getFileName(component);
-
-		await page.goto('http://localhost:8080/switch');
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#switch');
-
-		await page.tracing.stop();
-
-		const actualMountTime = (await getCustomMetrics(page))['mount'];
-		TestResults.addResult({component: component, type: 'Mount Time', actualValue: actualMountTime});
 	});
 
 	it('should have a good FCP', async () => {

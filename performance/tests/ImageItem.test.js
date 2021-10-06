@@ -1,4 +1,3 @@
-const getCustomMetrics = require('../ProfilerMetrics');
 const TestResults = require('../TestResults');
 const {DCL, FCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
@@ -6,50 +5,6 @@ const {getFileName} = require('../utils');
 describe('ImageItem', () => {
 	const component = 'ImageItem';
 	TestResults.emptyFile(component);
-
-	it('mount time', async () => {
-		const filename = getFileName(component);
-
-		await page.goto('http://localhost:8080/imageItem');
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#imageItem');
-		await page.focus('#imageItem');
-
-		await page.tracing.stop();
-
-		const actualMountTime = (await getCustomMetrics(page))['mount'];
-		TestResults.addResult({component: component, type: 'Mount Time', actualValue: actualMountTime});
-	});
-
-	it('update time', async () => {
-		const filename = getFileName(component);
-		await page.goto('http://localhost:8080/imageItem');
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForTimeout(500);
-
-		await page.click('#imageItem'); // to move mouse on the imageItem.
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-		await page.click('#imageItem'); // to move mouse on the imageItem.
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-
-		await page.tracing.stop();
-
-		const actualUpdateTime = (await getCustomMetrics(page))['update'];
-		TestResults.addResult({component: component, type: 'average Update Time', actualValue: actualUpdateTime});
-	});
 
 	it('should have a good FCP', async () => {
 		const filename = getFileName(component);

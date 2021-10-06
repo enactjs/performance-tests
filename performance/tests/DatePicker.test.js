@@ -1,4 +1,3 @@
-const getCustomMetrics = require('../ProfilerMetrics');
 const TestResults = require('../TestResults');
 const {DCL, FCP, FPS} = require('../TraceModel');
 const {getFileName} = require('../utils');
@@ -9,11 +8,9 @@ describe('DatePicker', () => {
 
 	describe('click', () => {
 		it('animates', async () => {
-			const filename = getFileName(component);
+			const FPSValues = await FPS();
 			await page.goto('http://localhost:8080/datePicker');
-			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForTimeout(500);
-
 			await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
 			await page.mouse.down();
 			await page.waitForTimeout(200);
@@ -31,8 +28,6 @@ describe('DatePicker', () => {
 			await page.waitForTimeout(200);
 			await page.mouse.up();
 
-			await page.tracing.stop();
-
 			const actualFPS = FPS(filename);
 			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: actualFPS});
 		});
@@ -40,10 +35,8 @@ describe('DatePicker', () => {
 
 	describe('keypress', () => {
 		it('animates', async () => {
-			const filename = getFileName(component);
-
+			const FPSValues = await FPS();
 			await page.goto('http://localhost:8080/datePicker');
-			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('[data-webos-voice-group-label="month"]');
 			await page.focus('[data-webos-voice-group-label="month"]');
 			await page.waitForTimeout(200);
@@ -66,10 +59,8 @@ describe('DatePicker', () => {
 			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 
-			await page.tracing.stop();
-
-			const actualFPS = FPS(filename);
-			TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: actualFPS});
+			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
 		});
 	});
 
@@ -84,51 +75,8 @@ describe('DatePicker', () => {
 
 		await page.tracing.stop();
 
-		const actualFirstInput = (await getCustomMetrics(page))['first-input'];
-		TestResults.addResult({component: component, type: 'First Input', actualValue: actualFirstInput});
-	});
-
-	it('mount time', async () => {
-		const filename = getFileName(component);
-
-		await page.goto('http://localhost:8080/datePicker');
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('[data-webos-voice-group-label="month"]');
-		await page.focus('[data-webos-voice-group-label="month"]');
-
-		await page.tracing.stop();
-
-		const actualMountTime = (await getCustomMetrics(page))['mount'];
-		TestResults.addResult({component: component, type: 'Mount Time', actualValue: actualMountTime});
-	});
-
-	it('update time', async () => {
-		const filename = getFileName(component);
-		await page.goto('http://localhost:8080/datePicker');
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForTimeout(500);
-
-		await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-		await page.click('[data-webos-voice-group-label="day"]'); // to move mouse on the increment button.
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-		await page.click('[data-webos-voice-group-label="year"]'); // to move mouse on the increment button.
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-		await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
-		await page.mouse.down();
-		await page.waitForTimeout(200);
-		await page.mouse.up();
-
-		await page.tracing.stop();
-
-		const actualUpdateTime = (await getCustomMetrics(page))['update'];
-		TestResults.addResult({component: component, type: 'average Update Time', actualValue: actualUpdateTime});
+		const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+		TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
 	});
 
 	it('should have a good FCP', async () => {

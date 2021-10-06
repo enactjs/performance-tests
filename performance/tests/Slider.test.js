@@ -1,4 +1,3 @@
-const getCustomMetrics = require('../ProfilerMetrics');
 const {DCL, FCP, FPS} = require('../TraceModel');
 const {getFileName} = require('../utils');
 const TestResults = require('../TestResults');
@@ -59,19 +58,6 @@ describe('Slider', () => {
 			const actualUpdateTime = (await getCustomMetrics(page))['update'];
 			TestResults.addResult({component: component, type: 'average Update Time', actualValue: actualUpdateTime});
 		});
-	});
-
-	it('mount time', async () => {
-		const filename = getFileName(component);
-
-		await page.goto('http://localhost:8080/slider');
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#slider');
-
-		await page.tracing.stop();
-
-		const actualMountTime = (await getCustomMetrics(page))['mount'];
-		TestResults.addResult({component: component, type: 'Mount Time', actualValue: actualMountTime});
 	});
 
 	it('should have a good FCP', async () => {

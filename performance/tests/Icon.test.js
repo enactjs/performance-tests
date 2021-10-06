@@ -1,4 +1,3 @@
-const getCustomMetrics = require('../ProfilerMetrics');
 const TestResults = require('../TestResults');
 const {DCL, FCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
@@ -6,19 +5,6 @@ const {getFileName} = require('../utils');
 describe('Icon', () => {
 	const component = 'Icon';
 	TestResults.emptyFile(component);
-
-	it('mount time', async () => {
-		const filename = getFileName(component);
-
-		await page.goto('http://localhost:8080/icon');
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#icon');
-
-		await page.tracing.stop();
-
-		const actualMountTime = (await getCustomMetrics(page))['mount'];
-		TestResults.addResult({component: component, type: 'Mount Time', actualValue: actualMountTime});
-	});
 
 	it('should have a good FCP', async () => {
 		const filename = getFileName(component);

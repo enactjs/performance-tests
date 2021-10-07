@@ -33,13 +33,18 @@ const TestResult = module.exports = {
 	getResults: () => {
 		return TestResult.results;
 	},
-	emptyFile: (component) => {
-		const txtPath = path.join(__dirname, 'testResults', `${component}.txt`);
+	newFile: (component) => {
+		const dir = 'testResults';
+
+		if (!fs.existsSync(dir)) {
+			fs.mkdirSync(dir);
+		}
+		const txtPath = path.join(__dirname, dir, `${component}.txt`);
 
 		fs.access(txtPath, fs.F_OK, (err) => {
 			if (err) {
 				fs.writeFileSync(txtPath, '');
 			}
-		})
+		});
 	}
 };

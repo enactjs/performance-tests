@@ -1,10 +1,10 @@
 const TestResults = require('../TestResults');
-const {DCL, FCP} = require('../TraceModel');
+const {CLS, DCL, FCP, FID, LCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
 describe('BodyText', () => {
 	const component = 'BodyText';
-	TestResults.emptyFile(component);
+	TestResults.newFile(component);
 
 	it('should have a good FCP', async () => {
 		const filename = getFileName(component);
@@ -12,13 +12,13 @@ describe('BodyText', () => {
 		let cont = 0;
 		let avg = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const FCPPage = await testMultiple.newPage();
+			const page = await testMultiple.newPage();
 
-			await FCPPage.tracing.start({path: filename, screenshots: false});
-			await FCPPage.goto('http://localhost:8080/bodyText');
-			await FCPPage.waitForSelector('#bodyText');
+			await page.tracing.start({path: filename, screenshots: false});
+			await page.goto('http://localhost:8080/bodyText');
+			await page.waitForSelector('#bodyText');
 
-			await FCPPage.tracing.stop();
+			await page.tracing.stop();
 
 			const actualFCP = await FCP(filename);
 			avg = avg + actualFCP;
@@ -26,7 +26,7 @@ describe('BodyText', () => {
 			if (actualFCP < maxFCP) {
 				cont += 1;
 			}
-			await FCPPage.close();
+			await page.close();
 		}
 		avg = avg / stepNumber;
 

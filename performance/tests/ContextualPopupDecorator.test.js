@@ -1,67 +1,64 @@
 const TestResults = require('../TestResults');
-const {DCL, FCP} = require('../TraceModel');
+const {CLS, DCL, FCP, FID, LCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
 describe('ContextualPopupDecorator', () => {
 	const component = 'ContextualPopupDecorator';
-	TestResults.emptyFile(component);
+	TestResults.newFile(component);
 
-	it('should have a good FCP', async () => {
+	it('should have a good DCL, FCP and LCP', async () => {
 		const filename = getFileName(component);
 
-		let cont = 0;
-		let avg = 0;
+		let contDCL = 0;
+		let contFCP = 0;
+		let contLCP = 0;
+		let avgDCL = 0;
+		let avgFCP = 0;
+		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const FCPPage = await testMultiple.newPage();
+			const page = await testMultiple.newPage();
 
-			await FCPPage.tracing.start({path: filename, screenshots: false});
-			await FCPPage.goto('http://localhost:8080/contextualPopupDecorator');
-			await FCPPage.waitForSelector('#contextualPopupDecorator');
+			await page.tracing.start({path: filename, screenshots: false});
+			await page.goto('http://localhost:8080/contextualPopupDecorator');
+			await page.waitForSelector('#contextualPopupDecorator');
+			await page.waitForTimeout(200);
 
-			await FCPPage.tracing.stop();
-
-			const actualFCP = await FCP(filename);
-			avg = avg + actualFCP;
-
-			if (actualFCP < maxFCP) {
-				cont += 1;
-			}
-			await FCPPage.close();
-		}
-		avg = avg / stepNumber;
-
-		TestResults.addResult({component: component, type: 'average FCP', actualValue: avg});
-
-		expect(cont).toBeGreaterThan(percent);
-		expect(avg).toBeLessThan(maxFCP);
-	});
-
-	it('should have a good DCL', async () => {
-		const filename = getFileName(component);
-
-		let cont = 0;
-		let avg = 0;
-		for (let step = 0; step < stepNumber; step++) {
-			const DCLPage = await testMultiple.newPage();
-			await DCLPage.tracing.start({path: filename, screenshots: false});
-			await DCLPage.goto('http://localhost:8080/contextualPopupDecorator');
-			await DCLPage.waitForSelector('#contextualPopupDecorator');
-
-			await DCLPage.tracing.stop();
+			await page.tracing.stop();
 
 			const actualDCL = await DCL(filename);
-			avg = avg + actualDCL;
-
+			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
-				cont += 1;
+				contDCL += 1;
 			}
-			await DCLPage.close();
+
+			const actualFCP = await FCP(filename);
+			avgFCP = avgFCP + actualFCP;
+			if (actualFCP < maxFCP) {
+				contFCP += 1;
+			}
+
+			const actualLCP = await LCP(filename);
+			avgLCP = avgLCP + actualLCP;
+			if (actualLCP < maxLCP) {
+				contLCP += 1;
+			}
+
+			await page.close();
 		}
-		avg = avg / stepNumber;
+		avgDCL = avgDCL / stepNumber;
+		avgFCP = avgFCP / stepNumber;
+		avgLCP = avgLCP / stepNumber;
 
-		TestResults.addResult({component: component, type: 'average DCL', actualValue: avg});
+		TestResults.addResult({component: component, type: 'average DCL', actualValue: avgDCL});
+		expect(contDCL).toBeGreaterThan(percent);
+		expect(avgDCL).toBeLessThan(maxDCL);
 
-		expect(cont).toBeGreaterThan(percent);
-		expect(avg).toBeLessThan(maxDCL);
+		TestResults.addResult({component: component, type: 'average FCP', actualValue: avgFCP});
+		expect(contFCP).toBeGreaterThan(percent);
+		expect(avgFCP).toBeLessThan(maxFCP);
+
+		TestResults.addResult({component: component, type: 'average LCP', actualValue: avgLCP});
+		expect(contLCP).toBeGreaterThan(percent);
+		expect(avgLCP).toBeLessThan(maxLCP);
 	});
 });

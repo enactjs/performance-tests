@@ -1,6 +1,6 @@
-const {FPS, Mount, Update} = require('../TraceModel');
-const {getFileName} = require('../utils');
 const TestResults = require('../TestResults');
+const {FPS} = require('../TraceModel');
+const {getFileName} = require('../utils');
 
 describe('Marquee', () => {
 	// it('should start marquee on hover', async () => {

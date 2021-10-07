@@ -70,11 +70,11 @@ const App = kind({
 				<Route path="/image" component={Image} />
 				<Route path="/imageItem" component={ImageItem} />
 				<Route path="/item" component={Item} />
-				<Route path="/marquee" component={Marquee} />
-				<Route path="/marqueeMultiple" component={MarqueeMultiple} />
-				<Route path="/panels" component={Panels} />
-				<Route path="/picker" component={Picker} />
-				<Route path="/popup" component={Popup} />
+				{/* <Route path="/marquee" component={Marquee} />*/}
+				{/* <Route path="/marqueeMultiple" component={MarqueeMultiple} />*/}
+				{/* <Route path="/panels" component={Panels} />*/}
+				{/* <Route path="/picker" component={Picker} />*/}
+				{/* <Route path="/popup" component={Popup} />*/}
 				<Route path="/radioItem" component={RadioItem} />
 				<Route path="/rangePicker" component={RangePicker} />
 				<Route path="/scroller" component={ScrollerPanel} />

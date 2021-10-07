@@ -1,8 +1,5 @@
 import kind from '@enact/core/kind';
 import VirtualList from '@enact/sandstone/VirtualList';
-import {Profiler} from 'react';
-
-import {putRenderedMark} from '../utils';
 
 const items = [];
 
@@ -25,17 +22,15 @@ const VirtualListView = kind({
 	name: 'VirtualListView',
 
 	render: () => (
-		<Profiler id="virtualList-rendered" onRender={putRenderedMark}>
-			<div style={{height: '700px'}}>
-				<VirtualList
-					id="virtualList"
-					dataSize={items.length}
-					focusableScrollbar
-					itemRenderer={renderItem}
-					itemSize={itemSize}
-				/>
-			</div>
-		</Profiler>
+		<div style={{height: '700px'}}>
+			<VirtualList
+				id="virtualList"
+				dataSize={items.length}
+				focusableScrollbar
+				itemRenderer={renderItem}
+				itemSize={itemSize}
+			/>
+		</div>
 	)
 });
 

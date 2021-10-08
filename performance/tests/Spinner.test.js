@@ -30,7 +30,7 @@ describe('Spinner', () => {
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
-	it('should have a good FCP', async () => {
+	it('should have a good DCL, FCP and LCP', async () => {
 		const filename = getFileName(component);
 
 		let contDCL = 0;

@@ -1,8 +1,5 @@
 import kind from '@enact/core/kind';
 import Dropdown from '@enact/sandstone/Dropdown';
-import {putRenderedMark} from '../utils';
-
-import {Profiler} from 'react';
 
 const items = [
 	'Option 1',
@@ -16,17 +13,15 @@ const DropdownView = kind({
 	name: 'DropdownView',
 
 	render: () => (
-		<Profiler id="dropdown-renderer" onRender={putRenderedMark}>
-			<Dropdown
-				id="dropdown"
-				direction="below"
-				placeholder="placeholder"
-				size="small"
-				width="small"
-			>
-				{items}
-			</Dropdown>
-		</Profiler>
+		<Dropdown
+			id="dropdown"
+			direction="below"
+			placeholder="placeholder"
+			size="small"
+			width="small"
+		>
+			{items}
+		</Dropdown>
 	)
 });
 

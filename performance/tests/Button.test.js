@@ -4,25 +4,25 @@ const {getFileName} = require('../utils');
 
 describe('Button', () => {
 	const component = 'Button';
-	TestResults.emptyFile(component);
+	TestResults.newFile(component);
 
 	describe('click', () => {
 		it('animates', async () => {
 			const FPSValues = await FPS();
 			await page.goto('http://localhost:8080/button');
-			await page.waitForTimeout(500);
+			await page.waitForSelector('#button');
 			await page.click('#button'); // to move mouse on the button.
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await page.waitForTimeout(100);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await page.waitForTimeout(100);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await page.waitForTimeout(100);
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await page.waitForTimeout(100);
 			await page.mouse.up();
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
@@ -36,18 +36,18 @@ describe('Button', () => {
 			await page.goto('http://localhost:8080/button');
 			await page.waitForSelector('#button');
 			await page.focus('#button');
-			await page.waitForTimeout(200);
+			await page.waitForTimeout(100);
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await page.waitForTimeout(100);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await page.waitForTimeout(100);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await page.waitForTimeout(100);
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await page.waitForTimeout(100);
 			await page.keyboard.up('Enter');
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
@@ -55,8 +55,9 @@ describe('Button', () => {
 		});
 	});
 
-	it('should have a good First-Input Delay', async () => {
+	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
+		await page.evaluateOnNewDocument(CLS);
 		await page.goto('http://localhost:8080/button');
 		await page.waitForSelector('#button');
 		await page.focus('#button');
@@ -67,117 +68,72 @@ describe('Button', () => {
 			return window.fid;
 		});
 
-		TestResults.addResult({component: component, type: 'First Input Delay', actualValue: actualFirstInput});
-
-		expect(actualFirstInput).toBeLessThan(maxFID);
-	});
-
-	it('should have a good CLS', async () => {
-		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/button');
-		await page.waitForSelector('#button');
-		await page.focus('#button');
-		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
-
 		let actualCLS = await page.evaluate(() => {
 			return window.cls;
 		});
 
+		TestResults.addResult({component: component, type: 'First Input Delay', actualValue: actualFirstInput});
 		TestResults.addResult({component: component, type: 'CLS', actualValue: actualCLS});
 
+		expect(actualFirstInput).toBeLessThan(maxFID);
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
-	it('should have a good FCP', async () => {
+	it('should have a good DCL, FCP and LCP', async () => {
 		const filename = getFileName(component);
 
-		let cont = 0;
-		let avg = 0;
+		let contDCL = 0;
+		let contFCP = 0;
+		let contLCP = 0;
+		let avgDCL = 0;
+		let avgFCP = 0;
+		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const FCPPage = await testMultiple.newPage();
+			const page = await testMultiple.newPage();
 
-			await FCPPage.tracing.start({path: filename, screenshots: false});
-			await FCPPage.goto('http://localhost:8080/button');
-			await FCPPage.waitForSelector('#button');
-			await FCPPage.waitForTimeout(200);
+			await page.tracing.start({path: filename, screenshots: false});
+			await page.goto('http://localhost:8080/button');
+			await page.waitForSelector('#button');
+			await page.waitForTimeout(200);
 
-			await FCPPage.tracing.stop();
-
-			const actualFCP = await FCP(filename);
-			avg = avg + actualFCP;
-
-			if (actualFCP < maxFCP) {
-				cont += 1;
-			}
-			await FCPPage.close();
-		}
-		avg = avg / stepNumber;
-
-		TestResults.addResult({component: component, type: 'average FCP', actualValue: avg});
-
-		expect(cont).toBeGreaterThan(percent);
-		expect(avg).toBeLessThan(maxFCP);
-	});
-
-	it('should have a good LCP', async () => {
-		const filename = getFileName(component);
-
-		let cont = 0;
-		let avg = 0;
-		for (let step = 0; step < stepNumber; step++) {
-			const LCPPage = await testMultiple.newPage();
-
-			await LCPPage.tracing.start({path: filename, screenshots: false});
-			await LCPPage.goto('http://localhost:8080/button');
-			await LCPPage.waitForSelector('#button');
-			await LCPPage.waitForTimeout(200);
-
-			await LCPPage.tracing.stop();
-
-			const actualLCP = await LCP(filename);
-			avg = avg + actualLCP;
-
-			if (actualLCP < maxLCP) {
-				cont += 1;
-			}
-			await LCPPage.close();
-		}
-		avg = avg / stepNumber;
-
-		TestResults.addResult({component: component, type: 'average LCP', actualValue: avg});
-
-		expect(cont).toBeGreaterThan(percent);
-		expect(avg).toBeLessThan(maxLCP);
-	});
-
-	it('should have a good DCL', async () => {
-		const filename = getFileName(component);
-
-		let cont = 0;
-		let avg = 0;
-		for (let step = 0; step < stepNumber; step++) {
-			const DCLPage = await testMultiple.newPage();
-			await DCLPage.tracing.start({path: filename, screenshots: false});
-			await DCLPage.goto('http://localhost:8080/button');
-			await DCLPage.waitForSelector('#button');
-
-			await DCLPage.tracing.stop();
+			await page.tracing.stop();
 
 			const actualDCL = await DCL(filename);
-			avg = avg + actualDCL;
-
+			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
-				cont += 1;
+				contDCL += 1;
 			}
-			await DCLPage.close();
+
+			const actualFCP = await FCP(filename);
+			avgFCP = avgFCP + actualFCP;
+			if (actualFCP < maxFCP) {
+				contFCP += 1;
+			}
+
+			const actualLCP = await LCP(filename);
+			avgLCP = avgLCP + actualLCP;
+			if (actualLCP < maxLCP) {
+				contLCP += 1;
+			}
+
+			await page.close();
 		}
-		avg = avg / stepNumber;
+		avgDCL = avgDCL / stepNumber;
+		avgFCP = avgFCP / stepNumber;
+		avgLCP = avgLCP / stepNumber;
 
-		TestResults.addResult({component: component, type: 'average DCL', actualValue: avg});
+		TestResults.addResult({component: component, type: 'average DCL', actualValue: avgDCL});
+		TestResults.addResult({component: component, type: 'average FCP', actualValue: avgFCP});
+		TestResults.addResult({component: component, type: 'average LCP', actualValue: avgLCP});
 
-		expect(cont).toBeGreaterThan(percent);
-		expect(avg).toBeLessThan(maxDCL);
+		expect(contDCL).toBeGreaterThan(percent);
+		expect(avgDCL).toBeLessThan(maxDCL);
+
+		expect(contFCP).toBeGreaterThan(percent);
+		expect(avgFCP).toBeLessThan(maxFCP);
+
+		expect(contLCP).toBeGreaterThan(percent);
+		expect(avgLCP).toBeLessThan(maxLCP);
 	});
 });
 

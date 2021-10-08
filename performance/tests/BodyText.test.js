@@ -1,81 +1,81 @@
-const getCustomMetrics = require('../ProfilerMetrics');
 const TestResults = require('../TestResults');
-const {DCL, FCP} = require('../TraceModel');
+const {CLS, DCL, FCP, LCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
 describe('BodyText', () => {
 	const component = 'BodyText';
-	TestResults.emptyFile(component);
+	TestResults.newFile(component);
 
-	it('mount time', async () => {
-		const filename = getFileName(component);
-
+	it('should have a good CLS', async () => {
+		await page.evaluateOnNewDocument(CLS);
 		await page.goto('http://localhost:8080/bodyText');
-		await page.tracing.start({path: filename, screenshots: false});
 		await page.waitForSelector('#bodyText');
+		await page.focus('#bodyText');
+		await page.keyboard.down('Enter');
+		await page.waitForTimeout(200);
 
-		await page.tracing.stop();
+		let actualCLS = await page.evaluate(() => {
+			return window.cls;
+		});
 
-		const actualMountTime = (await getCustomMetrics(page))['mount'];
-		TestResults.addResult({component: component, type: 'Mount Time', actualValue: actualMountTime});
+		TestResults.addResult({component: component, type: 'CLS', actualValue: actualCLS});
+		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
-	it('should have a good FCP', async () => {
+	it('should have a good DCL, FCP and LCP', async () => {
 		const filename = getFileName(component);
 
-		let cont = 0;
-		let avg = 0;
+		let contDCL = 0;
+		let contFCP = 0;
+		let contLCP = 0;
+		let avgDCL = 0;
+		let avgFCP = 0;
+		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const FCPPage = await testMultiple.newPage();
+			const page = await testMultiple.newPage();
 
-			await FCPPage.tracing.start({path: filename, screenshots: false});
-			await FCPPage.goto('http://localhost:8080/bodyText');
-			await FCPPage.waitForSelector('#bodyText');
+			await page.tracing.start({path: filename, screenshots: false});
+			await page.goto('http://localhost:8080/bodyText');
+			await page.waitForSelector('#bodyText');
+			await page.waitForTimeout(200);
 
-			await FCPPage.tracing.stop();
-
-			const actualFCP = await FCP(filename);
-			avg = avg + actualFCP;
-
-			if (actualFCP < maxFCP) {
-				cont += 1;
-			}
-			await FCPPage.close();
-		}
-		avg = avg / stepNumber;
-
-		TestResults.addResult({component: component, type: 'average FCP', actualValue: avg});
-
-		expect(cont).toBeGreaterThan(percent);
-		expect(avg).toBeLessThan(maxFCP);
-	});
-
-	it('should have a good DCL', async () => {
-		const filename = getFileName(component);
-
-		let cont = 0;
-		let avg = 0;
-		for (let step = 0; step < stepNumber; step++) {
-			const DCLPage = await testMultiple.newPage();
-			await DCLPage.tracing.start({path: filename, screenshots: false});
-			await DCLPage.goto('http://localhost:8080/bodyText');
-			await DCLPage.waitForSelector('#bodyText');
-
-			await DCLPage.tracing.stop();
+			await page.tracing.stop();
 
 			const actualDCL = await DCL(filename);
-			avg = avg + actualDCL;
-
+			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
-				cont += 1;
+				contDCL += 1;
 			}
-			await DCLPage.close();
+
+			const actualFCP = await FCP(filename);
+			avgFCP = avgFCP + actualFCP;
+			if (actualFCP < maxFCP) {
+				contFCP += 1;
+			}
+
+			const actualLCP = await LCP(filename);
+			avgLCP = avgLCP + actualLCP;
+			if (actualLCP < maxLCP) {
+				contLCP += 1;
+			}
+
+			await page.close();
 		}
-		avg = avg / stepNumber;
+		avgDCL = avgDCL / stepNumber;
+		avgFCP = avgFCP / stepNumber;
+		avgLCP = avgLCP / stepNumber;
 
-		TestResults.addResult({component: component, type: 'average DCL', actualValue: avg});
+		TestResults.addResult({component: component, type: 'average DCL', actualValue: avgDCL});
+		TestResults.addResult({component: component, type: 'average FCP', actualValue: avgFCP});
+		TestResults.addResult({component: component, type: 'average LCP', actualValue: avgLCP});
 
-		expect(cont).toBeGreaterThan(percent);
-		expect(avg).toBeLessThan(maxDCL);
+		expect(contDCL).toBeGreaterThan(percent);
+		expect(avgDCL).toBeLessThan(maxDCL);
+
+		expect(contFCP).toBeGreaterThan(percent);
+		expect(avgFCP).toBeLessThan(maxFCP);
+
+		expect(contLCP).toBeGreaterThan(percent);
+		expect(avgLCP).toBeLessThan(maxLCP);
 	});
 });

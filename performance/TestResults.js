@@ -27,7 +27,7 @@ const TestResult = module.exports = {
 			console.log(result);
 			const txtPath = path.join(__dirname, 'testResults', `${component}.txt`);
 
-		 	fs.appendFileSync(txtPath, JSON.stringify(result) + '\n');
+			fs.appendFileSync(txtPath, JSON.stringify(result) + '\n');
 		}
 	},
 	getResults: () => {

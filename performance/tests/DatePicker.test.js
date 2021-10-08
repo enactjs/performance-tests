@@ -81,9 +81,9 @@ describe('DatePicker', () => {
 		});
 
 		TestResults.addResult({component: component, type: 'First Input Delay', actualValue: actualFirstInput});
-		expect(actualFirstInput).toBeLessThan(maxFID);
-
 		TestResults.addResult({component: component, type: 'CLS', actualValue: actualCLS});
+		
+		expect(actualFirstInput).toBeLessThan(maxFID);
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
@@ -132,14 +132,15 @@ describe('DatePicker', () => {
 		avgLCP = avgLCP / stepNumber;
 
 		TestResults.addResult({component: component, type: 'average DCL', actualValue: avgDCL});
+		TestResults.addResult({component: component, type: 'average FCP', actualValue: avgFCP});
+		TestResults.addResult({component: component, type: 'average LCP', actualValue: avgLCP});
+
 		expect(contDCL).toBeGreaterThan(percent);
 		expect(avgDCL).toBeLessThan(maxDCL);
 
-		TestResults.addResult({component: component, type: 'average FCP', actualValue: avgFCP});
 		expect(contFCP).toBeGreaterThan(percent);
 		expect(avgFCP).toBeLessThan(maxFCP);
-
-		TestResults.addResult({component: component, type: 'average LCP', actualValue: avgLCP});
+		
 		expect(contLCP).toBeGreaterThan(percent);
 		expect(avgLCP).toBeLessThan(maxLCP);
 	});

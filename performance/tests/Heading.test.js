@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, DCL, FCP, FID, LCP} = require('../TraceModel');
+const {DCL, FCP, LCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
 describe('Heading', () => {
@@ -51,14 +51,15 @@ describe('Heading', () => {
 		avgLCP = avgLCP / stepNumber;
 
 		TestResults.addResult({component: component, type: 'average DCL', actualValue: avgDCL});
+		TestResults.addResult({component: component, type: 'average FCP', actualValue: avgFCP});
+		TestResults.addResult({component: component, type: 'average LCP', actualValue: avgLCP});
+
 		expect(contDCL).toBeGreaterThan(percent);
 		expect(avgDCL).toBeLessThan(maxDCL);
 
-		TestResults.addResult({component: component, type: 'average FCP', actualValue: avgFCP});
 		expect(contFCP).toBeGreaterThan(percent);
 		expect(avgFCP).toBeLessThan(maxFCP);
-
-		TestResults.addResult({component: component, type: 'average LCP', actualValue: avgLCP});
+		
 		expect(contLCP).toBeGreaterThan(percent);
 		expect(avgLCP).toBeLessThan(maxLCP);
 	});

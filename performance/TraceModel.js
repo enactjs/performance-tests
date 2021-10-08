@@ -40,8 +40,8 @@ const LCP = (filename) => {
 	const events = fs.readFileSync(filename, 'utf8');
 	const result = JSON.parse(events);
 
-	const baseEvent = result.traceEvents.filter(i => i.name == 'TracingStartedInBrowser')[0].ts;
-	const largestContentfulPaint = result.traceEvents.filter(i => i.name == 'largestContentfulPaint::Candidate')[0].ts;
+	const baseEvent = result.traceEvents.filter(i => i.name === 'TracingStartedInBrowser')[0].ts;
+	const largestContentfulPaint = result.traceEvents.filter(i => i.name === 'largestContentfulPaint::Candidate')[0].ts;
 
 	const LCPTime = (largestContentfulPaint - baseEvent) / 1000;
 
@@ -52,8 +52,8 @@ const FCP = (filename) => {
 	const events = fs.readFileSync(filename, 'utf8');
 	const result = JSON.parse(events);
 
-	const baseEvent = result.traceEvents.filter(i => i.name == 'TracingStartedInBrowser')[0].ts;
-	const firstContentfulPaint = result.traceEvents.filter(i => i.name == 'firstContentfulPaint')[0].ts;
+	const baseEvent = result.traceEvents.filter(i => i.name === 'TracingStartedInBrowser')[0].ts;
+	const firstContentfulPaint = result.traceEvents.filter(i => i.name === 'firstContentfulPaint')[0].ts;
 
 	const FCPTime = (firstContentfulPaint - baseEvent) / 1000;
 
@@ -64,8 +64,8 @@ const DCL = (filename) => {
 	const events = fs.readFileSync(filename, 'utf8');
 	const result = JSON.parse(events);
 
-	const baseEvent = result.traceEvents.filter(i => i.name == 'TracingStartedInBrowser')[0].ts;
-	const domContentLoadedEventEnd = result.traceEvents.filter(i => i.name == 'domContentLoadedEventEnd')[0].ts;
+	const baseEvent = result.traceEvents.filter(i => i.name === 'TracingStartedInBrowser')[0].ts;
+	const domContentLoadedEventEnd = result.traceEvents.filter(i => i.name === 'domContentLoadedEventEnd')[0].ts;
 
 	const DCLTime = (domContentLoadedEventEnd - baseEvent) / 1000;
 

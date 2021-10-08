@@ -1,7 +1,7 @@
-import React from 'react';
+import {Component} from 'react';
 import ViewManager, {SlideLeftArranger} from '@enact/ui/ViewManager';
 
-class ViewManagerView extends React.Component {
+class ViewManagerView extends Component {
 	constructor (props) {
 		super(props);
 		this.state = {

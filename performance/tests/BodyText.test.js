@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, DCL, FCP, FID, LCP} = require('../TraceModel');
+const {DCL, FCP, LCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
 describe('BodyText', () => {

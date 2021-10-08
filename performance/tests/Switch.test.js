@@ -38,7 +38,7 @@ describe('Switch', () => {
 
 		TestResults.addResult({component: component, type: 'First Input Delay', actualValue: actualFirstInput});
 		TestResults.addResult({component: component, type: 'CLS', actualValue: actualCLS});
-		
+
 		expect(actualFirstInput).toBeLessThan(maxFID);
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
@@ -95,7 +95,7 @@ describe('Switch', () => {
 
 		expect(contFCP).toBeGreaterThan(percent);
 		expect(avgFCP).toBeLessThan(maxFCP);
-		
+
 		expect(contLCP).toBeGreaterThan(percent);
 		expect(avgLCP).toBeLessThan(maxLCP);
 	});

@@ -59,7 +59,7 @@ describe('Icon', () => {
 
 		expect(contFCP).toBeGreaterThan(percent);
 		expect(avgFCP).toBeLessThan(maxFCP);
-		
+
 		expect(contLCP).toBeGreaterThan(percent);
 		expect(avgLCP).toBeLessThan(maxLCP);
 	});

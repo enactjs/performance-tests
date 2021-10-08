@@ -1,3 +1,4 @@
+/* eslint no-console: ["error", { allow: ["warn", "error"] }] */
 require('dotenv').config();
 const  fs = require('fs');
 const path = require('path');
@@ -30,14 +31,11 @@ const TestResult = module.exports = {
 			fs.appendFileSync(txtPath, JSON.stringify(result) + '\n');
 		}
 	},
-	getResults: () => {
-		return TestResult.results;
-	},
 	newFile: (component) => {
 		const dir = 'testResults';
 
-		if (!fs.existsSync(dir)) {
-			fs.mkdirSync(dir);
+		if (!fs.existsSync('performance/' + dir)) {
+			fs.mkdirSync('performance/' + dir);
 		}
 		const txtPath = path.join(__dirname, dir, `${component}.txt`);
 

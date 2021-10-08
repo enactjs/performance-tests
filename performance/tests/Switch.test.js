@@ -13,6 +13,44 @@ describe('Switch', () => {
 			await page.waitForSelector('#switch');
 			await page.waitForTimeout(200);
 			await page.click('#switch');
+			await page.mouse.down();
+			await page.waitForTimeout(100);
+			await page.mouse.up();
+			await page.mouse.down();
+			await page.waitForTimeout(100);
+			await page.mouse.up();
+			await page.mouse.down();
+			await page.waitForTimeout(100);
+			await page.mouse.up();
+			await page.mouse.down();
+			await page.waitForTimeout(100);
+			await page.mouse.up();
+
+			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
+		});
+	});
+
+	describe('keypress', () => {
+		it('animates', async () => {
+			const FPSValues = await FPS();
+			await page.goto('http://localhost:8080/switch');
+			await page.waitForSelector('#switch');
+			await page.waitForTimeout(100);
+			await page.focus('#switch');
+			await page.waitForTimeout(100);
+			await page.keyboard.down('Enter');
+			await page.waitForTimeout(100);
+			await page.keyboard.up('Enter');
+			await page.keyboard.down('Enter');
+			await page.waitForTimeout(100);
+			await page.keyboard.up('Enter');
+			await page.keyboard.down('Enter');
+			await page.waitForTimeout(100);
+			await page.keyboard.up('Enter');
+			await page.keyboard.down('Enter');
+			await page.waitForTimeout(100);
+			await page.keyboard.up('Enter');
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
 			TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});

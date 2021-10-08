@@ -1,10 +1,26 @@
 const TestResults = require('../TestResults');
-const {DCL, FCP, LCP} = require('../TraceModel');
+const {CLS, DCL, FCP, LCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
 describe('Heading', () => {
 	const component = 'Heading';
 	TestResults.newFile(component);
+
+	it('should have a good CLS', async () => {
+		await page.evaluateOnNewDocument(CLS);
+		await page.goto('http://localhost:8080/heading');
+		await page.waitForSelector('#heading');
+		await page.focus('#heading');
+		await page.keyboard.down('Enter');
+		await page.waitForTimeout(200);
+
+		let actualCLS = await page.evaluate(() => {
+			return window.cls;
+		});
+
+		TestResults.addResult({component: component, type: 'CLS', actualValue: actualCLS});
+		expect(actualCLS).toBeLessThan(maxCLS);
+	});
 
 	it('should have a good DCL, FCP and LCP', async () => {
 		const filename = getFileName(component);

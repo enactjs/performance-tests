@@ -1,10 +1,32 @@
 const TestResults = require('../TestResults');
-const {DCL, FCP, LCP} = require('../TraceModel');
+const {DCL, FCP, FPS, LCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
 describe('ContextualPopupDecorator', () => {
 	const component = 'ContextualPopupDecorator';
 	TestResults.newFile(component);
+
+	it('FPS', async () => {
+		const FPSValues = await FPS();
+		await page.goto('http://localhost:8080/contextualPopupDecorator');
+		await page.waitForSelector('#contextualPopupDecorator');
+		await page.click('#contextualPopupDecorator'); // to move mouse on the button.
+		await page.mouse.down();
+		await page.waitForTimeout(100);
+		await page.mouse.up();
+		await page.mouse.down();
+		await page.waitForTimeout(100);
+		await page.mouse.up();
+		await page.mouse.down();
+		await page.waitForTimeout(100);
+		await page.mouse.up();
+		await page.mouse.down();
+		await page.waitForTimeout(100);
+		await page.mouse.up();
+
+		const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+		TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS});
+	});
 
 	it('should have a good DCL, FCP and LCP', async () => {
 		const filename = getFileName(component);

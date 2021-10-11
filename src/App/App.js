@@ -9,22 +9,26 @@ import CheckboxItem from '../views/CheckboxItem';
 import ContextualMenuDecorator from '../views/ContextualMenuDecorator';
 import ContextualPopupDecorator from '../views/ContextualPopupDecorator';
 import DatePicker from '../views/DatePicker';
-
-import Picker from '../views/Picker';
-import ScrollerPanel from '../views/ScrollerPanel';
-import Panels from '../views/Panels';
-import ExpandableItem from '../views/ExpandableItem';
+import DayPicker from '../views/DayPicker';
+import Dropdown from '../views/Dropdown';
+import FormCheckboxItem from '../views/FormCheckboxItem';
+import Heading from '../views/Heading';
+import Icon from '../views/Icon';
+import Image from '../views/Image';
+import ImageItem from '../views/ImageItem';
+import Item from '../views/Item';
+// import Marquee from '../views/Marquee';
+// import MarqueeMultiple from '../views/MarqueeMultiple';
+// import Panels from '../views/Panels';
+// import Picker from '../views/Picker';
 import Popup from '../views/Popup';
 import PopupTabLayout from '../views/PopupTabLayout';
-import Marquee from '../views/Marquee';
-import Spinner from '../views/Spinner';
-import VirtualList from '../views/VirtualList';
-import GridListImageItem from '../views/GridListImageItem';
-import Item from '../views/Item';
-import Slider from '../views/Slider';
-import MarqueeMultiple from '../views/MarqueeMultiple';
-import ViewManager from '../views/ViewManager';
+import RadioItem from '../views/RadioItem';
+import RangePicker from '../views/RangePicker';
+import ScrollerPanel from '../views/ScrollerPanel';
 import ScrollerMultipleChildren from '../views/ScrollerMultipleChildren';
+import Slider from '../views/Slider';
+import Spinner from '../views/Spinner';
 import Steps from '../views/Steps';
 import Switch from '../views/Switch';
 import SwitchItem from '../views/SwitchItem';
@@ -32,6 +36,8 @@ import TabLayout from '../views/TabLayout';
 import TimePicker from '../views/TimePicker';
 import TooltipDecorator from '../views/TooltipDecorator';
 import VideoPlayer from '../views/VideoPlayer';
+import VirtualList from '../views/VirtualList';
+import ViewManager from '../views/ViewManager';
 import WizardPanels from '../views/WizardPanels';
 
 import css from './App.less';
@@ -57,22 +63,26 @@ const App = kind({
 				<Route path="/contextualMenuDecorator" component={ContextualMenuDecorator} />
 				<Route path="/contextualPopupDecorator" component={ContextualPopupDecorator} />
 				<Route path="/datePicker" component={DatePicker} />
-
-				<Route path="/panels" component={Panels} />
-				<Route path="/picker" component={Picker} />
-				<Route path="/scroller" component={ScrollerPanel} />
-				<Route path="/expandableItem" component={ExpandableItem} />
+				<Route path="/dayPicker" component={DayPicker} />
+				<Route path="/dropdown" component={Dropdown} />
+				<Route path="/formCheckboxItem" component={FormCheckboxItem} />
+				<Route path="/heading" component={Heading} />
+				<Route path="/icon" component={Icon} />
+				<Route path="/image" component={Image} />
+				<Route path="/imageItem" component={ImageItem} />
+				<Route path="/item" component={Item} />
+				{/* <Route path="/marquee" component={Marquee} />*/}
+				{/* <Route path="/marqueeMultiple" component={MarqueeMultiple} />*/}
+				{/* <Route path="/panels" component={Panels} />*/}
+				{/* <Route path="/picker" component={Picker} />*/}
 				<Route path="/popup" component={Popup} />
 				<Route path="/popupTabLayout" component={PopupTabLayout} />
-				<Route path="/marquee" component={Marquee} />
-				<Route path="/spinner" component={Spinner} />
-				<Route path="/virtualList" component={VirtualList} />
-				<Route path="/gridListImageItem" component={GridListImageItem} />
-				<Route path="/item" component={Item} />
-				<Route path="/slider" component={Slider} />
-				<Route path="/marqueeMultiple" component={MarqueeMultiple} />
-				<Route path="/viewManager" component={ViewManager} />
+				<Route path="/radioItem" component={RadioItem} />
+				<Route path="/rangePicker" component={RangePicker} />
+				<Route path="/scroller" component={ScrollerPanel} />
 				<Route path="/scrollerMultipleChildren" component={ScrollerMultipleChildren} />
+				<Route path="/slider" component={Slider} />
+				<Route path="/spinner" component={Spinner} />
 				<Route path="/steps" component={Steps} />
 				<Route path="/switch" component={Switch} />
 				<Route path="/switchItem" component={SwitchItem} />
@@ -80,6 +90,8 @@ const App = kind({
 				<Route path="/timePicker" component={TimePicker} />
 				<Route path="/tooltipDecorator" component={TooltipDecorator} />
 				<Route path="/videoPlayer" component={VideoPlayer} />
+				<Route path="/viewManager" component={ViewManager} />
+				<Route path="/virtualList" component={VirtualList} />
 				<Route path="/wizardPanels" component={WizardPanels} />
 			</div>
 		</Router>

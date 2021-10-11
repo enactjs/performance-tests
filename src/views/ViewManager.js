@@ -1,10 +1,7 @@
-import React from 'react';
+import {Component} from 'react';
 import ViewManager, {SlideLeftArranger} from '@enact/ui/ViewManager';
-import {Profiler} from 'react';
 
-import {putRenderedMark} from '../utils';
-
-class ViewManagerView extends React.Component {
+class ViewManagerView extends Component {
 	constructor (props) {
 		super(props);
 		this.state = {
@@ -18,12 +15,10 @@ class ViewManagerView extends React.Component {
 
 	render () {
 		return (
-			<Profiler id="viewManager-rendered" onRender={putRenderedMark}>
-				<ViewManager id="viewManager" index={this.state.index} onClick={this.handleClick} arranger={SlideLeftArranger}>
-					<div id="view1" className="view">View 1</div>
-					<div id="view2" className="view">View 2</div>
-				</ViewManager>
-			</Profiler>
+			<ViewManager id="viewManager" index={this.state.index} onClick={this.handleClick} arranger={SlideLeftArranger}>
+				<div id="view1" className="view">View 1</div>
+				<div id="view2" className="view">View 2</div>
+			</ViewManager>
 		);
 	}
 }

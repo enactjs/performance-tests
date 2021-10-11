@@ -1,5 +1,5 @@
 import kind from '@enact/core/kind';
-import Scroller from '@enact/moonstone/Scroller';
+import Scroller from '@enact/sandstone/Scroller';
 
 const ScrollerView = kind({
 	name: 'ScrollerView',
@@ -7,7 +7,9 @@ const ScrollerView = kind({
 	render: () => (
 		<div style={{height: '700px'}}>
 			<Scroller id="scroller" focusableScrollbar>
-				<div style={{height: '5000px'}} />
+				<div style={{height: '5000px'}}>
+					Content
+				</div>
 			</Scroller>
 		</div>
 	)

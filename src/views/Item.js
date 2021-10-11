@@ -1,12 +1,11 @@
 import kind from '@enact/core/kind';
-import React from 'react';
-import Item from '@enact/moonstone/Item';
+import Item from '@enact/sandstone/Item';
 
 const ItemView = kind({
-	name: 'ItemTest',
+	name: 'ItemView',
 
 	render: () => (
-		<Item id="item">Item Test</Item>
+		<Item id="item">Hello Item</Item>
 	)
 });
 

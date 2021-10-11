@@ -17,8 +17,9 @@ import Icon from '../views/Icon';
 import Image from '../views/Image';
 import ImageItem from '../views/ImageItem';
 import Item from '../views/Item';
-// import Marquee from '../views/Marquee';
-// import MarqueeMultiple from '../views/MarqueeMultiple';
+import KeyGuide from '../views/KeyGuide';
+import Marquee from '../views/Marquee';
+import MarqueeMultiple from '../views/MarqueeMultiple';
 // import Panels from '../views/Panels';
 // import Picker from '../views/Picker';
 // import Popup from '../views/Popup';
@@ -70,8 +71,9 @@ const App = kind({
 				<Route path="/image" component={Image} />
 				<Route path="/imageItem" component={ImageItem} />
 				<Route path="/item" component={Item} />
-				{/* <Route path="/marquee" component={Marquee} />*/}
-				{/* <Route path="/marqueeMultiple" component={MarqueeMultiple} />*/}
+				<Route path="/keyGuide" component={KeyGuide} />
+				<Route path="/marquee" component={Marquee} />
+				<Route path="/marqueeMultiple" component={MarqueeMultiple} />
 				{/* <Route path="/panels" component={Panels} />*/}
 				{/* <Route path="/picker" component={Picker} />*/}
 				{/* <Route path="/popup" component={Popup} />*/}

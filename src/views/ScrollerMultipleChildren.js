@@ -1,10 +1,8 @@
 import ScrollerJS from '@enact/sandstone/Scroller';
 import UiScrollerJS from '@enact/ui/Scroller';
 import qs from 'qs';
-import {Profiler} from 'react';
 
 import MultipleComponents from '../components/MultipleComponents';
-import {putRenderedMark} from '../utils';
 
 const types = {
 	ScrollerJS,
@@ -17,11 +15,9 @@ const ScrollerMultipleChildren = ({location}) => {
 	const Scroller = types[type] || ScrollerJS;
 
 	return (
-		<Profiler id="scroller-rendered" onRender={putRenderedMark}>
-			<Scroller id="Scroller" animate>
-				<MultipleComponents location={location} />
-			</Scroller>
-		</Profiler>
+		<Scroller id="Scroller" animate>
+			<MultipleComponents location={location} />
+		</Scroller>
 	);
 };
 

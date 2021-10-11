@@ -1,244 +1,215 @@
-const getCustomMetrics = require('../ProfilerMetrics');
 const TestResults = require('../TestResults');
-const {DCL, FCP, FPS} = require('../TraceModel');
+const {CLS, DCL, FCP, FID, FPS, LCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
 describe('RangePicker', () => {
 	const component = 'RangePicker';
-	TestResults.emptyFile(component);
+	TestResults.newFile(component);
 
 	describe('RangePickerDefault', () => {
 		describe('click', () => {
 			it('animates', async () => {
-				const filename = getFileName(component);
+				const FPSValues = await FPS();
 				await page.goto('http://localhost:8080/rangePicker');
-				await page.tracing.start({path: filename, screenshots: false});
-				await page.waitFor(500);
-
+				await page.waitForSelector('#rangePickerDefault');
 				await page.click('[aria-label$="press ok button to increase the value"]'); // to move mouse on the rangePicker.
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 
-				await page.tracing.stop();
-
-				const actualFPS = FPS(filename);
-				TestResults.addResult({component: 'RangePicker Default', type: 'Frames Per Second', actualValue: actualFPS});
-
-				const actualUpdateTime = (await getCustomMetrics(page))['update'];
-				TestResults.addResult({component: 'RangePicker Default', type: 'average Update Time', actualValue: actualUpdateTime});
+				const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+				TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
 			});
 		});
 
 		describe('keypress', () => {
 			it('animates', async () => {
-				const filename = getFileName(component);
-
+				const FPSValues = await FPS();
 				await page.goto('http://localhost:8080/rangePicker');
-				await page.tracing.start({path: filename, screenshots: false});
 				await page.waitForSelector('#rangePickerDefault');
 				await page.focus('[aria-label$="press ok button to increase the value"]');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 
-				await page.tracing.stop();
-
-				const actualFPS = FPS(filename);
-				TestResults.addResult({component: 'RangePicker Default', type: 'Frames Per Second', actualValue: actualFPS});
-
-				const actualUpdateTime = (await getCustomMetrics(page))['update'];
-				TestResults.addResult({component: 'RangePicker Default', type: 'Average Update Time', actualValue: actualUpdateTime});
+				const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+				TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
 			});
 		});
 
-		it('should have a good First-Input time', async () => {
-			const filename = getFileName(component);
-
+		it('should have a good FID and CLS', async () => {
+			await page.evaluateOnNewDocument(FID);
+			await page.evaluateOnNewDocument(CLS);
 			await page.goto('http://localhost:8080/rangePicker');
-			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#rangePickerDefault');
-			await page.waitFor(100);
+			await page.waitForTimeout(100);
 			await page.click('[aria-label$="press ok button to increase the value"]');
-			await page.waitFor(100);
+			await page.waitForTimeout(100);
 
-			await page.tracing.stop();
+			let actualFirstInput = await page.evaluate(() => {
+				return window.fid;
+			});
 
-			const actualFirstInput = (await getCustomMetrics(page))['first-input'];
-			TestResults.addResult({component: component, type: 'First Input', actualValue: actualFirstInput});
+			let actualCLS = await page.evaluate(() => {
+				return window.cls;
+			});
+
+			TestResults.addResult({component: component, type: 'First Input Delay', actualValue: actualFirstInput});
+			expect(actualFirstInput).toBeLessThan(maxFID);
+
+			TestResults.addResult({component: component, type: 'CLS', actualValue: actualCLS});
+			expect(actualCLS).toBeLessThan(maxCLS);
 		});
 	});
 
 	describe('RangePickerJoined', () => {
 		describe('click', () => {
 			it('animates', async () => {
-				const filename = getFileName(component);
+				const FPSValues = await FPS();
 				await page.goto('http://localhost:8080/rangePicker');
-				await page.tracing.start({path: filename, screenshots: false});
-				await page.waitFor(500);
-
+				await page.waitForSelector('#rangePickerJoined');
 				await page.click('#rangePickerJoined'); // to move mouse on the rangePicker.
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.mouse.up();
 
-				await page.tracing.stop();
-
-				const actualFPS = FPS(filename);
-				TestResults.addResult({component: 'RangePicker Joined', type: 'Frames Per Second', actualValue: actualFPS});
-
-				const actualUpdateTime = (await getCustomMetrics(page))['update'];
-				TestResults.addResult({component: 'RangePicker Joined', type: 'Average Update Time', actualValue: actualUpdateTime});
+				const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+				TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
 			});
 		});
 
 		describe('keypress', () => {
 			it('animates', async () => {
-				const filename = getFileName(component);
-
+				const FPSValues = await FPS();
 				await page.goto('http://localhost:8080/rangePicker');
-				await page.tracing.start({path: filename, screenshots: false});
 				await page.waitForSelector('#rangePickerJoined');
 				await page.focus('#rangePickerJoined');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitFor(200);
+				await page.waitForTimeout(200);
 				await page.keyboard.up('Enter');
 
-				await page.tracing.stop();
-
-				const actualFPS = FPS(filename);
-				TestResults.addResult({component: 'RangePicker Joined', type: 'Frames Per Second', actualValue: actualFPS});
-
-				const actualUpdateTime = (await getCustomMetrics(page))['update'];
-				TestResults.addResult({component: 'RangePicker Joined', type: 'Average Update Time', actualValue: actualUpdateTime});
+				const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+				TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
 			});
 		});
 
-		it('should have a good First-Input time', async () => {
-			const filename = getFileName(component);
-
+		it('should have a good FID and CLS', async () => {
+			await page.evaluateOnNewDocument(FID);
+			await page.evaluateOnNewDocument(CLS);
 			await page.goto('http://localhost:8080/rangePicker');
-			await page.tracing.start({path: filename, screenshots: false});
 			await page.waitForSelector('#rangePickerJoined');
-			await page.waitFor(100);
+			await page.waitForTimeout(100);
 			await page.click('#rangePickerJoined');
-			await page.waitFor(100);
+			await page.waitForTimeout(100);
 
-			await page.tracing.stop();
+			let actualFirstInput = await page.evaluate(() => {
+				return window.fid;
+			});
 
-			const actualFirstInput = (await getCustomMetrics(page))['first-input'];
-			TestResults.addResult({component: 'RangePicker Joined', type: 'First Input', actualValue: actualFirstInput});
+			let actualCLS = await page.evaluate(() => {
+				return window.cls;
+			});
+
+			TestResults.addResult({component: component, type: 'First Input Delay', actualValue: actualFirstInput});
+			expect(actualFirstInput).toBeLessThan(maxFID);
+
+			TestResults.addResult({component: component, type: 'CLS', actualValue: actualCLS});
+			expect(actualCLS).toBeLessThan(maxCLS);
 		});
 	});
 
-	it('mount time', async () => {
+	it('should have a good DCL, FCP and LCP', async () => {
 		const filename = getFileName(component);
 
-		await page.goto('http://localhost:8080/rangePicker');
-		await page.tracing.start({path: filename, screenshots: false});
-		await page.waitForSelector('#rangePickerDefault');
-		await page.focus('#rangePickerDefault');
-
-		await page.tracing.stop();
-
-		const actualMountTime = (await getCustomMetrics(page))['mount'];
-		TestResults.addResult({component: component, type: 'Mount Time', actualValue: actualMountTime});
-	});
-
-	it('should have a good FCP', async () => {
-		const filename = getFileName(component);
-
-		let cont = 0;
-		let avg = 0;
+		let contDCL = 0;
+		let contFCP = 0;
+		let contLCP = 0;
+		let avgDCL = 0;
+		let avgFCP = 0;
+		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const FCPPage = await testMultiple.newPage();
+			const page = await testMultiple.newPage();
 
-			await FCPPage.tracing.start({path: filename, screenshots: false});
-			await FCPPage.goto('http://localhost:8080/rangePicker');
-			await FCPPage.waitForSelector('#rangePickerDefault');
+			await page.tracing.start({path: filename, screenshots: false});
+			await page.goto('http://localhost:8080/rangePicker');
+			await page.waitForSelector('#rangePickerDefault');
+			await page.waitForTimeout(200);
 
-			await FCPPage.tracing.stop();
-
-			const actualFCP = await FCP(filename);
-			avg = avg + actualFCP;
-
-			if (actualFCP < maxFCP) {
-				cont += 1;
-			}
-			await FCPPage.close();
-		}
-		avg = avg / stepNumber;
-
-		TestResults.addResult({component: component, type: 'average FCP', actualValue: avg});
-
-		expect(cont).toBeGreaterThan(percent);
-		expect(avg).toBeLessThan(maxFCP);
-	});
-
-	it('should have a good DCL', async () => {
-		const filename = getFileName(component);
-
-		let cont = 0;
-		let avg = 0;
-		for (let step = 0; step < stepNumber; step++) {
-			const DCLPage = await testMultiple.newPage();
-			await DCLPage.tracing.start({path: filename, screenshots: false});
-			await DCLPage.goto('http://localhost:8080/rangePicker');
-			await DCLPage.waitForSelector('#rangePickerDefault');
-
-			await DCLPage.tracing.stop();
+			await page.tracing.stop();
 
 			const actualDCL = await DCL(filename);
-			avg = avg + actualDCL;
-
+			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
-				cont += 1;
+				contDCL += 1;
 			}
-			await DCLPage.close();
+
+			const actualFCP = await FCP(filename);
+			avgFCP = avgFCP + actualFCP;
+			if (actualFCP < maxFCP) {
+				contFCP += 1;
+			}
+
+			const actualLCP = await LCP(filename);
+			avgLCP = avgLCP + actualLCP;
+			if (actualLCP < maxLCP) {
+				contLCP += 1;
+			}
+
+			await page.close();
 		}
-		avg = avg / stepNumber;
+		avgDCL = avgDCL / stepNumber;
+		avgFCP = avgFCP / stepNumber;
+		avgLCP = avgLCP / stepNumber;
 
-		TestResults.addResult({component: component, type: 'average DCL', actualValue: avg});
+		TestResults.addResult({component: component, type: 'average DCL', actualValue: avgDCL});
+		TestResults.addResult({component: component, type: 'average FCP', actualValue: avgFCP});
+		TestResults.addResult({component: component, type: 'average LCP', actualValue: avgLCP});
 
-		expect(cont).toBeGreaterThan(percent);
-		expect(avg).toBeLessThan(maxDCL);
+		expect(contDCL).toBeGreaterThan(percent);
+		expect(avgDCL).toBeLessThan(maxDCL);
+
+		expect(contFCP).toBeGreaterThan(percent);
+		expect(avgFCP).toBeLessThan(maxFCP);
+
+		expect(contLCP).toBeGreaterThan(percent);
+		expect(avgLCP).toBeLessThan(maxLCP);
 	});
 });

@@ -80,7 +80,7 @@ Mounting is very is pretty simple. We just need to find the top component for th
 
 		await page.tracing.start({path: filename, screenshots: false});
 		await page.goto('http://localhost:8080/picker');
-		await page.waitFor(2000);
+		await page.waitForTimeout(2000);
 
 		await page.tracing.stop();
 		await browser.close();

@@ -23,6 +23,8 @@ import Item from '../views/Item';
 // import Panels from '../views/Panels';
 // import Picker from '../views/Picker';
 // import Popup from '../views/Popup';
+import ProgressBar from '../views/ProgressBar';
+import ProgressButton from '../views/ProgressButton';
 import RadioItem from '../views/RadioItem';
 import RangePicker from '../views/RangePicker';
 import ScrollerPanel from '../views/ScrollerPanel';
@@ -77,6 +79,8 @@ const App = kind({
 				{/* <Route path="/panels" component={Panels} />*/}
 				{/* <Route path="/picker" component={Picker} />*/}
 				{/* <Route path="/popup" component={Popup} />*/}
+				<Route path="/progressBar" component={ProgressBar} />
+				<Route path="/progressButton" component={ProgressButton} />
 				<Route path="/radioItem" component={RadioItem} />
 				<Route path="/rangePicker" component={RangePicker} />
 				<Route path="/scroller" component={ScrollerPanel} />

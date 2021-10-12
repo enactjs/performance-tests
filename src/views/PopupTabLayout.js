@@ -2,48 +2,76 @@ import Button from '@enact/sandstone/Button';
 import Item from '@enact/sandstone/Item';
 import {Header} from '@enact/sandstone/Panels'
 import PopupTabLayout, {Tab, TabPanels, TabPanel} from '@enact/sandstone/PopupTabLayout';
-import Group from '@enact/ui/Group';
-import {putRenderedMark} from '../utils';
+import {useState} from 'react';
 
-import {Component, Profiler} from 'react';
+const PopupTabLayoutView = () => {
+	const [index, setIndex] = useState(0);
+	const [open, setOpen] = useState(true);
 
-class PopupTabLayoutView extends Component {
-	constructor (props) {
-		super(props);
-
-		this.state = {
-			open: true
-		};
+	function handleToggle() {
+		setOpen(!open);
 	}
 
-	handleToggle = () => {
-		this.setState(({open}) => ({open: !open}));
-	};
-
-	render () {
-		return (
-		<Profiler id="PopupTabLayout-rendered" onRender={putRenderedMark}>
-			<Button id="button-open" onClick={this.handleToggle}>open</Button>
-			<PopupTabLayout id="PopupTabLayout" open={this.state.open}>
-				<Tab title="Display">
-					<TabPanels index={1} onBack={this.handleToggle}>
+	return (
+		<>
+			<Button id="button-open" onClick={handleToggle}>open</Button>
+			<PopupTabLayout
+				id="popupTabLayout"
+				onClose={handleToggle}
+				open={open}
+			>
+				<Tab icon="picture" title="Display">
+					<TabPanels
+						id="display"
+						index={index}
+						// eslint-disable-next-line react/jsx-no-bind
+						onBack={() => setIndex(0)}
+					>
 						<TabPanel>
-							<Header title="Display Settings" type="compact" />
+							<Header title="Display Settings" type="compact"/>
 							<Item>Picture Modes</Item>
-							<Item>Color Adjust</Item>
+							<Item
+								id="colorAdjust"
+								// eslint-disable-next-line react/jsx-no-bind
+								onClick={() => setIndex(1)}
+							>
+								Color Adjust
+							</Item>
 						</TabPanel>
 						<TabPanel>
-							<Header title="Advanced Audio Settings" type="compact" />
-							<Group childComponent={Item} component="div" select="radio" selectedProp="selected">
-								{['Balance', 'Fade']}
-							</Group>
+							<Header title="Color Adjust" type="compact"/>
+							<Item>Brightness</Item>
+						</TabPanel>
+					</TabPanels>
+				</Tab>
+				<Tab title="Sound">
+					<TabPanels
+						id="sound"
+						index={index}
+						noCloseButton
+						// eslint-disable-next-line react/jsx-no-bind
+						onBack={() => setIndex(0)}
+					>
+						<TabPanel>
+							<Header title="Sound Settings" type="compact"/>
+							<Item
+								id="advancedAudio"
+								// eslint-disable-next-line react/jsx-no-bind
+								onClick={() => setIndex(1)}
+							>
+								Advanced Audio</Item>
+						</TabPanel>
+						<TabPanel>
+							<Header title="Advanced Audio Settings" type="compact"/>
+							<Item>Balance</Item>
+							<Item>Fade</Item>
 						</TabPanel>
 					</TabPanels>
 				</Tab>
 			</PopupTabLayout>
-		</Profiler>
-		);
-	}
+		</>
+	);
+
 }
 
 export default PopupTabLayoutView;

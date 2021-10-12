@@ -16,6 +16,7 @@ import Heading from '../views/Heading';
 import Icon from '../views/Icon';
 import Image from '../views/Image';
 import ImageItem from '../views/ImageItem';
+import Input from '../views/Input';
 import Item from '../views/Item';
 // import Marquee from '../views/Marquee';
 // import MarqueeMultiple from '../views/MarqueeMultiple';
@@ -23,6 +24,8 @@ import Item from '../views/Item';
 // import Picker from '../views/Picker';
 import Popup from '../views/Popup';
 import PopupTabLayout from '../views/PopupTabLayout';
+import ProgressBar from '../views/ProgressBar';
+import ProgressButton from '../views/ProgressButton';
 import RadioItem from '../views/RadioItem';
 import RangePicker from '../views/RangePicker';
 import ScrollerPanel from '../views/ScrollerPanel';
@@ -70,6 +73,7 @@ const App = kind({
 				<Route path="/icon" component={Icon} />
 				<Route path="/image" component={Image} />
 				<Route path="/imageItem" component={ImageItem} />
+				<Route path="/input" component={Input} />
 				<Route path="/item" component={Item} />
 				{/* <Route path="/marquee" component={Marquee} />*/}
 				{/* <Route path="/marqueeMultiple" component={MarqueeMultiple} />*/}
@@ -77,6 +81,8 @@ const App = kind({
 				{/* <Route path="/picker" component={Picker} />*/}
 				<Route path="/popup" component={Popup} />
 				<Route path="/popupTabLayout" component={PopupTabLayout} />
+				<Route path="/progressBar" component={ProgressBar} />
+				<Route path="/progressButton" component={ProgressButton} />
 				<Route path="/radioItem" component={RadioItem} />
 				<Route path="/rangePicker" component={RangePicker} />
 				<Route path="/scroller" component={ScrollerPanel} />

@@ -1,32 +1,22 @@
 import Button from '@enact/sandstone/Button';
 import Popup from '@enact/sandstone/Popup';
-import {putRenderedMark} from '../utils';
+import {useState} from 'react';
 
-import {Component, Profiler} from 'react';
+const PopupView = () => {
+	const [open, setOpen] = useState(true);
 
-class PopupView extends Component {
-	constructor (props) {
-		super(props);
-
-		this.state = {
-			open: true
-		};
+	function handleToggle() {
+		setOpen(!open);
 	}
 
-	handleToggle = () => {
-		this.setState(({open}) => ({open: !open}));
-	};
-
-	render () {
-		return (
-		<Profiler id="popup-rendered" onRender={putRenderedMark}>
-			<Button id="button-open" onClick={this.handleToggle}>open</Button>
-			<Popup id="popup" open={this.state.open}>
-				<Button id="button-close" onClick={this.handleToggle}>close</Button>
+	return (
+		<>
+			<Button id="button-open" onClick={handleToggle}>open</Button>
+			<Popup id="popup" open={open}>
+				<Button id="button-close" onClick={handleToggle}>close</Button>
 			</Popup>
-		</Profiler>
-		);
-	}
+		</>
+	)
 }
 
 export default PopupView;

@@ -2,18 +2,18 @@ const TestResults = require('../TestResults');
 const {CLS, DCL, FCP, FID, FPS, LCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
-describe('FixedPopupPanels', () => {
-	const component = 'FixedPopupPanels';
+describe('FlexiblePopupPanels', () => {
+	const component = 'FlexiblePopupPanels';
 	TestResults.newFile(component);
 
 	describe('click', () => {
 		it('animates', async () => {
 			const FPSValues = await FPS();
-			await page.goto('http://localhost:8080/fixedPopupPanels');
-			await page.waitForTimeout(500);
-
+			await page.goto('http://localhost:8080/flexiblePopupPanels');
+			await page.waitForTimeout(200);
 			await page.click('#button'); // to move mouse on the button.
-			await page.mouse.down();
+			await page.waitForTimeout(200);
+			await page.click('[class$="Header_back"]'); // to close the popup.
 			await page.waitForTimeout(200);
 			await page.mouse.up();
 
@@ -25,10 +25,16 @@ describe('FixedPopupPanels', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			const FPSValues = await FPS();
-			await page.goto('http://localhost:8080/fixedPopupPanels');
+			await page.goto('http://localhost:8080/flexiblePopupPanels');
 			await page.waitForSelector('#button');
 
 			await page.focus('#button');
+			await page.waitForTimeout(200);
+			await page.keyboard.down('Enter');
+			await page.waitForTimeout(200);
+			await page.keyboard.up('Enter');
+			await page.waitForTimeout(200);
+			await page.focus('[class$="Header_back"]'); // to close the popup.
 			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
 			await page.waitForTimeout(200);
@@ -42,7 +48,7 @@ describe('FixedPopupPanels', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/fixedPopupPanels');
+		await page.goto('http://localhost:8080/flexiblePopupPanels');
 		await page.waitForSelector('#button');
 		await page.focus('#button');
 		await page.keyboard.down('Enter');
@@ -75,7 +81,7 @@ describe('FixedPopupPanels', () => {
 			const page = await testMultiple.newPage();
 
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/fixedPopupPanels');
+			await page.goto('http://localhost:8080/flexiblePopupPanels');
 			await page.waitForSelector('#button');
 			await page.waitForTimeout(200);
 			await page.focus('#button');

@@ -27,6 +27,7 @@ class FixedPopupPanelsView extends Component {
 				<FixedPopupPanels
 					id="fixedPopupPanels"
 					open={this.state.open}
+					scrimType="none"
 				>
 					<Panel>
 						<Header>

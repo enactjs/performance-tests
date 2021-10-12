@@ -2,6 +2,7 @@ import BodyText from '@enact/sandstone/BodyText';
 import Button from '@enact/sandstone/Button';
 import Item from '@enact/sandstone/Item';
 import {FlexiblePopupPanels, Panel, Header} from '@enact/sandstone/FlexiblePopupPanels';
+import qs from "qs";
 import {Component} from 'react';
 
 class FlexiblePopupPanelsView extends Component {
@@ -9,8 +10,10 @@ class FlexiblePopupPanelsView extends Component {
 
 	constructor(props) {
 		super(props);
+		const search = qs.parse(props.location.search, {ignoreQueryPrefix: true});
+
 		this.state = {
-			open: false
+			open: search.open ? search.open : false
 		};
 
 		this.onButtonClick = this.onButtonClick.bind(this);

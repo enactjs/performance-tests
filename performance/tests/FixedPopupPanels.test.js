@@ -75,12 +75,8 @@ describe('FixedPopupPanels', () => {
 			const page = await testMultiple.newPage();
 
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/fixedPopupPanels');
-			await page.waitForSelector('#button');
-			await page.waitForTimeout(200);
-			await page.focus('#button');
-			await page.waitForTimeout(200);
-			await page.keyboard.down('Enter');
+			await page.goto('http://localhost:8080/fixedPopupPanels?open=true');
+			await page.waitForSelector('#fixedPopupPanels');
 			await page.waitForTimeout(200);
 
 			await page.tracing.stop();

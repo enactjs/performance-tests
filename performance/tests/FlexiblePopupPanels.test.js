@@ -13,7 +13,7 @@ describe('FlexiblePopupPanels', () => {
 			await page.waitForTimeout(200);
 			await page.click('#button'); // to move mouse on the button.
 			await page.waitForTimeout(200);
-			await page.click('[class$="Header_back"]'); // to close the popup.
+			await page.click('[aria-label="Exit app"]'); // to close the popup.
 			await page.waitForTimeout(200);
 			await page.mouse.up();
 
@@ -34,7 +34,7 @@ describe('FlexiblePopupPanels', () => {
 			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 			await page.waitForTimeout(200);
-			await page.focus('[class$="Header_back"]'); // to close the popup.
+			await page.focus('[aria-label="Exit app"]'); // to close the popup.
 			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
 			await page.waitForTimeout(200);
@@ -81,12 +81,8 @@ describe('FlexiblePopupPanels', () => {
 			const page = await testMultiple.newPage();
 
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/flexiblePopupPanels');
-			await page.waitForSelector('#button');
-			await page.waitForTimeout(200);
-			await page.focus('#button');
-			await page.waitForTimeout(200);
-			await page.keyboard.down('Enter');
+			await page.goto('http://localhost:8080/flexiblePopupPanels?open=true');
+			await page.waitForSelector('#flexiblePopupPanels');
 			await page.waitForTimeout(200);
 
 			await page.tracing.stop();

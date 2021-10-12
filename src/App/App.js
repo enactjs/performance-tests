@@ -16,6 +16,7 @@ import Heading from '../views/Heading';
 import Icon from '../views/Icon';
 import Image from '../views/Image';
 import ImageItem from '../views/ImageItem';
+import Input from '../views/Input';
 import Item from '../views/Item';
 // import Marquee from '../views/Marquee';
 // import MarqueeMultiple from '../views/MarqueeMultiple';
@@ -69,6 +70,7 @@ const App = kind({
 				<Route path="/icon" component={Icon} />
 				<Route path="/image" component={Image} />
 				<Route path="/imageItem" component={ImageItem} />
+				<Route path="/input" component={Input} />
 				<Route path="/item" component={Item} />
 				{/* <Route path="/marquee" component={Marquee} />*/}
 				{/* <Route path="/marqueeMultiple" component={MarqueeMultiple} />*/}

@@ -2,20 +2,20 @@ import BodyText from '@enact/sandstone/BodyText';
 import Button from '@enact/sandstone/Button';
 import Item from '@enact/sandstone/Item';
 import {FlexiblePopupPanels, Panel, Header} from '@enact/sandstone/FlexiblePopupPanels';
-import qs from "qs";
+import qs from 'qs';
 import {useState} from 'react';
 
 const FlexiblePopupPanelsView = (props) => {
 	const search = qs.parse(props.location.search, {ignoreQueryPrefix: true});
-	const [open, setOpen] = useState(search.open);
+	const [open, setOpen] = useState(search.open === 'true');
 
-	function onButtonClick() {
+	function onButtonClick () {
 		setOpen(true);
 	}
 
-	function handleClose() {
-		setOpen({open: false})
-	};
+	function handleClose () {
+		setOpen({open: false});
+	}
 
 	return (
 		<div>
@@ -24,7 +24,6 @@ const FlexiblePopupPanelsView = (props) => {
 				id="flexiblePopupPanels"
 				onClose={handleClose}
 				open={open}
-				scrimType="none"
 			>
 				<Panel>
 					<Header>
@@ -38,6 +37,6 @@ const FlexiblePopupPanelsView = (props) => {
 			</FlexiblePopupPanels>
 		</div>
 	);
-}
+};
 
 export default FlexiblePopupPanelsView;

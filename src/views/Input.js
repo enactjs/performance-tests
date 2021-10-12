@@ -7,11 +7,11 @@ const InputView = kind({
 	render: () => (
 		<Input
 			className="inputView"
-			placeholder= "placeholder string"
+			placeholder="placeholder string"
 			popupType="overlay"
 			size="large"
-			subtitle= "Title Below Text"
-			title= "Title Text"
+			subtitle="Title Below Text"
+			title="Title Text"
 		/>
 	)
 });

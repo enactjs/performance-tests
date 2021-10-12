@@ -7,9 +7,9 @@ import {useState} from 'react';
 
 const FixedPopupPanelsView = (props) => {
 	const search = qs.parse(props.location.search, {ignoreQueryPrefix: true});
-	const [open, setOpen] = useState(search.open);
+	const [open, setOpen] = useState(search.open === 'true');
 
-	function onButtonClick() {
+	function onButtonClick () {
 		setOpen(true);
 	}
 
@@ -43,6 +43,6 @@ const FixedPopupPanelsView = (props) => {
 			</FixedPopupPanels>
 		</>
 	);
-}
+};
 
 export default FixedPopupPanelsView;

@@ -1,6 +1,6 @@
 import Button from '@enact/sandstone/Button';
 import Item from '@enact/sandstone/Item';
-import {Header} from '@enact/sandstone/Panels'
+import {Header} from '@enact/sandstone/Panels';
 import PopupTabLayout, {Tab, TabPanels, TabPanel} from '@enact/sandstone/PopupTabLayout';
 import {useState} from 'react';
 
@@ -8,7 +8,7 @@ const PopupTabLayoutView = () => {
 	const [index, setIndex] = useState(0);
 	const [open, setOpen] = useState(true);
 
-	function handleToggle() {
+	function handleToggle () {
 		setOpen(!open);
 	}
 
@@ -28,7 +28,7 @@ const PopupTabLayoutView = () => {
 						onBack={() => setIndex(0)}
 					>
 						<TabPanel>
-							<Header title="Display Settings" type="compact"/>
+							<Header title="Display Settings" type="compact" />
 							<Item>Picture Modes</Item>
 							<Item
 								id="colorAdjust"
@@ -39,7 +39,7 @@ const PopupTabLayoutView = () => {
 							</Item>
 						</TabPanel>
 						<TabPanel>
-							<Header title="Color Adjust" type="compact"/>
+							<Header title="Color Adjust" type="compact" />
 							<Item>Brightness</Item>
 						</TabPanel>
 					</TabPanels>
@@ -53,7 +53,7 @@ const PopupTabLayoutView = () => {
 						onBack={() => setIndex(0)}
 					>
 						<TabPanel>
-							<Header title="Sound Settings" type="compact"/>
+							<Header title="Sound Settings" type="compact" />
 							<Item
 								id="advancedAudio"
 								// eslint-disable-next-line react/jsx-no-bind
@@ -62,7 +62,7 @@ const PopupTabLayoutView = () => {
 								Advanced Audio</Item>
 						</TabPanel>
 						<TabPanel>
-							<Header title="Advanced Audio Settings" type="compact"/>
+							<Header title="Advanced Audio Settings" type="compact" />
 							<Item>Balance</Item>
 							<Item>Fade</Item>
 						</TabPanel>
@@ -72,6 +72,6 @@ const PopupTabLayoutView = () => {
 		</>
 	);
 
-}
+};
 
 export default PopupTabLayoutView;

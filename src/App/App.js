@@ -24,7 +24,7 @@ import KeyGuide from '../views/KeyGuide';
 import Marquee from '../views/Marquee';
 import MarqueeMultiple from '../views/MarqueeMultiple';
 import MediaOverlay from '../views/MediaOverlay';
-// import Panels from '../views/Panels';
+import Panels from '../views/Panels';
 import Picker from '../views/Picker';
 import PickerJoined from '../views/PickerJoined';
 import Popup from '../views/Popup';
@@ -87,7 +87,7 @@ const App = kind({
 				<Route path="/marquee" component={Marquee} />
 				<Route path="/marqueeMultiple" component={MarqueeMultiple} />
 				<Route path="/mediaOverlay" component={MediaOverlay} />
-				{/* <Route path="/panels" component={Panels} />*/}
+				<Route path="/panels" component={Panels} />
 				<Route path="/picker" component={Picker} />
 				<Route path="/pickerJoined" component={PickerJoined} />
 				<Route path="/popup" component={Popup} />

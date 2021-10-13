@@ -2,8 +2,8 @@ const TestResults = require('../TestResults');
 const {CLS, DCL, FCP, FID, FPS, LCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
-describe('Button', () => {
-	const component = 'Button';
+describe('KeyGuide', () => {
+	const component = 'KeyGuide';
 	TestResults.newFile(component);
 
 	it('FPS', async () => {

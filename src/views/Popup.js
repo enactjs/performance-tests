@@ -5,7 +5,7 @@ import {useState} from 'react';
 const PopupView = () => {
 	const [open, setOpen] = useState(true);
 
-	function handleToggle() {
+	function handleToggle () {
 		setOpen(!open);
 	}
 
@@ -16,7 +16,7 @@ const PopupView = () => {
 				<Button id="button-close" onClick={handleToggle}>close</Button>
 			</Popup>
 		</>
-	)
-}
+	);
+};
 
 export default PopupView;

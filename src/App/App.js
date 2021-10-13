@@ -11,6 +11,8 @@ import ContextualPopupDecorator from '../views/ContextualPopupDecorator';
 import DatePicker from '../views/DatePicker';
 import DayPicker from '../views/DayPicker';
 import Dropdown from '../views/Dropdown';
+import FixedPopupPanels from '../views/FixedPopupPanels';
+import FlexiblePopupPanels from '../views/FlexiblePopupPanels';
 import FormCheckboxItem from '../views/FormCheckboxItem';
 import Heading from '../views/Heading';
 import Icon from '../views/Icon';
@@ -68,6 +70,8 @@ const App = kind({
 				<Route path="/datePicker" component={DatePicker} />
 				<Route path="/dayPicker" component={DayPicker} />
 				<Route path="/dropdown" component={Dropdown} />
+				<Route path="/fixedPopupPanels" component={FixedPopupPanels} />
+				<Route path="/flexiblePopupPanels" component={FlexiblePopupPanels} />
 				<Route path="/formCheckboxItem" component={FormCheckboxItem} />
 				<Route path="/heading" component={Heading} />
 				<Route path="/icon" component={Icon} />

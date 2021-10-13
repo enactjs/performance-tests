@@ -85,8 +85,8 @@ const App = kind({
 				<Route path="/item" component={Item} />
 				<Route path="/keyGuide" component={KeyGuide} />
 				<Route path="/marquee" component={Marquee} />
-				<Route path="/mediaOverlay" component={MediaOverlay} />
 				<Route path="/marqueeMultiple" component={MarqueeMultiple} />
+				<Route path="/mediaOverlay" component={MediaOverlay} />
 				{/* <Route path="/panels" component={Panels} />*/}
 				<Route path="/picker" component={Picker} />
 				<Route path="/pickerJoined" component={PickerJoined} />

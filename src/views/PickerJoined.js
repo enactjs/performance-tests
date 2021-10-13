@@ -1,14 +1,15 @@
 import kind from '@enact/core/kind';
 import Picker from '@enact/sandstone/Picker';
 
-const PickerView = kind({
-	name: 'PickerView',
+const PickerJoinedView = kind({
+	name: 'PickerJoinedView',
 
 	render: () => (
 		<Picker
-			id="pickerDefault"
+			id="pickerJoined"
 			defaultValue={0}
-			title="Picker Default"
+			joined
+			title="Picker Joined"
 			width="large"
 		>
 			{[
@@ -24,4 +25,4 @@ const PickerView = kind({
 	)
 });
 
-export default PickerView;
+export default PickerJoinedView;

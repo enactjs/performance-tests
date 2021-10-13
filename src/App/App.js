@@ -20,7 +20,7 @@ import Input from '../views/Input';
 import Item from '../views/Item';
 // import Marquee from '../views/Marquee';
 // import MarqueeMultiple from '../views/MarqueeMultiple';
-// import Panels from '../views/Panels';
+import Panels from '../views/Panels';
 // import Picker from '../views/Picker';
 // import Popup from '../views/Popup';
 import ProgressBar from '../views/ProgressBar';
@@ -76,7 +76,7 @@ const App = kind({
 				<Route path="/item" component={Item} />
 				{/* <Route path="/marquee" component={Marquee} />*/}
 				{/* <Route path="/marqueeMultiple" component={MarqueeMultiple} />*/}
-				{/* <Route path="/panels" component={Panels} />*/}
+				 <Route path="/panels" component={Panels} />
 				{/* <Route path="/picker" component={Picker} />*/}
 				{/* <Route path="/popup" component={Popup} />*/}
 				<Route path="/progressBar" component={ProgressBar} />

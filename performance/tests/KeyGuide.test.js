@@ -1,28 +1,28 @@
 const TestResults = require('../TestResults');
-const {CLS, DCL, FID, FCP, FPS, LCP} = require('../TraceModel');
+const {CLS, DCL, FCP, FID, FPS, LCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
-const component = 'Marquee';
-const MarqueeText = '[class$="Marquee_marquee"]';
+describe('KeyGuide', () => {
+	const component = 'KeyGuide';
+	TestResults.newFile(component);
 
-describe('Marquee', () => {
-	it('FPS on hover', async () => {
+	it('FPS', async () => {
 		const FPSValues = await FPS();
-		await page.goto('http://localhost:8080/marquee');
-		await page.waitForSelector('#marquee');
-		await page.hover(MarqueeText);
-		await page.waitForTimeout(500);
+		await page.goto('http://localhost:8080/keyGuide');
+		await page.waitForSelector('#keyGuide');
+		await page.waitForTimeout(2000);
 
 		const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
-		TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS});
+		TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
 	});
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/marquee');
-		await page.waitForSelector('#marquee');
-		await page.hover(MarqueeText);
+		await page.goto('http://localhost:8080/keyGuide');
+		await page.waitForSelector('#keyGuide');
+		await page.focus('#keyGuide');
+		await page.keyboard.down('Enter');
 		await page.waitForTimeout(500);
 
 		let actualFirstInput = await page.evaluate(() => {
@@ -53,8 +53,8 @@ describe('Marquee', () => {
 			const page = await testMultiple.newPage();
 
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/marquee');
-			await page.waitForSelector('#marquee');
+			await page.goto('http://localhost:8080/keyGuide');
+			await page.waitForSelector('#keyGuide');
 			await page.waitForTimeout(200);
 
 			await page.tracing.stop();
@@ -95,41 +95,6 @@ describe('Marquee', () => {
 
 		expect(contLCP).toBeGreaterThan(percent);
 		expect(avgLCP).toBeLessThan(maxLCP);
-	});
-
-	describe('Multiple Marquees', () => {
-		const counts = [10, 40, 70, 100];
-
-		for (let index = 0; index < counts.length; index++) {
-			const count = counts[index];
-			it(`updates marqueeOn hover ${count} Marquee components`, async () => {
-				const FPSValues = await FPS();
-
-				await page.goto(`http://localhost:8080/marqueeMultiple?count=${count}`);
-				await page.waitForSelector('#Container');
-				await page.waitForTimeout(200);
-
-				await page.hover('#Marquee_5');
-				await page.waitForTimeout(2000);
-
-				const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
-				TestResults.addResult({component: component, type: 'Marquee Multiple Hover Frames Per Second', actualValue: averageFPS});
-			});
-		}
-
-		for (let index = 0; index < counts.length; index++) {
-			const count = counts[index];
-			it(`updates marqueeOn render ${count} Marquee components`, async () => {
-				const FPSValues = await FPS();
-
-				await page.goto(`http://localhost:8080/marqueeMultiple?count=${count}&marqueeOn=render`);
-				await page.waitForSelector('#Container');
-				await page.waitForTimeout(2000);
-
-				const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
-				TestResults.addResult({component: component, type: 'Marquee Multiple Render Frames Per Second', actualValue: averageFPS});
-			});
-		}
 	});
 });
 

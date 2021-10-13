@@ -111,4 +111,3 @@ describe('MediaOverlay', () => {
 		expect(avgLCP).toBeLessThan(maxLCP);
 	});
 });
-

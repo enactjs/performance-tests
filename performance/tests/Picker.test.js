@@ -159,7 +159,7 @@ describe('Picker', () => {
 				await page.mouse.up();
 
 				const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
-				TestResults.addResult({component: component+ " joined", type: 'Frames Per Second Click', actualValue: averageFPS});
+				TestResults.addResult({component: component + ' joined', type: 'Frames Per Second Click', actualValue: averageFPS});
 			});
 		});
 
@@ -184,7 +184,7 @@ describe('Picker', () => {
 				await page.keyboard.up('Enter');
 
 				const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
-				TestResults.addResult({component: component+ " joined", type: 'Frames Per Second Keypress', actualValue: averageFPS});
+				TestResults.addResult({component: component + ' joined', type: 'Frames Per Second Keypress', actualValue: averageFPS});
 			});
 		});
 
@@ -205,10 +205,10 @@ describe('Picker', () => {
 				return window.cls;
 			});
 
-			TestResults.addResult({component: component+ " joined", type: 'First Input Delay', actualValue: actualFirstInput});
+			TestResults.addResult({component: component + ' joined', type: 'First Input Delay', actualValue: actualFirstInput});
 			expect(actualFirstInput).toBeLessThan(maxFID);
 
-			TestResults.addResult({component: component+ " joined", type: 'CLS', actualValue: actualCLS});
+			TestResults.addResult({component: component + ' joined', type: 'CLS', actualValue: actualCLS});
 			expect(actualCLS).toBeLessThan(maxCLS);
 		});
 
@@ -255,9 +255,9 @@ describe('Picker', () => {
 			avgFCP = avgFCP / stepNumber;
 			avgLCP = avgLCP / stepNumber;
 
-			TestResults.addResult({component: component+ " joined", type: 'average DCL', actualValue: avgDCL});
-			TestResults.addResult({component: component+ " joined", type: 'average FCP', actualValue: avgFCP});
-			TestResults.addResult({component: component+ " joined", type: 'average LCP', actualValue: avgLCP});
+			TestResults.addResult({component: component + ' joined', type: 'average DCL', actualValue: avgDCL});
+			TestResults.addResult({component: component + ' joined', type: 'average FCP', actualValue: avgFCP});
+			TestResults.addResult({component: component + ' joined', type: 'average LCP', actualValue: avgLCP});
 
 			expect(contDCL).toBeGreaterThan(percent);
 			expect(avgDCL).toBeLessThan(maxDCL);

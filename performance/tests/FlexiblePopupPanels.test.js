@@ -1,55 +1,57 @@
 const TestResults = require('../TestResults');
-const {DCL, FCP, FPS, LCP, FID, CLS} = require('../TraceModel');
+const {CLS, DCL, FCP, FID, FPS, LCP} = require('../TraceModel');
 const {getFileName} = require('../utils');
 
-describe('Popup', () => {
-	const component = 'Popup';
-	const open = '#button-open';
-	const close = '#button-close';
+describe('FlexiblePopupPanels', () => {
+	const component = 'FlexiblePopupPanels';
 	TestResults.newFile(component);
 
-	it('FPS', async () => {
-		const FPSValues = await FPS();
-		await page.goto('http://localhost:8080/popup');
-		await page.waitForSelector('#popup');
-		await page.click(close);
-		await page.waitForTimeout(500);
-		await page.click(open);
-		await page.waitForTimeout(500);
-		await page.click(close);
-		await page.waitForTimeout(500);
-		await page.click(open);
-		await page.waitForTimeout(500);
-		await page.click(close);
-		await page.waitForTimeout(500);
-		await page.click(open);
-		await page.waitForTimeout(500);
-		await page.click(close);
-		await page.waitForTimeout(500);
+	describe('click', () => {
+		it('animates', async () => {
+			const FPSValues = await FPS();
+			await page.goto('http://localhost:8080/flexiblePopupPanels');
+			await page.waitForTimeout(200);
+			await page.click('#button'); // to move mouse on the button.
+			await page.waitForTimeout(200);
+			await page.click('[aria-label="Exit app"]'); // to close the popup.
+			await page.waitForTimeout(200);
+			await page.mouse.up();
 
-		const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
-		TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS});
+			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
+		});
+	});
+
+	describe('keypress', () => {
+		it('animates', async () => {
+			const FPSValues = await FPS();
+			await page.goto('http://localhost:8080/flexiblePopupPanels');
+			await page.waitForSelector('#button');
+
+			await page.focus('#button');
+			await page.waitForTimeout(200);
+			await page.keyboard.down('Enter');
+			await page.waitForTimeout(200);
+			await page.keyboard.up('Enter');
+			await page.waitForTimeout(200);
+			await page.focus('[aria-label="Exit app"]'); // to close the popup.
+			await page.waitForTimeout(200);
+			await page.keyboard.down('Enter');
+			await page.waitForTimeout(200);
+			await page.keyboard.up('Enter');
+
+			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			TestResults.addResult({component: component, type: 'Frames Per Second keypress', actualValue: averageFPS});
+		});
 	});
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/popup');
-		await page.waitForSelector('#popup');
-		await page.click(close);
-		await page.waitForTimeout(500);
-		await page.click(open);
-		await page.waitForTimeout(500);
-		await page.click(close);
-		await page.waitForTimeout(500);
-		await page.click(open);
-		await page.waitForTimeout(500);
-		await page.click(close);
-		await page.waitForTimeout(500);
-		await page.click(open);
-		await page.waitForTimeout(500);
-		await page.click(close);
-		await page.waitForTimeout(500);
+		await page.goto('http://localhost:8080/flexiblePopupPanels');
+		await page.waitForSelector('#button');
+		await page.focus('#button');
+		await page.keyboard.down('Enter');
 
 		let actualFirstInput = await page.evaluate(() => {
 			return window.fid;
@@ -79,8 +81,8 @@ describe('Popup', () => {
 			const page = await testMultiple.newPage();
 
 			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/popup');
-			await page.waitForSelector('#popup');
+			await page.goto('http://localhost:8080/flexiblePopupPanels?open=true');
+			await page.waitForSelector('#flexiblePopupPanels');
 			await page.waitForTimeout(200);
 
 			await page.tracing.stop();
@@ -123,4 +125,3 @@ describe('Popup', () => {
 		expect(avgLCP).toBeLessThan(maxLCP);
 	});
 });
-

@@ -7,7 +7,6 @@ const PickerJoinedView = kind({
 	render: () => (
 		<Picker
 			id="pickerJoined"
-			defaultValue={0}
 			joined
 			title="Picker Joined"
 			width="large"

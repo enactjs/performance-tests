@@ -7,7 +7,6 @@ const PickerView = kind({
 	render: () => (
 		<Picker
 			id="pickerDefault"
-			defaultValue={0}
 			title="Picker Default"
 			width="large"
 		>

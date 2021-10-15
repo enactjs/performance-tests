@@ -20,7 +20,17 @@ async function scrollAtPoint (page, selector, amount) {
 	}, selector, amount);
 }
 
+const firstInputValue = () => {
+	return page.evaluate(() => window.fid);
+};
+
+const clsValue = () => {
+	return page.evaluate(() => window.cls);
+};
+
 module.exports = {
+	clsValue,
+	firstInputValue,
 	getFileName,
 	scrollAtPoint
 };

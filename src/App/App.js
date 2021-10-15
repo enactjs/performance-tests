@@ -46,7 +46,6 @@ import TimePicker from '../views/TimePicker';
 import TooltipDecorator from '../views/TooltipDecorator';
 import VideoPlayer from '../views/VideoPlayer';
 import VirtualList from '../views/VirtualList';
-import ViewManager from '../views/ViewManager';
 import WizardPanels from '../views/WizardPanels';
 
 import css from './App.less';
@@ -108,7 +107,6 @@ const App = kind({
 				<Route path="/timePicker" component={TimePicker} />
 				<Route path="/tooltipDecorator" component={TooltipDecorator} />
 				<Route path="/videoPlayer" component={VideoPlayer} />
-				<Route path="/viewManager" component={ViewManager} />
 				<Route path="/virtualList" component={VirtualList} />
 				<Route path="/wizardPanels" component={WizardPanels} />
 			</div>

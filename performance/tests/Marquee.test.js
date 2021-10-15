@@ -1,6 +1,6 @@
 const TestResults = require('../TestResults');
 const {CLS, DCL, FID, FCP, FPS, LCP} = require('../TraceModel');
-const {getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName} = require('../utils');
 
 const component = 'Marquee';
 const MarqueeText = '[class$="Marquee_marquee"]';
@@ -25,13 +25,8 @@ describe('Marquee', () => {
 		await page.hover(MarqueeText);
 		await page.waitForTimeout(500);
 
-		let actualFirstInput = await page.evaluate(() => {
-			return window.fid;
-		});
-
-		let actualCLS = await page.evaluate(() => {
-			return window.cls;
-		});
+		let actualFirstInput = await firstInputValue();
+		let actualCLS = await clsValue();
 
 		TestResults.addResult({component: component, type: 'First Input Delay', actualValue: actualFirstInput});
 		TestResults.addResult({component: component, type: 'CLS', actualValue: actualCLS});
@@ -43,9 +38,9 @@ describe('Marquee', () => {
 	it('should have a good DCL, FCP and LCP', async () => {
 		const filename = getFileName(component);
 
-		let contDCL = 0;
-		let contFCP = 0;
-		let contLCP = 0;
+		let passContDCL = 0;
+		let passContFCP = 0;
+		let passContLCP = 0;
 		let avgDCL = 0;
 		let avgFCP = 0;
 		let avgLCP = 0;
@@ -62,19 +57,19 @@ describe('Marquee', () => {
 			const actualDCL = await DCL(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
-				contDCL += 1;
+				passContDCL += 1;
 			}
 
 			const actualFCP = await FCP(filename);
 			avgFCP = avgFCP + actualFCP;
 			if (actualFCP < maxFCP) {
-				contFCP += 1;
+				passContFCP += 1;
 			}
 
 			const actualLCP = await LCP(filename);
 			avgLCP = avgLCP + actualLCP;
 			if (actualLCP < maxLCP) {
-				contLCP += 1;
+				passContLCP += 1;
 			}
 
 			await page.close();
@@ -87,13 +82,13 @@ describe('Marquee', () => {
 		TestResults.addResult({component: component, type: 'average FCP', actualValue: avgFCP});
 		TestResults.addResult({component: component, type: 'average LCP', actualValue: avgLCP});
 
-		expect(contDCL).toBeGreaterThan(percent);
+		expect(passContDCL).toBeGreaterThan(passRatio * stepNumber);
 		expect(avgDCL).toBeLessThan(maxDCL);
 
-		expect(contFCP).toBeGreaterThan(percent);
+		expect(passContFCP).toBeGreaterThan(passRatio * stepNumber);
 		expect(avgFCP).toBeLessThan(maxFCP);
 
-		expect(contLCP).toBeGreaterThan(percent);
+		expect(passContLCP).toBeGreaterThan(passRatio * stepNumber);
 		expect(avgLCP).toBeLessThan(maxLCP);
 	});
 

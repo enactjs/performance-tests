@@ -30,7 +30,7 @@
 	"dependencies": {
 		"@enact/core": "^4.0.5",
 		"@enact/i18n": "^4.0.5",
-		"@enact/sandstone": "^2.0.0-rc.7",
+		"@enact/sandstone": "^2.0.0",
 		"@enact/spotlight": "^4.0.5",
 		"@enact/ui": "^4.0.5",
 		"dotenv": "^6.2.0",

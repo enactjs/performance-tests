@@ -12,7 +12,7 @@ import {useState} from 'react';
 const PanelsView = () => {
 	const [index, setPanelIndex] = useState(0);
 
-	function handleClick() {
+	function handleClick () {
 		return index === 0 ? setPanelIndex(1) : setPanelIndex(0);
 	}
 
@@ -85,6 +85,6 @@ const PanelsView = () => {
 			</Panel>
 		</Panels>
 	);
-}
+};
 
 export default PanelsView;

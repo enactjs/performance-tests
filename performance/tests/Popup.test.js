@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {DCL, FCP, FPS, LCP, FID, CLS} = require('../TraceModel');
+const {FPS, LoadingMetrics, FID, CLS} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 
 describe('Popup', () => {
@@ -9,7 +9,7 @@ describe('Popup', () => {
 	TestResults.newFile(component);
 
 	it('FPS', async () => {
-		const FPSValues = await FPS();
+		await FPS();
 		await page.goto('http://localhost:8080/popup');
 		await page.waitForSelector('#popup');
 		await page.click(close);
@@ -29,6 +29,8 @@ describe('Popup', () => {
 
 		const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
 		TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS});
+
+		expect(averageFPS).toBeGreaterThan(minFPS);
 	});
 
 	it('should have a good FID and CLS', async () => {
@@ -80,19 +82,17 @@ describe('Popup', () => {
 
 			await page.tracing.stop();
 
-			const actualDCL = await DCL(filename);
+			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;
 			}
 
-			const actualFCP = await FCP(filename);
 			avgFCP = avgFCP + actualFCP;
 			if (actualFCP < maxFCP) {
 				passContFCP += 1;
 			}
 
-			const actualLCP = await LCP(filename);
 			avgLCP = avgLCP + actualLCP;
 			if (actualLCP < maxLCP) {
 				passContLCP += 1;

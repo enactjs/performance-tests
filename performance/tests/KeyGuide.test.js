@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, DCL, FCP, FID, FPS, LCP} = require('../TraceModel');
+const {CLS, FID, FPS, LoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 
 describe('KeyGuide', () => {
@@ -7,13 +7,15 @@ describe('KeyGuide', () => {
 	TestResults.newFile(component);
 
 	it('FPS', async () => {
-		const FPSValues = await FPS();
+		await FPS();
 		await page.goto('http://localhost:8080/keyGuide');
 		await page.waitForSelector('#keyGuide');
 		await page.waitForTimeout(2000);
 
 		const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
 		TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
+
+		expect(averageFPS).toBeGreaterThan(minFPS);
 	});
 
 	it('should have a good FID and CLS', async () => {
@@ -54,19 +56,17 @@ describe('KeyGuide', () => {
 
 			await page.tracing.stop();
 
-			const actualDCL = await DCL(filename);
+			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;
 			}
 
-			const actualFCP = await FCP(filename);
 			avgFCP = avgFCP + actualFCP;
 			if (actualFCP < maxFCP) {
 				passContFCP += 1;
 			}
 
-			const actualLCP = await LCP(filename);
 			avgLCP = avgLCP + actualLCP;
 			if (actualLCP < maxLCP) {
 				passContLCP += 1;

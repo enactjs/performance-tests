@@ -1,6 +1,6 @@
 const TestResults = require('../TestResults');
-const {CLS, DCL, FCP, LCP} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {CLS, LoadingMetrics} = require('../TraceModel');
+const {clsValue, getFileName} = require('../utils');
 
 describe('BodyText', () => {
 	const component = 'BodyText';
@@ -14,9 +14,7 @@ describe('BodyText', () => {
 		await page.keyboard.down('Enter');
 		await page.waitForTimeout(200);
 
-		let actualCLS = await page.evaluate(() => {
-			return window.cls;
-		});
+		let actualCLS = await clsValue();
 
 		TestResults.addResult({component: component, type: 'CLS', actualValue: actualCLS});
 		expect(actualCLS).toBeLessThan(maxCLS);
@@ -41,19 +39,17 @@ describe('BodyText', () => {
 
 			await page.tracing.stop();
 
-			const actualDCL = await DCL(filename);
+			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;
 			}
 
-			const actualFCP = await FCP(filename);
 			avgFCP = avgFCP + actualFCP;
 			if (actualFCP < maxFCP) {
 				passContFCP += 1;
 			}
 
-			const actualLCP = await LCP(filename);
 			avgLCP = avgLCP + actualLCP;
 			if (actualLCP < maxLCP) {
 				passContLCP += 1;

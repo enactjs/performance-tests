@@ -1,20 +1,23 @@
 const fs = require('fs');
 
-const FPS = () =>  {
+const FPS = async () =>  {
+	window.FPSValues = [];
 	let previousFrame, currentFrame;
-	let FPSValues = [];
 	previousFrame = performance.now();
 
 	requestAnimationFrame(
-		function calculateNewFPS () {
+		async function calculateNewFPS () {
 			currentFrame = performance.now();
-			FPSValues.push(Math.round(1000 / (currentFrame - previousFrame)));
+			window.FPSValues.push(Math.round(1000 / (currentFrame - previousFrame)));
 			previousFrame = currentFrame;
-			requestAnimationFrame(calculateNewFPS);
+			await requestAnimationFrame(calculateNewFPS);
 		}
 	);
-	return FPSValues;
 };
+
+const averageFPS = () => {
+	return (window.FPSValues.reduce((a, b) => a + b, 0) / window.FPSValues.length) || 0;
+}
 
 const FID = () => {
 	window.fid = 0;
@@ -36,47 +39,27 @@ const CLS = () => {
 	}).observe({type: 'layout-shift', buffered: true});
 };
 
-const LCP = (filename) => {
+const LoadingMetrics = (filename) => {
 	const events = fs.readFileSync(filename, 'utf8');
 	const result = JSON.parse(events);
 
 	const baseEvent = result.traceEvents.filter(i => i.name === 'TracingStartedInBrowser')[0].ts;
+
+	const domContentLoadedEventEnd = result.traceEvents.filter(i => i.name === 'domContentLoadedEventEnd')[0].ts;
+	const firstContentfulPaint = result.traceEvents.filter(i => i.name === 'firstContentfulPaint')[0].ts;
 	const largestContentfulPaint = result.traceEvents.filter(i => i.name === 'largestContentfulPaint::Candidate')[0].ts;
 
-	const LCPTime = (largestContentfulPaint - baseEvent) / 1000;
+	const actualDCL = (domContentLoadedEventEnd - baseEvent) / 1000;
+	const actualFCP = (firstContentfulPaint - baseEvent) / 1000;
+	const actualLCP = (largestContentfulPaint - baseEvent) / 1000;
 
-	return LCPTime;
-};
-
-const FCP = (filename) => {
-	const events = fs.readFileSync(filename, 'utf8');
-	const result = JSON.parse(events);
-
-	const baseEvent = result.traceEvents.filter(i => i.name === 'TracingStartedInBrowser')[0].ts;
-	const firstContentfulPaint = result.traceEvents.filter(i => i.name === 'firstContentfulPaint')[0].ts;
-
-	const FCPTime = (firstContentfulPaint - baseEvent) / 1000;
-
-	return FCPTime;
-};
-
-const DCL = (filename) => {
-	const events = fs.readFileSync(filename, 'utf8');
-	const result = JSON.parse(events);
-
-	const baseEvent = result.traceEvents.filter(i => i.name === 'TracingStartedInBrowser')[0].ts;
-	const domContentLoadedEventEnd = result.traceEvents.filter(i => i.name === 'domContentLoadedEventEnd')[0].ts;
-
-	const DCLTime = (domContentLoadedEventEnd - baseEvent) / 1000;
-
-	return DCLTime;
+	return {actualDCL, actualFCP, actualLCP};
 };
 
 module.exports = {
+	averageFPS,
 	CLS,
-	DCL,
-	FCP,
 	FID,
 	FPS,
-	LCP
+	LoadingMetrics
 };

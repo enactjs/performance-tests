@@ -1,10 +1,24 @@
 const TestResults = require('../TestResults');
-const {DCL, FCP, LCP} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {CLS, LoadingMetrics} = require('../TraceModel');
+const {clsValue, getFileName} = require('../utils');
 
 describe('ImageItem', () => {
 	const component = 'ImageItem';
 	TestResults.newFile(component);
+
+	it('should have a good CLS', async () => {
+		await page.evaluateOnNewDocument(CLS);
+		await page.goto('http://localhost:8080/imageItem');
+		await page.waitForSelector('#imageItem');
+		await page.focus('#image');
+		await page.keyboard.down('Enter');
+		await page.waitForTimeout(200);
+
+		let actualCLS = await clsValue();
+
+		TestResults.addResult({component: component, type: 'CLS', actualValue: actualCLS});
+		expect(actualCLS).toBeLessThan(maxCLS);
+	});
 
 	it('should have a good DCL, FCP and LCP', async () => {
 		const filename = getFileName(component);
@@ -26,19 +40,17 @@ describe('ImageItem', () => {
 			await page.tracing.stop();
 
 
-			const actualDCL = await DCL(filename);
+			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;
 			}
 
-			const actualFCP = await FCP(filename);
 			avgFCP = avgFCP + actualFCP;
 			if (actualFCP < maxFCP) {
 				passContFCP += 1;
 			}
 
-			const actualLCP = await LCP(filename);
 			avgLCP = avgLCP + actualLCP;
 			if (actualLCP < maxLCP) {
 				passContLCP += 1;

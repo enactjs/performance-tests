@@ -1,6 +1,6 @@
 const TestResults = require('../TestResults');
-const {CLS, DCL, FCP, FID, FPS, LCP} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {CLS, FID, FPS, LoadingMetrics} = require('../TraceModel');
+const {clsValue, getFileName} = require('../utils');
 
 describe('Picker', () => {
 	const component = 'Picker';
@@ -9,7 +9,7 @@ describe('Picker', () => {
 	describe('PickerDefault', () => {
 		describe('click', () => {
 			it('animates', async () => {
-				const FPSValues = await FPS();
+				await FPS();
 				await page.goto('http://localhost:8080/picker');
 				await page.waitForSelector('#pickerDefault');
 				await page.click('[aria-label$="next item"]'); // to move mouse on the picker.
@@ -28,12 +28,14 @@ describe('Picker', () => {
 
 				const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
 				TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
+
+				expect(averageFPS).toBeGreaterThan(minFPS);
 			});
 		});
 
 		describe('keypress', () => {
 			it('animates', async () => {
-				const FPSValues = await FPS();
+				await FPS();
 				await page.goto('http://localhost:8080/picker');
 				await page.waitForSelector('#pickerDefault');
 				await page.focus('[aria-label$="next item"]');
@@ -53,6 +55,8 @@ describe('Picker', () => {
 
 				const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
 				TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
+
+				expect(averageFPS).toBeGreaterThan(minFPS);
 			});
 		});
 
@@ -69,9 +73,7 @@ describe('Picker', () => {
 				return window.fid;
 			});
 
-			let actualCLS = await page.evaluate(() => {
-				return window.cls;
-			});
+			let actualCLS = await clsValue();
 
 			TestResults.addResult({component: component, type: 'First Input Delay', actualValue: actualFirstInput});
 			expect(actualFirstInput).toBeLessThan(maxFID);
@@ -99,19 +101,19 @@ describe('Picker', () => {
 
 				await page.tracing.stop();
 
-				const actualDCL = await DCL(filename);
+				const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
 				avgDCL = avgDCL + actualDCL;
 				if (actualDCL < maxDCL) {
 					passContDCL += 1;
 				}
 
-				const actualFCP = await FCP(filename);
+
 				avgFCP = avgFCP + actualFCP;
 				if (actualFCP < maxFCP) {
 					passContFCP += 1;
 				}
 
-				const actualLCP = await LCP(filename);
+
 				avgLCP = avgLCP + actualLCP;
 				if (actualLCP < maxLCP) {
 					passContLCP += 1;
@@ -141,7 +143,7 @@ describe('Picker', () => {
 	describe('PickerJoined', () => {
 		describe('click', () => {
 			it('animates', async () => {
-				const FPSValues = await FPS();
+				await FPS();
 				await page.goto('http://localhost:8080/pickerJoined');
 				await page.waitForSelector('#pickerJoined');
 				await page.click('#pickerJoined'); // to move mouse on the picker.
@@ -165,7 +167,7 @@ describe('Picker', () => {
 
 		describe('keypress', () => {
 			it('animates', async () => {
-				const FPSValues = await FPS();
+				await FPS();
 				await page.goto('http://localhost:8080/pickerJoined');
 				await page.waitForSelector('#pickerJoined');
 				await page.focus('#pickerJoined');
@@ -201,9 +203,7 @@ describe('Picker', () => {
 				return window.fid;
 			});
 
-			let actualCLS = await page.evaluate(() => {
-				return window.cls;
-			});
+			let actualCLS = await clsValue();
 
 			TestResults.addResult({component: component + ' joined', type: 'First Input Delay', actualValue: actualFirstInput});
 			expect(actualFirstInput).toBeLessThan(maxFID);
@@ -231,19 +231,19 @@ describe('Picker', () => {
 
 				await page.tracing.stop();
 
-				const actualDCL = await DCL(filename);
+				const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
 				avgDCL = avgDCL + actualDCL;
 				if (actualDCL < maxDCL) {
 					passContDCL += 1;
 				}
 
-				const actualFCP = await FCP(filename);
+
 				avgFCP = avgFCP + actualFCP;
 				if (actualFCP < maxFCP) {
 					passContFCP += 1;
 				}
 
-				const actualLCP = await LCP(filename);
+
 				avgLCP = avgLCP + actualLCP;
 				if (actualLCP < maxLCP) {
 					passContLCP += 1;

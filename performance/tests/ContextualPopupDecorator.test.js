@@ -1,13 +1,13 @@
 const TestResults = require('../TestResults');
-const {DCL, FCP, FPS, LCP} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {CLS, FPS, LoadingMetrics} = require('../TraceModel');
+const {clsValue, getFileName} = require('../utils');
 
 describe('ContextualPopupDecorator', () => {
 	const component = 'ContextualPopupDecorator';
 	TestResults.newFile(component);
 
 	it('FPS', async () => {
-		const FPSValues = await FPS();
+		await FPS();
 		await page.goto('http://localhost:8080/contextualPopupDecorator');
 		await page.waitForSelector('#contextualPopupDecorator');
 		await page.click('#contextualPopupDecorator'); // to move mouse on the button.
@@ -26,6 +26,22 @@ describe('ContextualPopupDecorator', () => {
 
 		const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
 		TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS});
+
+		expect(averageFPS).toBeGreaterThan(minFPS);
+	});
+
+	it('should have a good CLS', async () => {
+		await page.evaluateOnNewDocument(CLS);
+		await page.goto('http://localhost:8080/contextualPopupDecorator');
+		await page.waitForTimeout(200);
+		await page.waitForSelector('#contextualPopupDecorator');
+		await page.click('#contextualPopupDecorator');
+
+		let actualCLS = await clsValue();
+
+		TestResults.addResult({component: component, type: 'CLS', actualValue: actualCLS});
+
+		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {
@@ -47,19 +63,17 @@ describe('ContextualPopupDecorator', () => {
 
 			await page.tracing.stop();
 
-			const actualDCL = await DCL(filename);
+			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;
 			}
 
-			const actualFCP = await FCP(filename);
 			avgFCP = avgFCP + actualFCP;
 			if (actualFCP < maxFCP) {
 				passContFCP += 1;
 			}
 
-			const actualLCP = await LCP(filename);
 			avgLCP = avgLCP + actualLCP;
 			if (actualLCP < maxLCP) {
 				passContLCP += 1;

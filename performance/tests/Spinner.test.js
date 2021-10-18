@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, DCL, FCP, FID, LCP} = require('../TraceModel');
+const {CLS, FID, LoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 
 describe('Spinner', () => {
@@ -44,19 +44,17 @@ describe('Spinner', () => {
 
 			await page.tracing.stop();
 
-			const actualDCL = await DCL(filename);
+			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;
 			}
 
-			const actualFCP = await FCP(filename);
 			avgFCP = avgFCP + actualFCP;
 			if (actualFCP < maxFCP) {
 				passContFCP += 1;
 			}
 
-			const actualLCP = await LCP(filename);
 			avgLCP = avgLCP + actualLCP;
 			if (actualLCP < maxLCP) {
 				passContLCP += 1;

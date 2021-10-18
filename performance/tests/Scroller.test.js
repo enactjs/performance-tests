@@ -1,6 +1,6 @@
-const {CLS, DCL, FCP, FID, FPS, LCP} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName, scrollAtPoint} = require('../utils');
 const TestResults = require('../TestResults');
+const {CLS, FID, FPS, LoadingMetrics} = require('../TraceModel');
+const {clsValue, firstInputValue, getFileName, scrollAtPoint} = require('../utils');
 
 describe( 'Scroller', () => {
 	const component = 'Scroller';
@@ -8,7 +8,7 @@ describe( 'Scroller', () => {
 
 	describe('keypress', () => {
 		it('scrolls down', async () => {
-			const FPSValues = await FPS();
+			await FPS();
 			await page.goto('http://localhost:8080/scroller');
 			await page.focus('[aria-label="scroll up or down with up down button"]');
 			await page.keyboard.down('Enter');
@@ -17,12 +17,14 @@ describe( 'Scroller', () => {
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
 			TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
+
+			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
 	});
 
 	describe('mouse wheel', () => {
 		it('scrolls down', async () => {
-			const FPSValues = await FPS();
+			await FPS();
 			await page.goto('http://localhost:8080/scroller');
 			const scroller = '#scroller';
 
@@ -37,6 +39,8 @@ describe( 'Scroller', () => {
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
 			TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
+
+			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
 	});
 
@@ -79,19 +83,17 @@ describe( 'Scroller', () => {
 
 			await page.tracing.stop();
 
-			const actualDCL = await DCL(filename);
+			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;
 			}
 
-			const actualFCP = await FCP(filename);
 			avgFCP = avgFCP + actualFCP;
 			if (actualFCP < maxFCP) {
 				passContFCP += 1;
 			}
 
-			const actualLCP = await LCP(filename);
 			avgLCP = avgLCP + actualLCP;
 			if (actualLCP < maxLCP) {
 				passContLCP += 1;
@@ -118,7 +120,7 @@ describe( 'Scroller', () => {
 	});
 
 	it('scroll down with 5-way with Scroller Native', async () => {
-		const FPSValues = await FPS();
+		await FPS();
 
 		await page.goto('http://localhost:8080/scrollerMultipleChildren?count=100&type=ScrollerNative');
 		await page.waitForSelector('#Scroller');

@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, DCL, FCP, FID, FPS, LCP} = require('../TraceModel');
+const {CLS, FID, FPS, LoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName, scrollAtPoint} = require('../utils');
 
 describe('VirtualList', () => {
@@ -8,7 +8,7 @@ describe('VirtualList', () => {
 
 	describe('ScrollButton', () => {
 		it('scrolls down', async () => {
-			const FPSValues = await FPS();
+			await FPS();
 			await page.goto('http://localhost:8080/virtualList');
 			await page.waitForSelector('#virtualList');
 			await page.focus('[aria-label="scroll up or down with up down button"]');
@@ -23,12 +23,14 @@ describe('VirtualList', () => {
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
 			TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
+
+			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
 	});
 
 	describe('mousewheel', () => {
 		it('scrolls down', async () => {
-			const FPSValues = await FPS();
+			await FPS();
 			const VirtualList = '#virtualList';
 
 			await page.goto('http://localhost:8080/virtualList');
@@ -44,6 +46,8 @@ describe('VirtualList', () => {
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
 			TestResults.addResult({component: component, type: 'Frames Per Second Mousewheel', actualValue: averageFPS});
+
+			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
 	});
 
@@ -84,19 +88,17 @@ describe('VirtualList', () => {
 
 			await page.tracing.stop();
 
-			const actualDCL = await DCL(filename);
+			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;
 			}
 
-			const actualFCP = await FCP(filename);
 			avgFCP = avgFCP + actualFCP;
 			if (actualFCP < maxFCP) {
 				passContFCP += 1;
 			}
 
-			const actualLCP = await LCP(filename);
 			avgLCP = avgLCP + actualLCP;
 			if (actualLCP < maxLCP) {
 				passContLCP += 1;

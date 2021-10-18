@@ -1,4 +1,4 @@
-const {CLS, DCL, FCP, FID, FPS, LCP} = require('../TraceModel');
+const {CLS, FID, FPS, LoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 const TestResults = require('../TestResults');
 
@@ -8,7 +8,7 @@ describe('Slider', () => {
 
 	describe('drag', () => {
 		it('increment', async () => {
-			const FPSValues = await FPS();
+			await FPS();
 			await page.goto('http://localhost:8080/slider');
 			await page.waitForSelector('#slider');
 			const {x: posX, y: posY} = await page.evaluate(() => {
@@ -26,12 +26,14 @@ describe('Slider', () => {
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
 			TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
+
+			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
 	});
 
 	describe('keyboard', () => {
 		it('increment', async () => {
-			const FPSValues = await FPS();
+			await FPS();
 			await page.goto('http://localhost:8080/slider');
 			await page.waitForSelector('#slider');
 			await page.focus('#slider');
@@ -44,6 +46,8 @@ describe('Slider', () => {
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
 			TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
+
+			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
 	});
 
@@ -85,19 +89,17 @@ describe('Slider', () => {
 
 			await page.tracing.stop();
 
-			const actualDCL = await DCL(filename);
+			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;
 			}
 
-			const actualFCP = await FCP(filename);
 			avgFCP = avgFCP + actualFCP;
 			if (actualFCP < maxFCP) {
 				passContFCP += 1;
 			}
 
-			const actualLCP = await LCP(filename);
 			avgLCP = avgLCP + actualLCP;
 			if (actualLCP < maxLCP) {
 				passContLCP += 1;

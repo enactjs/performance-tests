@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, DCL, FCP, FID, FPS, LCP} = require('../TraceModel');
+const {CLS, FID, FPS, LoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 
 describe('DatePicker', () => {
@@ -8,7 +8,7 @@ describe('DatePicker', () => {
 
 	describe('click', () => {
 		it('animates', async () => {
-			const FPSValues = await FPS();
+			await FPS();
 			await page.goto('http://localhost:8080/datePicker');
 			await page.waitForTimeout(500);
 			await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
@@ -30,12 +30,14 @@ describe('DatePicker', () => {
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
 			TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
+
+			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
 	});
 
 	describe('keypress', () => {
 		it('animates', async () => {
-			const FPSValues = await FPS();
+			await FPS();
 			await page.goto('http://localhost:8080/datePicker');
 			await page.waitForSelector('[data-webos-voice-group-label="month"]');
 			await page.focus('[data-webos-voice-group-label="month"]');
@@ -61,6 +63,8 @@ describe('DatePicker', () => {
 
 			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
 			TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
+
+			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
 	});
 
@@ -102,19 +106,17 @@ describe('DatePicker', () => {
 			await page.tracing.stop();
 
 
-			const actualDCL = await DCL(filename);
+			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;
 			}
 
-			const actualFCP = await FCP(filename);
 			avgFCP = avgFCP + actualFCP;
 			if (actualFCP < maxFCP) {
 				passContFCP += 1;
 			}
 
-			const actualLCP = await LCP(filename);
 			avgLCP = avgLCP + actualLCP;
 			if (actualLCP < maxLCP) {
 				passContLCP += 1;

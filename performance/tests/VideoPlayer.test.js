@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, FID, FPS, LoadingMetrics} = require('../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, LoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 
 describe('VideoPlayer', () => {
@@ -15,7 +15,7 @@ describe('VideoPlayer', () => {
 			await page.click('[aria-label="Play"]'); // to start the video.
 			await page.waitForTimeout(1000);
 
-			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
@@ -33,7 +33,7 @@ describe('VideoPlayer', () => {
 			await page.keyboard.down('Enter');
 			await page.waitForTimeout(200);
 
-			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);

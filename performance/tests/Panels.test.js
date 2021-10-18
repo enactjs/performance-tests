@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {FPS, LoadingMetrics, FID, CLS} = require('../TraceModel');
+const {FPS, getAverageFPS, LoadingMetrics, FID, CLS} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 
 describe('Panels', () => {
@@ -34,7 +34,7 @@ describe('Panels', () => {
 		await page.click(panel2Button);
 		await page.waitForTimeout(500);
 
-		const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS});
 
 		expect(averageFPS).toBeGreaterThan(minFPS);

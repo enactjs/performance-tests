@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, FID, FPS, LoadingMetrics} = require('../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, LoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 
 describe('PopupTabLayout', () => {
@@ -45,7 +45,7 @@ describe('PopupTabLayout', () => {
 		await page.waitForTimeout(200);
 		await page.keyboard.up('Escape');
 
-		const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS});
 
 		expect(averageFPS).toBeGreaterThan(minFPS);

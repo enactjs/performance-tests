@@ -15,9 +15,7 @@ const FPS = async () =>  {
 	);
 };
 
-const averageFPS = () => {
-	return (window.FPSValues.reduce((a, b) => a + b, 0) / window.FPSValues.length) || 0;
-}
+const getAverageFPS = () => (window.FPSValues.reduce((a, b) => a + b, 0) / window.FPSValues.length) || 0;
 
 const FID = () => {
 	window.fid = 0;
@@ -57,9 +55,9 @@ const LoadingMetrics = (filename) => {
 };
 
 module.exports = {
-	averageFPS,
 	CLS,
 	FID,
 	FPS,
+	getAverageFPS,
 	LoadingMetrics
 };

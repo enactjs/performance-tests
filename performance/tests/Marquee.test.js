@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, FID, FPS, LoadingMetrics} = require('../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, LoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 
 const component = 'Marquee';
@@ -13,7 +13,7 @@ describe('Marquee', () => {
 		await page.hover(MarqueeText);
 		await page.waitForTimeout(500);
 
-		const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS});
 
 		expect(averageFPS).toBeGreaterThan(minFPS);
@@ -107,7 +107,7 @@ describe('Marquee', () => {
 				await page.hover('#Marquee_5');
 				await page.waitForTimeout(2000);
 
-				const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+				const averageFPS = await getAverageFPS();
 				TestResults.addResult({component: component, type: 'Marquee Multiple Hover Frames Per Second', actualValue: averageFPS});
 			});
 		}
@@ -121,7 +121,7 @@ describe('Marquee', () => {
 				await page.waitForSelector('#Container');
 				await page.waitForTimeout(2000);
 
-				const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+				const averageFPS = await getAverageFPS();
 				TestResults.addResult({component: component, type: 'Marquee Multiple Render Frames Per Second', actualValue: averageFPS});
 			});
 		}

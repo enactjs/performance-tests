@@ -1,4 +1,4 @@
-const {CLS, FID, FPS, LoadingMetrics} = require('../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, LoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 const TestResults = require('../TestResults');
 
@@ -24,7 +24,7 @@ describe('Slider', () => {
 				await page.mouse.move(posX + (i * 10), posY);
 			}
 
-			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
@@ -44,7 +44,7 @@ describe('Slider', () => {
 				await page.keyboard.down('ArrowRight');
 			}
 
-			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);

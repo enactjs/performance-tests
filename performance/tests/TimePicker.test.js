@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, FID, FPS, LoadingMetrics} = require('../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, LoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 
 describe('TimePicker', () => {
@@ -15,7 +15,7 @@ describe('TimePicker', () => {
 			await page.click('[aria-label$="hour change a value with up down button"]');
 			await page.waitForTimeout(1000);
 
-			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
@@ -32,7 +32,7 @@ describe('TimePicker', () => {
 			await page.keyboard.down('ArrowDown');
 			await page.waitForTimeout(200);
 
-			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);

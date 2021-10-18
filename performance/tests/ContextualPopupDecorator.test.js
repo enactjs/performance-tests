@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, FPS, LoadingMetrics} = require('../TraceModel');
+const {CLS, FPS, getAverageFPS, LoadingMetrics} = require('../TraceModel');
 const {clsValue, getFileName} = require('../utils');
 
 describe('ContextualPopupDecorator', () => {
@@ -24,7 +24,7 @@ describe('ContextualPopupDecorator', () => {
 		await page.waitForTimeout(100);
 		await page.mouse.up();
 
-		const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'Frames Per Second', actualValue: averageFPS});
 
 		expect(averageFPS).toBeGreaterThan(minFPS);

@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, FID, FPS, LoadingMetrics} = require('../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, LoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 
 describe('FlexiblePopupPanels', () => {
@@ -17,7 +17,7 @@ describe('FlexiblePopupPanels', () => {
 			await page.waitForTimeout(200);
 			await page.mouse.up();
 
-			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
@@ -42,7 +42,7 @@ describe('FlexiblePopupPanels', () => {
 			await page.waitForTimeout(200);
 			await page.keyboard.up('Enter');
 
-			const averageFPS = (FPSValues.reduce((a, b) => a + b, 0) / FPSValues.length) || 0;
+			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'Frames Per Second keypress', actualValue: averageFPS});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);

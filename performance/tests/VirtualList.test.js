@@ -1,6 +1,6 @@
 const TestResults = require('../TestResults');
 const {CLS, DCL, FCP, FID, FPS, LCP} = require('../TraceModel');
-const {getFileName, scrollAtPoint} = require('../utils');
+const {clsValue, firstInputValue, getFileName, scrollAtPoint} = require('../utils');
 
 describe('VirtualList', () => {
 	const component = 'VirtualList';

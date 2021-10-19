@@ -23,7 +23,7 @@ const PanelsView = () => {
 					<Button
 						icon="arrowlargeright"
 						iconFlip="auto"
-						id="panel-1-button"
+						id="goToNextPanel"
 						onClick={handleClick}
 						size="small"
 						slot="slotAfter"

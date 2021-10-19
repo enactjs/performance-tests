@@ -18,8 +18,8 @@ describe('Spinner', () => {
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
 
-		TestResults.addResult({component: component, type: 'First Input Delay', actualValue: actualFirstInput});
-		TestResults.addResult({component: component, type: 'CLS', actualValue: actualCLS});
+		TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
+		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
 
 		expect(actualFirstInput).toBeLessThan(maxFID);
 		expect(actualCLS).toBeLessThan(maxCLS);
@@ -66,9 +66,9 @@ describe('Spinner', () => {
 		avgFCP = avgFCP / stepNumber;
 		avgLCP = avgLCP / stepNumber;
 
-		TestResults.addResult({component: component, type: 'average DCL', actualValue: avgDCL});
-		TestResults.addResult({component: component, type: 'average FCP', actualValue: avgFCP});
-		TestResults.addResult({component: component, type: 'average LCP', actualValue: avgLCP});
+		TestResults.addResult({component: component, type: 'DCL', actualValue: Math.round((avgDCL + Number.EPSILON) * 1000) / 1000});
+		TestResults.addResult({component: component, type: 'FCP', actualValue: Math.round((avgFCP + Number.EPSILON) * 1000) / 1000});
+		TestResults.addResult({component: component, type: 'LCP', actualValue: Math.round((avgLCP + Number.EPSILON) * 1000) / 1000});
 
 		expect(passContDCL).toBeGreaterThan(passRatio * stepNumber);
 		expect(avgDCL).toBeLessThan(maxDCL);

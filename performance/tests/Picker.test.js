@@ -27,7 +27,7 @@ describe('Picker', () => {
 				await page.mouse.up();
 
 				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component, type: 'Frames Per Second Click', actualValue: averageFPS});
+				TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 				expect(averageFPS).toBeGreaterThan(minFPS);
 			});
@@ -54,7 +54,7 @@ describe('Picker', () => {
 				await page.keyboard.up('Enter');
 
 				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component, type: 'Frames Per Second Keypress', actualValue: averageFPS});
+				TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 				expect(averageFPS).toBeGreaterThan(minFPS);
 			});
@@ -75,10 +75,10 @@ describe('Picker', () => {
 
 			let actualCLS = await clsValue();
 
-			TestResults.addResult({component: component, type: 'First Input Delay', actualValue: actualFirstInput});
+			TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
 			expect(actualFirstInput).toBeLessThan(maxFID);
 
-			TestResults.addResult({component: component, type: 'CLS', actualValue: actualCLS});
+			TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
 			expect(actualCLS).toBeLessThan(maxCLS);
 		});
 
@@ -125,9 +125,9 @@ describe('Picker', () => {
 			avgFCP = avgFCP / stepNumber;
 			avgLCP = avgLCP / stepNumber;
 
-			TestResults.addResult({component: component, type: 'average DCL', actualValue: avgDCL});
-			TestResults.addResult({component: component, type: 'average FCP', actualValue: avgFCP});
-			TestResults.addResult({component: component, type: 'average LCP', actualValue: avgLCP});
+			TestResults.addResult({component: component, type: 'DCL', actualValue: Math.round((avgDCL + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component, type: 'FCP', actualValue: Math.round((avgFCP + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component, type: 'LCP', actualValue: Math.round((avgLCP + Number.EPSILON) * 1000) / 1000});
 
 			expect(passContDCL).toBeGreaterThan(passRatio * stepNumber);
 			expect(avgDCL).toBeLessThan(maxDCL);
@@ -161,7 +161,7 @@ describe('Picker', () => {
 				await page.mouse.up();
 
 				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component + ' joined', type: 'Frames Per Second Click', actualValue: averageFPS});
+				TestResults.addResult({component: component + ' joined', type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 			});
 		});
 
@@ -186,7 +186,7 @@ describe('Picker', () => {
 				await page.keyboard.up('Enter');
 
 				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component + ' joined', type: 'Frames Per Second Keypress', actualValue: averageFPS});
+				TestResults.addResult({component: component + ' joined', type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 			});
 		});
 
@@ -205,10 +205,10 @@ describe('Picker', () => {
 
 			let actualCLS = await clsValue();
 
-			TestResults.addResult({component: component + ' joined', type: 'First Input Delay', actualValue: actualFirstInput});
+			TestResults.addResult({component: component + ' joined', type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
 			expect(actualFirstInput).toBeLessThan(maxFID);
 
-			TestResults.addResult({component: component + ' joined', type: 'CLS', actualValue: actualCLS});
+			TestResults.addResult({component: component + ' joined', type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
 			expect(actualCLS).toBeLessThan(maxCLS);
 		});
 
@@ -255,9 +255,9 @@ describe('Picker', () => {
 			avgFCP = avgFCP / stepNumber;
 			avgLCP = avgLCP / stepNumber;
 
-			TestResults.addResult({component: component + ' joined', type: 'average DCL', actualValue: avgDCL});
-			TestResults.addResult({component: component + ' joined', type: 'average FCP', actualValue: avgFCP});
-			TestResults.addResult({component: component + ' joined', type: 'average LCP', actualValue: avgLCP});
+			TestResults.addResult({component: component + ' joined', type: 'DCL', actualValue: Math.round((avgDCL + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component + ' joined', type: 'FCP', actualValue: Math.round((avgFCP + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component + ' joined', type: 'LCP', actualValue: Math.round((avgLCP + Number.EPSILON) * 1000) / 1000});
 
 			expect(passContDCL).toBeGreaterThan(passRatio * stepNumber);
 			expect(avgDCL).toBeLessThan(maxDCL);

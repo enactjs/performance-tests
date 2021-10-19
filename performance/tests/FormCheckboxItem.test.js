@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, FID, FPS, getAverageFPS, LoadingMetrics} = require('../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 
 describe('FormCheckboxItem', () => {
@@ -97,7 +97,7 @@ describe('FormCheckboxItem', () => {
 			await page.tracing.stop();
 
 
-			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
+			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;

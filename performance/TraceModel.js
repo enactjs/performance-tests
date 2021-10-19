@@ -37,7 +37,7 @@ const CLS = () => {
 	}).observe({type: 'layout-shift', buffered: true});
 };
 
-const LoadingMetrics = (filename) => {
+const PageLoadingMetrics = (filename) => {
 	const events = fs.readFileSync(filename, 'utf8');
 	const result = JSON.parse(events);
 
@@ -59,5 +59,5 @@ module.exports = {
 	FID,
 	FPS,
 	getAverageFPS,
-	LoadingMetrics
+	PageLoadingMetrics
 };

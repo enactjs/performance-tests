@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, LoadingMetrics} = require('../TraceModel');
+const {CLS, PageLoadingMetrics} = require('../TraceModel');
 const {clsValue, getFileName} = require('../utils');
 
 describe('ProgressBar', () => {
@@ -40,7 +40,7 @@ describe('ProgressBar', () => {
 			await page.tracing.stop();
 
 
-			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
+			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;

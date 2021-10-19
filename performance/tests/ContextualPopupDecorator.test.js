@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, FPS, getAverageFPS, LoadingMetrics} = require('../TraceModel');
+const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
 const {clsValue, getFileName} = require('../utils');
 
 describe('ContextualPopupDecorator', () => {
@@ -63,7 +63,7 @@ describe('ContextualPopupDecorator', () => {
 
 			await page.tracing.stop();
 
-			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
+			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;

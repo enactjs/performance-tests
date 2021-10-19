@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {FPS, getAverageFPS, LoadingMetrics, FID, CLS} = require('../TraceModel');
+const {FPS, getAverageFPS, PageLoadingMetrics, FID, CLS} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 
 describe('Popup', () => {
@@ -82,7 +82,7 @@ describe('Popup', () => {
 
 			await page.tracing.stop();
 
-			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
+			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;

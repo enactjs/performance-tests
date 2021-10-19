@@ -1,5 +1,5 @@
 const TestResults = require('../TestResults');
-const {CLS, LoadingMetrics} = require('../TraceModel');
+const {CLS, PageLoadingMetrics} = require('../TraceModel');
 const {clsValue, getFileName} = require('../utils');
 
 describe('ImageItem', () => {
@@ -10,7 +10,7 @@ describe('ImageItem', () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto('http://localhost:8080/imageItem');
 		await page.waitForSelector('#imageItem');
-		await page.focus('#image');
+		await page.focus('#imageItem');
 		await page.keyboard.down('Enter');
 		await page.waitForTimeout(200);
 
@@ -36,11 +36,9 @@ describe('ImageItem', () => {
 			await page.goto('http://localhost:8080/imageItem');
 			await page.waitForSelector('#imageItem');
 			await page.waitForTimeout(200);
-
 			await page.tracing.stop();
 
-
-			const {actualDCL, actualFCP, actualLCP} = LoadingMetrics(filename);
+			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;

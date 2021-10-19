@@ -9,6 +9,7 @@ const VideoPlayerView = kind({
 	render: () => (
 		<VideoPlayer
 			id="videoPlayer"
+			muted
 			poster={'http://media.w3.org/2010/05/sintel/poster.png'}
 			thumbnailSrc={'http://media.w3.org/2010/05/sintel/poster.png'}
 			title={'Sandstone VideoPlayer Sample Video'}

@@ -1,6 +1,5 @@
-import React from 'react';
 import qs from 'qs';
-import Item from '@enact/moonstone/Item';
+import Item from '@enact/sandstone/Item';
 
 const MultipleComponents = ({location}) => {
 	const arr = [];

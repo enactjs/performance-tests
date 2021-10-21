@@ -1,6 +1,5 @@
 import kind from '@enact/core/kind';
-import React from 'react';
-import Spinner from '@enact/moonstone/Spinner';
+import Spinner from '@enact/sandstone/Spinner';
 
 const SpinnerView = kind({
 	name: 'SpinnerView',

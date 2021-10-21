@@ -1,6 +1,5 @@
 import kind from '@enact/core/kind';
-import React from 'react';
-import Button from '@enact/moonstone/Button';
+import Button from '@enact/sandstone/Button';
 
 const ButtonView = kind({
 	name: 'ButtonView',

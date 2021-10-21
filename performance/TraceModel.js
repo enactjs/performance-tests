@@ -1,59 +1,63 @@
 const fs = require('fs');
-const DevtoolsTimelineModel = require('devtools-timeline-model');
 
-const FPS = (filename) => {
-	const events = fs.readFileSync(filename, 'utf8');
-	const model = new DevtoolsTimelineModel(events);
-	const results = model.frameModel();
+const FPS = async () =>  {
+	window.FPSValues = [];
+	let previousFrame, currentFrame;
+	previousFrame = performance.now();
 
-	let counter = 0;
-	const avgDuration = results._frames.reduce((accumulator, currentValue) => {
-		if (!currentValue.idle) {
-			counter += 1;
-			return accumulator + 1000 / currentValue.duration;
-		} else {
-			return accumulator;
+	requestAnimationFrame(
+		async function calculateNewFPS () {
+			currentFrame = performance.now();
+			window.FPSValues.push(Math.round(1000 / (currentFrame - previousFrame)));
+			previousFrame = currentFrame;
+			await requestAnimationFrame(calculateNewFPS);
 		}
-	}, 0) / counter;
-
-	return avgDuration;
+	);
 };
 
-const Mount = (filename, component) => {
-	const events = fs.readFileSync(filename, 'utf8');
-	const model = new DevtoolsTimelineModel(events);
-	const results = model.timelineModel();
+const getAverageFPS = () => (window.FPSValues.reduce((a, b) => a + b, 0) / window.FPSValues.length) || 0;
 
-	const userTiming = Array.from(results._namedTracks.values())[0];
-	const timingEvents = userTiming.asyncEvents;
-
-	// retrieve mount timing
-	const mountTiming = timingEvents.find((item) => item.name === `⚛ ${component} [mount]`).duration;
-
-	return mountTiming;
+const FID = () => {
+	window.fid = 0;
+	new PerformanceObserver(entryList => {
+		let fidEntry = entryList.getEntries()[0];
+		window.fid = fidEntry.processingStart - fidEntry.startTime;
+	}).observe({type: 'first-input', buffered: true});
 };
 
-const Update = (filename, component) => {
+const CLS = () => {
+	window.cls = 0;
+	new PerformanceObserver(entryList => {
+		let entries = entryList.getEntries() || [];
+		entries.forEach(e => {
+			if (!e.hadRecentInput) { // omit entries likely caused by user input
+				window.cls += e.value;
+			}
+		});
+	}).observe({type: 'layout-shift', buffered: true});
+};
+
+const PageLoadingMetrics = (filename) => {
 	const events = fs.readFileSync(filename, 'utf8');
-	const model = new DevtoolsTimelineModel(events);
-	const results = model.timelineModel();
+	const result = JSON.parse(events);
 
-	const userTiming = Array.from(results._namedTracks.values())[0];
-	const timingEvents = userTiming.asyncEvents;
+	const baseEvent = result.traceEvents.filter(i => i.name === 'TracingStartedInBrowser')[0].ts;
 
-	// filter our component update data
-	const updateData = timingEvents.filter((item) => {
-		return item.name === `⚛ ${component} [update]`;
-	});
+	const domContentLoadedEventEnd = result.traceEvents.filter(i => i.name === 'domContentLoadedEventEnd')[0].ts;
+	const firstContentfulPaint = result.traceEvents.filter(i => i.name === 'firstContentfulPaint')[0].ts;
+	const largestContentfulPaint = result.traceEvents.filter(i => i.name === 'largestContentfulPaint::Candidate')[0].ts;
 
-	const updates = updateData.length;
-	const avgUpdateTiming = updateData.reduce((accumulator, currentValue) => accumulator + currentValue.duration, 0) / updates;
+	const actualDCL = (domContentLoadedEventEnd - baseEvent) / 1000;
+	const actualFCP = (firstContentfulPaint - baseEvent) / 1000;
+	const actualLCP = (largestContentfulPaint - baseEvent) / 1000;
 
-	return avgUpdateTiming;
+	return {actualDCL, actualFCP, actualLCP};
 };
 
 module.exports = {
+	CLS,
+	FID,
 	FPS,
-	Mount,
-	Update
+	getAverageFPS,
+	PageLoadingMetrics
 };

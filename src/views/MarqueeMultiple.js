@@ -1,6 +1,5 @@
 import kind from '@enact/core/kind';
-import React from 'react';
-import Marquee from '@enact/moonstone/Marquee';
+import Marquee from '@enact/sandstone/Marquee';
 import qs from 'qs';
 
 const MarqueeMultiple = kind({

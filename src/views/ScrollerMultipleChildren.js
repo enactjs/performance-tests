@@ -1,14 +1,12 @@
-import React from 'react';
-import MultipleComponents from '../components/MultipleComponents';
-import ScrollerJS, {ScrollerNative} from '@enact/moonstone/Scroller';
-import UiScrollerJS, {ScrollerNative as UiScrollerNative} from '@enact/ui/Scroller';
+import ScrollerJS from '@enact/sandstone/Scroller';
+import UiScrollerJS from '@enact/ui/Scroller';
 import qs from 'qs';
+
+import MultipleComponents from '../components/MultipleComponents';
 
 const types = {
 	ScrollerJS,
-	ScrollerNative,
-	UiScrollerJS,
-	UiScrollerNative
+	UiScrollerJS
 };
 
 const ScrollerMultipleChildren = ({location}) => {

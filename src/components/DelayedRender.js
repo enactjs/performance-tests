@@ -1,6 +1,6 @@
-import React from 'react';
+import {Component} from 'react';
 
-class DelayedRender extends React.Component {
+class DelayedRender extends Component {
 	constructor (props) {
 		super(props);
 		const observer = new window.PerformanceObserver((list) => {
@@ -15,7 +15,7 @@ class DelayedRender extends React.Component {
 
 	state = {
 		show: false
-	}
+	};
 
 	render () {
 		return this.state.show ? this.props.children : '';

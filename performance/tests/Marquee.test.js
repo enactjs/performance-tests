@@ -1,94 +1,128 @@
-const {FPS, Mount, Update} = require('../TraceModel');
-const {getFileName} = require('../utils');
 const TestResults = require('../TestResults');
+const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
+const {clsValue, firstInputValue, getFileName} = require('../utils');
+
+const component = 'Marquee';
+const MarqueeText = '[class$="Marquee_marquee"]';
 
 describe('Marquee', () => {
-	it('should start marquee on hover', async () => {
-		const filename = getFileName('Marquee');
-		const MarqueeText = '[class^="Marquee"]';
-
+	it('FPS on hover', async () => {
+		await FPS();
 		await page.goto('http://localhost:8080/marquee');
-		await page.tracing.start({path: filename, screenshots: false});
 		await page.waitForSelector('#marquee');
 		await page.hover(MarqueeText);
-		await page.waitFor(500);
+		await page.waitForTimeout(500);
 
-		await page.tracing.stop();
+		const averageFPS = await getAverageFPS();
+		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
-		const actualFPS = FPS(filename);
-		TestResults.addResult({component: 'Marquee', type: 'Frames Per Second', actualValue: actualFPS});
-
-		const actualUpdateTime = Update(filename, 'ui:MarqueeDecorator');
-		TestResults.addResult({component: 'Marquee', type: 'Update', actualValue: actualUpdateTime});
+		expect(averageFPS).toBeGreaterThan(minFPS);
 	});
 
-	it('should mount Marquee under threshold', async () => {
-		const filename = getFileName('Marquee');
-
-		await page.tracing.start({path: filename, screenshots: false});
+	it('should have a good FID and CLS', async () => {
+		await page.evaluateOnNewDocument(FID);
+		await page.evaluateOnNewDocument(CLS);
 		await page.goto('http://localhost:8080/marquee');
 		await page.waitForSelector('#marquee');
-		await page.waitFor(2000);
+		await page.hover(MarqueeText);
+		await page.waitForTimeout(500);
 
-		await page.tracing.stop();
+		let actualFirstInput = await firstInputValue();
+		let actualCLS = await clsValue();
 
-		const actualMount = Mount(filename, 'Skinnable');
-		TestResults.addResult({component: 'Marquee', type: 'Mount', actualValue: actualMount});
+		TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
+		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
+
+		expect(actualFirstInput).toBeLessThan(maxFID);
+		expect(actualCLS).toBeLessThan(maxCLS);
+	});
+
+	it('should have a good DCL, FCP and LCP', async () => {
+		const filename = getFileName(component);
+
+		let passContDCL = 0;
+		let passContFCP = 0;
+		let passContLCP = 0;
+		let avgDCL = 0;
+		let avgFCP = 0;
+		let avgLCP = 0;
+		for (let step = 0; step < stepNumber; step++) {
+			const page = await testMultiple.newPage();
+
+			await page.tracing.start({path: filename, screenshots: false});
+			await page.goto('http://localhost:8080/marquee');
+			await page.waitForSelector('#marquee');
+			await page.waitForTimeout(200);
+
+			await page.tracing.stop();
+
+			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
+			avgDCL = avgDCL + actualDCL;
+			if (actualDCL < maxDCL) {
+				passContDCL += 1;
+			}
+
+			avgFCP = avgFCP + actualFCP;
+			if (actualFCP < maxFCP) {
+				passContFCP += 1;
+			}
+
+			avgLCP = avgLCP + actualLCP;
+			if (actualLCP < maxLCP) {
+				passContLCP += 1;
+			}
+
+			await page.close();
+		}
+		avgDCL = avgDCL / stepNumber;
+		avgFCP = avgFCP / stepNumber;
+		avgLCP = avgLCP / stepNumber;
+
+		TestResults.addResult({component: component, type: 'DCL', actualValue: Math.round((avgDCL + Number.EPSILON) * 1000) / 1000});
+		TestResults.addResult({component: component, type: 'FCP', actualValue: Math.round((avgFCP + Number.EPSILON) * 1000) / 1000});
+		TestResults.addResult({component: component, type: 'LCP', actualValue: Math.round((avgLCP + Number.EPSILON) * 1000) / 1000});
+
+		expect(passContDCL).toBeGreaterThan(passRatio * stepNumber);
+		expect(avgDCL).toBeLessThan(maxDCL);
+
+		expect(passContFCP).toBeGreaterThan(passRatio * stepNumber);
+		expect(avgFCP).toBeLessThan(maxFCP);
+
+		expect(passContLCP).toBeGreaterThan(passRatio * stepNumber);
+		expect(avgLCP).toBeLessThan(maxLCP);
 	});
 
 	describe('Multiple Marquees', () => {
 		const counts = [10, 40, 70, 100];
-		for (let index = 0; index < counts.length; index++) {
-			const count = counts[index];
-			it(`mounts ${count} Marquee components`, async () => {
-				const filename = getFileName('Marquee');
-
-				await page.tracing.start({path: filename, screenshots: false});
-				await page.goto(`http://localhost:8080/marqueeMultiple?count=${count}`);
-				await page.waitForSelector('#Container');
-				await page.waitFor(500);
-
-				await page.tracing.stop();
-
-				const actualMount = Mount(filename, 'MarqueeMultiple');
-				TestResults.addResult({component: 'Marquee', type: 'Mount', actualValue: actualMount});
-			});
-		}
 
 		for (let index = 0; index < counts.length; index++) {
 			const count = counts[index];
 			it(`updates marqueeOn hover ${count} Marquee components`, async () => {
-				const filename = getFileName('Marquee');
+				await FPS();
 
-				await page.tracing.start({path: filename, screenshots: false});
 				await page.goto(`http://localhost:8080/marqueeMultiple?count=${count}`);
 				await page.waitForSelector('#Container');
-				await page.waitFor(500);
+				await page.waitForTimeout(200);
 
 				await page.hover('#Marquee_5');
-				await page.waitFor(500);
+				await page.waitForTimeout(2000);
 
-				await page.tracing.stop();
-
-				const actualFPS = FPS(filename);
-				TestResults.addResult({component: 'Marquee', type: 'Frames Per Second', actualValue: actualFPS});
+				const averageFPS = await getAverageFPS();
+				TestResults.addResult({component: component, type: 'Marquee Multiple Hover Frames Per Second', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 			});
 		}
 
 		for (let index = 0; index < counts.length; index++) {
 			const count = counts[index];
 			it(`updates marqueeOn render ${count} Marquee components`, async () => {
-				const filename = getFileName('Marquee');
+				await FPS();
 
-				await page.tracing.start({path: filename, screenshots: false});
 				await page.goto(`http://localhost:8080/marqueeMultiple?count=${count}&marqueeOn=render`);
 				await page.waitForSelector('#Container');
-				await page.waitFor(500);
+				await page.waitForTimeout(2000);
 
-				await page.tracing.stop();
-
-				const actualFPS = FPS(filename);
-				TestResults.addResult({component: 'Marquee', type: 'Frames Per Second', actualValue: actualFPS});
+				const averageFPS = await getAverageFPS();
+				TestResults.addResult({component: component, type: 'Marquee Multiple Render Frames Per Second', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 			});
 		}
 	});

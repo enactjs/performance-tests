@@ -1,29 +1,22 @@
-import Popup from '@enact/moonstone/Popup';
-import React from 'react';
+import Button from '@enact/sandstone/Button';
+import Popup from '@enact/sandstone/Popup';
+import {useState} from 'react';
 
-class PopupView extends React.Component {
-	constructor (props) {
-		super(props);
+const PopupView = () => {
+	const [open, setOpen] = useState(true);
 
-		this.state = {
-			open: true
-		};
+	function handleToggle () {
+		setOpen(!open);
 	}
 
-	handleToggle = () => {
-		this.setState(({open}) => ({open: !open}));
-	}
-
-	render () {
-		return (
-			<>
-				<button id="button-open" onClick={this.handleToggle}>open</button>
-				<Popup id="popup" open={this.state.open}>
-					<button id="button-close" onClick={this.handleToggle}>close</button>
-				</Popup>
-			</>
-		);
-	}
-}
+	return (
+		<>
+			<Button id="button-open" onClick={handleToggle}>open</Button>
+			<Popup id="popup" open={open}>
+				<Button id="button-close" onClick={handleToggle}>close</Button>
+			</Popup>
+		</>
+	);
+};
 
 export default PopupView;

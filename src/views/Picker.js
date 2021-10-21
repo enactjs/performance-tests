@@ -1,24 +1,24 @@
 import kind from '@enact/core/kind';
-import React from 'react';
-import Picker from '@enact/moonstone/Picker';
-
-const airports = [
-	'San Francisco Airport Terminal Gate 1',
-	'Boston Airport Terminal Gate 2',
-	'Tokyo Airport Terminal Gate 3',
-	'נמל התעופה בן גוריון טרמינל הבינלאומי'
-];
+import Picker from '@enact/sandstone/Picker';
 
 const PickerView = kind({
 	name: 'PickerView',
 
 	render: () => (
 		<Picker
-			wrap
-			joined
+			id="pickerDefault"
+			title="Picker Default"
 			width="large"
 		>
-			{airports}
+			{[
+				'San Francisco International Airport Terminal 1',
+				'Milan Malpensa Airport Terminal 2',
+				'Paris-Charles De Gaulle Airport Terminal 3',
+				'Boston Logan Airport Terminal D',
+				'Tokyo Narita Airport Terminal 5',
+				'Heathrow Terminal 6',
+				'נמל התעופה בן גוריון טרמינל הבינלאומי'
+			]}
 		</Picker>
 	)
 });

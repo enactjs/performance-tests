@@ -26,7 +26,7 @@ const TestResult = module.exports = {
 				.then(res => console.log(res.json()))
 				.catch(err => console.log(err));
 		} else {
-			console.log(result);
+			console.log(JSON.stringify(result));
 			const txtPath = path.join(__dirname, 'testResults', `${component}.txt`);
 
 			fs.appendFileSync(txtPath, JSON.stringify(result) + '\n');

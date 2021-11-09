@@ -9,65 +9,6 @@ describe('Panels', () => {
 	const previousPanelButton = '.enact_sandstone_Panels_Header_back';
 	TestResults.newFile(component);
 
-	it('FPS', async () => {
-		await FPS();
-		await page.goto('http://localhost:8080/panels');
-		await page.waitForSelector(nextPanelButton);
-		await page.click(nextPanelButton);
-		await page.waitForTimeout(500);
-		await page.click(previousPanelButton);
-		await page.waitForTimeout(500);
-		await page.click(nextPanelButton);
-		await page.waitForTimeout(500);
-		await page.click(previousPanelButton);
-		await page.waitForTimeout(500);
-		await page.click(nextPanelButton);
-		await page.waitForTimeout(500);
-		await page.click(previousPanelButton);
-		await page.waitForTimeout(500);
-		await page.click(nextPanelButton);
-		await page.waitForTimeout(500);
-		await page.click(previousPanelButton);
-		await page.waitForTimeout(500);
-		await page.click(nextPanelButton);
-		await page.waitForTimeout(500);
-		await page.click(previousPanelButton);
-		await page.waitForTimeout(500);
-
-		const averageFPS = await getAverageFPS();
-		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-		expect(averageFPS).toBeGreaterThan(minFPS);
-	});
-
-	it('should have a good FID and CLS', async () => {
-		await page.evaluateOnNewDocument(FID);
-		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/panels');
-		await page.waitForSelector(nextPanelButton);
-		await page.click(nextPanelButton);
-		await page.waitForTimeout(500);
-		await page.click(previousPanelButton);
-		await page.waitForTimeout(500);
-		await page.click(nextPanelButton);
-		await page.waitForTimeout(500);
-		await page.click(previousPanelButton);
-		await page.waitForTimeout(500);
-		await page.click(nextPanelButton);
-		await page.waitForTimeout(500);
-		await page.click(previousPanelButton);
-		await page.waitForTimeout(500);
-
-		let actualFirstInput = await firstInputValue();
-		let actualCLS = await clsValue();
-
-		TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
-		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
-
-		expect(actualFirstInput).toBeLessThan(maxFID);
-		expect(actualCLS).toBeLessThan(maxCLS);
-	});
-
 	it('should have a good DCL, FCP and LCP', async () => {
 		const filename = getFileName(component);
 
@@ -121,5 +62,117 @@ describe('Panels', () => {
 
 		expect(passContLCP).toBeGreaterThan(passRatio * stepNumber);
 		expect(avgLCP).toBeLessThan(maxLCP);
+	});
+
+	describe('Panels Transition', () => {
+		it('FPS', async () => {
+			await FPS();
+			await page.goto('http://localhost:8080/panels');
+			await page.waitForSelector(nextPanelButton);
+			await page.click(nextPanelButton);
+			await page.waitForTimeout(500);
+			await page.click(previousPanelButton);
+			await page.waitForTimeout(500);
+			await page.click(nextPanelButton);
+			await page.waitForTimeout(500);
+			await page.click(previousPanelButton);
+			await page.waitForTimeout(500);
+			await page.click(nextPanelButton);
+			await page.waitForTimeout(500);
+			await page.click(previousPanelButton);
+			await page.waitForTimeout(500);
+			await page.click(nextPanelButton);
+			await page.waitForTimeout(500);
+			await page.click(previousPanelButton);
+			await page.waitForTimeout(500);
+			await page.click(nextPanelButton);
+			await page.waitForTimeout(500);
+			await page.click(previousPanelButton);
+			await page.waitForTimeout(500);
+
+			const averageFPS = await getAverageFPS();
+			TestResults.addResult({
+				component: component,
+				type: 'FPS',
+				actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000
+			});
+
+			expect(averageFPS).toBeGreaterThan(minFPS);
+		});
+
+		it('should have a good FID and CLS', async () => {
+			await page.evaluateOnNewDocument(FID);
+			await page.evaluateOnNewDocument(CLS);
+			await page.goto('http://localhost:8080/panels');
+			await page.waitForSelector(nextPanelButton);
+			await page.click(nextPanelButton);
+			await page.waitForTimeout(500);
+			await page.click(previousPanelButton);
+			await page.waitForTimeout(500);
+			await page.click(nextPanelButton);
+			await page.waitForTimeout(500);
+			await page.click(previousPanelButton);
+			await page.waitForTimeout(500);
+			await page.click(nextPanelButton);
+			await page.waitForTimeout(500);
+			await page.click(previousPanelButton);
+			await page.waitForTimeout(500);
+
+			let actualFirstInput = await firstInputValue();
+			let actualCLS = await clsValue();
+
+			TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
+
+			expect(actualFirstInput).toBeLessThan(maxFID);
+			expect(actualCLS).toBeLessThan(maxCLS);
+		});
+	});
+
+	describe('Navigation inside Panel', () => {
+		it('FPS', async () => {
+			await FPS();
+			await page.goto('http://localhost:8080/panels');
+			await page.waitForSelector('#firstItem');
+			await page.focus('#firstItem');
+			await page.waitForTimeout(100);
+			await page.keyboard.down('ArrowDown');
+			await page.waitForTimeout(100);
+			await page.keyboard.down('ArrowDown');
+			await page.waitForTimeout(100);
+			await page.keyboard.down('ArrowUp');
+			await page.waitForTimeout(100);
+			await page.keyboard.down('ArrowUp');
+
+			const averageFPS = await getAverageFPS();
+			TestResults.addResult({component: component, type: 'FPS on panel content focus', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+
+			expect(averageFPS).toBeGreaterThan(minFPS);
+		});
+
+		it('should have a good FID and CLS', async () => {
+			await page.evaluateOnNewDocument(FID);
+			await page.evaluateOnNewDocument(CLS);
+			await page.goto('http://localhost:8080/panels');
+			await page.waitForSelector('#firstItem');
+			await page.focus('#firstItem');
+			await page.waitForTimeout(100);
+			await page.keyboard.down('ArrowDown');
+			await page.waitForTimeout(100);
+			await page.keyboard.down('ArrowDown');
+			await page.waitForTimeout(100);
+			await page.keyboard.down('ArrowUp');
+			await page.waitForTimeout(100);
+			await page.keyboard.down('ArrowUp');
+
+			let actualFirstInput = await firstInputValue();
+			let actualCLS = await clsValue();
+
+			TestResults.addResult({component: component, type: 'FID on panel content focus', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component, type: 'CLS on panel content focus', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
+
+			expect(actualFirstInput).toBeLessThan(maxFID);
+			expect(actualCLS).toBeLessThan(maxCLS);
+		});
 	});
 });

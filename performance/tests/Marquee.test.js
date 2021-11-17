@@ -6,6 +6,8 @@ const component = 'Marquee';
 const MarqueeText = '[class$="Marquee_marquee"]';
 
 describe('Marquee', () => {
+	TestResults.newFile(component);
+
 	it('FPS on hover', async () => {
 		await FPS();
 		await page.goto('http://localhost:8080/marquee');

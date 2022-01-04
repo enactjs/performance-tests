@@ -14,7 +14,7 @@ const VideoPlayerView = kind({
 			thumbnailSrc={'http://media.w3.org/2010/05/sintel/poster.png'}
 			title={'Sandstone VideoPlayer Sample Video'}
 		>
-			<source src={'http://media.w3.org/2010/05/sintel/trailer.mp4'} />
+			<source src={'https://media.w3.org/2010/05/sintel/trailer.ogv'} />
 			<infoComponents>
 				A video about some things happening to and around some characters. Very exciting stuff.
 			</infoComponents>

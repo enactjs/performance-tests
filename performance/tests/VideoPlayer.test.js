@@ -12,7 +12,7 @@ describe('VideoPlayer', () => {
 			await page.goto('http://localhost:8080/videoPlayer');
 			await page.waitForSelector('#videoPlayer');
 			await page.waitForTimeout(200);
-			await page.click('[aria-label="Play"]'); // to start the video.
+			await page.click('[aria-label="Next"]'); // to jump forward in the video.
 			await page.waitForTimeout(1000);
 
 			const averageFPS = await getAverageFPS();
@@ -28,7 +28,7 @@ describe('VideoPlayer', () => {
 			await page.goto('http://localhost:8080/videoPlayer');
 			await page.waitForSelector('#videoPlayer');
 			await page.waitForTimeout(200);
-			await page.focus('[aria-label="Play"]');
+			await page.focus('[aria-label="Next"]');
 			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
 			await page.waitForTimeout(200);
@@ -45,7 +45,8 @@ describe('VideoPlayer', () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto('http://localhost:8080/videoPlayer');
 		await page.waitForSelector('#videoPlayer');
-		await page.focus('[aria-label="Play"]');
+		await page.waitForTimeout(200);
+		await page.focus('[aria-label="Next"]');
 		await page.keyboard.down('Enter');
 
 		let actualFirstInput = await firstInputValue();

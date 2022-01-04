@@ -17,7 +17,7 @@ const MediaOverlayView = kind({
 			text="The quick brown fox jumped over the lazy dog. The bean bird flies at sundown."
 			title="The quick brown fox jumped over the lazy dog. The bean bird flies at sundown."
 		>
-			<source src="http://media.w3.org/2010/05/sintel/trailer.mp4" />
+			<source src="https://media.w3.org/2010/05/sintel/trailer.ogv" />
 		</MediaOverlay>
 	)
 });

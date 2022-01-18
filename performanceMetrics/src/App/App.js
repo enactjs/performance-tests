@@ -94,7 +94,7 @@ const App = (props) => {
 		let day = string.slice(14, 16);
 		let hour = string.slice(16, 18);
 
-		// setting the hour to 9 days prior because the filename contains timestamp in KST
+		// setting the hour to -9 hours prior because the filename contains timestamp in KST
 		return new Date(year, month - 1, day, hour - 9, 0, 0).getTime();
 	};
 
@@ -137,7 +137,6 @@ const App = (props) => {
 						}
 
 						for (const element of componentMetrics) {
-							console.log(element.timestamp)
 							element.date = convertDateFromMilisToYMD(element.timestamp);
 						}
 					});

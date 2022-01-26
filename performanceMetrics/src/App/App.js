@@ -14,6 +14,7 @@ import {useEffect, useRef, useState} from 'react';
 import Chart from '../views/Chart';
 
 import css from './App.module.less';
+import Spinner from '@enact/sandstone/Spinner';
 
 const listOfComponents = [
 	'Alert',
@@ -106,77 +107,74 @@ const App = (props) => {
 				releaseVersionsStringArray.pop();
 
 				setListOfVersions(releaseVersionsStringArray);
-			}).then(() => {
-				axios.get('./developTestDate.txt')
-					.then(result => {
-						developTestDatesStringArray = result.data.split('\n');
-						developTestDatesStringArray.pop();
-
-						setListOfTestDates(developTestDatesStringArray);
-					});
-
 			});
+
+		axios.get('./developTestDate.txt')
+			.then(result => {
+				developTestDatesStringArray = result.data.split('\n');
+				developTestDatesStringArray.pop();
+
+				setListOfTestDates(developTestDatesStringArray);
+			});
+
+
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect (() => {
-		async function getComponentMetrics () {
-			let componentMetrics = [];
+		let componentMetrics = [], promises = [];
 
-			for (let version of listOfVersions) {
-				await axios.get('./' + version + '/' + selectedComponent + '.txt')
-					.then(result => {
-						let resultJSON  = result.data.split('\n');
-						resultJSON.pop();
-
-						resultJSON.forEach(function (item, index) {
-							resultJSON[index] = JSON.parse(resultJSON[index]);
-						});
-
-						for (let element of resultJSON) {
-							componentMetrics.push(element);
-						}
-
-						for (const element of componentMetrics) {
-							element.date = convertDateFromMilisToYMD(element.timestamp);
-						}
-					});
-			}
-			return componentMetrics;
+		for (let version of listOfVersions) {
+			promises.push(axios.get('./' + version + '/' + selectedComponent + '.txt'));
 		}
 
-		getComponentMetrics().then(componentMetrics => {
+		Promise.allSettled(promises).then((results) => {
+			const successfulResults = results.filter((result) => result.status === 'fulfilled');
+
+			for (let result of successfulResults) {
+				let resultJSON  = result.value.data.split('\n');
+				resultJSON.pop();
+
+				resultJSON.forEach(function (item, index) {
+					resultJSON[index] = JSON.parse(resultJSON[index]);
+				});
+
+				for (let element of resultJSON) {
+					element.actualValue = Math.round((element.actualValue + Number.EPSILON) * 100) / 100;
+					element.date = convertDateFromMilisToYMD(element.timestamp);
+					componentMetrics.push(element);
+				}
+			}
+
 			setComponentReleasedData(componentMetrics);
 			setListOfMetrics([...new Set(componentReleasedDataRef.current.map(item => item.type))]);
 		});
 	}, [listOfVersions, selectedComponent]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect (() => {
-		async function getComponentMetrics () {
-			let componentMetrics = [];
+		let componentMetrics = [], promises = [];
 
-			for (let buildDate of listOfTestDates) {
-				await axios.get('./develop/' + buildDate + '/' + selectedComponent + '.txt')
-					.then(result => {
-						let resultJSON  = result.data.split('\n');
-						resultJSON.pop();
-
-						resultJSON.forEach(function (item, index) {
-							resultJSON[index] = JSON.parse(resultJSON[index]);
-						});
-
-						for ( let element of resultJSON) {
-							componentMetrics.push(element);
-						}
-
-						for (const element of componentMetrics) {
-							element.date = convertDateFromMilisToYMD(element.timestamp);
-						}
-					});
-			}
-			return componentMetrics;
+		for (let buildDate of listOfTestDates) {
+			promises.push(axios.get('./develop/' + buildDate + '/' + selectedComponent + '.txt'));
 		}
 
-		getComponentMetrics().then(componentMetrics => {
+		Promise.allSettled(promises).then((results) => {
+			const successfulResults = results.filter((result) => result.status === 'fulfilled');
+
+			for (let result of successfulResults) {
+				let resultJSON  = result.value.data.split('\n');
+				resultJSON.pop();
+
+				resultJSON.forEach(function (item, index) {
+					resultJSON[index] = JSON.parse(resultJSON[index]);
+				});
+
+				for ( let element of resultJSON) {
+					element.actualValue = Math.round((element.actualValue + Number.EPSILON) * 100) / 100;
+					element.date = convertDateFromMilisToYMD(element.timestamp);
+					componentMetrics.push(element);
+				}
+			}
+
 			setComponentDevelopData(componentMetrics);
 		});
 	}, [listOfTestDates, selectedComponent]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -212,7 +210,7 @@ const App = (props) => {
 	};
 
 	return (
-		<div {...props} className={classnames(props.className, css.app)} >
+		<div {...props} className={css.app}>
 			<Heading showLine spacing="large" >Sandstone Performance Metrics</Heading>
 			<Layout align="start start" orientation="horizontal">
 				<Cell shrink>
@@ -239,30 +237,46 @@ const App = (props) => {
 				<Cell shrink>
 					<Heading size="small" spacing="none" >End Date:</Heading>
 					<DatePicker
-						className={css.datePicker}
+						className={classnames(props.className, css.datePicker)}
 						noLabel
 						maxYear={new Date().getFullYear()}
 						onChange={onEndDateSelect}
 					/>
 				</Cell>
 			</Layout>
-			<TabLayout orientation="horizontal" className={classnames(css.tabLayout, css.tabLayoutContainer)}>
+			<TabLayout orientation="horizontal" className={css.tabLayout}>
 				<Tab title="Released versions metrics">
-					<Scroller>
-						{listOfMetrics.map((metric) =>
-							<Chart key={metric} inputData={componentReleasedData.filter(entry => entry.type === metric)} title={metric} xAxis="SandstoneVersion" />
-						)}
-					</Scroller>
+					{componentReleasedData.length === 0 ?
+						<div>Loading data <Spinner size="small" /></div> :
+						<Scroller focusableScrollbar verticalScrollbar="visible">
+							{listOfMetrics.map((metric) =>
+								<Chart
+									key={metric}
+									inputData={componentReleasedData.filter(entry => entry.type === metric && entry.timestamp >= startDate && entry.timestamp <= endDate)}
+									title={metric}
+									xAxis="SandstoneVersion"
+								/>
+							)}
+						</Scroller>
+					}
+
 				</Tab>
 				<Tab title="Develop branch metrics">
-					<Scroller>
-						 {listOfMetrics.map((metric) =>
-							<Chart key={metric} inputData={componentDevelopData.filter(entry => entry.type === metric && entry.timestamp >= startDate && entry.timestamp <= endDate)} title={metric} xAxis="date" />
-						 )}
-					</Scroller>
+					{componentDevelopData.length === 0 ?
+						<div>Loading data <Spinner size="small" /></div> :
+						<Scroller focusableScrollbar verticalScrollbar="visible">
+							{listOfMetrics.map((metric) =>
+								<Chart
+									key={metric}
+									inputData={componentDevelopData.filter(entry => entry.type === metric && entry.timestamp >= startDate && entry.timestamp <= endDate)}
+									title={metric}
+									xAxis="date"
+								/>
+							)}
+						</Scroller>
+					}
 				</Tab>
 			</TabLayout>
-
 		</div>
 	);
 };

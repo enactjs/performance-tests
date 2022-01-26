@@ -1,7 +1,7 @@
 import kind from '@enact/core/kind';
 import {Heading} from '@enact/sandstone/Heading';
 import PropTypes from 'prop-types';
-import {CartesianGrid, Line, LineChart, ReferenceLine, Tooltip, XAxis, YAxis} from 'recharts';
+import {CartesianGrid, Label, Line, LineChart, ReferenceLine, Tooltip, XAxis, YAxis} from 'recharts';
 
 import css from './Chart.module.less';
 
@@ -40,6 +40,22 @@ const Chart = kind({
 			else if (title.includes('FCP')) return 1800;
 			else if (title.includes('LCP')) return 2500;
 			else if (title.includes('DCL')) return 2000;
+		},
+		fullTitle: ({title}) => {
+			if ( title.includes('FPS') || title.includes('Frames Per Second')) return title.replace('FPS', 'Frames Per Second');
+			else if (title.includes('CLS')) return title.replace('CLS', 'Cumulative Layout Shift');
+			else if (title.includes('FID')) return title.replace('FID', 'First Input Delay');
+			else if (title.includes('FCP')) return title.replace('FCP', 'First Contentful Paint');
+			else if (title.includes('LCP')) return title.replace('LCP', 'Largest Contentful Paint');
+			else if (title.includes('DCL')) return title.replace('DCL', 'DOM Content Load');
+		},
+		referenceLabel: ({title}) => {
+			if ( title.includes('FPS') || title.includes('Frames Per Second')) return 'Min Value';
+			else if (title.includes('CLS') || title.includes('FID') || title.includes('FCP') || title.includes('LCP') || title.includes('DCL')) return 'Max Value';
+		},
+		yLabel: ({title}) => {
+			if ( title.includes('FPS') || title.includes('Frames Per Second')) return 'fps';
+			else if (title.includes('CLS') || title.includes('FID') || title.includes('FCP') || title.includes('LCP') || title.includes('DCL')) return 'ms';
 		}
 	},
 
@@ -48,30 +64,51 @@ const Chart = kind({
 		className: 'chart'
 	},
 
-	render: ({inputData, referenceValue, title, xAxis, ...rest}) => {
+	render: ({fullTitle, inputData, referenceLabel, referenceValue, xAxis, yLabel, ...rest}) => {
 		return (
 			<div {...rest}>
-				<Heading size="small" spacing="none">{title}</Heading>
+				<Heading spacing="none" size="small">{fullTitle}</Heading>
 				<LineChart
-					width={600}
-					height={350}
 					data={inputData}
+					height={350}
 					margin={{
 						top: 20,
-						right: 50,
-						left: 50,
-						bottom: 20
+						right: 80,
+						left: 80,
+						bottom: 50
 					}}
+					width={600}
 				>
 					<CartesianGrid strokeDasharray="10 10" />
-					<XAxis dataKey={xAxis} />
-					<YAxis domain={['dataMin', 'dataMax']} />
-					<ReferenceLine ifOverflow="extendDomain" stroke="red" y={referenceValue} />
+					<XAxis dataKey={xAxis}>
+						<Label
+							offset={10}
+							position="bottom"
+							style={{fill: '#e6e6e6', textAnchor: 'middle'}}
+							value={xAxis}
+						/>
+					</XAxis>
+					<YAxis domain={['dataMin', 'dataMax']} unit={yLabel} />
+					<ReferenceLine
+						className={css.referenceLine}
+						ifOverflow="extendDomain"
+						stroke="red"
+						strokeWidth={3}
+						y={referenceValue}
+					>
+						<Label
+							offset={10}
+							position="right"
+							style={{fill: '#e6e6e6', textAnchor: 'middle'}}
+							value={referenceLabel}
+						/>
+					</ReferenceLine>
 					<Tooltip content={<CustomTooltip />} />
 					<Line
 						type="monotone"
 						dataKey="actualValue"
 						stroke="#2aa2aa"
+						strokeWidth={3}
 						activeDot={{r: 8}}
 					/>
 				</LineChart>

@@ -210,7 +210,7 @@ const App = (props) => {
 	};
 
 	return (
-		<div {...props} className={css.app}>
+		<div {...props} className={classnames(props.className, css.app)}>
 			<Heading showLine spacing="large" >Sandstone Performance Metrics</Heading>
 			<Layout align="start start" orientation="horizontal">
 				<Cell shrink>
@@ -237,7 +237,7 @@ const App = (props) => {
 				<Cell shrink>
 					<Heading size="small" spacing="none" >End Date:</Heading>
 					<DatePicker
-						className={classnames(props.className, css.datePicker)}
+						className={css.datePicker}
 						noLabel
 						maxYear={new Date().getFullYear()}
 						onChange={onEndDateSelect}

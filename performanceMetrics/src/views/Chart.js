@@ -42,16 +42,20 @@ const Chart = kind({
 			else if (title.includes('DCL')) return 2000;
 		},
 		fullTitle: ({title}) => {
-			if ( title.includes('FPS') || title.includes('Frames Per Second')) return title.replace('FPS', 'Frames Per Second');
-			else if (title.includes('CLS')) return title.replace('CLS', 'Cumulative Layout Shift');
-			else if (title.includes('FID')) return title.replace('FID', 'First Input Delay');
-			else if (title.includes('FCP')) return title.replace('FCP', 'First Contentful Paint');
-			else if (title.includes('LCP')) return title.replace('LCP', 'Largest Contentful Paint');
-			else if (title.includes('DCL')) return title.replace('DCL', 'DOM Content Load');
+			if ( title.includes('FPS') || title.includes('Frames Per Second')) return title.replace('FPS', 'FPS (Frames Per Second)');
+			else if (title.includes('CLS')) return title.replace('CLS', 'CLS (Cumulative Layout Shift)');
+			else if (title.includes('FID')) return title.replace('FID', 'FID (First Input Delay)');
+			else if (title.includes('FCP')) return title.replace('FCP', 'FCP (First Contentful Paint)');
+			else if (title.includes('LCP')) return title.replace('LCP', 'LCP (Largest Contentful Paint)');
+			else if (title.includes('DCL')) return title.replace('DCL', 'DCL (DOM Content Load)');
 		},
 		referenceLabel: ({title}) => {
 			if ( title.includes('FPS') || title.includes('Frames Per Second')) return 'Min Value';
 			else if (title.includes('CLS') || title.includes('FID') || title.includes('FCP') || title.includes('LCP') || title.includes('DCL')) return 'Max Value';
+		},
+		xLabel: ({xAxis}) => {
+			if (xAxis.includes('SandstoneVersion')) return 'Sandstone Version';
+			else if (xAxis.includes('date'))  return 'Date';
 		},
 		yLabel: ({title}) => {
 			if ( title.includes('FPS') || title.includes('Frames Per Second')) return 'fps';
@@ -64,7 +68,7 @@ const Chart = kind({
 		className: 'chart'
 	},
 
-	render: ({fullTitle, inputData, referenceLabel, referenceValue, xAxis, yLabel, ...rest}) => {
+	render: ({fullTitle, inputData, referenceLabel, referenceValue, xAxis, xLabel, yLabel, ...rest}) => {
 		return (
 			<div {...rest}>
 				<Heading spacing="none" size="small">{fullTitle}</Heading>
@@ -85,7 +89,7 @@ const Chart = kind({
 							offset={10}
 							position="bottom"
 							style={{fill: '#e6e6e6', textAnchor: 'middle'}}
-							value={xAxis}
+							value={xLabel}
 						/>
 					</XAxis>
 					<YAxis domain={['dataMin', 'dataMax']} unit={yLabel} />
@@ -97,8 +101,6 @@ const Chart = kind({
 						y={referenceValue}
 					>
 						<Label
-							offset={10}
-							position="right"
 							style={{fill: '#e6e6e6', textAnchor: 'middle'}}
 							value={referenceLabel}
 						/>

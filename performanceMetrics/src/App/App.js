@@ -4,6 +4,7 @@ import DatePicker from '@enact/sandstone/DatePicker';
 import Dropdown from '@enact/sandstone/Dropdown';
 import {Heading} from '@enact/sandstone/Heading';
 import Scroller from '@enact/sandstone/Scroller';
+import Spinner from '@enact/sandstone/Spinner';
 import TabLayout, {Tab} from '@enact/sandstone/TabLayout';
 import ThemeDecorator from '@enact/sandstone/ThemeDecorator';
 import Layout, {Cell} from '@enact/ui/Layout';
@@ -14,7 +15,6 @@ import {useEffect, useRef, useState} from 'react';
 import Chart from '../views/Chart';
 
 import css from './App.module.less';
-import Spinner from '@enact/sandstone/Spinner';
 
 const listOfComponents = [
 	'Alert',
@@ -116,8 +116,6 @@ const App = (props) => {
 
 				setListOfTestDates(developTestDatesStringArray);
 			});
-
-
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect (() => {
@@ -139,7 +137,6 @@ const App = (props) => {
 				});
 
 				for (let element of resultJSON) {
-					element.actualValue = Math.round((element.actualValue + Number.EPSILON) * 100) / 100;
 					element.date = convertDateFromMilisToYMD(element.timestamp);
 					componentMetrics.push(element);
 				}
@@ -169,7 +166,6 @@ const App = (props) => {
 				});
 
 				for ( let element of resultJSON) {
-					element.actualValue = Math.round((element.actualValue + Number.EPSILON) * 100) / 100;
 					element.date = convertDateFromMilisToYMD(element.timestamp);
 					componentMetrics.push(element);
 				}

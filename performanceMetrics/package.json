@@ -1,7 +1,7 @@
 {
 	"name": "sandstone-performance-metrics",
 	"version": "1.0.0",
-	"description": "A general template for an Enact Sandstone application.",
+	"description": "A Sandstone application which shows performance metrics in charts.",
 	"author": "",
 	"main": "src/index.js",
 	"scripts": {

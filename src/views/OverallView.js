@@ -7,7 +7,7 @@ import PopupTabLayout, {Tab, TabPanel, TabPanels} from '@enact/sandstone/PopupTa
 import Slider from '@enact/sandstone/Slider';
 import TooltipDecorator from '@enact/sandstone/TooltipDecorator';
 import {VirtualGridList} from '@enact/sandstone/VirtualList';
-import * as ri from '@enact/ui/resolution';
+import ri from '@enact/ui/resolution';
 import {useState} from 'react';
 
 const items = [];

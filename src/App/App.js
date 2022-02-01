@@ -69,7 +69,6 @@ const App = kind({
 				<Route path="/bodyText" component={BodyText} />
 				<Route path="/checkbox" component={Checkbox} />
 				<Route path="/checkboxItem" component={CheckboxItem} />
-				<Route path="/overallView" component={OverallView} />
 				<Route path="/contextualMenuDecorator" component={ContextualMenuDecorator} />
 				<Route path="/contextualPopupDecorator" component={ContextualPopupDecorator} />
 				<Route path="/datePicker" component={DatePicker} />
@@ -88,6 +87,7 @@ const App = kind({
 				<Route path="/marquee" component={Marquee} />
 				<Route path="/marqueeMultiple" component={MarqueeMultiple} />
 				<Route path="/mediaOverlay" component={MediaOverlay} />
+				<Route path="/overallView" component={OverallView} />
 				<Route path="/panels" component={Panels} />
 				<Route path="/picker" component={Picker} />
 				<Route path="/pickerJoined" component={PickerJoined} />

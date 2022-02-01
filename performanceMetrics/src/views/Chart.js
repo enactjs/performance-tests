@@ -92,7 +92,7 @@ const Chart = kind({
 							value={xLabel}
 						/>
 					</XAxis>
-					<YAxis domain={['dataMin', 'dataMax']} unit={yLabel} />
+					<YAxis domain={[0, 'dataMax']} unit={yLabel} />
 					<ReferenceLine
 						className={css.referenceLine}
 						ifOverflow="extendDomain"

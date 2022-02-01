@@ -24,6 +24,7 @@ import KeyGuide from '../views/KeyGuide';
 import Marquee from '../views/Marquee';
 import MarqueeMultiple from '../views/MarqueeMultiple';
 import MediaOverlay from '../views/MediaOverlay';
+import OverallView from '../views/OverallView';
 import Panels from '../views/Panels';
 import Picker from '../views/Picker';
 import PickerJoined from '../views/PickerJoined';
@@ -68,6 +69,7 @@ const App = kind({
 				<Route path="/bodyText" component={BodyText} />
 				<Route path="/checkbox" component={Checkbox} />
 				<Route path="/checkboxItem" component={CheckboxItem} />
+				<Route path="/overallView" component={OverallView} />
 				<Route path="/contextualMenuDecorator" component={ContextualMenuDecorator} />
 				<Route path="/contextualPopupDecorator" component={ContextualPopupDecorator} />
 				<Route path="/datePicker" component={DatePicker} />

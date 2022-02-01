@@ -17,6 +17,7 @@ import Chart from '../views/Chart';
 import css from './App.module.less';
 
 const listOfComponents = [
+	'Overall',
 	'Alert',
 	'BodyText',
 	'Button',
@@ -183,11 +184,14 @@ const App = (props) => {
 
 	useEffect(() => {
 		if (listOfTestDates.length > 0) {
-			return setEndDate(convertBuildDateStringToMilis(listOfTestDates[listOfTestDates.length - 1]));
+			// include all entries from the latest date, regardless of their hour/minute/second
+			return setEndDate(convertBuildDateStringToMilis(listOfTestDates[listOfTestDates.length - 1]) + (1000 * 60 * 60 * 24));
 		}
 	}, [listOfTestDates]);
 
 	const onComponentSelect = ({data}) => {
+		setComponentReleasedData([]);
+		setComponentDevelopData([]);
 		setSelectedComponent(data);
 	};
 

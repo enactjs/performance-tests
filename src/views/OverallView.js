@@ -99,7 +99,7 @@ const OverallView = () => {
 				<Tab icon="sound" title="Sound">
 					<TabPanels
 						id="sound"
-						index={index}
+						index={0}
 						// eslint-disable-next-line react/jsx-no-bind
 						onBack={() => setIndex(0)}
 					>

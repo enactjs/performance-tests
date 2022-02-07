@@ -59,7 +59,8 @@ const Chart = kind({
 		},
 		yLabel: ({title}) => {
 			if ( title.includes('FPS') || title.includes('Frames Per Second')) return 'fps';
-			else if (title.includes('CLS') || title.includes('FID') || title.includes('FCP') || title.includes('LCP') || title.includes('DCL')) return 'ms';
+			else if (title.includes('FID') || title.includes('FCP') || title.includes('LCP') || title.includes('DCL')) return 'ms';
+			else return null;
 		}
 	},
 

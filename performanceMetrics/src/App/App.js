@@ -178,14 +178,9 @@ const App = (props) => {
 
 	useEffect(() => {
 		if (listOfTestDates.length > 0) {
-			return setStartDate(convertBuildDateStringToMilis(listOfTestDates[0]));
-		}
-	}, [listOfTestDates]);
-
-	useEffect(() => {
-		if (listOfTestDates.length > 0) {
+			setStartDate(convertBuildDateStringToMilis(listOfTestDates[0]));
 			// include all entries from the latest date, regardless of their hour/minute/second
-			return setEndDate(convertBuildDateStringToMilis(listOfTestDates[listOfTestDates.length - 1]) + (1000 * 60 * 60 * 24));
+			setEndDate(convertBuildDateStringToMilis(listOfTestDates[listOfTestDates.length - 1]) + (1000 * 60 * 60 * 24));
 		}
 	}, [listOfTestDates]);
 

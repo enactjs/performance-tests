@@ -93,6 +93,17 @@ const OverallView = () => {
 						<TabPanel>
 							<Header title="Color Adjust Color Adjust Color Adjust Color Adjust" type="compact" />
 							<DatePicker />
+							<VirtualGridList
+								dataSize={items.length}
+								focusableScrollbar
+								id="virtualGridList"
+								itemRenderer={renderItem}
+								itemSize={{
+									minWidth: ri.scale(339), // 267px(size of expanded ImageItem) + 36px(for shadow) * 2
+									minHeight: ri.scale(339) // 267px(size of expanded ImageItem) + 36px(for shadow) * 2
+								}}
+								verticalScrollbar="visible"
+							/>
 						</TabPanel>
 					</TabPanels>
 				</Tab>

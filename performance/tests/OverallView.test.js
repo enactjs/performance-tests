@@ -10,45 +10,10 @@ describe('OverallView', () => {
 		await FPS();
 		await page.goto('http://localhost:8080/overallView');
 		await page.waitForSelector('#virtualGridList');
-		// focus various spottable components in the first panel and force the scroller to move
-		await page.keyboard.down('ArrowUp');
-		await page.keyboard.up('ArrowUp');
-		await page.keyboard.down('ArrowUp');
-		await page.keyboard.up('ArrowUp');
-		await page.keyboard.down('ArrowUp');
-		await page.keyboard.up('ArrowUp');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowRight');
-		await page.keyboard.up('ArrowRight');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowDown');
 		await page.click('#tooltipButton'); // to move to the next panel.
 		await page.waitForTimeout(200);
-		// focus or change value for various spottable components in the second panel
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowRight');
-		await page.keyboard.up('ArrowRight');
-		await page.keyboard.down('ArrowRight');
-		await page.keyboard.up('ArrowRight');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
 		await page.keyboard.down('Escape');
 		await page.keyboard.up('Escape');
-		await page.waitForTimeout(200);
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
 		await page.waitForTimeout(200);
 
 		const averageFPS = await getAverageFPS();
@@ -62,45 +27,10 @@ describe('OverallView', () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto('http://localhost:8080/overallView');
 		await page.waitForSelector('#virtualGridList');
-		// focus various spottable components in the first panel and force the scroller to move
-		await page.keyboard.down('ArrowUp');
-		await page.keyboard.up('ArrowUp');
-		await page.keyboard.down('ArrowUp');
-		await page.keyboard.up('ArrowUp');
-		await page.keyboard.down('ArrowUp');
-		await page.keyboard.up('ArrowUp');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowRight');
-		await page.keyboard.up('ArrowRight');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowDown');
 		await page.click('#tooltipButton'); // to move to the next panel.
 		await page.waitForTimeout(200);
-		// focus or change value for various spottable components in the second panel
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowRight');
-		await page.keyboard.up('ArrowRight');
-		await page.keyboard.down('ArrowRight');
-		await page.keyboard.up('ArrowRight');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
 		await page.keyboard.down('Escape');
 		await page.keyboard.up('Escape');
-		await page.waitForTimeout(200);
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
 		await page.waitForTimeout(200);
 
 		let actualFirstInput = await firstInputValue();

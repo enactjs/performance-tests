@@ -9,12 +9,12 @@ describe('OverallView', () => {
 	it('FPS', async () => {
 		await FPS();
 		await page.goto('http://localhost:8080/overallView');
-		await page.waitForSelector('#virtualGridList');
+		await page.waitForSelector('#tooltipButton');
 		await page.click('#tooltipButton'); // to move to the next panel.
-		await page.waitForTimeout(200);
-		await page.keyboard.down('Escape');
+		await page.waitForSelector('#virtualGridListSecond');
+		await page.keyboard.down('Escape'); // to move to the previous panel.
 		await page.keyboard.up('Escape');
-		await page.waitForTimeout(200);
+		await page.waitForSelector('#tooltipButton');
 
 		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -26,12 +26,12 @@ describe('OverallView', () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto('http://localhost:8080/overallView');
-		await page.waitForSelector('#virtualGridList');
+		await page.waitForSelector('#tooltipButton');
 		await page.click('#tooltipButton'); // to move to the next panel.
-		await page.waitForTimeout(200);
-		await page.keyboard.down('Escape');
+		await page.waitForSelector('#virtualGridListSecond');
+		await page.keyboard.down('Escape'); // to move to the previous panel.
 		await page.keyboard.up('Escape');
-		await page.waitForTimeout(200);
+		await page.waitForSelector('#tooltipButton');
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();

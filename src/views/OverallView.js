@@ -96,7 +96,7 @@ const OverallView = () => {
 							<VirtualGridList
 								dataSize={items.length}
 								focusableScrollbar
-								id="virtualGridList"
+								id="virtualGridListSecond"
 								itemRenderer={renderItem}
 								itemSize={{
 									minWidth: ri.scale(339), // 267px(size of expanded ImageItem) + 36px(for shadow) * 2

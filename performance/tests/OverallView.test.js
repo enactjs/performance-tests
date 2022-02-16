@@ -16,6 +16,47 @@ describe('OverallView', () => {
 		await page.keyboard.up('Escape');
 		await page.waitForSelector('#tooltipButton');
 
+		await page.click('#tooltipButton'); // to move to the next panel.
+		await page.waitForSelector('#virtualGridListSecond');
+		await page.keyboard.down('Escape'); // to move to the previous panel.
+		await page.keyboard.up('Escape');
+		await page.waitForSelector('#tooltipButton');
+
+		// focus various spottable components in the first panel and force the scroller to move
+		await page.keyboard.down('ArrowUp');
+		await page.keyboard.up('ArrowUp');
+		await page.keyboard.down('ArrowUp');
+		await page.keyboard.up('ArrowUp');
+		await page.keyboard.down('ArrowUp');
+		await page.keyboard.up('ArrowUp');
+		await page.keyboard.down('ArrowUp');
+		await page.keyboard.up('ArrowUp');
+
+		// Change Slider value
+		await page.keyboard.down('ArrowRight');
+		await page.waitForTimeout(500);
+		await page.keyboard.up('ArrowRight');
+
+		// focus various spottable components in the first panel and force the scroller to move
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await page.keyboard.down('ArrowLeft');
+		await page.keyboard.up('ArrowLeft');
+		await page.keyboard.down('ArrowRight');
+		await page.keyboard.up('ArrowRight');
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await page.keyboard.down('ArrowRight');
+		await page.keyboard.up('ArrowRight');
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+
 		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 

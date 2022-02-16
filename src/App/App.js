@@ -24,6 +24,7 @@ import KeyGuide from '../views/KeyGuide';
 import Marquee from '../views/Marquee';
 import MarqueeMultiple from '../views/MarqueeMultiple';
 import MediaOverlay from '../views/MediaOverlay';
+import OverallView from '../views/OverallView';
 import Panels from '../views/Panels';
 import Picker from '../views/Picker';
 import PickerJoined from '../views/PickerJoined';
@@ -86,6 +87,7 @@ const App = kind({
 				<Route path="/marquee" component={Marquee} />
 				<Route path="/marqueeMultiple" component={MarqueeMultiple} />
 				<Route path="/mediaOverlay" component={MediaOverlay} />
+				<Route path="/overallView" component={OverallView} />
 				<Route path="/panels" component={Panels} />
 				<Route path="/picker" component={Picker} />
 				<Route path="/pickerJoined" component={PickerJoined} />

@@ -63,12 +63,12 @@ const PanelsView = () => {
 						<Scroller style={{height: scale(1000)}}>
 							<Image
 								caption="Image"
-								src="http://placehold.it/360x240/"
+								src="http://via.placeholder.com/360x240/"
 								style={{marginTop: '24px'}}
 							/>
 							<Image
 								caption="Image"
-								src="http://placehold.it/360x240/"
+								src="http://via.placeholder.com/360x240/"
 								style={{marginTop: '24px'}}
 							/>
 						</Scroller>

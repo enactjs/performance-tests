@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 const TestResults = require('../TestResults');

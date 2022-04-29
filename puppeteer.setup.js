@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 const puppeteer = require('puppeteer');
 
 global.stepNumber = 5;

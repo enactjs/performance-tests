@@ -1,4 +1,5 @@
-/* eslint no-console: ["error", { allow: ["warn", "error"] }] */
+/* eslint-disable no-console, no-undef */
+
 require('dotenv').config();
 const  fs = require('fs');
 const path = require('path');

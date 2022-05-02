@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-bind */
+
 import Button from '@enact/sandstone/Button';
 import Item from '@enact/sandstone/Item';
 import {Header} from '@enact/sandstone/Panels';

@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-bind */
+
 import Button from '@enact/sandstone/Button';
 import CheckboxItem from '@enact/sandstone/CheckboxItem';
 import DatePicker from '@enact/sandstone/DatePicker';

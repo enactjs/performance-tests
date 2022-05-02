@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -90,14 +90,14 @@ describe('RadioItem', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const radioItemPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/radioItem');
-			await page.waitForSelector('#radioItem');
-			await page.waitForTimeout(200);
+			await radioItemPage.tracing.start({path: filename, screenshots: false});
+			await radioItemPage.goto('http://localhost:8080/radioItem');
+			await radioItemPage.waitForSelector('#radioItem');
+			await radioItemPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await radioItemPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -115,7 +115,7 @@ describe('RadioItem', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await radioItemPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

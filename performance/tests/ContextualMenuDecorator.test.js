@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -98,14 +98,14 @@ describe('ContextualMenuDecorator', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const contextualMenuDecoratorPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/contextualMenuDecorator');
-			await page.waitForSelector('[data-index="0"]');
-			await page.waitForTimeout(200);
+			await contextualMenuDecoratorPage.tracing.start({path: filename, screenshots: false});
+			await contextualMenuDecoratorPage.goto('http://localhost:8080/contextualMenuDecorator');
+			await contextualMenuDecoratorPage.waitForSelector('[data-index="0"]');
+			await contextualMenuDecoratorPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await contextualMenuDecoratorPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -123,7 +123,7 @@ describe('ContextualMenuDecorator', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await contextualMenuDecoratorPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

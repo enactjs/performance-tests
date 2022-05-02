@@ -8,7 +8,7 @@ const fetch = require('node-fetch');
 const {version: ReactVersion} = require('react/package.json');
 const {version: EnactVersion} = require('@enact/core/package.json');
 const {version: SandstoneVersion} = require('@enact/sandstone/package.json');
-// eslint-disable-next-line no-undef
+
 const API_URL = process.env.API_URL;
 
 const TestResult = module.exports = {

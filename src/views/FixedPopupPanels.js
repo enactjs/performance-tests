@@ -1,19 +1,17 @@
-/* eslint-disable react/jsx-no-bind */
-
 import BodyText from '@enact/sandstone/BodyText';
 import Button from '@enact/sandstone/Button';
 import Item from '@enact/sandstone/Item';
 import {FixedPopupPanels, Panel, Header} from '@enact/sandstone/FixedPopupPanels';
 import qs from 'qs';
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 
 const FixedPopupPanelsView = (props) => {
 	const search = qs.parse(props.location.search, {ignoreQueryPrefix: true});
 	const [open, setOpen] = useState(search.open === 'true');
 
-	function onButtonClick () {
+	const onButtonClick = useCallback(() => {
 		setOpen(true);
-	}
+	}, [setOpen])
 
 	return (
 		<>

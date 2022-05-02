@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -51,14 +51,14 @@ describe('TabLayout', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const tabLayoutPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/tabLayout');
-			await page.waitForSelector('#tabLayout');
-			await page.waitForTimeout(200);
+			await tabLayoutPage.tracing.start({path: filename, screenshots: false});
+			await tabLayoutPage.goto('http://localhost:8080/tabLayout');
+			await tabLayoutPage.waitForSelector('#tabLayout');
+			await tabLayoutPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await tabLayoutPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -76,7 +76,7 @@ describe('TabLayout', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await tabLayoutPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

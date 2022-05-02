@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -96,14 +96,14 @@ describe('OverallView', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const overallViewPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/overallView');
-			await page.waitForSelector('#virtualGridList');
-			await page.waitForTimeout(200);
+			await overallViewPage.tracing.start({path: filename, screenshots: false});
+			await overallViewPage.goto('http://localhost:8080/overallView');
+			await overallViewPage.waitForSelector('#virtualGridList');
+			await overallViewPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await overallViewPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -121,7 +121,7 @@ describe('OverallView', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await overallViewPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

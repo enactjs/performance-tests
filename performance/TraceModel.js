@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global requestAnimationFrame, PerformanceObserver */
 
 const fs = require('fs');
 

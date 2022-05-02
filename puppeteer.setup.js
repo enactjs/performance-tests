@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page */
 
 const puppeteer = require('puppeteer');
 

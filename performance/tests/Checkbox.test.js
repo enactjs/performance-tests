@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -89,14 +89,14 @@ describe('Checkbox', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const checkboxPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/checkbox');
-			await page.waitForSelector('#checkbox');
-			await page.waitForTimeout(200);
+			await checkboxPage.tracing.start({path: filename, screenshots: false});
+			await checkboxPage.goto('http://localhost:8080/checkbox');
+			await checkboxPage.waitForSelector('#checkbox');
+			await checkboxPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await checkboxPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -114,7 +114,7 @@ describe('Checkbox', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await checkboxPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, PageLoadingMetrics} = require('../TraceModel');
@@ -32,14 +32,14 @@ describe('ProgressBar', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const progressBarPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/progressBar');
-			await page.waitForSelector('#progressBar');
-			await page.waitForTimeout(200);
+			await progressBarPage.tracing.start({path: filename, screenshots: false});
+			await progressBarPage.goto('http://localhost:8080/progressBar');
+			await progressBarPage.waitForSelector('#progressBar');
+			await progressBarPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await progressBarPage.tracing.stop();
 
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
@@ -58,7 +58,7 @@ describe('ProgressBar', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await progressBarPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

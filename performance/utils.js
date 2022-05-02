@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page */
 
 function pad2 (n) {
 	return n < 10 ? '0' + n : n;
@@ -12,8 +12,8 @@ function getFileName (testName) {
 	return filename;
 }
 
-async function scrollAtPoint (page, selector, amount) {
-	await page.evaluate((scrollerSelector, scrollAmount) => {
+async function scrollAtPoint (utilsPage, selector, amount) {
+	await utilsPage.evaluate((scrollerSelector, scrollAmount) => {
 		let evt = document.createEvent('MouseEvents');
 		evt.initEvent('wheel', true, true);
 		evt.deltaY = scrollAmount;

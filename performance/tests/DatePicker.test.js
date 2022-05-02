@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -98,14 +98,14 @@ describe('DatePicker', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const datePickerPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/datePicker');
-			await page.waitForSelector('[data-webos-voice-group-label="month"]');
-			await page.waitForTimeout(200);
+			await datePickerPage.tracing.start({path: filename, screenshots: false});
+			await datePickerPage.goto('http://localhost:8080/datePicker');
+			await datePickerPage.waitForSelector('[data-webos-voice-group-label="month"]');
+			await datePickerPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await datePickerPage.tracing.stop();
 
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
@@ -124,7 +124,7 @@ describe('DatePicker', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await datePickerPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

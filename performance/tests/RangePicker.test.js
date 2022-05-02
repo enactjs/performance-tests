@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -94,14 +94,14 @@ describe('RangePicker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const page = await testMultiple.newPage();
+				const rangePickerPage = await testMultiple.newPage();
 
-				await page.tracing.start({path: filename, screenshots: false});
-				await page.goto('http://localhost:8080/rangePicker');
-				await page.waitForSelector('#rangePickerDefault');
-				await page.waitForTimeout(200);
+				await rangePickerPage.tracing.start({path: filename, screenshots: false});
+				await rangePickerPage.goto('http://localhost:8080/rangePicker');
+				await rangePickerPage.waitForSelector('#rangePickerDefault');
+				await rangePickerPage.waitForTimeout(200);
 
-				await page.tracing.stop();
+				await rangePickerPage.tracing.stop();
 
 				const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 				avgDCL = avgDCL + actualDCL;
@@ -121,7 +121,7 @@ describe('RangePicker', () => {
 					passContLCP += 1;
 				}
 
-				await page.close();
+				await rangePickerPage.close();
 			}
 			avgDCL = avgDCL / stepNumber;
 			avgFCP = avgFCP / stepNumber;
@@ -224,14 +224,14 @@ describe('RangePicker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const page = await testMultiple.newPage();
+				const rangePickerJoinedPage = await testMultiple.newPage();
 
-				await page.tracing.start({path: filename, screenshots: false});
-				await page.goto('http://localhost:8080/rangePickerJoined');
-				await page.waitForSelector('#rangePickerJoined');
-				await page.waitForTimeout(200);
+				await rangePickerJoinedPage.tracing.start({path: filename, screenshots: false});
+				await rangePickerJoinedPage.goto('http://localhost:8080/rangePickerJoined');
+				await rangePickerJoinedPage.waitForSelector('#rangePickerJoined');
+				await rangePickerJoinedPage.waitForTimeout(200);
 
-				await page.tracing.stop();
+				await rangePickerJoinedPage.tracing.stop();
 
 				const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 				avgDCL = avgDCL + actualDCL;
@@ -251,7 +251,7 @@ describe('RangePicker', () => {
 					passContLCP += 1;
 				}
 
-				await page.close();
+				await rangePickerJoinedPage.close();
 			}
 			avgDCL = avgDCL / stepNumber;
 			avgFCP = avgFCP / stepNumber;

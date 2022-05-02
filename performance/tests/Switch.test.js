@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -92,14 +92,14 @@ describe('Switch', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const switchPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/switch');
-			await page.waitForSelector('#switch');
-			await page.waitForTimeout(200);
+			await switchPage.tracing.start({path: filename, screenshots: false});
+			await switchPage.goto('http://localhost:8080/switch');
+			await switchPage.waitForSelector('#switch');
+			await switchPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await switchPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -117,7 +117,7 @@ describe('Switch', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await switchPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

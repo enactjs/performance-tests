@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -65,14 +65,14 @@ describe('MediaOverlay', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const mediaOverlayPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/mediaOverlay');
-			await page.waitForSelector('#mediaOverlay');
-			await page.waitForTimeout(500);
+			await mediaOverlayPage.tracing.start({path: filename, screenshots: false});
+			await mediaOverlayPage.goto('http://localhost:8080/mediaOverlay');
+			await mediaOverlayPage.waitForSelector('#mediaOverlay');
+			await mediaOverlayPage.waitForTimeout(500);
 
-			await page.tracing.stop();
+			await mediaOverlayPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -90,7 +90,7 @@ describe('MediaOverlay', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await mediaOverlayPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

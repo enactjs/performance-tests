@@ -1,18 +1,16 @@
-/* eslint-disable react/jsx-no-bind */
-
 import Button from '@enact/sandstone/Button';
 import Item from '@enact/sandstone/Item';
 import {Header} from '@enact/sandstone/Panels';
 import PopupTabLayout, {Tab, TabPanels, TabPanel} from '@enact/sandstone/PopupTabLayout';
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 
 const PopupTabLayoutView = () => {
 	const [index, setIndex] = useState(0);
 	const [open, setOpen] = useState(true);
 
-	function handleToggle () {
+	const handleToggle = useCallback(() => {
 		setOpen(!open);
-	}
+	}, [open, setOpen]);
 
 	return (
 		<>

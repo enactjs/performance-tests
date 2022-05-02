@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -51,14 +51,14 @@ describe('TooltipDecorator', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const tooltipDecoratorPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/tooltipDecorator');
-			await page.waitForSelector('#tooltipDecorator');
-			await page.waitForTimeout(200);
+			await tooltipDecoratorPage.tracing.start({path: filename, screenshots: false});
+			await tooltipDecoratorPage.goto('http://localhost:8080/tooltipDecorator');
+			await tooltipDecoratorPage.waitForSelector('#tooltipDecorator');
+			await tooltipDecoratorPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await tooltipDecoratorPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -76,7 +76,7 @@ describe('TooltipDecorator', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await tooltipDecoratorPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

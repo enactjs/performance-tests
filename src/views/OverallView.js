@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
-
 import Button from '@enact/sandstone/Button';
 import CheckboxItem from '@enact/sandstone/CheckboxItem';
 import DatePicker from '@enact/sandstone/DatePicker';
@@ -10,10 +8,10 @@ import Slider from '@enact/sandstone/Slider';
 import TooltipDecorator from '@enact/sandstone/TooltipDecorator';
 import {VirtualGridList} from '@enact/sandstone/VirtualList';
 import ri from '@enact/ui/resolution';
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 
 const items = [];
-// eslint-disable-next-line enact/prop-types
+
 const renderItem = ({index, ...rest}) => {
 	const {caption, label, src} = items[index];
 
@@ -49,9 +47,13 @@ const OverallView = () => {
 	const [index, setIndex] = useState(0);
 	const [open, setOpen] = useState(true);
 
-	function handleToggle () {
+	const handleToggle = useCallback(() => {
 		setOpen(!open);
-	}
+	}, [open, setOpen]);
+
+	const handleOnBack = useCallback(() => {
+		setIndex(0);
+	}, [setIndex]);
 
 	return (
 		<>
@@ -66,7 +68,7 @@ const OverallView = () => {
 						id="display"
 						index={index}
 						// eslint-disable-next-line react/jsx-no-bind
-						onBack={() => setIndex(0)}
+						onBack={handleOnBack}
 					>
 						<TabPanel>
 							<Header title="This is a very long header to test Marquee" type="compact" />

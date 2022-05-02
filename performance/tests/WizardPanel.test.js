@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -68,14 +68,14 @@ describe('WizardPanels', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const wizardPanelPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/wizardPanels');
-			await page.waitForSelector('#wizardPanels');
-			await page.waitForTimeout(200);
+			await wizardPanelPage.tracing.start({path: filename, screenshots: false});
+			await wizardPanelPage.goto('http://localhost:8080/wizardPanels');
+			await wizardPanelPage.waitForSelector('#wizardPanels');
+			await wizardPanelPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await wizardPanelPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -93,7 +93,7 @@ describe('WizardPanels', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await wizardPanelPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

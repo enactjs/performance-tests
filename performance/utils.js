@@ -30,8 +30,19 @@ const clsValue = () => {
 	return page.evaluate(() => window.cls);
 };
 
+const findFocusedNode = async (node) => {
+	if (node.focused)
+		return node;
+	for (const child of node.children || []) {
+		const foundNode =  await findFocusedNode(child);
+		if(foundNode) return foundNode;
+	}
+	return null;
+}
+
 module.exports = {
 	clsValue,
+	findFocusedNode,
 	firstInputValue,
 	getFileName,
 	scrollAtPoint

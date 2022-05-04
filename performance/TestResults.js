@@ -1,5 +1,3 @@
-/* eslint-disable no-console, no-undef */
-
 require('dotenv').config();
 const  fs = require('fs');
 const path = require('path');
@@ -28,7 +26,7 @@ const TestResult = module.exports = {
 				.catch(err => console.log(err));
 		} else {
 			console.log(JSON.stringify(result));
-			const txtPath = path.join(__dirname, 'testResults', `${component}.txt`);
+			const txtPath = path.join(__dirname, 'testResults', `${component}.txt`); // eslint-disable-line
 
 			fs.appendFileSync(txtPath, JSON.stringify(result) + '\n');
 		}
@@ -39,7 +37,7 @@ const TestResult = module.exports = {
 		if (!fs.existsSync('performance/' + dir)) {
 			fs.mkdirSync('performance/' + dir);
 		}
-		const txtPath = path.join(__dirname, dir, `${component}.txt`);
+		const txtPath = path.join(__dirname, dir, `${component}.txt`); // eslint-disable-line
 
 		fs.access(txtPath, fs.F_OK, (err) => {
 			if (err) {

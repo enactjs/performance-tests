@@ -186,7 +186,7 @@ const App = (props) => {
 		setComponentReleasedData([]);
 		setComponentDevelopData([]);
 		setSelectedComponent(data);
-	}, [setComponentReleasedData, setComponentDevelopData, setSelectedComponent])
+	}, []);
 
 
 	const onStartDateSelect = useCallback(({value}) => {

@@ -39,14 +39,18 @@ import RangePickerJoined from '../views/RangePickerJoined';
 import ScrollerPanel from '../views/ScrollerPanel';
 import ScrollerMultipleChildren from '../views/ScrollerMultipleChildren';
 import Slider from '../views/Slider';
+import SliderA11y from '../views/SliderA11y';
 import Spinner from '../views/Spinner';
 import Steps from '../views/Steps';
 import Switch from '../views/Switch';
 import SwitchItem from '../views/SwitchItem';
+import SwitchItemA11y from '../views/SwitchItemA11y';
 import TabLayout from '../views/TabLayout';
+import TabLayoutA11y from '../views/TabLayoutA11y';
 import TimePicker from '../views/TimePicker';
 import TooltipDecorator from '../views/TooltipDecorator';
 import VideoPlayer from '../views/VideoPlayer';
+import VideoPlayerA11y from '../views/VideoPlayerA11y';
 import VirtualList from '../views/VirtualList';
 import WizardPanels from '../views/WizardPanels';
 
@@ -103,14 +107,18 @@ const App = kind({
 				<Route path="/scroller" component={ScrollerPanel} />
 				<Route path="/scrollerMultipleChildren" component={ScrollerMultipleChildren} />
 				<Route path="/slider" component={Slider} />
+				<Route path="/sliderA11y" component={SliderA11y} />
 				<Route path="/spinner" component={Spinner} />
 				<Route path="/steps" component={Steps} />
 				<Route path="/switch" component={Switch} />
 				<Route path="/switchItem" component={SwitchItem} />
+				<Route path="/switchItemA11y" component={SwitchItemA11y} />
 				<Route path="/tabLayout" component={TabLayout} />
+				<Route path="/tabLayoutA11y" component={TabLayoutA11y} />
 				<Route path="/timePicker" component={TimePicker} />
 				<Route path="/tooltipDecorator" component={TooltipDecorator} />
 				<Route path="/videoPlayer" component={VideoPlayer} />
+				<Route path="/videoPlayerA11y" component={VideoPlayerA11y} />
 				<Route path="/virtualList" component={VirtualList} />
 				<Route path="/wizardPanels" component={WizardPanels} />
 			</div>

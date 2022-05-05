@@ -3,6 +3,7 @@ import ThemeDecorator from '@enact/sandstone/ThemeDecorator';
 
 import Alert from '../views/Alert';
 import Button from '../views/Button';
+import ButtonA11y from '../views/ButtonA11y';
 import BodyText from '../views/BodyText';
 import Checkbox from '../views/Checkbox';
 import CheckboxItem from '../views/CheckboxItem';
@@ -66,6 +67,7 @@ const App = kind({
 			<div {...props}>
 				<Route path="/alert" component={Alert} />
 				<Route path="/button" component={Button} />
+				<Route path="/buttonA11y" component={ButtonA11y} />
 				<Route path="/bodyText" component={BodyText} />
 				<Route path="/checkbox" component={Checkbox} />
 				<Route path="/checkboxItem" component={CheckboxItem} />

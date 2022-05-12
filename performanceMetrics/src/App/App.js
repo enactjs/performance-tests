@@ -191,11 +191,11 @@ const App = (props) => {
 
 	const onStartDateSelect = useCallback(({value}) => {
 		setStartDate(new Date(value).getTime());
-	}, [setStartDate]);
+	}, []);
 
 	const onEndDateSelect = useCallback(({value}) => {
 		setEndDate(new Date(value).getTime());
-	}, [setEndDate]);
+	}, []);
 
 	const getDefaultDate = () => {
 		let date = new Date();

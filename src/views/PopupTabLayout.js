@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
-
 import Button from '@enact/sandstone/Button';
 import Item from '@enact/sandstone/Item';
 import {Header} from '@enact/sandstone/Panels';
@@ -12,7 +10,15 @@ const PopupTabLayoutView = () => {
 
 	const handleToggle = useCallback(() => {
 		setOpen(!open);
-	}, [open, setOpen]);
+	}, [open]);
+
+	const handleOnBack = useCallback(() => {
+		setIndex(0);
+	}, []);
+
+	const handleOnClick = useCallback(() => {
+		setIndex(1);
+	}, []);
 
 	return (
 		<>
@@ -26,16 +32,14 @@ const PopupTabLayoutView = () => {
 					<TabPanels
 						id="display"
 						index={index}
-						// eslint-disable-next-line react/jsx-no-bind
-						onBack={() => setIndex(0)}
+						onBack={handleOnBack}
 					>
 						<TabPanel>
 							<Header title="Display Settings" type="compact" />
 							<Item>Picture Modes</Item>
 							<Item
 								id="colorAdjust"
-								// eslint-disable-next-line react/jsx-no-bind
-								onClick={() => setIndex(1)}
+								onClick={handleOnClick}
 							>
 								Color Adjust
 							</Item>
@@ -51,15 +55,13 @@ const PopupTabLayoutView = () => {
 						id="sound"
 						index={index}
 						noCloseButton
-						// eslint-disable-next-line react/jsx-no-bind
-						onBack={() => setIndex(0)}
+						onBack={handleOnBack}
 					>
 						<TabPanel>
 							<Header title="Sound Settings" type="compact" />
 							<Item
 								id="advancedAudio"
-								// eslint-disable-next-line react/jsx-no-bind
-								onClick={() => setIndex(1)}
+								onClick={handleOnClick}
 							>
 								Advanced Audio</Item>
 						</TabPanel>

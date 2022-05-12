@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
-
 import BodyText from '@enact/sandstone/BodyText';
 import Button from '@enact/sandstone/Button';
 import Icon from '@enact/sandstone/Icon';
@@ -16,7 +14,7 @@ const PanelsView = () => {
 
 	const handleClick = useCallback(() => {
 		return index === 0 ? setPanelIndex(1) : setPanelIndex(0);
-	}, [index, setPanelIndex]);
+	}, [index]);
 
 	return (
 		<Panels index={index}>

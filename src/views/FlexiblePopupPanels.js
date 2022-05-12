@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
-
 import BodyText from '@enact/sandstone/BodyText';
 import Button from '@enact/sandstone/Button';
 import Item from '@enact/sandstone/Item';
@@ -13,11 +11,11 @@ const FlexiblePopupPanelsView = (props) => {
 
 	const onButtonClick = useCallback(() => {
 		setOpen(true);
-	}, [setOpen]);
+	}, []);
 
 	const handleClose = useCallback(() => {
-		setOpen({open: false});
-	}, [setOpen]);
+		setOpen(false);
+	}, []);
 
 	return (
 		<div>

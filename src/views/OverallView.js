@@ -51,11 +51,15 @@ const OverallView = () => {
 
 	const handleToggle = useCallback(() => {
 		setOpen(!open);
-	}, [open, setOpen]);
+	}, [open]);
 
 	const handleOnBack = useCallback(() => {
 		setIndex(0);
-	}, [setIndex]);
+	}, []);
+
+	const handleOnClick = useCallback(() => {
+		setIndex(1);
+	}, []);
 
 	return (
 		<>
@@ -69,7 +73,6 @@ const OverallView = () => {
 					<TabPanels
 						id="display"
 						index={index}
-						// eslint-disable-next-line react/jsx-no-bind
 						onBack={handleOnBack}
 					>
 						<TabPanel>
@@ -78,8 +81,7 @@ const OverallView = () => {
 							<CheckboxItem id="checkboxItem">This is a checkbox item</CheckboxItem>
 							<TooltipButton
 								id="tooltipButton"
-								// eslint-disable-next-line react/jsx-no-bind
-								onClick={() => setIndex(1)}
+								onClick={handleOnClick}
 								tooltipText="tooltip!"
 							>
 								Next Panel
@@ -117,8 +119,7 @@ const OverallView = () => {
 					<TabPanels
 						id="sound"
 						index={0}
-						// eslint-disable-next-line react/jsx-no-bind
-						onBack={() => setIndex(0)}
+						onBack={handleOnBack}
 					>
 						<TabPanel>
 							<Header title="The title of the second tab is very long" type="compact" />

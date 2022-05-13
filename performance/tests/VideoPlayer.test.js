@@ -76,7 +76,7 @@ describe('VideoPlayer', () => {
 			await videoPlayerPage.tracing.start({path: filename, screenshots: false});
 			await videoPlayerPage.goto('http://localhost:8080/videoPlayer');
 			await videoPlayerPage.waitForSelector('#videoPlayer');
-			await videoPlayerPage.waitForTimeout(200);
+			await videoPlayerPage.waitForTimeout(1000);
 
 			await videoPlayerPage.tracing.stop();
 

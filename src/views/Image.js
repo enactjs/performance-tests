@@ -5,7 +5,10 @@ const ImageView = kind({
 	name: 'ImageView',
 
 	render: () => (
-		<Image id="image" src="http://via.placeholder.com/600x600" />
+		<>
+			<p>Image</p>
+			<Image id="image" src="http://via.placeholder.com/600x600" />
+		</>
 	)
 });
 

@@ -10,10 +10,10 @@ import Slider from '@enact/sandstone/Slider';
 import TooltipDecorator from '@enact/sandstone/TooltipDecorator';
 import {VirtualGridList} from '@enact/sandstone/VirtualList';
 import ri from '@enact/ui/resolution';
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 
 const items = [];
-// eslint-disable-next-line enact/prop-types
+
 const renderItem = ({index, ...rest}) => {
 	const {caption, label, src} = items[index];
 
@@ -49,9 +49,17 @@ const OverallView = () => {
 	const [index, setIndex] = useState(0);
 	const [open, setOpen] = useState(true);
 
-	function handleToggle () {
+	const handleToggle = useCallback(() => {
 		setOpen(!open);
-	}
+	}, [open]);
+
+	const handleOnBack = useCallback(() => {
+		setIndex(0);
+	}, []);
+
+	const handleOnClick = useCallback(() => {
+		setIndex(1);
+	}, []);
 
 	return (
 		<>
@@ -65,8 +73,7 @@ const OverallView = () => {
 					<TabPanels
 						id="display"
 						index={index}
-						// eslint-disable-next-line react/jsx-no-bind
-						onBack={() => setIndex(0)}
+						onBack={handleOnBack}
 					>
 						<TabPanel>
 							<Header title="This is a very long header to test Marquee" type="compact" />
@@ -74,8 +81,7 @@ const OverallView = () => {
 							<CheckboxItem id="checkboxItem">This is a checkbox item</CheckboxItem>
 							<TooltipButton
 								id="tooltipButton"
-								// eslint-disable-next-line react/jsx-no-bind
-								onClick={() => setIndex(1)}
+								onClick={handleOnClick}
 								tooltipText="tooltip!"
 							>
 								Next Panel
@@ -113,8 +119,7 @@ const OverallView = () => {
 					<TabPanels
 						id="sound"
 						index={0}
-						// eslint-disable-next-line react/jsx-no-bind
-						onBack={() => setIndex(0)}
+						onBack={handleOnBack}
 					>
 						<TabPanel>
 							<Header title="The title of the second tab is very long" type="compact" />

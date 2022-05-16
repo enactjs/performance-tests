@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, PageLoadingMetrics} = require('../TraceModel');
@@ -32,14 +32,14 @@ describe('BodyText', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const bodyTextPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/bodyText');
-			await page.waitForSelector('#bodyText');
-			await page.waitForTimeout(200);
+			await bodyTextPage.tracing.start({path: filename, screenshots: false});
+			await bodyTextPage.goto('http://localhost:8080/bodyText');
+			await bodyTextPage.waitForSelector('#bodyText');
+			await bodyTextPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await bodyTextPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -57,7 +57,7 @@ describe('BodyText', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await bodyTextPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

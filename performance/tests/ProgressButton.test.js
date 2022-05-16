@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -89,14 +89,14 @@ describe('ProgressButton', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const progressButtonPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/progressButton');
-			await page.waitForSelector('#progressButton');
-			await page.waitForTimeout(200);
+			await progressButtonPage.tracing.start({path: filename, screenshots: false});
+			await progressButtonPage.goto('http://localhost:8080/progressButton');
+			await progressButtonPage.waitForSelector('#progressButton');
+			await progressButtonPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await progressButtonPage.tracing.stop();
 
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
@@ -115,7 +115,7 @@ describe('ProgressButton', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await progressButtonPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

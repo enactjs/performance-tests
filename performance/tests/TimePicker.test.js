@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -69,14 +69,14 @@ describe('TimePicker', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const timePickerPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/timePicker');
-			await page.waitForSelector('#timePicker');
-			await page.waitForTimeout(200);
+			await timePickerPage.tracing.start({path: filename, screenshots: false});
+			await timePickerPage.goto('http://localhost:8080/timePicker');
+			await timePickerPage.waitForSelector('#timePicker');
+			await timePickerPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await timePickerPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -94,7 +94,7 @@ describe('TimePicker', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await timePickerPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -49,14 +49,14 @@ describe('KeyGuide', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const keyGuidePage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/keyGuide');
-			await page.waitForSelector('#keyGuide');
-			await page.waitForTimeout(200);
+			await keyGuidePage.tracing.start({path: filename, screenshots: false});
+			await keyGuidePage.goto('http://localhost:8080/keyGuide');
+			await keyGuidePage.waitForSelector('#keyGuide');
+			await keyGuidePage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await keyGuidePage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -74,7 +74,7 @@ describe('KeyGuide', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await keyGuidePage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

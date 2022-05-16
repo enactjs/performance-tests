@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, PageLoadingMetrics} = require('../TraceModel');
@@ -32,14 +32,14 @@ describe('Icon', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const iconPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/icon');
-			await page.waitForSelector('#icon');
-			await page.waitForTimeout(200);
+			await iconPage.tracing.start({path: filename, screenshots: false});
+			await iconPage.goto('http://localhost:8080/icon');
+			await iconPage.waitForSelector('#icon');
+			await iconPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await iconPage.tracing.stop();
 
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
@@ -58,7 +58,7 @@ describe('Icon', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await iconPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

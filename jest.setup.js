@@ -1,3 +1,3 @@
-/* eslint-disable no-undef */
+/* global jest */
 
 jest.setTimeout(30000);

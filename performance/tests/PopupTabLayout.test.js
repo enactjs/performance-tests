@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -97,14 +97,14 @@ describe('PopupTabLayout', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const popupTabLayoutPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/popupTabLayout');
-			await page.waitForSelector('#popupTabLayout');
-			await page.waitForTimeout(200);
+			await popupTabLayoutPage.tracing.start({path: filename, screenshots: false});
+			await popupTabLayoutPage.goto('http://localhost:8080/popupTabLayout');
+			await popupTabLayoutPage.waitForSelector('#popupTabLayout');
+			await popupTabLayoutPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await popupTabLayoutPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -122,7 +122,7 @@ describe('PopupTabLayout', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await popupTabLayoutPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

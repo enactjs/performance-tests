@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -94,14 +94,14 @@ describe('Picker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const page = await testMultiple.newPage();
+				const pickerPage = await testMultiple.newPage();
 
-				await page.tracing.start({path: filename, screenshots: false});
-				await page.goto('http://localhost:8080/picker');
-				await page.waitForSelector('#pickerDefault');
-				await page.waitForTimeout(200);
+				await pickerPage.tracing.start({path: filename, screenshots: false});
+				await pickerPage.goto('http://localhost:8080/picker');
+				await pickerPage.waitForSelector('#pickerDefault');
+				await pickerPage.waitForTimeout(200);
 
-				await page.tracing.stop();
+				await pickerPage.tracing.stop();
 
 				const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 				avgDCL = avgDCL + actualDCL;
@@ -121,7 +121,7 @@ describe('Picker', () => {
 					passContLCP += 1;
 				}
 
-				await page.close();
+				await pickerPage.close();
 			}
 			avgDCL = avgDCL / stepNumber;
 			avgFCP = avgFCP / stepNumber;
@@ -224,14 +224,14 @@ describe('Picker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const page = await testMultiple.newPage();
+				const pickerJoinedPage = await testMultiple.newPage();
 
-				await page.tracing.start({path: filename, screenshots: false});
-				await page.goto('http://localhost:8080/pickerJoined');
-				await page.waitForSelector('#pickerJoined');
-				await page.waitForTimeout(200);
+				await pickerJoinedPage.tracing.start({path: filename, screenshots: false});
+				await pickerJoinedPage.goto('http://localhost:8080/pickerJoined');
+				await pickerJoinedPage.waitForSelector('#pickerJoined');
+				await pickerJoinedPage.waitForTimeout(200);
 
-				await page.tracing.stop();
+				await pickerJoinedPage.tracing.stop();
 
 				const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 				avgDCL = avgDCL + actualDCL;
@@ -251,7 +251,7 @@ describe('Picker', () => {
 					passContLCP += 1;
 				}
 
-				await page.close();
+				await pickerJoinedPage.close();
 			}
 			avgDCL = avgDCL / stepNumber;
 			avgFCP = avgFCP / stepNumber;

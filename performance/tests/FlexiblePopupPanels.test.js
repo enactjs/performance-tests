@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -79,14 +79,14 @@ describe('FlexiblePopupPanels', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const flexiblePopupPanelsPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/flexiblePopupPanels?open=true');
-			await page.waitForSelector('#flexiblePopupPanels');
-			await page.waitForTimeout(200);
+			await flexiblePopupPanelsPage.tracing.start({path: filename, screenshots: false});
+			await flexiblePopupPanelsPage.goto('http://localhost:8080/flexiblePopupPanels?open=true');
+			await flexiblePopupPanelsPage.waitForSelector('#flexiblePopupPanels');
+			await flexiblePopupPanelsPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await flexiblePopupPanelsPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -104,7 +104,7 @@ describe('FlexiblePopupPanels', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await flexiblePopupPanelsPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

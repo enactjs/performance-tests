@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -56,14 +56,14 @@ describe('ContextualPopupDecorator', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const contextualPopupDecoratorPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/contextualPopupDecorator');
-			await page.waitForSelector('#contextualPopupDecorator');
-			await page.waitForTimeout(200);
+			await contextualPopupDecoratorPage.tracing.start({path: filename, screenshots: false});
+			await contextualPopupDecoratorPage.goto('http://localhost:8080/contextualPopupDecorator');
+			await contextualPopupDecoratorPage.waitForSelector('#contextualPopupDecorator');
+			await contextualPopupDecoratorPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await contextualPopupDecoratorPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -81,7 +81,7 @@ describe('ContextualPopupDecorator', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await contextualPopupDecoratorPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

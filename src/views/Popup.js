@@ -1,15 +1,13 @@
-/* eslint-disable react/jsx-no-bind */
-
 import Button from '@enact/sandstone/Button';
 import Popup from '@enact/sandstone/Popup';
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 
 const PopupView = () => {
 	const [open, setOpen] = useState(true);
 
-	function handleToggle () {
+	const handleToggle = useCallback(() => {
 		setOpen(!open);
-	}
+	}, [open])
 
 	return (
 		<>

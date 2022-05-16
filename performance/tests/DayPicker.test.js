@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -90,13 +90,13 @@ describe('DayPicker', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/dayPicker');
-			await page.waitForSelector('#dayPicker');
-			await page.waitForTimeout(200);
+			const dayPickerPage = await testMultiple.newPage();
+			await dayPickerPage.tracing.start({path: filename, screenshots: false});
+			await dayPickerPage.goto('http://localhost:8080/dayPicker');
+			await dayPickerPage.waitForSelector('#dayPicker');
+			await dayPickerPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await dayPickerPage.tracing.stop();
 
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
@@ -115,7 +115,7 @@ describe('DayPicker', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await dayPickerPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

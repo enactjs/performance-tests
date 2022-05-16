@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
-
 import DatePicker from '@enact/sandstone/DatePicker';
 import Dropdown from '@enact/sandstone/Dropdown';
 import {Heading} from '@enact/sandstone/Heading';
@@ -10,7 +8,7 @@ import ThemeDecorator from '@enact/sandstone/ThemeDecorator';
 import Layout, {Cell} from '@enact/ui/Layout';
 import axios from 'axios';
 import classnames from 'classnames';
-import {useEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 
 import Chart from '../views/Chart';
 
@@ -184,18 +182,20 @@ const App = (props) => {
 		}
 	}, [listOfTestDates]);
 
-	const onComponentSelect = ({data}) => {
+	const onComponentSelect = useCallback(({data}) => {
 		setComponentReleasedData([]);
 		setComponentDevelopData([]);
 		setSelectedComponent(data);
-	};
+	}, []);
 
-	const onStartDateSelect = ({value}) => {
+
+	const onStartDateSelect = useCallback(({value}) => {
 		setStartDate(new Date(value).getTime());
-	};
-	const onEndDateSelect = ({value}) => {
+	}, []);
+
+	const onEndDateSelect = useCallback(({value}) => {
 		setEndDate(new Date(value).getTime());
-	};
+	}, []);
 
 	const getDefaultDate = () => {
 		let date = new Date();

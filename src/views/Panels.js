@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
-
 import BodyText from '@enact/sandstone/BodyText';
 import Button from '@enact/sandstone/Button';
 import Icon from '@enact/sandstone/Icon';
@@ -9,14 +7,14 @@ import {Header, Panel, Panels} from '@enact/sandstone/Panels';
 import {Scroller} from '@enact/sandstone/Scroller';
 import {TabLayout} from '@enact/sandstone/TabLayout';
 import {scale} from '@enact/ui/resolution';
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 
 const PanelsView = () => {
 	const [index, setPanelIndex] = useState(0);
 
-	function handleClick () {
+	const handleClick = useCallback(() => {
 		return index === 0 ? setPanelIndex(1) : setPanelIndex(0);
-	}
+	}, [index]);
 
 	return (
 		<Panels index={index}>

@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* global page, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, PageLoadingMetrics} = require('../TraceModel');
@@ -37,14 +37,14 @@ describe('Spinner', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const page = await testMultiple.newPage();
+			const spinnerPage = await testMultiple.newPage();
 
-			await page.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/spinner');
-			await page.waitForSelector('#spinner');
-			await page.waitForTimeout(200);
+			await spinnerPage.tracing.start({path: filename, screenshots: false});
+			await spinnerPage.goto('http://localhost:8080/spinner');
+			await spinnerPage.waitForSelector('#spinner');
+			await spinnerPage.waitForTimeout(200);
 
-			await page.tracing.stop();
+			await spinnerPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -62,7 +62,7 @@ describe('Spinner', () => {
 				passContLCP += 1;
 			}
 
-			await page.close();
+			await spinnerPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

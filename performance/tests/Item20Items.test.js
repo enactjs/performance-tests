@@ -2,12 +2,11 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, getFileName, scrollAtPoint, firstInputValue} = require('../utils');
+const {clsValue, firstInputValue, getFileName, scrollAtPoint} = require('../utils');
 
 describe('Item20Items', () => {
 	const component = 'Item20Items';
 	TestResults.newFile(component);
-
 
 	describe('ScrollButton', () => {
 		it('scrolls down', async () => {
@@ -32,7 +31,6 @@ describe('Item20Items', () => {
 	})
 
 	describe('mousewheel', () => {
-
 		it('scrolls down', async () => {
 			await FPS();
 			const itemId = '#item';
@@ -94,7 +92,6 @@ describe('Item20Items', () => {
 			await itemPage.waitForTimeout(200);
 
 			await itemPage.tracing.stop();
-
 
 			const { actualDCL, actualFCP, actualLCP } = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;

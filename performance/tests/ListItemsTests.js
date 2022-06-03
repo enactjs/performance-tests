@@ -1,19 +1,22 @@
-/* global page, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
-
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* eslint-disable*/
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName, scrollAtPoint} = require('../utils');
 
-describe('Item20Items', () => {
-	const component = 'Item20Items';
+const listItemTests = (componentName, dataSize, listID, itemID, outputFileName) => describe(componentName, () => { // eslint-disable-line
+	jest.setTimeout(100000);
+
+	const component = outputFileName;
 	TestResults.newFile(component);
+	const pageURL = dataSize ? `http://localhost:8080/${componentName}?dataSize=${dataSize}` : `http://localhost:8080/${componentName}`;
 
 	describe('ScrollButton', () => {
 		it('scrolls down', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/item20Items');
-			await page.waitForSelector('#item');
-			await page.focus('#item');
+			await page.goto(pageURL);
+			await page.waitForSelector(`#${listID}`);
+			await page.focus('[aria-label="scroll up or down with up down button"]');
 			await page.keyboard.down('ArrowDown');
 			await page.waitForTimeout(200);
 			await page.keyboard.down('ArrowDown');
@@ -28,50 +31,47 @@ describe('Item20Items', () => {
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
-	})
+	});
 
 	describe('mousewheel', () => {
 		it('scrolls down', async () => {
 			await FPS();
-			const itemId = '#item';
+			const VirtualList = `#${listID}`;
 
-			await page.goto('http://localhost:8080/item20Items');
-			await page.focus('#item');
-			await page.waitForSelector(itemId);
-			await scrollAtPoint(page, itemId, 1000);
+			await page.goto(pageURL);
+			await page.waitForSelector(VirtualList);
+			await scrollAtPoint(page, VirtualList, 1000);
 			await page.waitForTimeout(200);
-			await scrollAtPoint(page, itemId, 1000);
+			await scrollAtPoint(page, VirtualList, 1000);
 			await page.waitForTimeout(200);
-			await scrollAtPoint(page, itemId, 1000);
+			await scrollAtPoint(page, VirtualList, 1000);
 			await page.waitForTimeout(200);
-			await scrollAtPoint(page, itemId, 1000);
+			await scrollAtPoint(page, VirtualList, 1000);
 			await page.waitForTimeout(200);
 
 			const averageFPS = await getAverageFPS();
-			TestResults.addResult({ component: component, type: 'FPS Mousewheel', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000 });
+			TestResults.addResult({component: component, type: 'FPS Mousewheel', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
 	});
 
-	it('should have a good CLS and FID', async () => {
+	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/item20Items');
-		await page.waitForSelector('#item');
-		await page.focus('#item');
+		await page.goto(pageURL);
+		await page.waitForSelector(`#${listID || itemID}`);
+		await page.focus(`#${listID || itemID}`);
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
 
-		let actualCLS = await clsValue();
 		let actualFirstInput = await firstInputValue();
+		let actualCLS = await clsValue();
 
-		TestResults.addResult({ component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000 });
 		TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
+		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
 
-		expect(actualCLS).toBeLessThan(maxCLS);
 		expect(actualFirstInput).toBeLessThan(maxFID);
-
+		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {
@@ -84,16 +84,16 @@ describe('Item20Items', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const itemPage = await testMultiple.newPage();
+			const virtualListPage = await testMultiple.newPage();
 
-			await itemPage.tracing.start({ path: filename, screenshots: false });
-			await itemPage.goto('http://localhost:8080/item20Items');
-			await itemPage.waitForSelector('#item');
-			await itemPage.waitForTimeout(200);
+			await virtualListPage.tracing.start({path: filename, screenshots: false});
+			await virtualListPage.goto(pageURL);
+			await virtualListPage.waitForSelector(`#${listID || itemID}`);
+			await virtualListPage.waitForTimeout(200);
 
-			await itemPage.tracing.stop();
+			await virtualListPage.tracing.stop();
 
-			const { actualDCL, actualFCP, actualLCP } = PageLoadingMetrics(filename);
+			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;
@@ -109,15 +109,15 @@ describe('Item20Items', () => {
 				passContLCP += 1;
 			}
 
-			await itemPage.close();
+			await virtualListPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;
 		avgLCP = avgLCP / stepNumber;
 
-		TestResults.addResult({ component: component, type: 'DCL', actualValue: Math.round((avgDCL + Number.EPSILON) * 1000) / 1000 });
-		TestResults.addResult({ component: component, type: 'FCP', actualValue: Math.round((avgFCP + Number.EPSILON) * 1000) / 1000 });
-		TestResults.addResult({ component: component, type: 'LCP', actualValue: Math.round((avgLCP + Number.EPSILON) * 1000) / 1000 });
+		TestResults.addResult({component: component, type: 'DCL', actualValue: Math.round((avgDCL + Number.EPSILON) * 1000) / 1000});
+		TestResults.addResult({component: component, type: 'FCP', actualValue: Math.round((avgFCP + Number.EPSILON) * 1000) / 1000});
+		TestResults.addResult({component: component, type: 'LCP', actualValue: Math.round((avgLCP + Number.EPSILON) * 1000) / 1000});
 
 		expect(passContDCL).toBeGreaterThan(passRatio * stepNumber);
 		expect(avgDCL).toBeLessThan(maxDCL);
@@ -129,3 +129,7 @@ describe('Item20Items', () => {
 		expect(avgLCP).toBeLessThan(maxLCP);
 	});
 });
+
+exports.listItemTests = listItemTests;
+
+/* eslint-enable*/

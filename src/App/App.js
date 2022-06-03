@@ -20,7 +20,7 @@ import Image from '../views/Image';
 import ImageItem from '../views/ImageItem';
 import Input from '../views/Input';
 import Item from '../views/Item';
-import Item20Items from '../views/Item20Items';
+import Items from '../views/Items';
 import KeyGuide from '../views/KeyGuide';
 import Marquee from '../views/Marquee';
 import MarqueeMultiple from '../views/MarqueeMultiple';
@@ -48,7 +48,6 @@ import TimePicker from '../views/TimePicker';
 import TooltipDecorator from '../views/TooltipDecorator';
 import VideoPlayer from '../views/VideoPlayer';
 import VirtualList from '../views/VirtualList';
-import VirtualList20Items from '../views/VirtualList20Items';
 import WizardPanels from '../views/WizardPanels';
 
 import css from './App.less';
@@ -85,7 +84,7 @@ const App = kind({
 				<Route path="/imageItem" component={ImageItem} />
 				<Route path="/input" component={Input} />
 				<Route path="/item" component={Item} />
-				<Route path="/item20Items" component={Item20Items} />
+				<Route path="/items" component={Items} />
 				<Route path="/keyGuide" component={KeyGuide} />
 				<Route path="/marquee" component={Marquee} />
 				<Route path="/marqueeMultiple" component={MarqueeMultiple} />
@@ -113,7 +112,6 @@ const App = kind({
 				<Route path="/tooltipDecorator" component={TooltipDecorator} />
 				<Route path="/videoPlayer" component={VideoPlayer} />
 				<Route path="/virtualList" component={VirtualList} />
-				<Route path="/virtualList20Items" component={VirtualList20Items} />
 				<Route path="/wizardPanels" component={WizardPanels} />
 			</div>
 		</Router>

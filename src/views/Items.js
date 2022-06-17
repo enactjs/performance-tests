@@ -9,7 +9,7 @@ const url = new URL(window.location.href);
 
 const populateItemsArray = (dataSize) => {
 	for (let i = 0; i < dataSize; i++) {
-		items.push({children: 'Item ' + ('00' + i).slice(-3), id: 'item', key: i});
+		items.push({children: 'Item ' + ('00' + i).slice(-3), key: i});
 	}
 };
 
@@ -29,17 +29,12 @@ const Items = kind({
 
 	render: ({dataSize}) => {
 		const urlDataSize = parseInt(url.searchParams.get('dataSize'));
-		let dataSizeProp = dataSize;
-
-		if (!isNaN(urlDataSize)) {
-			dataSizeProp = parseInt(urlDataSize);
-		}
-
+		const dataSizeProp = urlDataSize  || dataSize;
 		populateItemsArray(dataSizeProp);
 
 		return (
 			<Scroller>
-				<Group childComponent={Item} id="items">
+				<Group childComponent={Item} id="Items">
 					{items}
 				</Group>
 			</Scroller>

@@ -4,10 +4,10 @@ const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName, scrollAtPoint} = require('../utils');
 
-const listItemTests = (componentName, dataSize, listID, itemID, outputFileName) => describe(componentName, () => { // eslint-disable-line
+const listItemTests = (componentName, dataSize) => describe(componentName, () => { // eslint-disable-line
 	jest.setTimeout(100000);
 
-	const component = outputFileName;
+	const component = componentName + (dataSize ? dataSize : '');
 	TestResults.newFile(component);
 	const pageURL = dataSize ? `http://localhost:8080/${componentName}?dataSize=${dataSize}` : `http://localhost:8080/${componentName}`;
 
@@ -15,7 +15,7 @@ const listItemTests = (componentName, dataSize, listID, itemID, outputFileName) 
 		it('scrolls down', async () => {
 			await FPS();
 			await page.goto(pageURL);
-			await page.waitForSelector(`#${listID}`);
+			await page.waitForSelector(`#${componentName}`);
 			await page.focus('[aria-label="scroll up or down with up down button"]');
 			await page.keyboard.down('ArrowDown');
 			await page.waitForTimeout(200);
@@ -36,17 +36,17 @@ const listItemTests = (componentName, dataSize, listID, itemID, outputFileName) 
 	describe('mousewheel', () => {
 		it('scrolls down', async () => {
 			await FPS();
-			const VirtualList = `#${listID}`;
+			const List = `#${componentName}`;
 
 			await page.goto(pageURL);
-			await page.waitForSelector(VirtualList);
-			await scrollAtPoint(page, VirtualList, 1000);
+			await page.waitForSelector(List);
+			await scrollAtPoint(page, List, 1000);
 			await page.waitForTimeout(200);
-			await scrollAtPoint(page, VirtualList, 1000);
+			await scrollAtPoint(page, List, 1000);
 			await page.waitForTimeout(200);
-			await scrollAtPoint(page, VirtualList, 1000);
+			await scrollAtPoint(page, List, 1000);
 			await page.waitForTimeout(200);
-			await scrollAtPoint(page, VirtualList, 1000);
+			await scrollAtPoint(page, List, 1000);
 			await page.waitForTimeout(200);
 
 			const averageFPS = await getAverageFPS();
@@ -60,8 +60,8 @@ const listItemTests = (componentName, dataSize, listID, itemID, outputFileName) 
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(pageURL);
-		await page.waitForSelector(`#${listID || itemID}`);
-		await page.focus(`#${listID || itemID}`);
+		await page.waitForSelector(`#${componentName}`);
+		await page.focus(`#${componentName}`);
 		await page.keyboard.down('Enter');
 
 		let actualFirstInput = await firstInputValue();
@@ -84,14 +84,14 @@ const listItemTests = (componentName, dataSize, listID, itemID, outputFileName) 
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const virtualListPage = await testMultiple.newPage();
+			const ListPage = await testMultiple.newPage();
 
-			await virtualListPage.tracing.start({path: filename, screenshots: false});
-			await virtualListPage.goto(pageURL);
-			await virtualListPage.waitForSelector(`#${listID || itemID}`);
-			await virtualListPage.waitForTimeout(200);
+			await ListPage.tracing.start({path: filename, screenshots: false});
+			await ListPage.goto(pageURL);
+			await ListPage.waitForSelector(`#${componentName}`);
+			await ListPage.waitForTimeout(200);
 
-			await virtualListPage.tracing.stop();
+			await ListPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -109,7 +109,7 @@ const listItemTests = (componentName, dataSize, listID, itemID, outputFileName) 
 				passContLCP += 1;
 			}
 
-			await virtualListPage.close();
+			await ListPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

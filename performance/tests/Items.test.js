@@ -1,6 +1,6 @@
 const {listItemTests} = require("./ListItemsTests");
 
-const componentName = 'VirtualList';
+const componentName = 'Items';
 
 listItemTests(componentName);
 listItemTests(componentName, 12);

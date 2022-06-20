@@ -7,7 +7,7 @@ const PopupView = () => {
 
 	const handleToggle = useCallback(() => {
 		setOpen(!open);
-	}, [open])
+	}, [open]);
 
 	return (
 		<>

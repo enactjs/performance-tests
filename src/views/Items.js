@@ -24,7 +24,7 @@ const Items = kind({
 	},
 
 	defaultProps: {
-		dataSize: 20
+		dataSize: 100
 	},
 
 	render: ({dataSize}) => {

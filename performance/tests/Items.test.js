@@ -1,5 +1,6 @@
 const {listItemTests} = require("./ListItemsTests");
 
-const componentName = 'Items'
+const componentName = 'Items';
+
+listItemTests(componentName);
 listItemTests(componentName, 12);
-listItemTests(componentName, 100);

@@ -4,7 +4,7 @@ const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName, scrollAtPoint} = require('../utils');
 
-const listItemTests = (componentName, dataSize) => describe(componentName, () => { // eslint-disable-line
+const listItemTests = (componentName, dataSize) => describe(componentName, () => { 
 	jest.setTimeout(100000);
 
 	const component = componentName + (dataSize ? dataSize : '');

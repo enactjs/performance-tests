@@ -4,7 +4,7 @@ import VirtualList from '@enact/sandstone/VirtualList';
 import PropTypes from 'prop-types';
 
 const items = [];
-const itemSize = 60;
+const itemSize = 93;
 const url = new URL(window.location.href);
 
 const populateItemsArray = (dataSize) => {

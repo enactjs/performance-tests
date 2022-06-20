@@ -33,7 +33,7 @@ const Items = kind({
 		populateItemsArray(dataSizeProp);
 
 		return (
-			<Scroller>
+			<Scroller style={{height: '700px'}}>
 				<Group childComponent={Item} id="Items">
 					{items}
 				</Group>

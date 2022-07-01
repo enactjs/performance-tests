@@ -60,12 +60,12 @@ Results can be found in `testResults` folder.
 Test results are compared to the optimum values which are stored in global variables declared in `puppeteer.setup` file.
 
 ```Metrics threshholds:```
-global.maxCLS = 0.1;
-global.maxDCL = 2000;
-global.maxFCP = 1800;
-global.maxFID = 100;
-global.minFPS = 20;
-global.maxLCP = 2500;
+- global.maxCLS = 0.1; 
+- global.maxDCL = 2000; 
+- global.maxFCP = 1800; 
+- global.maxFID = 100; 
+- global.minFPS = 20; 
+- global.maxLCP = 2500;
 
 ```javascript
 const TestResults = require('../TestResults');

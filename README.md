@@ -17,7 +17,7 @@ This project works a bit differently than a regular test suite for now. We have 
 
 ### FCP
 
-First Contentful Paint (FCP) metric measures the time from a page starting to load to when any part of the page's content is rendered on the screen.
+First Contentful Paint (FCP) measures the total time taken from the beginning of a page load to the point any content is rendered on the screen.
 To get FCP we use the `PageLoadingMetrics` function from `TraceModel`.
 
 ### DCL

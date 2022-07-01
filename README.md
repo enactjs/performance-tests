@@ -15,6 +15,10 @@ npm run test
 
 This project works a bit differently than a regular test suite for now. We have Jest installed more as a test runner, but we don't really use assertions for now. We use it more to gather and report numbers.
 
+### FPC
+
+First Contentful Paint (FCP) metric measures the time from a page starting to load to when any part of the page's content is rendered on the screen.
+
 ### FPS
 
 To gather average FPS time, we just use the `FPS` function from `TraceModel`.
@@ -65,7 +69,7 @@ it('increment', async () => {
 
 ### Mount
 
-Mounting is very is pretty simple. We just need to find the top component for the component we're trying to test like `Mount(filename, 'Changeable');`. We can check the React Devtools to see which component is at the top of a specific component.
+Mounting is pretty simple. We just need to find the top component for the component we're trying to test like `Mount(filename, 'Changeable');`. We can check the React Devtools to see which component is at the top of a specific component.
 
 ```javascript
 	it('should mount picker under threshold', async () => {

@@ -53,7 +53,19 @@ Each component is tested repeatedly for both `click` and `keypress` events to me
 FID and CLS are tested in the same test because they both typically require interactions. We can check the React Devtools to see which component is at the top of a specific component.
 DCL, FCP and LCP are also tested together as they are measured at page load time.
 
-Results can be found in `testResults` folder and are compared to the optimum values which are stored in global variables declared in `puppeteer.setup` file.
+Results can be found in `testResults` folder. 
+
+### Comparing results 
+
+Test results are compared to the optimum values which are stored in global variables declared in `puppeteer.setup` file.
+
+```Metrics threshholds:```
+global.maxCLS = 0.1;
+global.maxDCL = 2000;
+global.maxFCP = 1800;
+global.maxFID = 100;
+global.minFPS = 20;
+global.maxLCP = 2500;
 
 ```javascript
 const TestResults = require('../TestResults');

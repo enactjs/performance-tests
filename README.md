@@ -7,6 +7,7 @@ We utilize puppeteer to get chrome performance traces.
 
 To run all you have to do is start the server and run the test suite on it.
 ```
+npm run test-all
 npm run serve
 npm run test
 ```
@@ -17,34 +18,33 @@ This project works a bit differently than a regular test suite for now. We have 
 
 ### FCP
 
-First Contentful Paint (FCP) measures the total time taken from the beginning of a page load to the point any content is rendered on the screen.
+First Contentful Paint (FCP) "measures the total time taken from the beginning of a page load to the point any content is rendered on the screen" (see https://web.dev/fcp/).
 To get FCP we use the `PageLoadingMetrics` function from `TraceModel`.
 
 ### DCL
 
-DOM Content Loaded (DCL) is the time during the process of loading a webpage when the DOM (Document Object Model) has been assembled by the browser, and no stylesheets are preventing JavaScript from executing. In short, it measures the time when the HTML document has been completely loaded and read.
+DOM Content Loaded (DCL) "marks the point when both the DOM is ready and there are no stylesheets that are blocking JavaScript execution" (see https://web.dev/critical-rendering-path-measure-crp/). In other words, it measures the time when the HTML document has been completely loaded and read.
 To get DCL we use the `PageLoadingMetrics` function from `TraceModel`.
 
 ### LCP
 
-The Largest Contentful Paint (LCP) metric reports the render time of the largest image or text block visible within the viewport, relative to when the page first started loading.
+The Largest Contentful Paint (LCP) metric "reports the render time of the largest image or text block visible within the viewport, relative to when the page first started loading" (see https://web.dev/lcp/).
 To get LCP we use the `PageLoadingMetrics` function from `TraceModel`.
 
 ### FPS
 
-Frames per second (FPS) is a unit that measures display device performance in video captures and playback and video games. FPS is used to measure frame rate -- the number of images consecutively displayed each second -- and is a common metric used in video capture and playback when discussing video quality. In our case we use it to measure component animation performance.
+Frames per second (FPS) measures video quality (how many images are displayed consecutively each second). We use it to measure component animation performance.
 To gather average FPS time, we just use the `FPS` function from `TraceModel`.
 For FPS we don't need to specify any components to look for as it will just grab the FPS for the entire page.
 
 ### FID
 
-First Input Delay (FID) measures the time from when a user first interacts with a page (i.e. when they click a link, tap on a button, or use a custom, JavaScript-powered control) to the time when the browser is actually able to begin processing event handlers in response to that interaction.
+First Input Delay (FID) measures "the time from when a user first interacts with a page (i.e. when they click a link, tap on a button, or use a custom, JavaScript-powered control) to the time when the browser is actually able to begin processing event handlers in response to that interaction" (see https://web.dev/fid/).
 To get FID we use the `FID` function from `TraceModel`.
 
 ### CLS
 
-Cumulative Layout Shift (CLS) is a measure of the largest burst of layout shift scores for every unexpected layout shift that occurs during the entire lifespan of a page.
-A layout shift occurs any time a visible element changes its position from one rendered frame to the next.
+Cumulative Layout Shift (CLS) is "a measure of the largest burst of layout shift scores for every unexpected layout shift that occurs during the entire lifespan of a page. A layout shift occurs any time a visible element changes its position from one rendered frame to the next" (see https://web.dev/cls/).
 To get CLS we use the `CLS` function from `TraceModel`.
 
 ### Example
@@ -53,13 +53,11 @@ Each component is tested repeatedly for both `click` and `keypress` events to me
 FID and CLS are tested in the same test because they both typically require interactions. We can check the React Devtools to see which component is at the top of a specific component.
 DCL, FCP and LCP are also tested together as they are measured at page load time.
 
-Results can be found in `testResults` folder. 
-
-### Comparing results 
+Results can be found in `testResults` folder.
 
 Test results are compared to the optimum values which are stored in global variables declared in `puppeteer.setup` file.
 
-```Metrics threshholds:```
+**Metrics threshholds:**
 - global.maxCLS = 0.1; 
 - global.maxDCL = 2000; 
 - global.maxFCP = 1800; 
@@ -204,9 +202,24 @@ describe('Dropdown', () => {
 });
 ```
 
+### Performance Chart App
+
+We created an app to display metrics in charts that is available in `performanceMetrics` folder and can be run with `npm run serve`. 
+This way we can view the performance of each individual components at a given date on released version or development branch.
+
+Steps to run chart app:
+
+```
+cd performanceMetrics
+npm install
+npm run serve
+```
+
+A new page is loaded on :8080 port. A specific component can be selected from the `Component` dropdown and six charts are displayed for each performance metric (FPS, FID, CLS, DCL, FCP, LCP).
+
 ### Google Sheets
 
-We have the ability to send data to a Google Spreadsheet. If you wish to use this includes an environment variable. 
+We have the ability to send data to a Google Spreadsheet. If you wish to use this, include an environment variable. 
 
 ```
 // .env

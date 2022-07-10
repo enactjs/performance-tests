@@ -217,6 +217,8 @@ npm run serve
 
 A new page is loaded on :8080 port. A specific component can be selected from the `Component` dropdown and six charts are displayed for each performance metric (FPS, FID, CLS, DCL, FCP, LCP).
 
+![img.png](img.png)
+
 ### Google Sheets
 
 We have the ability to send data to a Google Spreadsheet. If you wish to use this, include an environment variable. 

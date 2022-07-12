@@ -8,6 +8,9 @@ We utilize puppeteer to get chrome performance traces.
 To run all you have to do is start the server and run the test suite on it.
 ```
 npm run test-all
+```
+
+```
 npm run serve
 npm run test
 ```
@@ -34,18 +37,17 @@ To get LCP we use the `PageLoadingMetrics` function from `TraceModel`.
 ### FPS
 
 Frames per second (FPS) measures video quality (how many images are displayed consecutively each second). We use it to measure component animation performance.
-To gather average FPS time, we just use the `FPS` function from `TraceModel`.
-For FPS we don't need to specify any components to look for as it will just grab the FPS for the entire page.
+FPS is read using the performance.now() method and Window.requestAnimationFrame() for the entire life span of the page. Just before the page is closed the average FPS is calculated.
 
 ### FID
 
 First Input Delay (FID) measures "the time from when a user first interacts with a page (i.e. when they click a link, tap on a button, or use a custom, JavaScript-powered control) to the time when the browser is actually able to begin processing event handlers in response to that interaction" (see https://web.dev/fid/).
-To get FID we use the `FID` function from `TraceModel`.
+FID is calculated using the PerformanceObserver interface. Its observer() method specifies the set of entry types to observe (in this case first-input). The performance observer's callback function will be invoked when a performance entry is recorded for one of the specified entryTypes.
 
 ### CLS
 
 Cumulative Layout Shift (CLS) is "a measure of the largest burst of layout shift scores for every unexpected layout shift that occurs during the entire lifespan of a page. A layout shift occurs any time a visible element changes its position from one rendered frame to the next" (see https://web.dev/cls/).
-To get CLS we use the `CLS` function from `TraceModel`.
+CLS is calculated using the PerformanceObserver interface. Its observer() method specifies the set of entry types to observe (in this case layout-shift). The performance observer's callback function will be invoked when a performance entry is recorded for one of the specified entryTypes.
 
 ### Example
 
@@ -201,23 +203,6 @@ describe('Dropdown', () => {
 	});
 });
 ```
-
-### Performance Chart App
-
-We created an app to display metrics in charts that is available in `performanceMetrics` folder and can be run with `npm run serve`. 
-This way we can view the performance of each individual components at a given date on released version or development branch.
-
-Steps to run chart app:
-
-```
-cd performanceMetrics
-npm install
-npm run serve
-```
-
-A new page is loaded on :8080 port. A specific component can be selected from the `Component` dropdown and six charts are displayed for each performance metric (FPS, FID, CLS, DCL, FCP, LCP).
-
-![img.png](img.png)
 
 ### Google Sheets
 

@@ -4,6 +4,8 @@ const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 
+const pageURL = 'http://localhost:8080/';
+
 describe('Alert', () => {
 	const component = 'Alert';
 	TestResults.newFile(component);
@@ -11,7 +13,7 @@ describe('Alert', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/');
+			await page.goto(pageURL);
 			await page.waitForTimeout(500);
 
 
@@ -39,7 +41,7 @@ describe('Alert', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/');
+			await page.goto(pageURL);
 			await page.waitForTimeout(500);
 			await page.waitForSelector('#button');
 			await page.focus('#button');
@@ -67,7 +69,7 @@ describe('Alert', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/');
+		await page.goto(pageURL);
 		await page.waitForTimeout(500);
 		await page.waitForSelector('#button');
 		await page.focus('#button');
@@ -96,7 +98,7 @@ describe('Alert', () => {
 			const alertPage = await testMultiple.newPage();
 
 			await alertPage.tracing.start({path: filename, screenshots: false});
-			await page.goto('http://localhost:8080/');
+			await alertPage.goto(pageURL);
 			await alertPage.waitForSelector('#alert');
 			await alertPage.waitForTimeout(200);
 

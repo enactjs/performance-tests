@@ -14,7 +14,9 @@ global.maxLCP = 2500;
 let browser;
 
 global.beforeAll(async () => {
-	browser = await puppeteer.launch();
+	browser = await puppeteer.launch({
+		headless: false
+	});
 	global.testMultiple = browser;
 });
 

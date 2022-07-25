@@ -1,19 +1,22 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxFID, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, maxCLS, passRatio */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
 
-describe('DayPicker', () => {
-	const component = 'DayPicker';
+describe('Alert', () => {
+	const component = 'Alert';
 	TestResults.newFile(component);
 
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/dayPicker');
+			await page.goto('http://192.168.100.52:9998');
+			await page.click('#items');
 			await page.waitForTimeout(500);
-			await page.click('#dayPicker'); // to move mouse on the dayPicker.
+
+
+			await page.click('#button'); // to move mouse on the button.
 			await page.mouse.down();
 			await page.waitForTimeout(200);
 			await page.mouse.up();
@@ -37,10 +40,11 @@ describe('DayPicker', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/dayPicker');
-			await page.waitForSelector('#dayPicker');
-			await page.focus('#dayPicker');
-			await page.keyboard.down('ArrowDown');
+			await page.goto('http://192.168.100.52:9998');
+			await page.click('#items');
+			await page.waitForTimeout(500);
+			await page.waitForSelector('#button');
+			await page.focus('#button');
 			await page.waitForTimeout(200);
 			await page.keyboard.down('Enter');
 			await page.waitForTimeout(200);
@@ -56,7 +60,7 @@ describe('DayPicker', () => {
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component, type: 'FPS keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
@@ -65,9 +69,11 @@ describe('DayPicker', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/dayPicker');
-		await page.waitForSelector('#dayPicker');
-		await page.keyboard.down('ArrowDown');
+		await page.goto('http://192.168.100.52:9998');
+		await page.click('#items');
+		await page.waitForTimeout(500);
+		await page.waitForSelector('#button');
+		await page.focus('#button');
 		await page.keyboard.down('Enter');
 
 		let actualFirstInput = await firstInputValue();
@@ -90,14 +96,16 @@ describe('DayPicker', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const dayPickerPage = await testMultiple.newPage();
-			await dayPickerPage.tracing.start({path: filename, screenshots: false});
-			await dayPickerPage.goto('http://localhost:8080/dayPicker');
-			await dayPickerPage.waitForSelector('#dayPicker');
-			await dayPickerPage.waitForTimeout(200);
+			const alertPage = await testMultiple.newPage();
 
-			await dayPickerPage.tracing.stop();
+			await alertPage.tracing.start({path: filename, screenshots: false});
+			await page.goto('http://192.168.100.52:9998');
+			await page.click('#items');
+			await page.waitForTimeout(500);
+			await alertPage.waitForSelector('#alert');
+			await alertPage.waitForTimeout(200);
 
+			await alertPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -109,13 +117,12 @@ describe('DayPicker', () => {
 			if (actualFCP < maxFCP) {
 				passContFCP += 1;
 			}
-
 			avgLCP = avgLCP + actualLCP;
 			if (actualLCP < maxLCP) {
 				passContLCP += 1;
 			}
 
-			await dayPickerPage.close();
+			await alertPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

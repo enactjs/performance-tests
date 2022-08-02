@@ -34,6 +34,7 @@
 		"@enact/sandstone": "^2.5.0-alpha.1",
 		"@enact/spotlight": "^4.5.0-alpha.1",
 		"@enact/ui": "^4.5.0-alpha.1",
+		"@enact/webos": "^4.5.0-alpha.1",
 		"dotenv": "^6.2.0",
 		"node-fetch": "^2.3.0",
 		"prop-types": "^15.8.1",

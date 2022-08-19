@@ -12,7 +12,12 @@ describe('Alert', () => {
 	describe('click', () => {
 		it('animates', async () => {
 
-			pageTV.goto('http://localhost:9998/')
+			// pageTV.goto('http://localhost:9998/')
+			await pageTV.goto('http://10.178.92.42:8080');
+			await pageTV.setViewport({
+				width: 1920,
+				height: 1080
+			});
 			console.log(platform.detect());
 
 			await pageTV.waitForTimeout(20000);

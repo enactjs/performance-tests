@@ -15,42 +15,56 @@ let browser;
 
 global.beforeAll(async () => {
 	// tried to open remote in remote debugging to see what happens
-	browser = await puppeteer.launch({
-		"args": [
-			'--remote-debugging-port=9998',
-			'--remote-debugging-address=192.168.100.52',
-			"--window-size=1920,1080",
-		],
-		"defaultViewport": {
-			"height": 1080,
-			"width": 1920
-		},
-		"headless": false
-	});
+	// browser = await puppeteer.launch();
+	// global.testMultiple = browser;
+
+	// browser = await puppeteer.launch({
+	// 	"args": [
+	// 		'--remote-debugging-port=9998',
+	// 		'--remote-debugging-address=10.177.222.97',
+	// 		// "--window-size=1920,1080",
+	// 	],
+	// 	// "defaultViewport": {
+	// 	// 	"height": 1080,
+	// 	// 	"width": 1920
+	// 	// },
+	// 	// "headless": true
+	// });
 
 	// // tried to connect to a sideloaded page to see what happens
-	// const browserURL = 'http://192.168.100.52:9998';
-	// browser = await puppeteer.connect({browserURL});
+	const serverAddr ="10.177.222.97:9998";
+	const browser = await puppeteer.connect({
+		browserURL: `http://${serverAddr}`,
+		ignoreHTTPSErrors: true
+	  });
+
+	const pages = await browser.pages();
+	const pagesCount = pages.length;
 
 	global.testMultipleTV = browser;
+	global.testPage = pages[0];
+
 });
 
 global.beforeEach(async () => {
-	const newPageTV = await browser.newPage(); // does not work with connect
-	console.log(browser);
+	console.log("BeforeEach");
+	// const newPageTV = await browser.newPage(); // does not work with connect
+	const newPageTV = global.testPage; // does not work with connect
+	// console.log(browser);
 
-	await newPageTV.setViewport({
-		width: 1920,
-		height: 1080
-	});
+	// await newPageTV.setViewport({
+	// 	width: 1920,
+	// 	height: 1080
+	// });
 
-	global.pageTV = newPageTV;
+	// global.pageTV = newPageTV;
+	global.pageTV = global.testPage;
 });
 
 global.afterEach(async () => {
-	await pageTV.close();
+	// await pageTV.close();
 });
 
 global.afterAll(async () => {
-	await browser.close();
+	// await browser.close();
 });

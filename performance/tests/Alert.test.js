@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxFID, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, maxCLS, passRatio, serverAddr */
+/* global page, minFPS, maxFID, maxFID, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, maxCLS, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -10,24 +10,25 @@ describe('Alert', () => {
 
 	describe('click', () => {
 		it('animates', async () => {
+			const alertPage = targetEnv === 'TV' ? pageTV : page;
 			await FPS();
-			await pageTV.goto(`http://${serverAddr}/alert`);
+			await alertPage.goto(`http://${serverAddr}/alert`);
 
-			await pageTV.waitForTimeout(500);
+			await alertPage.waitForTimeout(500);
 
-			await pageTV.click('#button'); // to move mouse on the button.
-			await pageTV.mouse.down();
-			await pageTV.waitForTimeout(200);
-			await pageTV.mouse.up();
-			await pageTV.mouse.down();
-			await pageTV.waitForTimeout(200);
-			await pageTV.mouse.up();
-			await pageTV.mouse.down();
-			await pageTV.waitForTimeout(200);
-			await pageTV.mouse.up();
-			await pageTV.mouse.down();
-			await pageTV.waitForTimeout(200);
-			await pageTV.mouse.up();
+			await alertPage.click('#button'); // to move mouse on the button.
+			await alertPage.mouse.down();
+			await alertPage.waitForTimeout(200);
+			await alertPage.mouse.up();
+			await alertPage.mouse.down();
+			await alertPage.waitForTimeout(200);
+			await alertPage.mouse.up();
+			await alertPage.mouse.down();
+			await alertPage.waitForTimeout(200);
+			await alertPage.mouse.up();
+			await alertPage.mouse.down();
+			await alertPage.waitForTimeout(200);
+			await alertPage.mouse.up();
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -38,23 +39,24 @@ describe('Alert', () => {
 
 	describe('keypress', () => {
 		it('animates', async () => {
+			const alertPage = targetEnv === 'TV' ? pageTV : page;
 			await FPS();
-			await pageTV.goto(`http://${serverAddr}/alert`);
-			await pageTV.waitForSelector('#button');
-			await pageTV.focus('#button');
-			await pageTV.waitForTimeout(200);
-			await pageTV.keyboard.down('Enter');
-			await pageTV.waitForTimeout(200);
-			await pageTV.keyboard.up('Enter');
-			await pageTV.keyboard.down('Enter');
-			await pageTV.waitForTimeout(200);
-			await pageTV.keyboard.up('Enter');
-			await pageTV.keyboard.down('Enter');
-			await pageTV.waitForTimeout(200);
-			await pageTV.keyboard.up('Enter');
-			await pageTV.keyboard.down('Enter');
-			await pageTV.waitForTimeout(200);
-			await pageTV.keyboard.up('Enter');
+			await alertPage.goto(`http://${serverAddr}/alert`);
+			await alertPage.waitForSelector('#button');
+			await alertPage.focus('#button');
+			await alertPage.waitForTimeout(200);
+			await alertPage.keyboard.down('Enter');
+			await alertPage.waitForTimeout(200);
+			await alertPage.keyboard.up('Enter');
+			await alertPage.keyboard.down('Enter');
+			await alertPage.waitForTimeout(200);
+			await alertPage.keyboard.up('Enter');
+			await alertPage.keyboard.down('Enter');
+			await alertPage.waitForTimeout(200);
+			await alertPage.keyboard.up('Enter');
+			await alertPage.keyboard.down('Enter');
+			await alertPage.waitForTimeout(200);
+			await alertPage.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -64,12 +66,13 @@ describe('Alert', () => {
 	});
 
 	it('should have a good FID and CLS', async () => {
-		await pageTV.evaluateOnNewDocument(FID);
-		await pageTV.evaluateOnNewDocument(CLS);
-		await pageTV.goto(`http://${serverAddr}/alert`);
-		await pageTV.waitForSelector('#button');
-		await pageTV.focus('#button');
-		await pageTV.keyboard.down('Enter');
+		const alertPage = targetEnv === 'TV' ? pageTV : page;
+		await alertPage.evaluateOnNewDocument(FID);
+		await alertPage.evaluateOnNewDocument(CLS);
+		await alertPage.goto(`http://${serverAddr}/alert`);
+		await alertPage.waitForSelector('#button');
+		await alertPage.focus('#button');
+		await alertPage.keyboard.down('Enter');
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -82,6 +85,7 @@ describe('Alert', () => {
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {
+		const alertPage = targetEnv === 'TV' ? pageTV : page;
 		const filename = getFileName(component);
 
 		let passContDCL = 0;
@@ -91,14 +95,14 @@ describe('Alert', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			//const alertPage = await testMultiple.newPage();
+			const alertMultiplePage = targetEnv === 'TV' ? alertPage : await testMultiple.newPage();
 
-			await pageTV.tracing.start({path: filename, screenshots: false});
-			await pageTV.goto(`http://${serverAddr}/alert`);
-			await pageTV.waitForSelector('#alert');
-			await pageTV.waitForTimeout(200);
+			await alertMultiplePage.tracing.start({path: filename, screenshots: false});
+			await alertMultiplePage.goto(`http://${serverAddr}/alert`);
+			await alertMultiplePage.waitForSelector('#alert');
+			await alertMultiplePage.waitForTimeout(200);
 
-			await pageTV.tracing.stop();
+			await alertMultiplePage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -115,7 +119,7 @@ describe('Alert', () => {
 				passContLCP += 1;
 			}
 
-			//await pageTV.close();
+			if (targetEnv === 'PC') await alertMultiplePage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

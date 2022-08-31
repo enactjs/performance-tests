@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxFID, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, maxCLS, passRatio */
+/* global page, minFPS, maxFID, maxFID, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, maxCLS, passRatio, serverAddr */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,22 +11,23 @@ describe('Alert', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/alert');
-			await page.waitForTimeout(500);
+			await pageTV.goto(`http://${serverAddr}/alert`);
 
-			await page.click('#button'); // to move mouse on the button.
-			await page.mouse.down();
-			await page.waitForTimeout(200);
-			await page.mouse.up();
-			await page.mouse.down();
-			await page.waitForTimeout(200);
-			await page.mouse.up();
-			await page.mouse.down();
-			await page.waitForTimeout(200);
-			await page.mouse.up();
-			await page.mouse.down();
-			await page.waitForTimeout(200);
-			await page.mouse.up();
+			await pageTV.waitForTimeout(500);
+
+			await pageTV.click('#button'); // to move mouse on the button.
+			await pageTV.mouse.down();
+			await pageTV.waitForTimeout(200);
+			await pageTV.mouse.up();
+			await pageTV.mouse.down();
+			await pageTV.waitForTimeout(200);
+			await pageTV.mouse.up();
+			await pageTV.mouse.down();
+			await pageTV.waitForTimeout(200);
+			await pageTV.mouse.up();
+			await pageTV.mouse.down();
+			await pageTV.waitForTimeout(200);
+			await pageTV.mouse.up();
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -38,22 +39,22 @@ describe('Alert', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/alert');
-			await page.waitForSelector('#button');
-			await page.focus('#button');
-			await page.waitForTimeout(200);
-			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
-			await page.keyboard.up('Enter');
-			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
-			await page.keyboard.up('Enter');
-			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
-			await page.keyboard.up('Enter');
-			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
-			await page.keyboard.up('Enter');
+			await pageTV.goto(`http://${serverAddr}/alert`);
+			await pageTV.waitForSelector('#button');
+			await pageTV.focus('#button');
+			await pageTV.waitForTimeout(200);
+			await pageTV.keyboard.down('Enter');
+			await pageTV.waitForTimeout(200);
+			await pageTV.keyboard.up('Enter');
+			await pageTV.keyboard.down('Enter');
+			await pageTV.waitForTimeout(200);
+			await pageTV.keyboard.up('Enter');
+			await pageTV.keyboard.down('Enter');
+			await pageTV.waitForTimeout(200);
+			await pageTV.keyboard.up('Enter');
+			await pageTV.keyboard.down('Enter');
+			await pageTV.waitForTimeout(200);
+			await pageTV.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -63,12 +64,12 @@ describe('Alert', () => {
 	});
 
 	it('should have a good FID and CLS', async () => {
-		await page.evaluateOnNewDocument(FID);
-		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/alert');
-		await page.waitForSelector('#button');
-		await page.focus('#button');
-		await page.keyboard.down('Enter');
+		await pageTV.evaluateOnNewDocument(FID);
+		await pageTV.evaluateOnNewDocument(CLS);
+		await pageTV.goto(`http://${serverAddr}/alert`);
+		await pageTV.waitForSelector('#button');
+		await pageTV.focus('#button');
+		await pageTV.keyboard.down('Enter');
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -90,14 +91,14 @@ describe('Alert', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const alertPage = await testMultiple.newPage();
+			//const alertPage = await testMultiple.newPage();
 
-			await alertPage.tracing.start({path: filename, screenshots: false});
-			await alertPage.goto('http://localhost:8080/alert');
-			await alertPage.waitForSelector('#alert');
-			await alertPage.waitForTimeout(200);
+			await pageTV.tracing.start({path: filename, screenshots: false});
+			await pageTV.goto(`http://${serverAddr}/alert`);
+			await pageTV.waitForSelector('#alert');
+			await pageTV.waitForTimeout(200);
 
-			await alertPage.tracing.stop();
+			await pageTV.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -114,7 +115,7 @@ describe('Alert', () => {
 				passContLCP += 1;
 			}
 
-			await alertPage.close();
+			//await pageTV.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

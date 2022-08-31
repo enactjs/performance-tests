@@ -23,11 +23,11 @@ async function scrollAtPoint (utilsPage, selector, amount) {
 }
 
 const firstInputValue = () => {
-	return page.evaluate(() => window.fid);
+	return pageTV.evaluate(() => window.fid);
 };
 
 const clsValue = () => {
-	return page.evaluate(() => window.cls);
+	return pageTV.evaluate(() => window.cls);
 };
 
 module.exports = {

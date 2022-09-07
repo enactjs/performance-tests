@@ -15,17 +15,17 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 	describe('ScrollButton', () => {
 		it('scrolls down', async () => {
 			await FPS();
-			await listItemsPage.goto(pageURL);
-			await listItemsPage.waitForSelector(`#${componentName}`);
-			await listItemsPage.focus('[aria-label="scroll up or down with up down button"]');
-			await listItemsPage.keyboard.down('ArrowDown');
-			await listItemsPage.waitForTimeout(200);
-			await listItemsPage.keyboard.down('ArrowDown');
-			await listItemsPage.waitForTimeout(200);
-			await listItemsPage.keyboard.down('ArrowDown');
-			await listItemsPage.waitForTimeout(200);
-			await listItemsPage.keyboard.down('ArrowDown');
-			await listItemsPage.waitForTimeout(2000);
+			await page.goto(pageURL);
+			await page.waitForSelector(`#${componentName}`);
+			await page.focus('[aria-label="scroll up or down with up down button"]');
+			await page.keyboard.down('ArrowDown');
+			await page.waitForTimeout(200);
+			await page.keyboard.down('ArrowDown');
+			await page.waitForTimeout(200);
+			await page.keyboard.down('ArrowDown');
+			await page.waitForTimeout(200);
+			await page.keyboard.down('ArrowDown');
+			await page.waitForTimeout(2000);
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -39,16 +39,16 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 			await FPS();
 			const List = `#${componentName}`;
 
-			await listItemsPage.goto(pageURL);
-			await listItemsPage.waitForSelector(List);
+			await page.goto(pageURL);
+			await page.waitForSelector(List);
 			await scrollAtPoint(page, List, 1000);
-			await listItemsPage.waitForTimeout(200);
+			await page.waitForTimeout(200);
 			await scrollAtPoint(page, List, 1000);
-			await listItemsPage.waitForTimeout(200);
+			await page.waitForTimeout(200);
 			await scrollAtPoint(page, List, 1000);
-			await listItemsPage.waitForTimeout(200);
+			await page.waitForTimeout(200);
 			await scrollAtPoint(page, List, 1000);
-			await listItemsPage.waitForTimeout(200);
+			await page.waitForTimeout(200);
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Mousewheel', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -58,12 +58,12 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 	});
 
 	it('should have a good FID and CLS', async () => {
-		await listItemsPage.evaluateOnNewDocument(FID);
-		await listItemsPage.evaluateOnNewDocument(CLS);
-		await listItemsPage.goto(pageURL);
-		await listItemsPage.waitForSelector(`#${componentName}`);
-		await listItemsPage.focus(`#${componentName}`);
-		await listItemsPage.keyboard.down('Enter');
+		await page.evaluateOnNewDocument(FID);
+		await page.evaluateOnNewDocument(CLS);
+		await page.goto(pageURL);
+		await page.waitForSelector(`#${componentName}`);
+		await page.focus(`#${componentName}`);
+		await page.keyboard.down('Enter');
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();

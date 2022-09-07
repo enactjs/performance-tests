@@ -10,9 +10,9 @@ describe('KeyGuide', () => {
 
 	it('FPS', async () => {
 		await FPS();
-		await keyGuidePage.goto(`http://${serverAddr}/keyGuide`);
-		await keyGuidePage.waitForSelector('#keyGuide');
-		await keyGuidePage.waitForTimeout(2000);
+		await page.goto(`http://${serverAddr}/keyGuide`);
+		await page.waitForSelector('#keyGuide');
+		await page.waitForTimeout(2000);
 
 		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -21,13 +21,13 @@ describe('KeyGuide', () => {
 	});
 
 	it('should have a good FID and CLS', async () => {
-		await keyGuidePage.evaluateOnNewDocument(FID);
-		await keyGuidePage.evaluateOnNewDocument(CLS);
-		await keyGuidePage.goto(`http://${serverAddr}/keyGuide`);
-		await keyGuidePage.waitForSelector('#keyGuide');
-		await keyGuidePage.focus('#keyGuide');
-		await keyGuidePage.keyboard.down('Enter');
-		await keyGuidePage.waitForTimeout(500);
+		await page.evaluateOnNewDocument(FID);
+		await page.evaluateOnNewDocument(CLS);
+		await page.goto(`http://${serverAddr}/keyGuide`);
+		await page.waitForSelector('#keyGuide');
+		await page.focus('#keyGuide');
+		await page.keyboard.down('Enter');
+		await page.waitForTimeout(500);
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();

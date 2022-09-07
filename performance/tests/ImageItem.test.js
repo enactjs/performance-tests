@@ -9,12 +9,12 @@ describe('ImageItem', () => {
 	TestResults.newFile(component);
 
 	it('should have a good CLS', async () => {
-		await imageItemPage.evaluateOnNewDocument(CLS);
-		await imageItemPage.goto(`http://${serverAddr}/imageItem`);
-		await imageItemPage.waitForSelector('#imageItem');
-		await imageItemPage.focus('#imageItem');
-		await imageItemPage.keyboard.down('Enter');
-		await imageItemPage.waitForTimeout(200);
+		await page.evaluateOnNewDocument(CLS);
+		await page.goto(`http://${serverAddr}/imageItem`);
+		await page.waitForSelector('#imageItem');
+		await page.focus('#imageItem');
+		await page.keyboard.down('Enter');
+		await page.waitForTimeout(200);
 
 		let actualCLS = await clsValue();
 

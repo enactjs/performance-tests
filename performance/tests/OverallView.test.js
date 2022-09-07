@@ -96,14 +96,14 @@ describe('OverallView', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const overallViewMultiplePage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const overallViewPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
-			await overallViewMultiplePage.tracing.start({path: filename, screenshots: false});
-			await overallViewMultiplePage.goto(`http://${serverAddr}/overallView`);
-			await overallViewMultiplePage.waitForSelector('#virtualGridList');
-			await overallViewMultiplePage.waitForTimeout(200);
+			await overallViewPage.tracing.start({path: filename, screenshots: false});
+			await overallViewPage.goto(`http://${serverAddr}/overallView`);
+			await overallViewPage.waitForSelector('#virtualGridList');
+			await overallViewPage.waitForTimeout(200);
 
-			await overallViewMultiplePage.tracing.stop();
+			await overallViewPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 
@@ -122,7 +122,7 @@ describe('OverallView', () => {
 				passContLCP += 1;
 			}
 
-			if (targetEnv === 'PC') await overallViewMultiplePage.close();
+			if (targetEnv === 'PC') await overallViewPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

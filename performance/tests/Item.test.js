@@ -9,12 +9,12 @@ describe('Item', () => {
 	TestResults.newFile(component);
 
 	it('should have a good CLS', async () => {
-		await itemPage.evaluateOnNewDocument(CLS);
-		await itemPage.goto(`http://${serverAddr}/item`);
-		await itemPage.waitForSelector('#item');
-		await itemPage.focus('#item');
-		await itemPage.keyboard.down('Enter');
-		await itemPage.waitForTimeout(200);
+		await page.evaluateOnNewDocument(CLS);
+		await page.goto(`http://${serverAddr}/item`);
+		await page.waitForSelector('#item');
+		await page.focus('#item');
+		await page.keyboard.down('Enter');
+		await page.waitForTimeout(200);
 
 		let actualCLS = await clsValue();
 

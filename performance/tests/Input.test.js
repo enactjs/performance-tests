@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -10,58 +10,58 @@ describe('Input', () => {
 
 	it('FPS', async () => {
 		await FPS();
-		await page.goto('http://localhost:8080/input');
-		await page.waitForSelector('.inputView');
-		await page.focus('.inputView');
-		await page.waitForTimeout(200);
-		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
-		await page.keyboard.up('Enter');
-		await page.keyboard.down('A');
-		await page.keyboard.up('A');
-		await page.keyboard.down('B');
-		await page.keyboard.up('B');
-		await page.keyboard.down('B');
-		await page.keyboard.up('B');
-		await page.keyboard.down('A');
-		await page.keyboard.up('A');
-		await page.keyboard.down('Backspace');
-		await page.keyboard.up('Backspace');
-		await page.keyboard.down('Backspace');
-		await page.keyboard.up('Backspace');
-		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
-		await page.keyboard.up('Enter');
-		await page.keyboard.down('A');
-		await page.keyboard.up('A');
-		await page.keyboard.down('B');
-		await page.keyboard.up('B');
-		await page.keyboard.down('B');
-		await page.keyboard.up('B');
-		await page.keyboard.down('A');
-		await page.keyboard.up('A');
-		await page.keyboard.down('Backspace');
-		await page.keyboard.up('Backspace');
-		await page.keyboard.down('Backspace');
-		await page.keyboard.up('Backspace');
-		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
-		await page.keyboard.up('Enter');
-		await page.keyboard.down('A');
-		await page.keyboard.up('A');
-		await page.keyboard.down('B');
-		await page.keyboard.up('B');
-		await page.keyboard.down('B');
-		await page.keyboard.up('B');
-		await page.keyboard.down('A');
-		await page.keyboard.up('A');
-		await page.keyboard.down('Backspace');
-		await page.keyboard.up('Backspace');
-		await page.keyboard.down('Backspace');
-		await page.keyboard.up('Backspace');
-		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
-		await page.keyboard.up('Enter');
+		await inputPage.goto(`http://${serverAddr}/input`);
+		await inputPage.waitForSelector('.inputView');
+		await inputPage.focus('.inputView');
+		await inputPage.waitForTimeout(200);
+		await inputPage.keyboard.down('Enter');
+		await inputPage.waitForTimeout(200);
+		await inputPage.keyboard.up('Enter');
+		await inputPage.keyboard.down('A');
+		await inputPage.keyboard.up('A');
+		await inputPage.keyboard.down('B');
+		await inputPage.keyboard.up('B');
+		await inputPage.keyboard.down('B');
+		await inputPage.keyboard.up('B');
+		await inputPage.keyboard.down('A');
+		await inputPage.keyboard.up('A');
+		await inputPage.keyboard.down('Backspace');
+		await inputPage.keyboard.up('Backspace');
+		await inputPage.keyboard.down('Backspace');
+		await inputPage.keyboard.up('Backspace');
+		await inputPage.keyboard.down('Enter');
+		await inputPage.waitForTimeout(200);
+		await inputPage.keyboard.up('Enter');
+		await inputPage.keyboard.down('A');
+		await inputPage.keyboard.up('A');
+		await inputPage.keyboard.down('B');
+		await inputPage.keyboard.up('B');
+		await inputPage.keyboard.down('B');
+		await inputPage.keyboard.up('B');
+		await inputPage.keyboard.down('A');
+		await inputPage.keyboard.up('A');
+		await inputPage.keyboard.down('Backspace');
+		await inputPage.keyboard.up('Backspace');
+		await inputPage.keyboard.down('Backspace');
+		await inputPage.keyboard.up('Backspace');
+		await inputPage.keyboard.down('Enter');
+		await inputPage.waitForTimeout(200);
+		await inputPage.keyboard.up('Enter');
+		await inputPage.keyboard.down('A');
+		await inputPage.keyboard.up('A');
+		await inputPage.keyboard.down('B');
+		await inputPage.keyboard.up('B');
+		await inputPage.keyboard.down('B');
+		await inputPage.keyboard.up('B');
+		await inputPage.keyboard.down('A');
+		await inputPage.keyboard.up('A');
+		await inputPage.keyboard.down('Backspace');
+		await inputPage.keyboard.up('Backspace');
+		await inputPage.keyboard.down('Backspace');
+		await inputPage.keyboard.up('Backspace');
+		await inputPage.keyboard.down('Enter');
+		await inputPage.waitForTimeout(200);
+		await inputPage.keyboard.up('Enter');
 
 		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -70,25 +70,25 @@ describe('Input', () => {
 	});
 
 	it('should have a good FID and CLS', async () => {
-		await page.evaluateOnNewDocument(FID);
-		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/input');
-		await page.waitForSelector('.inputView');
-		await page.waitForTimeout(100);
-		await page.click('.inputView');
-		await page.waitForTimeout(100);
-		await page.keyboard.down('A');
-		await page.keyboard.up('A');
-		await page.keyboard.down('B');
-		await page.keyboard.up('B');
-		await page.keyboard.down('B');
-		await page.keyboard.up('B');
-		await page.keyboard.down('A');
-		await page.keyboard.up('A');
-		await page.keyboard.down('Backspace');
-		await page.keyboard.up('Backspace');
-		await page.keyboard.down('Backspace');
-		await page.keyboard.up('Backspace');
+		await inputPage.evaluateOnNewDocument(FID);
+		await inputPage.evaluateOnNewDocument(CLS);
+		await inputPage.goto(`http://${serverAddr}/input`);
+		await inputPage.waitForSelector('.inputView');
+		await inputPage.waitForTimeout(100);
+		await inputPage.click('.inputView');
+		await inputPage.waitForTimeout(100);
+		await inputPage.keyboard.down('A');
+		await inputPage.keyboard.up('A');
+		await inputPage.keyboard.down('B');
+		await inputPage.keyboard.up('B');
+		await inputPage.keyboard.down('B');
+		await inputPage.keyboard.up('B');
+		await inputPage.keyboard.down('A');
+		await inputPage.keyboard.up('A');
+		await inputPage.keyboard.down('Backspace');
+		await inputPage.keyboard.up('Backspace');
+		await inputPage.keyboard.down('Backspace');
+		await inputPage.keyboard.up('Backspace');
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -113,7 +113,7 @@ describe('Input', () => {
 			const inputPage = await testMultiple.newPage();
 
 			await inputPage.tracing.start({path: filename, screenshots: false});
-			await inputPage.goto('http://localhost:8080/input');
+			await inputPage.goto(`http://${serverAddr}/input`);
 			await inputPage.waitForSelector('.inputView');
 			await inputPage.waitForTimeout(200);
 
@@ -135,7 +135,7 @@ describe('Input', () => {
 				passContLCP += 1;
 			}
 
-			await inputPage.close();
+			if (targetEnv === 'PC') await inputPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

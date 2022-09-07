@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('DatePicker', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/datePicker');
+			await page.goto(`http://${serverAddr}/datePicker`);
 			await page.waitForTimeout(500);
 			await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
 			await page.mouse.down();
@@ -40,7 +40,7 @@ describe('DatePicker', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/datePicker');
+			await page.goto(`http://${serverAddr}/datePicker`);
 			await page.waitForSelector('[data-webos-voice-group-label="month"]');
 			await page.focus('[data-webos-voice-group-label="month"]');
 			await page.waitForTimeout(200);
@@ -73,7 +73,7 @@ describe('DatePicker', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/datePicker');
+		await page.goto(`http://${serverAddr}/datePicker`);
 		await page.waitForSelector('[data-webos-voice-group-label="month"]');
 		await page.focus('[data-webos-voice-group-label="month"]');
 		await page.keyboard.down('Enter');
@@ -101,7 +101,7 @@ describe('DatePicker', () => {
 			const datePickerPage = await testMultiple.newPage();
 
 			await datePickerPage.tracing.start({path: filename, screenshots: false});
-			await datePickerPage.goto('http://localhost:8080/datePicker');
+			await datePickerPage.goto(`http://${serverAddr}/datePicker`);
 			await datePickerPage.waitForSelector('[data-webos-voice-group-label="month"]');
 			await datePickerPage.waitForTimeout(200);
 
@@ -124,7 +124,7 @@ describe('DatePicker', () => {
 				passContLCP += 1;
 			}
 
-			await datePickerPage.close();
+			if (targetEnv === 'PC') await datePickerPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

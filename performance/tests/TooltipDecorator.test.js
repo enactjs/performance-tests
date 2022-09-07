@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('TooltipDecorator', () => {
 	describe('focus', () => {
 		it('should have a good FPS', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/tooltipDecorator');
+			await page.goto(`http://${serverAddr}/tooltipDecorator`);
 			await page.waitForSelector('#tooltipDecorator');
 			await page.focus('#tooltipDecorator');
 			await page.waitForTimeout(200);
@@ -26,7 +26,7 @@ describe('TooltipDecorator', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/tooltipDecorator');
+		await page.goto(`http://${serverAddr}/tooltipDecorator`);
 		await page.waitForSelector('#tooltipDecorator');
 		await page.focus('#tooltipDecorator');
 		await page.keyboard.down('Enter');
@@ -54,7 +54,7 @@ describe('TooltipDecorator', () => {
 			const tooltipDecoratorPage = await testMultiple.newPage();
 
 			await tooltipDecoratorPage.tracing.start({path: filename, screenshots: false});
-			await tooltipDecoratorPage.goto('http://localhost:8080/tooltipDecorator');
+			await tooltipDecoratorPage.goto(`http://${serverAddr}/tooltipDecorator`);
 			await tooltipDecoratorPage.waitForSelector('#tooltipDecorator');
 			await tooltipDecoratorPage.waitForTimeout(200);
 
@@ -76,7 +76,7 @@ describe('TooltipDecorator', () => {
 				passContLCP += 1;
 			}
 
-			await tooltipDecoratorPage.close();
+			if (targetEnv === 'PC') await tooltipDecoratorPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

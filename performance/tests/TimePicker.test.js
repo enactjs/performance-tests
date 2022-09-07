@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('TimePicker', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/timePicker');
+			await page.goto(`http://${serverAddr}/timePicker`);
 			await page.waitForSelector('#timePicker');
 			await page.waitForTimeout(200);
 			await page.click('[aria-label$="hour change a value with up down button"]');
@@ -27,7 +27,7 @@ describe('TimePicker', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/timePicker');
+			await page.goto(`http://${serverAddr}/timePicker`);
 			await page.waitForSelector('#timePicker');
 			await page.focus('[aria-label$="hour change a value with up down button"]');
 			await page.waitForTimeout(200);
@@ -44,7 +44,7 @@ describe('TimePicker', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/timePicker');
+		await page.goto(`http://${serverAddr}/timePicker`);
 		await page.waitForSelector('#timePicker');
 		await page.focus('[aria-label$="hour change a value with up down button"]');
 		await page.keyboard.down('ArrowDown');
@@ -72,7 +72,7 @@ describe('TimePicker', () => {
 			const timePickerPage = await testMultiple.newPage();
 
 			await timePickerPage.tracing.start({path: filename, screenshots: false});
-			await timePickerPage.goto('http://localhost:8080/timePicker');
+			await timePickerPage.goto(`http://${serverAddr}/timePicker`);
 			await timePickerPage.waitForSelector('#timePicker');
 			await timePickerPage.waitForTimeout(200);
 
@@ -94,7 +94,7 @@ describe('TimePicker', () => {
 				passContLCP += 1;
 			}
 
-			await timePickerPage.close();
+			if (targetEnv === 'PC') await timePickerPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

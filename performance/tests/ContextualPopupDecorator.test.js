@@ -1,4 +1,4 @@
-/* global page, minFPS, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -10,7 +10,7 @@ describe('ContextualPopupDecorator', () => {
 
 	it('FPS', async () => {
 		await FPS();
-		await page.goto('http://localhost:8080/contextualPopupDecorator');
+		await page.goto(`http://${serverAddr}/contextualPopupDecorator`);
 		await page.waitForSelector('#contextualPopupDecorator');
 		await page.click('#contextualPopupDecorator'); // to move mouse on the button.
 		await page.mouse.down();
@@ -34,7 +34,7 @@ describe('ContextualPopupDecorator', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/contextualPopupDecorator');
+		await page.goto(`http://${serverAddr}/contextualPopupDecorator`);
 		await page.waitForTimeout(200);
 		await page.waitForSelector('#contextualPopupDecorator');
 		await page.click('#contextualPopupDecorator');
@@ -59,7 +59,7 @@ describe('ContextualPopupDecorator', () => {
 			const contextualPopupDecoratorPage = await testMultiple.newPage();
 
 			await contextualPopupDecoratorPage.tracing.start({path: filename, screenshots: false});
-			await contextualPopupDecoratorPage.goto('http://localhost:8080/contextualPopupDecorator');
+			await contextualPopupDecoratorPage.goto(`http://${serverAddr}/contextualPopupDecorator`);
 			await contextualPopupDecoratorPage.waitForSelector('#contextualPopupDecorator');
 			await contextualPopupDecoratorPage.waitForTimeout(200);
 
@@ -81,7 +81,7 @@ describe('ContextualPopupDecorator', () => {
 				passContLCP += 1;
 			}
 
-			await contextualPopupDecoratorPage.close();
+			if (targetEnv === 'PC') await contextualPopupDecoratorPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

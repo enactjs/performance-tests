@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName} = require('../utils');
@@ -11,7 +11,7 @@ describe('Slider', () => {
 	describe('drag', () => {
 		it('increment', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/slider');
+			await page.goto(`http://${serverAddr}/slider`);
 			await page.waitForSelector('#slider');
 			const {x: posX, y: posY} = await page.evaluate(() => {
 				const knobElement = document.querySelector('[class$="Slider_knob"]');
@@ -36,7 +36,7 @@ describe('Slider', () => {
 	describe('keyboard', () => {
 		it('increment', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/slider');
+			await page.goto(`http://${serverAddr}/slider`);
 			await page.waitForSelector('#slider');
 			await page.focus('#slider');
 
@@ -56,7 +56,7 @@ describe('Slider', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/slider');
+		await page.goto(`http://${serverAddr}/slider`);
 		await page.waitForSelector('#slider');
 		await page.focus('#slider');
 		await page.keyboard.down('Enter');
@@ -85,7 +85,7 @@ describe('Slider', () => {
 			const sliderPage = await testMultiple.newPage();
 
 			await sliderPage.tracing.start({path: filename, screenshots: false});
-			await sliderPage.goto('http://localhost:8080/slider');
+			await sliderPage.goto(`http://${serverAddr}/slider`);
 			await sliderPage.waitForSelector('#slider');
 			await sliderPage.waitForTimeout(200);
 
@@ -107,7 +107,7 @@ describe('Slider', () => {
 				passContLCP += 1;
 			}
 
-			await sliderPage.close();
+			if (targetEnv === 'PC') await sliderPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

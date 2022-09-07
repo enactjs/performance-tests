@@ -1,4 +1,4 @@
-/* global page, pageTV, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -9,56 +9,55 @@ describe('OverallView', () => {
 	TestResults.newFile(component);
 
 	it('FPS', async () => {
-		const overallPage = targetEnv === 'TV' ? pageTV : page;
 		await FPS();
-		await overallPage.goto(`http://${serverAddr}/overallView`);
-		await overallPage.waitForSelector('#tooltipButton');
-		await overallPage.click('#tooltipButton'); // to move to the next panel.
-		await overallPage.waitForSelector('#virtualGridListSecond');
-		await overallPage.keyboard.down('Escape'); // to move to the previous panel.
-		await overallPage.keyboard.up('Escape');
-		await overallPage.waitForSelector('#tooltipButton');
+		await page.goto(`http://${serverAddr}/overallView`);
+		await page.waitForSelector('#tooltipButton');
+		await page.click('#tooltipButton'); // to move to the next panel.
+		await page.waitForSelector('#virtualGridListSecond');
+		await page.keyboard.down('Escape'); // to move to the previous panel.
+		await page.keyboard.up('Escape');
+		await page.waitForSelector('#tooltipButton');
 
-		await overallPage.click('#tooltipButton'); // to move to the next panel.
-		await overallPage.waitForSelector('#virtualGridListSecond');
-		await overallPage.keyboard.down('Escape'); // to move to the previous panel.
-		await overallPage.keyboard.up('Escape');
-		await overallPage.waitForSelector('#tooltipButton');
+		await page.click('#tooltipButton'); // to move to the next panel.
+		await page.waitForSelector('#virtualGridListSecond');
+		await page.keyboard.down('Escape'); // to move to the previous panel.
+		await page.keyboard.up('Escape');
+		await page.waitForSelector('#tooltipButton');
 
 		// focus various spottable components in the first panel and force the scroller to move
-		await overallPage.keyboard.down('ArrowUp');
-		await overallPage.keyboard.up('ArrowUp');
-		await overallPage.keyboard.down('ArrowUp');
-		await overallPage.keyboard.up('ArrowUp');
-		await overallPage.keyboard.down('ArrowUp');
-		await overallPage.keyboard.up('ArrowUp');
-		await overallPage.keyboard.down('ArrowUp');
-		await overallPage.keyboard.up('ArrowUp');
+		await page.keyboard.down('ArrowUp');
+		await page.keyboard.up('ArrowUp');
+		await page.keyboard.down('ArrowUp');
+		await page.keyboard.up('ArrowUp');
+		await page.keyboard.down('ArrowUp');
+		await page.keyboard.up('ArrowUp');
+		await page.keyboard.down('ArrowUp');
+		await page.keyboard.up('ArrowUp');
 
 		// Change Slider value
-		await overallPage.keyboard.down('ArrowRight');
-		await overallPage.waitForTimeout(500);
-		await overallPage.keyboard.up('ArrowRight');
+		await page.keyboard.down('ArrowRight');
+		await page.waitForTimeout(500);
+		await page.keyboard.up('ArrowRight');
 
 		// focus various spottable components in the first panel and force the scroller to move
-		await overallPage.keyboard.down('ArrowDown');
-		await overallPage.keyboard.up('ArrowDown');
-		await overallPage.keyboard.down('ArrowLeft');
-		await overallPage.keyboard.up('ArrowLeft');
-		await overallPage.keyboard.down('ArrowRight');
-		await overallPage.keyboard.up('ArrowRight');
-		await overallPage.keyboard.down('ArrowDown');
-		await overallPage.keyboard.up('ArrowDown');
-		await overallPage.keyboard.down('ArrowDown');
-		await overallPage.keyboard.up('ArrowDown');
-		await overallPage.keyboard.down('ArrowDown');
-		await overallPage.keyboard.up('ArrowDown');
-		await overallPage.keyboard.down('ArrowDown');
-		await overallPage.keyboard.up('ArrowDown');
-		await overallPage.keyboard.down('ArrowRight');
-		await overallPage.keyboard.up('ArrowRight');
-		await overallPage.keyboard.down('ArrowDown');
-		await overallPage.keyboard.up('ArrowDown');
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await page.keyboard.down('ArrowLeft');
+		await page.keyboard.up('ArrowLeft');
+		await page.keyboard.down('ArrowRight');
+		await page.keyboard.up('ArrowRight');
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await page.keyboard.down('ArrowRight');
+		await page.keyboard.up('ArrowRight');
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
 
 		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -67,16 +66,15 @@ describe('OverallView', () => {
 	});
 
 	it('should have a good FID and CLS', async () => {
-		const overallPage = targetEnv === 'TV' ? pageTV : page;
-		await overallPage.evaluateOnNewDocument(FID);
-		await overallPage.evaluateOnNewDocument(CLS);
-		await overallPage.goto(`http://${serverAddr}/overallView`);
-		await overallPage.waitForSelector('#tooltipButton');
-		await overallPage.click('#tooltipButton'); // to move to the next panel.
-		await overallPage.waitForSelector('#virtualGridListSecond');
-		await overallPage.keyboard.down('Escape'); // to move to the previous panel.
-		await overallPage.keyboard.up('Escape');
-		await overallPage.waitForSelector('#tooltipButton');
+		await page.evaluateOnNewDocument(FID);
+		await page.evaluateOnNewDocument(CLS);
+		await page.goto(`http://${serverAddr}/overallView`);
+		await page.waitForSelector('#tooltipButton');
+		await page.click('#tooltipButton'); // to move to the next panel.
+		await page.waitForSelector('#virtualGridListSecond');
+		await page.keyboard.down('Escape'); // to move to the previous panel.
+		await page.keyboard.up('Escape');
+		await page.waitForSelector('#tooltipButton');
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -89,7 +87,6 @@ describe('OverallView', () => {
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {
-		const overallPage = targetEnv === 'TV' ? pageTV : page;
 		const filename = getFileName(component);
 
 		let passContDCL = 0;
@@ -99,7 +96,7 @@ describe('OverallView', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const overallViewMultiplePage = targetEnv === 'TV' ? overallPage : await testMultiple.newPage();
+			const overallViewMultiplePage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await overallViewMultiplePage.tracing.start({path: filename, screenshots: false});
 			await overallViewMultiplePage.goto(`http://${serverAddr}/overallView`);
@@ -109,7 +106,7 @@ describe('OverallView', () => {
 			await overallViewMultiplePage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
-			console.log(actualDCL, actualFCP, actualLCP)
+
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;

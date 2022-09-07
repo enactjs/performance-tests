@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe( 'Scroller', () => {
 	describe('keypress', () => {
 		it('scrolls down', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/scroller');
+			await page.goto(`http://${serverAddr}/scroller`);
 			await page.focus('[aria-label="scroll up or down with up down button"]');
 			await page.keyboard.down('Enter');
 			await page.keyboard.down('Enter');
@@ -27,7 +27,7 @@ describe( 'Scroller', () => {
 	describe('mouse wheel', () => {
 		it('scrolls down', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/scroller');
+			await page.goto(`http://${serverAddr}/scroller`);
 			const scroller = '#scroller';
 
 			await scrollAtPoint(page, scroller, 1000);
@@ -49,7 +49,7 @@ describe( 'Scroller', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/scroller');
+		await page.goto(`http://${serverAddr}/scroller`);
 		await page.waitForSelector('#scroller');
 		await page.focus('[aria-label="scroll up or down with up down button"]');
 		await page.keyboard.down('Enter');
@@ -79,7 +79,7 @@ describe( 'Scroller', () => {
 			const scrollerPage = await testMultiple.newPage();
 
 			await scrollerPage.tracing.start({path: filename, screenshots: false});
-			await scrollerPage.goto('http://localhost:8080/scroller');
+			await scrollerPage.goto(`http://${serverAddr}/scroller`);
 			await scrollerPage.waitForSelector('#scroller');
 			await scrollerPage.waitForTimeout(200);
 
@@ -101,7 +101,7 @@ describe( 'Scroller', () => {
 				passContLCP += 1;
 			}
 
-			await scrollerPage.close();
+			if (targetEnv === 'PC') await scrollerPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;
@@ -124,7 +124,7 @@ describe( 'Scroller', () => {
 	it('scroll down with 5-way with Scroller Native', async () => {
 		await FPS();
 
-		await page.goto('http://localhost:8080/scrollerMultipleChildren?count=100&type=ScrollerNative');
+		await page.goto(`http://${serverAddr}/scrollerMultipleChildren?count=100&type=ScrollerNative`);
 		await page.waitForSelector('#Scroller');
 		await page.focus('#Scroller > div:first-child > div:first-child');
 

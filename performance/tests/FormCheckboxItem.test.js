@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('FormCheckboxItem', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/formCheckboxItem');
+			await page.goto(`http://${serverAddr}/formCheckboxItem`);
 			await page.waitForSelector('#formCheckboxItem');
 			await page.click('#formCheckboxItem'); // to move mouse on formCheckboxItem
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('FormCheckboxItem', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/formCheckboxItem');
+			await page.goto(`http://${serverAddr}/formCheckboxItem`);
 			await page.waitForSelector('#formCheckboxItem');
 			await page.focus('#formCheckboxItem');
 			await page.waitForTimeout(200);
@@ -64,7 +64,7 @@ describe('FormCheckboxItem', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/formCheckboxItem');
+		await page.goto(`http://${serverAddr}/formCheckboxItem`);
 		await page.waitForSelector('#formCheckboxItem');
 		await page.focus('#formCheckboxItem');
 		await page.keyboard.down('Enter');
@@ -92,7 +92,7 @@ describe('FormCheckboxItem', () => {
 			const formCheckboxItemPage = await testMultiple.newPage();
 
 			await formCheckboxItemPage.tracing.start({path: filename, screenshots: false});
-			await formCheckboxItemPage.goto('http://localhost:8080/formCheckboxItem');
+			await formCheckboxItemPage.goto(`http://${serverAddr}/formCheckboxItem`);
 			await formCheckboxItemPage.waitForSelector('#formCheckboxItem');
 			await formCheckboxItemPage.waitForTimeout(200);
 
@@ -115,7 +115,7 @@ describe('FormCheckboxItem', () => {
 				passContLCP += 1;
 			}
 
-			await formCheckboxItemPage.close();
+			if (targetEnv === 'PC') await formCheckboxItemPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

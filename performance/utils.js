@@ -1,4 +1,4 @@
-/* global page, pageTV, targetEnv */
+/* global page, targetEnv */
 
 const os = require('os');
 
@@ -24,11 +24,11 @@ async function scrollAtPoint (utilsPage, selector, amount) {
 }
 
 const firstInputValue = () => {
-	return targetEnv === 'TV' ? pageTV.evaluate(() => window.fid) : page.evaluate(() => window.fid);
+	return page.evaluate(() => window.fid);
 };
 
 const clsValue = () => {
-	return targetEnv === 'TV' ? pageTV.evaluate(() => window.cls) : page.evaluate(() => window.cls);
+	return page.evaluate(() => window.cls);
 };
 
 const ipAddress = () => {

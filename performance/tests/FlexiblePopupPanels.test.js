@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('FlexiblePopupPanels', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/flexiblePopupPanels');
+			await page.goto(`http://${serverAddr}/flexiblePopupPanels`);
 			await page.waitForTimeout(200);
 			await page.click('#button'); // to move mouse on the button.
 			await page.waitForTimeout(200);
@@ -29,7 +29,7 @@ describe('FlexiblePopupPanels', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/flexiblePopupPanels');
+			await page.goto(`http://${serverAddr}/flexiblePopupPanels`);
 			await page.waitForSelector('#button');
 
 			await page.focus('#button');
@@ -54,7 +54,7 @@ describe('FlexiblePopupPanels', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/flexiblePopupPanels');
+		await page.goto(`http://${serverAddr}/flexiblePopupPanels`);
 		await page.waitForSelector('#button');
 		await page.focus('#button');
 		await page.keyboard.down('Enter');
@@ -82,7 +82,7 @@ describe('FlexiblePopupPanels', () => {
 			const flexiblePopupPanelsPage = await testMultiple.newPage();
 
 			await flexiblePopupPanelsPage.tracing.start({path: filename, screenshots: false});
-			await flexiblePopupPanelsPage.goto('http://localhost:8080/flexiblePopupPanels?open=true');
+			await flexiblePopupPanelsPage.goto(`http://${serverAddr}/flexiblePopupPanels?open=true`);
 			await flexiblePopupPanelsPage.waitForSelector('#flexiblePopupPanels');
 			await flexiblePopupPanelsPage.waitForTimeout(200);
 
@@ -104,7 +104,7 @@ describe('FlexiblePopupPanels', () => {
 				passContLCP += 1;
 			}
 
-			await flexiblePopupPanelsPage.close();
+			if (targetEnv === 'PC') await flexiblePopupPanelsPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

@@ -10,7 +10,6 @@ describe('Alert', () => {
 
 	describe('click', () => {
 		it('animates', async () => {
-			const alertPage = targetEnv === 'TV' ? pageTV : page;
 			await FPS();
 			await alertPage.goto(`http://${serverAddr}/alert`);
 
@@ -39,7 +38,6 @@ describe('Alert', () => {
 
 	describe('keypress', () => {
 		it('animates', async () => {
-			const alertPage = targetEnv === 'TV' ? pageTV : page;
 			await FPS();
 			await alertPage.goto(`http://${serverAddr}/alert`);
 			await alertPage.waitForSelector('#button');
@@ -66,7 +64,6 @@ describe('Alert', () => {
 	});
 
 	it('should have a good FID and CLS', async () => {
-		const alertPage = targetEnv === 'TV' ? pageTV : page;
 		await alertPage.evaluateOnNewDocument(FID);
 		await alertPage.evaluateOnNewDocument(CLS);
 		await alertPage.goto(`http://${serverAddr}/alert`);
@@ -85,7 +82,6 @@ describe('Alert', () => {
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {
-		const alertPage = targetEnv === 'TV' ? pageTV : page;
 		const filename = getFileName(component);
 
 		let passContDCL = 0;

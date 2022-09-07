@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('DayPicker', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/dayPicker');
+			await page.goto(`http://${serverAddr}/dayPicker`);
 			await page.waitForTimeout(500);
 			await page.click('#dayPicker'); // to move mouse on the dayPicker.
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('DayPicker', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/dayPicker');
+			await page.goto(`http://${serverAddr}/dayPicker`);
 			await page.waitForSelector('#dayPicker');
 			await page.focus('#dayPicker');
 			await page.keyboard.down('ArrowDown');
@@ -65,7 +65,7 @@ describe('DayPicker', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/dayPicker');
+		await page.goto(`http://${serverAddr}/dayPicker`);
 		await page.waitForSelector('#dayPicker');
 		await page.keyboard.down('ArrowDown');
 		await page.keyboard.down('Enter');
@@ -92,7 +92,7 @@ describe('DayPicker', () => {
 		for (let step = 0; step < stepNumber; step++) {
 			const dayPickerPage = await testMultiple.newPage();
 			await dayPickerPage.tracing.start({path: filename, screenshots: false});
-			await dayPickerPage.goto('http://localhost:8080/dayPicker');
+			await dayPickerPage.goto(`http://${serverAddr}/dayPicker`);
 			await dayPickerPage.waitForSelector('#dayPicker');
 			await dayPickerPage.waitForTimeout(200);
 
@@ -115,7 +115,7 @@ describe('DayPicker', () => {
 				passContLCP += 1;
 			}
 
-			await dayPickerPage.close();
+			if (targetEnv === 'PC') await dayPickerPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

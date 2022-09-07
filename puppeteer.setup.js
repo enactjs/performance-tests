@@ -53,7 +53,7 @@ if (targetEnv === 'PC') {
 		});
 
 		const pages = await browser.pages();
-		//const pagesCount = pages.length;
+		// const pagesCount = pages.length;
 
 		global.testMultiple = browser;
 		global.testMultipleTV = browser;
@@ -61,8 +61,8 @@ if (targetEnv === 'PC') {
 	});
 
 	global.beforeEach(async () => {
-		global.pageTV = global.testPage;
-		await global.pageTV.setViewport({
+		global.page = global.testPage;
+		await global.page.setViewport({
 			width: 1920,
 			height: 1080
 		});

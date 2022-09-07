@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('ContextualMenuDecorator', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/contextualMenuDecorator');
+			await page.goto(`http://${serverAddr}/contextualMenuDecorator`);
 			await page.waitForTimeout(500);
 			await page.click('[data-index="0"]'); // to move mouse on the first element of the menu.
 			await page.mouse.down();
@@ -40,7 +40,7 @@ describe('ContextualMenuDecorator', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/contextualMenuDecorator');
+			await page.goto(`http://${serverAddr}/contextualMenuDecorator`);
 			await page.waitForTimeout(500);
 			await page.focus('[data-index="0"]');
 			await page.waitForTimeout(200);
@@ -73,7 +73,7 @@ describe('ContextualMenuDecorator', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/contextualMenuDecorator');
+		await page.goto(`http://${serverAddr}/contextualMenuDecorator`);
 		await page.waitForSelector('[data-index="0"]');
 		await page.focus('[data-index="0"]');
 		await page.keyboard.down('Enter');
@@ -101,7 +101,7 @@ describe('ContextualMenuDecorator', () => {
 			const contextualMenuDecoratorPage = await testMultiple.newPage();
 
 			await contextualMenuDecoratorPage.tracing.start({path: filename, screenshots: false});
-			await contextualMenuDecoratorPage.goto('http://localhost:8080/contextualMenuDecorator');
+			await contextualMenuDecoratorPage.goto(`http://${serverAddr}/contextualMenuDecorator`);
 			await contextualMenuDecoratorPage.waitForSelector('[data-index="0"]');
 			await contextualMenuDecoratorPage.waitForTimeout(200);
 
@@ -123,7 +123,7 @@ describe('ContextualMenuDecorator', () => {
 				passContLCP += 1;
 			}
 
-			await contextualMenuDecoratorPage.close();
+			if (targetEnv === 'PC') await contextualMenuDecoratorPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

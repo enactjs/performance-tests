@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('Dropdown', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/dropdown');
+			await page.goto(`http://${serverAddr}/dropdown`);
 			await page.waitForSelector('#dropdown');
 			await page.click('#dropdown'); // to move mouse on dropdown
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('Dropdown', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/dropdown');
+			await page.goto(`http://${serverAddr}/dropdown`);
 			await page.waitForSelector('#dropdown');
 			await page.focus('#dropdown');
 			await page.waitForTimeout(200);
@@ -64,7 +64,7 @@ describe('Dropdown', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/dropdown');
+		await page.goto(`http://${serverAddr}/dropdown`);
 		await page.waitForSelector('#dropdown');
 		await page.focus('#dropdown');
 		await page.keyboard.down('Enter');
@@ -92,7 +92,7 @@ describe('Dropdown', () => {
 			const dropdownPage = await testMultiple.newPage();
 
 			await dropdownPage.tracing.start({path: filename, screenshots: false});
-			await dropdownPage.goto('http://localhost:8080/dropdown');
+			await dropdownPage.goto(`http://${serverAddr}/dropdown`);
 			await dropdownPage.waitForSelector('#dropdown');
 			await dropdownPage.waitForTimeout(200);
 
@@ -114,7 +114,7 @@ describe('Dropdown', () => {
 				passContLCP += 1;
 			}
 
-			await dropdownPage.close();
+			if (targetEnv === 'PC') await dropdownPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

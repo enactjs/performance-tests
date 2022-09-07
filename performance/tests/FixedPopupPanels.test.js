@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('FixedPopupPanels', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/fixedPopupPanels');
+			await page.goto(`http://${serverAddr}/fixedPopupPanels`);
 			await page.waitForTimeout(500);
 
 			await page.click('#button'); // to move mouse on the button.
@@ -29,7 +29,7 @@ describe('FixedPopupPanels', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/fixedPopupPanels');
+			await page.goto(`http://${serverAddr}/fixedPopupPanels`);
 			await page.waitForSelector('#button');
 
 			await page.focus('#button');
@@ -48,7 +48,7 @@ describe('FixedPopupPanels', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/fixedPopupPanels');
+		await page.goto(`http://${serverAddr}/fixedPopupPanels`);
 		await page.waitForSelector('#button');
 		await page.focus('#button');
 		await page.keyboard.down('Enter');
@@ -76,7 +76,7 @@ describe('FixedPopupPanels', () => {
 			const fixedPopupPanelsPage = await testMultiple.newPage();
 
 			await fixedPopupPanelsPage.tracing.start({path: filename, screenshots: false});
-			await fixedPopupPanelsPage.goto('http://localhost:8080/fixedPopupPanels?open=true');
+			await fixedPopupPanelsPage.goto(`http://${serverAddr}/fixedPopupPanels?open=true`);
 			await fixedPopupPanelsPage.waitForSelector('#fixedPopupPanels');
 			await fixedPopupPanelsPage.waitForTimeout(200);
 
@@ -98,7 +98,7 @@ describe('FixedPopupPanels', () => {
 				passContLCP += 1;
 			}
 
-			await fixedPopupPanelsPage.close();
+			if (targetEnv === 'PC') await fixedPopupPanelsPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

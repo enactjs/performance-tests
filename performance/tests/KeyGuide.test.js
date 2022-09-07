@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -10,9 +10,9 @@ describe('KeyGuide', () => {
 
 	it('FPS', async () => {
 		await FPS();
-		await page.goto('http://localhost:8080/keyGuide');
-		await page.waitForSelector('#keyGuide');
-		await page.waitForTimeout(2000);
+		await keyGuidePage.goto(`http://${serverAddr}/keyGuide`);
+		await keyGuidePage.waitForSelector('#keyGuide');
+		await keyGuidePage.waitForTimeout(2000);
 
 		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -21,13 +21,13 @@ describe('KeyGuide', () => {
 	});
 
 	it('should have a good FID and CLS', async () => {
-		await page.evaluateOnNewDocument(FID);
-		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/keyGuide');
-		await page.waitForSelector('#keyGuide');
-		await page.focus('#keyGuide');
-		await page.keyboard.down('Enter');
-		await page.waitForTimeout(500);
+		await keyGuidePage.evaluateOnNewDocument(FID);
+		await keyGuidePage.evaluateOnNewDocument(CLS);
+		await keyGuidePage.goto(`http://${serverAddr}/keyGuide`);
+		await keyGuidePage.waitForSelector('#keyGuide');
+		await keyGuidePage.focus('#keyGuide');
+		await keyGuidePage.keyboard.down('Enter');
+		await keyGuidePage.waitForTimeout(500);
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -52,7 +52,7 @@ describe('KeyGuide', () => {
 			const keyGuidePage = await testMultiple.newPage();
 
 			await keyGuidePage.tracing.start({path: filename, screenshots: false});
-			await keyGuidePage.goto('http://localhost:8080/keyGuide');
+			await keyGuidePage.goto(`http://${serverAddr}/keyGuide`);
 			await keyGuidePage.waitForSelector('#keyGuide');
 			await keyGuidePage.waitForTimeout(200);
 
@@ -74,7 +74,7 @@ describe('KeyGuide', () => {
 				passContLCP += 1;
 			}
 
-			await keyGuidePage.close();
+			if (targetEnv === 'PC') await keyGuidePage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

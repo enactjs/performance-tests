@@ -1,4 +1,4 @@
-/* global page, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('Spinner', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/spinner');
+		await page.goto(`http://${serverAddr}/spinner`);
 		await page.waitForSelector('#spinner');
 		await page.focus('#spinner');
 		await page.keyboard.down('Enter');
@@ -40,7 +40,7 @@ describe('Spinner', () => {
 			const spinnerPage = await testMultiple.newPage();
 
 			await spinnerPage.tracing.start({path: filename, screenshots: false});
-			await spinnerPage.goto('http://localhost:8080/spinner');
+			await spinnerPage.goto(`http://${serverAddr}/spinner`);
 			await spinnerPage.waitForSelector('#spinner');
 			await spinnerPage.waitForTimeout(200);
 
@@ -62,7 +62,7 @@ describe('Spinner', () => {
 				passContLCP += 1;
 			}
 
-			await spinnerPage.close();
+			if (targetEnv === 'PC') await spinnerPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

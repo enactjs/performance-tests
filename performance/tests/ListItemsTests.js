@@ -1,30 +1,31 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 /* eslint-disable*/
+
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName, scrollAtPoint} = require('../utils');
 
-const listItemTests = (componentName, dataSize) => describe(componentName, () => { 
+const listItemTests = (componentName, dataSize) => describe(componentName, () => {
 	jest.setTimeout(100000);
 
 	const component = componentName + (dataSize ? dataSize : '');
 	TestResults.newFile(component);
-	const pageURL = dataSize ? `http://localhost:8080/${componentName}?dataSize=${dataSize}` : `http://localhost:8080/${componentName}`;
+	const pageURL = dataSize ? `http://${serverAddr}/${componentName}?dataSize=${dataSize}` : `http://${serverAddr}/${componentName}`;
 
 	describe('ScrollButton', () => {
 		it('scrolls down', async () => {
 			await FPS();
-			await page.goto(pageURL);
-			await page.waitForSelector(`#${componentName}`);
-			await page.focus('[aria-label="scroll up or down with up down button"]');
-			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(200);
-			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(200);
-			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(200);
-			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(2000);
+			await listItemsPage.goto(pageURL);
+			await listItemsPage.waitForSelector(`#${componentName}`);
+			await listItemsPage.focus('[aria-label="scroll up or down with up down button"]');
+			await listItemsPage.keyboard.down('ArrowDown');
+			await listItemsPage.waitForTimeout(200);
+			await listItemsPage.keyboard.down('ArrowDown');
+			await listItemsPage.waitForTimeout(200);
+			await listItemsPage.keyboard.down('ArrowDown');
+			await listItemsPage.waitForTimeout(200);
+			await listItemsPage.keyboard.down('ArrowDown');
+			await listItemsPage.waitForTimeout(2000);
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -38,16 +39,16 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 			await FPS();
 			const List = `#${componentName}`;
 
-			await page.goto(pageURL);
-			await page.waitForSelector(List);
+			await listItemsPage.goto(pageURL);
+			await listItemsPage.waitForSelector(List);
 			await scrollAtPoint(page, List, 1000);
-			await page.waitForTimeout(200);
+			await listItemsPage.waitForTimeout(200);
 			await scrollAtPoint(page, List, 1000);
-			await page.waitForTimeout(200);
+			await listItemsPage.waitForTimeout(200);
 			await scrollAtPoint(page, List, 1000);
-			await page.waitForTimeout(200);
+			await listItemsPage.waitForTimeout(200);
 			await scrollAtPoint(page, List, 1000);
-			await page.waitForTimeout(200);
+			await listItemsPage.waitForTimeout(200);
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Mousewheel', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -57,12 +58,12 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 	});
 
 	it('should have a good FID and CLS', async () => {
-		await page.evaluateOnNewDocument(FID);
-		await page.evaluateOnNewDocument(CLS);
-		await page.goto(pageURL);
-		await page.waitForSelector(`#${componentName}`);
-		await page.focus(`#${componentName}`);
-		await page.keyboard.down('Enter');
+		await listItemsPage.evaluateOnNewDocument(FID);
+		await listItemsPage.evaluateOnNewDocument(CLS);
+		await listItemsPage.goto(pageURL);
+		await listItemsPage.waitForSelector(`#${componentName}`);
+		await listItemsPage.focus(`#${componentName}`);
+		await listItemsPage.keyboard.down('Enter');
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -109,7 +110,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 				passContLCP += 1;
 			}
 
-			await ListPage.close();
+			if (targetEnv === 'PC') await ListPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

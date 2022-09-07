@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {FPS, getAverageFPS, PageLoadingMetrics, FID, CLS} = require('../TraceModel');
@@ -12,7 +12,7 @@ describe('Popup', () => {
 
 	it('FPS', async () => {
 		await FPS();
-		await page.goto('http://localhost:8080/popup');
+		await page.goto(`http://${serverAddr}/popup`);
 		await page.waitForSelector('#popup');
 		await page.click(close);
 		await page.waitForTimeout(500);
@@ -38,7 +38,7 @@ describe('Popup', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/popup');
+		await page.goto(`http://${serverAddr}/popup`);
 		await page.waitForSelector('#popup');
 		await page.click(close);
 		await page.waitForTimeout(500);
@@ -78,7 +78,7 @@ describe('Popup', () => {
 			const popupPage = await testMultiple.newPage();
 
 			await popupPage.tracing.start({path: filename, screenshots: false});
-			await popupPage.goto('http://localhost:8080/popup');
+			await popupPage.goto(`http://${serverAddr}/popup`);
 			await popupPage.waitForSelector('#popup');
 			await popupPage.waitForTimeout(200);
 
@@ -100,7 +100,7 @@ describe('Popup', () => {
 				passContLCP += 1;
 			}
 
-			await popupPage.close();
+			if (targetEnv === 'PC') await popupPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

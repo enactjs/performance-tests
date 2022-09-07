@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('VideoPlayer', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/videoPlayer');
+			await page.goto(`http://${serverAddr}/videoPlayer`);
 			await page.waitForSelector('#videoPlayer');
 			await page.waitForTimeout(200);
 			await page.click('[aria-label="Next"]'); // to jump forward in the video.
@@ -27,7 +27,7 @@ describe('VideoPlayer', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/videoPlayer');
+			await page.goto(`http://${serverAddr}/videoPlayer`);
 			await page.waitForSelector('#videoPlayer');
 			await page.waitForTimeout(200);
 			await page.focus('[aria-label="Next"]');
@@ -45,7 +45,7 @@ describe('VideoPlayer', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/videoPlayer');
+		await page.goto(`http://${serverAddr}/videoPlayer`);
 		await page.waitForSelector('#videoPlayer');
 		await page.waitForTimeout(200);
 		await page.focus('[aria-label="Next"]');
@@ -74,7 +74,7 @@ describe('VideoPlayer', () => {
 			const videoPlayerPage = await testMultiple.newPage();
 
 			await videoPlayerPage.tracing.start({path: filename, screenshots: false});
-			await videoPlayerPage.goto('http://localhost:8080/videoPlayer');
+			await videoPlayerPage.goto(`http://${serverAddr}/videoPlayer`);
 			await videoPlayerPage.waitForSelector('#videoPlayer');
 			await videoPlayerPage.waitForTimeout(1000);
 
@@ -96,7 +96,7 @@ describe('VideoPlayer', () => {
 				passContLCP += 1;
 			}
 
-			await videoPlayerPage.close();
+			if (targetEnv === 'PC') await videoPlayerPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

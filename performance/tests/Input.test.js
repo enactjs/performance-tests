@@ -110,7 +110,7 @@ describe('Input', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const inputPage = await testMultiple.newPage();
+			const inputPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await inputPage.tracing.start({path: filename, screenshots: false});
 			await inputPage.goto(`http://${serverAddr}/input`);

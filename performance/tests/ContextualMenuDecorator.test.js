@@ -98,7 +98,7 @@ describe('ContextualMenuDecorator', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const contextualMenuDecoratorPage = await testMultiple.newPage();
+			const contextualMenuDecoratorPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await contextualMenuDecoratorPage.tracing.start({path: filename, screenshots: false});
 			await contextualMenuDecoratorPage.goto(`http://${serverAddr}/contextualMenuDecorator`);

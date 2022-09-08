@@ -51,7 +51,7 @@ describe('TooltipDecorator', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const tooltipDecoratorPage = await testMultiple.newPage();
+			const tooltipDecoratorPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await tooltipDecoratorPage.tracing.start({path: filename, screenshots: false});
 			await tooltipDecoratorPage.goto(`http://${serverAddr}/tooltipDecorator`);

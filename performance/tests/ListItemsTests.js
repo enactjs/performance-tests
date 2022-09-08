@@ -85,7 +85,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const ListPage = await testMultiple.newPage();
+			const ListPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await ListPage.tracing.start({path: filename, screenshots: false});
 			await ListPage.goto(pageURL);

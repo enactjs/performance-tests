@@ -79,7 +79,7 @@ describe('FlexiblePopupPanels', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const flexiblePopupPanelsPage = await testMultiple.newPage();
+			const flexiblePopupPanelsPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await flexiblePopupPanelsPage.tracing.start({path: filename, screenshots: false});
 			await flexiblePopupPanelsPage.goto(`http://${serverAddr}/flexiblePopupPanels?open=true`);

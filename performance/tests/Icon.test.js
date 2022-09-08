@@ -32,7 +32,7 @@ describe('Icon', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const iconPage = await testMultiple.newPage();
+			const iconPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await iconPage.tracing.start({path: filename, screenshots: false});
 			await iconPage.goto(`http://${serverAddr}/icon`);

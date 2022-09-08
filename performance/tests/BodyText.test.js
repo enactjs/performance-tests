@@ -32,7 +32,7 @@ describe('BodyText', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const bodyTextPage = await testMultiple.newPage();
+			const bodyTextPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await bodyTextPage.tracing.start({path: filename, screenshots: false});
 			await bodyTextPage.goto(`http://${serverAddr}/bodyText`);

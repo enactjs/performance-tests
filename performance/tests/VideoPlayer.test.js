@@ -71,7 +71,7 @@ describe('VideoPlayer', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const videoPlayerPage = await testMultiple.newPage();
+			const videoPlayerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await videoPlayerPage.tracing.start({path: filename, screenshots: false});
 			await videoPlayerPage.goto(`http://${serverAddr}/videoPlayer`);

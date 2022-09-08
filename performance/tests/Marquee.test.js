@@ -51,7 +51,7 @@ describe('Marquee', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const marqueePage = await testMultiple.newPage();
+			const marqueePage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await marqueePage.tracing.start({path: filename, screenshots: false});
 			await marqueePage.goto(`http://${serverAddr}/marquee`);

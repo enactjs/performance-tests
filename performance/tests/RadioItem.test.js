@@ -90,7 +90,7 @@ describe('RadioItem', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const radioItemPage = await testMultiple.newPage();
+			const radioItemPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await radioItemPage.tracing.start({path: filename, screenshots: false});
 			await radioItemPage.goto(`http://${serverAddr}/radioItem`);

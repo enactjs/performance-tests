@@ -51,7 +51,7 @@ describe('TabLayout', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const tabLayoutPage = await testMultiple.newPage();
+			const tabLayoutPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await tabLayoutPage.tracing.start({path: filename, screenshots: false});
 			await tabLayoutPage.goto(`http://${serverAddr}/tabLayout`);

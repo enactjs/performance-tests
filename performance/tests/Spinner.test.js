@@ -37,7 +37,7 @@ describe('Spinner', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const spinnerPage = await testMultiple.newPage();
+			const spinnerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await spinnerPage.tracing.start({path: filename, screenshots: false});
 			await spinnerPage.goto(`http://${serverAddr}/spinner`);

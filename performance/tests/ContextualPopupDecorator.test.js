@@ -56,7 +56,7 @@ describe('ContextualPopupDecorator', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const contextualPopupDecoratorPage = await testMultiple.newPage();
+			const contextualPopupDecoratorPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await contextualPopupDecoratorPage.tracing.start({path: filename, screenshots: false});
 			await contextualPopupDecoratorPage.goto(`http://${serverAddr}/contextualPopupDecorator`);

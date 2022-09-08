@@ -82,7 +82,7 @@ describe('Slider', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const sliderPage = await testMultiple.newPage();
+			const sliderPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await sliderPage.tracing.start({path: filename, screenshots: false});
 			await sliderPage.goto(`http://${serverAddr}/slider`);

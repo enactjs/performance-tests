@@ -49,7 +49,7 @@ describe('KeyGuide', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const keyGuidePage = await testMultiple.newPage();
+			const keyGuidePage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await keyGuidePage.tracing.start({path: filename, screenshots: false});
 			await keyGuidePage.goto(`http://${serverAddr}/keyGuide`);

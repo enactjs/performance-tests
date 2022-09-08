@@ -32,7 +32,7 @@ describe('ImageItem', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const imageItemPage = await testMultiple.newPage();
+			const imageItemPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await imageItemPage.tracing.start({path: filename, screenshots: false});
 			await imageItemPage.goto(`http://${serverAddr}/imageItem`);

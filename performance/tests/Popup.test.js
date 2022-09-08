@@ -75,7 +75,7 @@ describe('Popup', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const popupPage = await testMultiple.newPage();
+			const popupPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await popupPage.tracing.start({path: filename, screenshots: false});
 			await popupPage.goto(`http://${serverAddr}/popup`);

@@ -21,7 +21,7 @@ describe('Panels', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const panelsPage = await testMultiple.newPage();
+			const panelsPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await panelsPage.tracing.start({path: filename, screenshots: false});
 			await panelsPage.goto(`http://${serverAddr}/panels`);

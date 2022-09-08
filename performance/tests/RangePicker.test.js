@@ -94,7 +94,7 @@ describe('RangePicker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const rangePickerPage = await testMultiple.newPage();
+				const rangePickerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 				await rangePickerPage.tracing.start({path: filename, screenshots: false});
 				await rangePickerPage.goto(`http://${serverAddr}/rangePicker`);
@@ -222,7 +222,7 @@ describe('RangePicker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const rangePickerJoinedPage = await testMultiple.newPage();
+				const rangePickerJoinedPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 				await rangePickerJoinedPage.tracing.start({path: filename, screenshots: false});
 				await rangePickerJoinedPage.goto(`http://${serverAddr}/rangePickerJoined`);
@@ -237,19 +237,17 @@ describe('RangePicker', () => {
 					passContDCL += 1;
 				}
 
-
 				avgFCP = avgFCP + actualFCP;
 				if (actualFCP < maxFCP) {
 					passContFCP += 1;
 				}
-
 
 				avgLCP = avgLCP + actualLCP;
 				if (actualLCP < maxLCP) {
 					passContLCP += 1;
 				}
 
-				await rangePickerJoinedPage.close();
+				if (targetEnv === 'PC') await rangePickerJoinedPage.close();
 			}
 			avgDCL = avgDCL / stepNumber;
 			avgFCP = avgFCP / stepNumber;

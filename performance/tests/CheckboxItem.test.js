@@ -89,7 +89,7 @@ describe('CheckboxItem', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const checkboxItemPage = await testMultiple.newPage();
+			const checkboxItemPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await checkboxItemPage.tracing.start({path: filename, screenshots: false});
 			await checkboxItemPage.goto(`http://${serverAddr}/checkboxItem`);

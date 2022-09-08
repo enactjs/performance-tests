@@ -32,7 +32,7 @@ describe('Steps', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const stepsPage = await testMultiple.newPage();
+			const stepsPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await stepsPage.tracing.start({path: filename, screenshots: false});
 			await stepsPage.goto(`http://${serverAddr}/steps`);

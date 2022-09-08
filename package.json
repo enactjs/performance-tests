@@ -16,7 +16,9 @@
 		"test-tv": "jest --detectOpenHandles --target=TV",
 		"stop": "pkill -f 'enact serve'",
 		"test-all": "npm-run-all --parallel serve wait-on",
-		"wait-on": "wait-on http://localhost:8080/ && npm test && npm stop"
+		"test-all-tv": "npm-run-all --parallel serve wait-on-tv",
+		"wait-on": "wait-on http://localhost:8080/ && npm test && npm stop",
+		"wait-on-tv": "wait-on http://localhost:8080/ && npm run test-tv && npm stop"
 	},
 	"license": "UNLICENSED",
 	"private": true,

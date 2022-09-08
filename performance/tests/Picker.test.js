@@ -94,7 +94,7 @@ describe('Picker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const pickerPage = await testMultiple.newPage();
+				const pickerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 				await pickerPage.tracing.start({path: filename, screenshots: false});
 				await pickerPage.goto(`http://${serverAddr}/picker`);
@@ -224,7 +224,7 @@ describe('Picker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const pickerJoinedPage = await testMultiple.newPage();
+				const pickerJoinedPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 				await pickerJoinedPage.tracing.start({path: filename, screenshots: false});
 				await pickerJoinedPage.goto(`http://${serverAddr}/pickerJoined`);

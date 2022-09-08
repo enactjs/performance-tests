@@ -68,7 +68,7 @@ describe('WizardPanels', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const wizardPanelPage = await testMultiple.newPage();
+			const wizardPanelPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await wizardPanelPage.tracing.start({path: filename, screenshots: false});
 			await wizardPanelPage.goto(`http://${serverAddr}/wizardPanels`);

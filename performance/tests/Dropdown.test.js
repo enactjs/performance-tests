@@ -89,7 +89,7 @@ describe('Dropdown', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const dropdownPage = await testMultiple.newPage();
+			const dropdownPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await dropdownPage.tracing.start({path: filename, screenshots: false});
 			await dropdownPage.goto(`http://${serverAddr}/dropdown`);

@@ -73,7 +73,7 @@ describe('FixedPopupPanels', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const fixedPopupPanelsPage = await testMultiple.newPage();
+			const fixedPopupPanelsPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await fixedPopupPanelsPage.tracing.start({path: filename, screenshots: false});
 			await fixedPopupPanelsPage.goto(`http://${serverAddr}/fixedPopupPanels?open=true`);

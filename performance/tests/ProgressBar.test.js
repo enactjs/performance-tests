@@ -32,7 +32,7 @@ describe('ProgressBar', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const progressBarPage = await testMultiple.newPage();
+			const progressBarPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await progressBarPage.tracing.start({path: filename, screenshots: false});
 			await progressBarPage.goto(`http://${serverAddr}/progressBar`);

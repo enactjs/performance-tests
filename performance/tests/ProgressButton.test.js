@@ -89,7 +89,7 @@ describe('ProgressButton', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const progressButtonPage = await testMultiple.newPage();
+			const progressButtonPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await progressButtonPage.tracing.start({path: filename, screenshots: false});
 			await progressButtonPage.goto(`http://${serverAddr}/progressButton`);

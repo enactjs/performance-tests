@@ -65,7 +65,7 @@ describe('MediaOverlay', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const mediaOverlayPage = await testMultiple.newPage();
+			const mediaOverlayPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await mediaOverlayPage.tracing.start({path: filename, screenshots: false});
 			await mediaOverlayPage.goto(`http://${serverAddr}/mediaOverlay`);

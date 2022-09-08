@@ -76,7 +76,7 @@ describe( 'Scroller', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const scrollerPage = await testMultiple.newPage();
+			const scrollerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await scrollerPage.tracing.start({path: filename, screenshots: false});
 			await scrollerPage.goto(`http://${serverAddr}/scroller`);

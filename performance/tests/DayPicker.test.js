@@ -90,7 +90,7 @@ describe('DayPicker', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const dayPickerPage = await testMultiple.newPage();
+			const dayPickerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 			await dayPickerPage.tracing.start({path: filename, screenshots: false});
 			await dayPickerPage.goto(`http://${serverAddr}/dayPicker`);
 			await dayPickerPage.waitForSelector('#dayPicker');

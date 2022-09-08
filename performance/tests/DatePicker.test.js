@@ -98,7 +98,7 @@ describe('DatePicker', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const datePickerPage = await testMultiple.newPage();
+			const datePickerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await datePickerPage.tracing.start({path: filename, screenshots: false});
 			await datePickerPage.goto(`http://${serverAddr}/datePicker`);

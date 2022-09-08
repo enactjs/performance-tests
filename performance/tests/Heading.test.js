@@ -32,7 +32,7 @@ describe('Heading', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const headingPage = await testMultiple.newPage();
+			const headingPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await headingPage.tracing.start({path: filename, screenshots: false});
 			await headingPage.goto(`http://${serverAddr}/heading`);

@@ -97,7 +97,7 @@ describe('PopupTabLayout', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const popupTabLayoutPage = await testMultiple.newPage();
+			const popupTabLayoutPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await popupTabLayoutPage.tracing.start({path: filename, screenshots: false});
 			await popupTabLayoutPage.goto(`http://${serverAddr}/popupTabLayout`);

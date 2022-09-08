@@ -69,7 +69,7 @@ describe('TimePicker', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const timePickerPage = await testMultiple.newPage();
+			const timePickerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await timePickerPage.tracing.start({path: filename, screenshots: false});
 			await timePickerPage.goto(`http://${serverAddr}/timePicker`);

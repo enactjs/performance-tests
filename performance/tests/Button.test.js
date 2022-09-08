@@ -90,7 +90,7 @@ describe('Button', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const buttonPage = await testMultiple.newPage();
+			const buttonPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await buttonPage.tracing.start({path: filename, screenshots: false});
 			await buttonPage.goto(`http://${serverAddr}/button`);

@@ -92,7 +92,7 @@ describe('Switch', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const switchPage = await testMultiple.newPage();
+			const switchPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await switchPage.tracing.start({path: filename, screenshots: false});
 			await switchPage.goto(`http://${serverAddr}/switch`);

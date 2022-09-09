@@ -4,6 +4,7 @@ Application to perform automated performance testing on Enact components.
 
 We utilize puppeteer to get chrome performance traces.
 
+## Testing on PC
 
 To run all you have to do is start the server and run the test suite on it.
 ```
@@ -13,6 +14,19 @@ npm run test-all
 ```
 npm run serve
 npm run test
+```
+
+## Testing on TV
+
+Pass the IP address of the TV as an environment variable and use the `npm run test-tv` task:
+
+```bash
+TV_IP=10.0.1.1 npm run test-all-tv
+```
+
+```bash
+npm run serve
+TV_IP=10.0.1.1 npm run test-tv
 ```
 
 ## Adding Tests

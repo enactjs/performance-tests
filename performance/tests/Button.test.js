@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('Button', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/button');
+			await page.goto(`http://${serverAddr}/button`);
 			await page.waitForSelector('#button');
 			await page.click('#button'); // to move mouse on the button.
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('Button', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/button');
+			await page.goto(`http://${serverAddr}/button`);
 			await page.waitForSelector('#button');
 			await page.focus('#button');
 			await page.waitForTimeout(100);
@@ -64,7 +64,7 @@ describe('Button', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/button');
+		await page.goto(`http://${serverAddr}/button`);
 		await page.waitForSelector('#button');
 		await page.focus('#button');
 		await page.keyboard.down('Enter');
@@ -90,10 +90,10 @@ describe('Button', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const buttonPage = await testMultiple.newPage();
+			const buttonPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await buttonPage.tracing.start({path: filename, screenshots: false});
-			await buttonPage.goto('http://localhost:8080/button');
+			await buttonPage.goto(`http://${serverAddr}/button`);
 			await buttonPage.waitForSelector('#button');
 			await buttonPage.waitForTimeout(200);
 
@@ -115,7 +115,7 @@ describe('Button', () => {
 				passContLCP += 1;
 			}
 
-			await buttonPage.close();
+			if (targetEnv === 'PC') await buttonPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

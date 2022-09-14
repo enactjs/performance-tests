@@ -4,6 +4,7 @@ Application to perform automated performance testing on Enact components.
 
 We utilize puppeteer to get chrome performance traces.
 
+## Testing on PC
 
 To run all you have to do is start the server and run the test suite on it.
 ```
@@ -13,6 +14,19 @@ npm run test-all
 ```
 npm run serve
 npm run test
+```
+
+## Testing on TV
+
+Pass the IP address of the TV as an environment variable and use the `npm run test-tv` task:
+
+```bash
+TV_IP=10.0.1.1 npm run test-all-tv
+```
+
+```bash
+npm run serve
+TV_IP=10.0.1.1 npm run test-tv
 ```
 
 ## Adding Tests
@@ -79,7 +93,7 @@ describe('Dropdown', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/dropdown');
+			await page.goto(`http://${serverAddr}/dropdown`);
 			await page.waitForSelector('#dropdown');
 			await page.click('#dropdown'); // to move mouse on dropdown
 			await page.mouse.down();
@@ -105,7 +119,7 @@ describe('Dropdown', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/dropdown');
+			await page.goto(`http://${serverAddr}/dropdown`);
 			await page.waitForSelector('#dropdown');
 			await page.focus('#dropdown');
 			await page.waitForTimeout(200);
@@ -132,7 +146,7 @@ describe('Dropdown', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/dropdown');
+		await page.goto(`http://${serverAddr}/dropdown`);
 		await page.waitForSelector('#dropdown');
 		await page.focus('#dropdown');
 		await page.keyboard.down('Enter');
@@ -157,10 +171,10 @@ describe('Dropdown', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const dropdownPage = await testMultiple.newPage();
+			const dropdownPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await dropdownPage.tracing.start({path: filename, screenshots: false});
-			await dropdownPage.goto('http://localhost:8080/dropdown');
+			await dropdownPage.goto(`http://${serverAddr}/dropdown`);
 			await dropdownPage.waitForSelector('#dropdown');
 			await dropdownPage.waitForTimeout(200);
 
@@ -182,7 +196,7 @@ describe('Dropdown', () => {
 				passContLCP += 1;
 			}
 
-			await dropdownPage.close();
+			if (targetEnv === 'PC') await dropdownPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

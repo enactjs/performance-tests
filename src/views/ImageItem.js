@@ -5,7 +5,7 @@ const ImageItemView = kind({
 	name: 'ImageItemView',
 
 	render: () => (
-		<ImageItem id="imageItem" src="http://via.placeholder.com/600x600">
+		<ImageItem id="imageItem" src="https://via.placeholder.com/600x600">
 			ImageItem Caption
 		</ImageItem>
 	)

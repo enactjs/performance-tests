@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('TabLayout', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/tabLayout');
+			await page.goto(`http://${serverAddr}/tabLayout`);
 			await page.waitForSelector('#tabLayout');
 			await page.waitForTimeout(200);
 			await page.keyboard.down('ArrowRight');
@@ -27,7 +27,7 @@ describe('TabLayout', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/tabLayout');
+		await page.goto(`http://${serverAddr}/tabLayout`);
 		await page.waitForSelector('#tabLayout');
 		await page.keyboard.down('ArrowRight');
 
@@ -51,10 +51,10 @@ describe('TabLayout', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const tabLayoutPage = await testMultiple.newPage();
+			const tabLayoutPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await tabLayoutPage.tracing.start({path: filename, screenshots: false});
-			await tabLayoutPage.goto('http://localhost:8080/tabLayout');
+			await tabLayoutPage.goto(`http://${serverAddr}/tabLayout`);
 			await tabLayoutPage.waitForSelector('#tabLayout');
 			await tabLayoutPage.waitForTimeout(200);
 
@@ -76,7 +76,7 @@ describe('TabLayout', () => {
 				passContLCP += 1;
 			}
 
-			await tabLayoutPage.close();
+			if (targetEnv === 'PC') await tabLayoutPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

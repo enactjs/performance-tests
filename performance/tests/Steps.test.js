@@ -1,4 +1,4 @@
-/* global page, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, PageLoadingMetrics} = require('../TraceModel');
@@ -10,7 +10,7 @@ describe('Steps', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/steps');
+		await page.goto(`http://${serverAddr}/steps`);
 		await page.waitForSelector('#steps');
 		await page.focus('#steps');
 		await page.keyboard.down('Enter');
@@ -32,10 +32,10 @@ describe('Steps', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const stepsPage = await testMultiple.newPage();
+			const stepsPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await stepsPage.tracing.start({path: filename, screenshots: false});
-			await stepsPage.goto('http://localhost:8080/steps');
+			await stepsPage.goto(`http://${serverAddr}/steps`);
 			await stepsPage.waitForSelector('#steps');
 			await stepsPage.waitForTimeout(200);
 
@@ -57,7 +57,7 @@ describe('Steps', () => {
 				passContLCP += 1;
 			}
 
-			await stepsPage.close();
+			if (targetEnv === 'PC') await stepsPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

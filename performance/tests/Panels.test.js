@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {FPS, getAverageFPS, PageLoadingMetrics, FID, CLS} = require('../TraceModel');
@@ -21,10 +21,10 @@ describe('Panels', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const panelsPage = await testMultiple.newPage();
+			const panelsPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await panelsPage.tracing.start({path: filename, screenshots: false});
-			await panelsPage.goto('http://localhost:8080/panels');
+			await panelsPage.goto(`http://${serverAddr}/panels`);
 			await panelsPage.waitForSelector(panel1);
 			await panelsPage.waitForTimeout(200);
 
@@ -46,7 +46,7 @@ describe('Panels', () => {
 				passContLCP += 1;
 			}
 
-			await panelsPage.close();
+			if (targetEnv === 'PC') await panelsPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;
@@ -69,7 +69,7 @@ describe('Panels', () => {
 	describe('Panels Transition', () => {
 		it('FPS', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/panels');
+			await page.goto(`http://${serverAddr}/panels`);
 			await page.waitForSelector(nextPanelButton);
 			await page.click(nextPanelButton);
 			await page.waitForTimeout(500);
@@ -105,7 +105,7 @@ describe('Panels', () => {
 		it('should have a good FID and CLS', async () => {
 			await page.evaluateOnNewDocument(FID);
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto('http://localhost:8080/panels');
+			await page.goto(`http://${serverAddr}/panels`);
 			await page.waitForSelector(nextPanelButton);
 			await page.click(nextPanelButton);
 			await page.waitForTimeout(500);
@@ -134,7 +134,7 @@ describe('Panels', () => {
 	describe('Navigation inside Panel', () => {
 		it('FPS', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/panels');
+			await page.goto(`http://${serverAddr}/panels`);
 			await page.waitForSelector(nextPanelButton);
 			await page.click(nextPanelButton);
 			await page.waitForTimeout(500);
@@ -161,7 +161,7 @@ describe('Panels', () => {
 		it('should have a good FID and CLS', async () => {
 			await page.evaluateOnNewDocument(FID);
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto('http://localhost:8080/panels');
+			await page.goto(`http://${serverAddr}/panels`);
 			await page.waitForSelector(nextPanelButton);
 			await page.click(nextPanelButton);
 			await page.waitForTimeout(500);

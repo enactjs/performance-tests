@@ -1,4 +1,4 @@
-/* global page, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, PageLoadingMetrics} = require('../TraceModel');
@@ -10,7 +10,7 @@ describe('Icon', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/icon');
+		await page.goto(`http://${serverAddr}/icon`);
 		await page.waitForSelector('#icon');
 		await page.focus('#icon');
 		await page.keyboard.down('Enter');
@@ -32,10 +32,10 @@ describe('Icon', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const iconPage = await testMultiple.newPage();
+			const iconPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await iconPage.tracing.start({path: filename, screenshots: false});
-			await iconPage.goto('http://localhost:8080/icon');
+			await iconPage.goto(`http://${serverAddr}/icon`);
 			await iconPage.waitForSelector('#icon');
 			await iconPage.waitForTimeout(200);
 
@@ -58,7 +58,7 @@ describe('Icon', () => {
 				passContLCP += 1;
 			}
 
-			await iconPage.close();
+			if (targetEnv === 'PC') await iconPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

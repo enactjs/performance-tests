@@ -10,7 +10,7 @@ describe('BodyText', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/bodyText');
+		await page.goto(`http://${serverAddr}/bodyText`);
 		await page.waitForSelector('#bodyText');
 		await page.focus('#bodyText');
 		await page.keyboard.down('Enter');
@@ -32,10 +32,10 @@ describe('BodyText', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const bodyTextPage = await testMultiple.newPage();
+			const bodyTextPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await bodyTextPage.tracing.start({path: filename, screenshots: false});
-			await bodyTextPage.goto('http://localhost:8080/bodyText');
+			await bodyTextPage.goto(`http://${serverAddr}/bodyText`);
 			await bodyTextPage.waitForSelector('#bodyText');
 			await bodyTextPage.waitForTimeout(200);
 
@@ -57,7 +57,7 @@ describe('BodyText', () => {
 				passContLCP += 1;
 			}
 
-			await bodyTextPage.close();
+			if (targetEnv === 'PC') await bodyTextPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

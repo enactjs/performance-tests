@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -10,7 +10,7 @@ describe('OverallView', () => {
 
 	it('FPS', async () => {
 		await FPS();
-		await page.goto('http://localhost:8080/overallView');
+		await page.goto(`http://${serverAddr}/overallView`);
 		await page.waitForSelector('#tooltipButton');
 		await page.click('#tooltipButton'); // to move to the next panel.
 		await page.waitForSelector('#virtualGridListSecond');
@@ -68,7 +68,7 @@ describe('OverallView', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/overallView');
+		await page.goto(`http://${serverAddr}/overallView`);
 		await page.waitForSelector('#tooltipButton');
 		await page.click('#tooltipButton'); // to move to the next panel.
 		await page.waitForSelector('#virtualGridListSecond');
@@ -96,16 +96,17 @@ describe('OverallView', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const overallViewPage = await testMultiple.newPage();
+			const overallViewPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await overallViewPage.tracing.start({path: filename, screenshots: false});
-			await overallViewPage.goto('http://localhost:8080/overallView');
+			await overallViewPage.goto(`http://${serverAddr}/overallView`);
 			await overallViewPage.waitForSelector('#virtualGridList');
 			await overallViewPage.waitForTimeout(200);
 
 			await overallViewPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
+
 			avgDCL = avgDCL + actualDCL;
 			if (actualDCL < maxDCL) {
 				passContDCL += 1;
@@ -121,7 +122,7 @@ describe('OverallView', () => {
 				passContLCP += 1;
 			}
 
-			await overallViewPage.close();
+			if (targetEnv === 'PC') await overallViewPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

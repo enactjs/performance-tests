@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -12,7 +12,7 @@ describe('RangePicker', () => {
 		describe('click', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto('http://localhost:8080/rangePicker');
+				await page.goto(`http://${serverAddr}/rangePicker`);
 				await page.waitForSelector('#rangePickerDefault');
 				await page.click('[aria-label$="press ok button to increase the value"]'); // to move mouse on the rangePicker.
 				await page.mouse.down();
@@ -38,7 +38,7 @@ describe('RangePicker', () => {
 		describe('keypress', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto('http://localhost:8080/rangePicker');
+				await page.goto(`http://${serverAddr}/rangePicker`);
 				await page.waitForSelector('#rangePickerDefault');
 				await page.focus('[aria-label$="press ok button to increase the value"]');
 				await page.waitForTimeout(200);
@@ -65,7 +65,7 @@ describe('RangePicker', () => {
 		it('should have a good FID and CLS', async () => {
 			await page.evaluateOnNewDocument(FID);
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto('http://localhost:8080/rangePicker');
+			await page.goto(`http://${serverAddr}/rangePicker`);
 			await page.waitForSelector('#rangePickerDefault');
 			await page.waitForTimeout(100);
 			await page.click('[aria-label$="press ok button to increase the value"]');
@@ -94,10 +94,10 @@ describe('RangePicker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const rangePickerPage = await testMultiple.newPage();
+				const rangePickerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 				await rangePickerPage.tracing.start({path: filename, screenshots: false});
-				await rangePickerPage.goto('http://localhost:8080/rangePicker');
+				await rangePickerPage.goto(`http://${serverAddr}/rangePicker`);
 				await rangePickerPage.waitForSelector('#rangePickerDefault');
 				await rangePickerPage.waitForTimeout(200);
 
@@ -109,19 +109,17 @@ describe('RangePicker', () => {
 					passContDCL += 1;
 				}
 
-
 				avgFCP = avgFCP + actualFCP;
 				if (actualFCP < maxFCP) {
 					passContFCP += 1;
 				}
-
 
 				avgLCP = avgLCP + actualLCP;
 				if (actualLCP < maxLCP) {
 					passContLCP += 1;
 				}
 
-				await rangePickerPage.close();
+				if (targetEnv === 'PC') await rangePickerPage.close();
 			}
 			avgDCL = avgDCL / stepNumber;
 			avgFCP = avgFCP / stepNumber;
@@ -146,7 +144,7 @@ describe('RangePicker', () => {
 		describe('click', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto('http://localhost:8080/rangePickerJoined');
+				await page.goto(`http://${serverAddr}/rangePickerJoined`);
 				await page.waitForSelector('#rangePickerJoined');
 				await page.click('#rangePickerJoined'); // to move mouse on the rangePicker.
 				await page.mouse.down();
@@ -170,7 +168,7 @@ describe('RangePicker', () => {
 		describe('keypress', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto('http://localhost:8080/rangePickerJoined');
+				await page.goto(`http://${serverAddr}/rangePickerJoined`);
 				await page.waitForSelector('#rangePickerJoined');
 				await page.focus('#rangePickerJoined');
 				await page.waitForTimeout(200);
@@ -195,7 +193,7 @@ describe('RangePicker', () => {
 		it('should have a good FID and CLS', async () => {
 			await page.evaluateOnNewDocument(FID);
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto('http://localhost:8080/rangePickerJoined');
+			await page.goto(`http://${serverAddr}/rangePickerJoined`);
 			await page.waitForSelector('#rangePickerJoined');
 			await page.waitForTimeout(100);
 			await page.click('#rangePickerJoined');
@@ -224,10 +222,10 @@ describe('RangePicker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const rangePickerJoinedPage = await testMultiple.newPage();
+				const rangePickerJoinedPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 				await rangePickerJoinedPage.tracing.start({path: filename, screenshots: false});
-				await rangePickerJoinedPage.goto('http://localhost:8080/rangePickerJoined');
+				await rangePickerJoinedPage.goto(`http://${serverAddr}/rangePickerJoined`);
 				await rangePickerJoinedPage.waitForSelector('#rangePickerJoined');
 				await rangePickerJoinedPage.waitForTimeout(200);
 
@@ -239,19 +237,17 @@ describe('RangePicker', () => {
 					passContDCL += 1;
 				}
 
-
 				avgFCP = avgFCP + actualFCP;
 				if (actualFCP < maxFCP) {
 					passContFCP += 1;
 				}
-
 
 				avgLCP = avgLCP + actualLCP;
 				if (actualLCP < maxLCP) {
 					passContLCP += 1;
 				}
 
-				await rangePickerJoinedPage.close();
+				if (targetEnv === 'PC') await rangePickerJoinedPage.close();
 			}
 			avgDCL = avgDCL / stepNumber;
 			avgFCP = avgFCP / stepNumber;

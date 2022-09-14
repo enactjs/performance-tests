@@ -1,4 +1,4 @@
-/* global page, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, PageLoadingMetrics} = require('../TraceModel');
@@ -10,7 +10,7 @@ describe('ProgressBar', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/progressBar');
+		await page.goto(`http://${serverAddr}/progressBar`);
 		await page.waitForSelector('#progressBar');
 		await page.focus('#progressBar');
 		await page.keyboard.down('Enter');
@@ -32,10 +32,10 @@ describe('ProgressBar', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const progressBarPage = await testMultiple.newPage();
+			const progressBarPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await progressBarPage.tracing.start({path: filename, screenshots: false});
-			await progressBarPage.goto('http://localhost:8080/progressBar');
+			await progressBarPage.goto(`http://${serverAddr}/progressBar`);
 			await progressBarPage.waitForSelector('#progressBar');
 			await progressBarPage.waitForTimeout(200);
 
@@ -58,7 +58,7 @@ describe('ProgressBar', () => {
 				passContLCP += 1;
 			}
 
-			await progressBarPage.close();
+			if (targetEnv === 'PC') await progressBarPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

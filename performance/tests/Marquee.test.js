@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -12,7 +12,7 @@ describe('Marquee', () => {
 
 	it('FPS on hover', async () => {
 		await FPS();
-		await page.goto('http://localhost:8080/marquee');
+		await page.goto(`http://${serverAddr}/marquee`);
 		await page.waitForSelector('#marquee');
 		await page.hover(MarqueeText);
 		await page.waitForTimeout(500);
@@ -26,7 +26,7 @@ describe('Marquee', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/marquee');
+		await page.goto(`http://${serverAddr}/marquee`);
 		await page.waitForSelector('#marquee');
 		await page.hover(MarqueeText);
 		await page.waitForTimeout(500);
@@ -51,10 +51,10 @@ describe('Marquee', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const marqueePage = await testMultiple.newPage();
+			const marqueePage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await marqueePage.tracing.start({path: filename, screenshots: false});
-			await marqueePage.goto('http://localhost:8080/marquee');
+			await marqueePage.goto(`http://${serverAddr}/marquee`);
 			await marqueePage.waitForSelector('#marquee');
 			await marqueePage.waitForTimeout(200);
 
@@ -76,7 +76,7 @@ describe('Marquee', () => {
 				passContLCP += 1;
 			}
 
-			await marqueePage.close();
+			if (targetEnv === 'PC') await marqueePage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;
@@ -104,7 +104,7 @@ describe('Marquee', () => {
 			it(`updates marqueeOn hover ${count} Marquee components`, async () => {
 				await FPS();
 
-				await page.goto(`http://localhost:8080/marqueeMultiple?count=${count}`);
+				await page.goto(`http://${serverAddr}/marqueeMultiple?count=${count}`);
 				await page.waitForSelector('#Container');
 				await page.waitForTimeout(200);
 
@@ -121,7 +121,7 @@ describe('Marquee', () => {
 			it(`updates marqueeOn render ${count} Marquee components`, async () => {
 				await FPS();
 
-				await page.goto(`http://localhost:8080/marqueeMultiple?count=${count}&marqueeOn=render`);
+				await page.goto(`http://${serverAddr}/marqueeMultiple?count=${count}&marqueeOn=render`);
 				await page.waitForSelector('#Container');
 				await page.waitForTimeout(2000);
 

@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('RadioItem', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/radioItem');
+			await page.goto(`http://${serverAddr}/radioItem`);
 			await page.waitForSelector('#radioItem');
 			await page.click('#radioItem'); // to move mouse on the radioItem.
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('RadioItem', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/radioItem');
+			await page.goto(`http://${serverAddr}/radioItem`);
 			await page.waitForSelector('#radioItem');
 			await page.focus('#radioItem');
 			await page.waitForTimeout(200);
@@ -64,7 +64,7 @@ describe('RadioItem', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/radioItem');
+		await page.goto(`http://${serverAddr}/radioItem`);
 		await page.waitForSelector('#radioItem');
 		await page.waitForTimeout(100);
 		await page.click('#radioItem');
@@ -90,10 +90,10 @@ describe('RadioItem', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const radioItemPage = await testMultiple.newPage();
+			const radioItemPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await radioItemPage.tracing.start({path: filename, screenshots: false});
-			await radioItemPage.goto('http://localhost:8080/radioItem');
+			await radioItemPage.goto(`http://${serverAddr}/radioItem`);
 			await radioItemPage.waitForSelector('#radioItem');
 			await radioItemPage.waitForTimeout(200);
 
@@ -115,7 +115,7 @@ describe('RadioItem', () => {
 				passContLCP += 1;
 			}
 
-			await radioItemPage.close();
+			if (targetEnv === 'PC') await radioItemPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

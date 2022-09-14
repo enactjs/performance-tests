@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('MediaOverlay', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/mediaOverlay');
+			await page.goto(`http://${serverAddr}/mediaOverlay`);
 			await page.waitForSelector('#mediaOverlay');
 			await page.waitForTimeout(1000);
 
@@ -25,7 +25,7 @@ describe('MediaOverlay', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/mediaOverlay');
+			await page.goto(`http://${serverAddr}/mediaOverlay`);
 			await page.waitForSelector('#mediaOverlay');
 			await page.waitForTimeout(1000);
 
@@ -39,7 +39,7 @@ describe('MediaOverlay', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/mediaOverlay');
+		await page.goto(`http://${serverAddr}/mediaOverlay`);
 		await page.waitForSelector('#mediaOverlay');
 		await page.focus('#mediaOverlay');
 		await page.keyboard.down('Enter');
@@ -65,10 +65,10 @@ describe('MediaOverlay', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const mediaOverlayPage = await testMultiple.newPage();
+			const mediaOverlayPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await mediaOverlayPage.tracing.start({path: filename, screenshots: false});
-			await mediaOverlayPage.goto('http://localhost:8080/mediaOverlay');
+			await mediaOverlayPage.goto(`http://${serverAddr}/mediaOverlay`);
 			await mediaOverlayPage.waitForSelector('#mediaOverlay');
 			await mediaOverlayPage.waitForTimeout(500);
 
@@ -90,7 +90,7 @@ describe('MediaOverlay', () => {
 				passContLCP += 1;
 			}
 
-			await mediaOverlayPage.close();
+			if (targetEnv === 'PC') await mediaOverlayPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

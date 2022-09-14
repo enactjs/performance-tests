@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -12,7 +12,7 @@ describe('Picker', () => {
 		describe('click', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto('http://localhost:8080/picker');
+				await page.goto(`http://${serverAddr}/picker`);
 				await page.waitForSelector('#pickerDefault');
 				await page.click('[aria-label$="next item"]'); // to move mouse on the picker.
 				await page.mouse.down();
@@ -38,7 +38,7 @@ describe('Picker', () => {
 		describe('keypress', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto('http://localhost:8080/picker');
+				await page.goto(`http://${serverAddr}/picker`);
 				await page.waitForSelector('#pickerDefault');
 				await page.focus('[aria-label$="next item"]');
 				await page.waitForTimeout(200);
@@ -65,7 +65,7 @@ describe('Picker', () => {
 		it('should have a good FID and CLS', async () => {
 			await page.evaluateOnNewDocument(FID);
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto('http://localhost:8080/picker');
+			await page.goto(`http://${serverAddr}/picker`);
 			await page.waitForSelector('#pickerDefault');
 			await page.waitForTimeout(100);
 			await page.click('[aria-label$="next item"]');
@@ -94,10 +94,10 @@ describe('Picker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const pickerPage = await testMultiple.newPage();
+				const pickerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 				await pickerPage.tracing.start({path: filename, screenshots: false});
-				await pickerPage.goto('http://localhost:8080/picker');
+				await pickerPage.goto(`http://${serverAddr}/picker`);
 				await pickerPage.waitForSelector('#pickerDefault');
 				await pickerPage.waitForTimeout(200);
 
@@ -121,7 +121,7 @@ describe('Picker', () => {
 					passContLCP += 1;
 				}
 
-				await pickerPage.close();
+				if (targetEnv === 'PC') await pickerPage.close();
 			}
 			avgDCL = avgDCL / stepNumber;
 			avgFCP = avgFCP / stepNumber;
@@ -146,7 +146,7 @@ describe('Picker', () => {
 		describe('click', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto('http://localhost:8080/pickerJoined');
+				await page.goto(`http://${serverAddr}/pickerJoined`);
 				await page.waitForSelector('#pickerJoined');
 				await page.click('#pickerJoined'); // to move mouse on the picker.
 				await page.mouse.down();
@@ -170,7 +170,7 @@ describe('Picker', () => {
 		describe('keypress', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto('http://localhost:8080/pickerJoined');
+				await page.goto(`http://${serverAddr}/pickerJoined`);
 				await page.waitForSelector('#pickerJoined');
 				await page.focus('#pickerJoined');
 				await page.waitForTimeout(200);
@@ -195,7 +195,7 @@ describe('Picker', () => {
 		it('should have a good FID and CLS', async () => {
 			await page.evaluateOnNewDocument(FID);
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto('http://localhost:8080/pickerJoined');
+			await page.goto(`http://${serverAddr}/pickerJoined`);
 			await page.waitForSelector('#pickerJoined');
 			await page.waitForTimeout(100);
 			await page.click('#pickerJoined');
@@ -224,10 +224,10 @@ describe('Picker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const pickerJoinedPage = await testMultiple.newPage();
+				const pickerJoinedPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 				await pickerJoinedPage.tracing.start({path: filename, screenshots: false});
-				await pickerJoinedPage.goto('http://localhost:8080/pickerJoined');
+				await pickerJoinedPage.goto(`http://${serverAddr}/pickerJoined`);
 				await pickerJoinedPage.waitForSelector('#pickerJoined');
 				await pickerJoinedPage.waitForTimeout(200);
 
@@ -239,20 +239,19 @@ describe('Picker', () => {
 					passContDCL += 1;
 				}
 
-
 				avgFCP = avgFCP + actualFCP;
 				if (actualFCP < maxFCP) {
 					passContFCP += 1;
 				}
-
 
 				avgLCP = avgLCP + actualLCP;
 				if (actualLCP < maxLCP) {
 					passContLCP += 1;
 				}
 
-				await pickerJoinedPage.close();
+				if (targetEnv === 'PC') await pickerJoinedPage.close();
 			}
+
 			avgDCL = avgDCL / stepNumber;
 			avgFCP = avgFCP / stepNumber;
 			avgLCP = avgLCP / stepNumber;

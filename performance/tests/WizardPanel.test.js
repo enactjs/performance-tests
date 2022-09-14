@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('WizardPanels', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/wizardPanels');
+			await page.goto(`http://${serverAddr}/wizardPanels`);
 			await page.waitForTimeout(200);
 			await page.click('#nextButton'); // to animate the WizardPanel.
 			await page.waitForTimeout(200);
@@ -26,7 +26,7 @@ describe('WizardPanels', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/wizardPanels');
+			await page.goto(`http://${serverAddr}/wizardPanels`);
 			await page.waitForSelector('#wizardPanels');
 			await page.focus('#nextButton');
 			await page.waitForTimeout(200);
@@ -43,7 +43,7 @@ describe('WizardPanels', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/wizardPanels');
+		await page.goto(`http://${serverAddr}/wizardPanels`);
 		await page.waitForSelector('#wizardPanels');
 		await page.focus('#wizardPanels');
 		await page.keyboard.down('Enter');
@@ -68,10 +68,10 @@ describe('WizardPanels', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const wizardPanelPage = await testMultiple.newPage();
+			const wizardPanelPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await wizardPanelPage.tracing.start({path: filename, screenshots: false});
-			await wizardPanelPage.goto('http://localhost:8080/wizardPanels');
+			await wizardPanelPage.goto(`http://${serverAddr}/wizardPanels`);
 			await wizardPanelPage.waitForSelector('#wizardPanels');
 			await wizardPanelPage.waitForTimeout(200);
 
@@ -93,7 +93,7 @@ describe('WizardPanels', () => {
 				passContLCP += 1;
 			}
 
-			await wizardPanelPage.close();
+			if (targetEnv === 'PC') await wizardPanelPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

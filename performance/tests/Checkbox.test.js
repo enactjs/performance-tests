@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('Checkbox', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/checkbox');
+			await page.goto(`http://${serverAddr}/checkbox`);
 			await page.waitForTimeout(500);
 			await page.click('#checkbox'); // to move mouse on the checkbox.
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('Checkbox', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/checkbox');
+			await page.goto(`http://${serverAddr}/checkbox`);
 			await page.waitForSelector('#checkbox');
 			await page.focus('#checkbox');
 			await page.waitForTimeout(200);
@@ -64,7 +64,7 @@ describe('Checkbox', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/checkbox');
+		await page.goto(`http://${serverAddr}/checkbox`);
 		await page.waitForSelector('#checkbox');
 		await page.focus('#checkbox');
 		await page.keyboard.down('Enter');
@@ -89,10 +89,10 @@ describe('Checkbox', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const checkboxPage = await testMultiple.newPage();
+			const checkboxPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await checkboxPage.tracing.start({path: filename, screenshots: false});
-			await checkboxPage.goto('http://localhost:8080/checkbox');
+			await checkboxPage.goto(`http://${serverAddr}/checkbox`);
 			await checkboxPage.waitForSelector('#checkbox');
 			await checkboxPage.waitForTimeout(200);
 
@@ -114,7 +114,7 @@ describe('Checkbox', () => {
 				passContLCP += 1;
 			}
 
-			await checkboxPage.close();
+			if (targetEnv === 'PC') await checkboxPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

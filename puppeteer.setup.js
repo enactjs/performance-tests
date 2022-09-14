@@ -1,6 +1,7 @@
 /* global page */
 
 const puppeteer = require('puppeteer');
+const {ipAddress} = require('./performance/utils');
 
 global.stepNumber = 5;
 global.passRatio = 0.7;
@@ -13,26 +14,59 @@ global.maxLCP = 2500;
 
 let browser;
 
-global.beforeAll(async () => {
-	browser = await puppeteer.launch();
-	global.testMultiple = browser;
-});
+const targetEnvArg = process.argv.filter((x) => x.startsWith('--target='))[0];
+global.targetEnv = targetEnvArg ? targetEnvArg.split('=')[1] : 'PC';
 
-global.beforeEach(async () => {
-	const newPage = await browser.newPage();
+global.serverAddr = `${ipAddress()}:8080`;
 
-	await newPage.setViewport({
-		width: 1920,
-		height: 1080
+if (targetEnv === 'PC') {
+	global.beforeAll(async () => {
+		browser = await puppeteer.launch();
+		global.testMultiple = browser;
 	});
 
-	global.page = newPage;
-});
+	global.beforeEach(async () => {
+		const newPage = await browser.newPage();
 
-global.afterEach(async () => {
-	await page.close();
-});
+		await newPage.setViewport({
+			width: 1920,
+			height: 1080
+		});
 
-global.afterAll(async () => {
-	await browser.close();
-});
+		global.page = newPage;
+	});
+
+	global.afterEach(async () => {
+		await page.close();
+	});
+
+	global.afterAll(async () => {
+		await browser.close();
+	});
+} else if (targetEnv === 'TV') {
+	global.beforeAll(async () => {
+		const TVAddr = process.env.TV_IP;
+
+		browser = await puppeteer.connect({
+			browserURL: `http://${TVAddr}:9998`,
+			ignoreHTTPSErrors: true
+		});
+
+		const pages = await browser.pages();
+
+		global.testMultiple = browser;
+		global.testPage = pages[0];
+	});
+
+	global.beforeEach(async () => {
+		global.page = global.testPage;
+		await global.page.setViewport({
+			width: 1920,
+			height: 1080
+		});
+	});
+
+	global.afterAll(async () => {
+		await browser.close();
+	});
+}

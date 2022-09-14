@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxFID, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, maxCLS, passRatio */
+/* global page, minFPS, maxFID, maxFID, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, maxCLS, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,8 @@ describe('Alert', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/alert');
+			await page.goto(`http://${serverAddr}/alert`);
+
 			await page.waitForTimeout(500);
 
 			await page.click('#button'); // to move mouse on the button.
@@ -38,7 +39,7 @@ describe('Alert', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/alert');
+			await page.goto(`http://${serverAddr}/alert`);
 			await page.waitForSelector('#button');
 			await page.focus('#button');
 			await page.waitForTimeout(200);
@@ -65,7 +66,7 @@ describe('Alert', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/alert');
+		await page.goto(`http://${serverAddr}/alert`);
 		await page.waitForSelector('#button');
 		await page.focus('#button');
 		await page.keyboard.down('Enter');
@@ -90,10 +91,10 @@ describe('Alert', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const alertPage = await testMultiple.newPage();
+			const alertPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await alertPage.tracing.start({path: filename, screenshots: false});
-			await alertPage.goto('http://localhost:8080/alert');
+			await alertPage.goto(`http://${serverAddr}/alert`);
 			await alertPage.waitForSelector('#alert');
 			await alertPage.waitForTimeout(200);
 
@@ -114,7 +115,7 @@ describe('Alert', () => {
 				passContLCP += 1;
 			}
 
-			await alertPage.close();
+			if (targetEnv === 'PC') await alertPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

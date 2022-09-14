@@ -1,15 +1,16 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 /* eslint-disable*/
+
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName, scrollAtPoint} = require('../utils');
 
-const listItemTests = (componentName, dataSize) => describe(componentName, () => { 
+const listItemTests = (componentName, dataSize) => describe(componentName, () => {
 	jest.setTimeout(100000);
 
 	const component = componentName + (dataSize ? dataSize : '');
 	TestResults.newFile(component);
-	const pageURL = dataSize ? `http://localhost:8080/${componentName}?dataSize=${dataSize}` : `http://localhost:8080/${componentName}`;
+	const pageURL = dataSize ? `http://${serverAddr}/${componentName}?dataSize=${dataSize}` : `http://${serverAddr}/${componentName}`;
 
 	describe('ScrollButton', () => {
 		it('scrolls down', async () => {
@@ -84,7 +85,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const ListPage = await testMultiple.newPage();
+			const ListPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await ListPage.tracing.start({path: filename, screenshots: false});
 			await ListPage.goto(pageURL);
@@ -109,7 +110,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 				passContLCP += 1;
 			}
 
-			await ListPage.close();
+			if (targetEnv === 'PC') await ListPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

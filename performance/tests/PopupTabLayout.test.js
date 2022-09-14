@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -10,7 +10,7 @@ describe('PopupTabLayout', () => {
 
 	it('FPS', async () => {
 		await FPS();
-		await page.goto('http://localhost:8080/popupTabLayout');
+		await page.goto(`http://${serverAddr}/popupTabLayout`);
 		await page.waitForSelector('#popupTabLayout');
 		await page.keyboard.down('ArrowRight');
 		await page.keyboard.up('ArrowRight');
@@ -56,7 +56,7 @@ describe('PopupTabLayout', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/popupTabLayout');
+		await page.goto(`http://${serverAddr}/popupTabLayout`);
 		await page.waitForSelector('#popupTabLayout');
 		await page.keyboard.down('ArrowRight');
 		await page.keyboard.up('ArrowRight');
@@ -97,10 +97,10 @@ describe('PopupTabLayout', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const popupTabLayoutPage = await testMultiple.newPage();
+			const popupTabLayoutPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await popupTabLayoutPage.tracing.start({path: filename, screenshots: false});
-			await popupTabLayoutPage.goto('http://localhost:8080/popupTabLayout');
+			await popupTabLayoutPage.goto(`http://${serverAddr}/popupTabLayout`);
 			await popupTabLayoutPage.waitForSelector('#popupTabLayout');
 			await popupTabLayoutPage.waitForTimeout(200);
 
@@ -122,7 +122,7 @@ describe('PopupTabLayout', () => {
 				passContLCP += 1;
 			}
 
-			await popupTabLayoutPage.close();
+			if (targetEnv === 'PC') await popupTabLayoutPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

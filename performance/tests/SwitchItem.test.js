@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -11,7 +11,7 @@ describe('SwitchItem', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/switchItem');
+			await page.goto(`http://${serverAddr}/switchItem`);
 			await page.waitForSelector('#switchItem');
 			await page.waitForTimeout(200);
 			await page.click('#switchItem');
@@ -38,7 +38,7 @@ describe('SwitchItem', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto('http://localhost:8080/switchItem');
+			await page.goto(`http://${serverAddr}/switchItem`);
 			await page.waitForSelector('#switchItem');
 			await page.waitForTimeout(200);
 			await page.focus('#switchItem');
@@ -66,7 +66,7 @@ describe('SwitchItem', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto('http://localhost:8080/switchItem');
+		await page.goto(`http://${serverAddr}/switchItem`);
 		await page.waitForSelector('#switchItem');
 		await page.waitForTimeout(100);
 		await page.click('#switchItem');
@@ -92,10 +92,10 @@ describe('SwitchItem', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const switchItemPage = await testMultiple.newPage();
+			const switchItemPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
 
 			await switchItemPage.tracing.start({path: filename, screenshots: false});
-			await switchItemPage.goto('http://localhost:8080/switchItem');
+			await switchItemPage.goto(`http://${serverAddr}/switchItem`);
 			await switchItemPage.waitForSelector('#switchItem');
 			await switchItemPage.waitForTimeout(200);
 
@@ -117,7 +117,7 @@ describe('SwitchItem', () => {
 				passContLCP += 1;
 			}
 
-			await switchItemPage.close();
+			if (targetEnv === 'PC') await switchItemPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

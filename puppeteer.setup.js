@@ -45,7 +45,7 @@ if (targetEnv === 'PC') {
 	});
 } else if (targetEnv === 'TV') {
 	global.beforeAll(async () => {
-		const TVAddr = process.env.TV_IP; // "10.255.248.96:9998";
+		const TVAddr = process.env.TV_IP;
 
 		browser = await puppeteer.connect({
 			browserURL: `http://${TVAddr}:9998`,
@@ -53,10 +53,8 @@ if (targetEnv === 'PC') {
 		});
 
 		const pages = await browser.pages();
-		// const pagesCount = pages.length;
 
 		global.testMultiple = browser;
-		global.testMultipleTV = browser;
 		global.testPage = pages[0];
 	});
 

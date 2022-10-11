@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('Dropdown', () => {
 	const component = 'Dropdown';
@@ -15,16 +15,16 @@ describe('Dropdown', () => {
 			await page.waitForSelector('#dropdown');
 			await page.click('#dropdown'); // to move mouse on dropdown
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
@@ -40,18 +40,18 @@ describe('Dropdown', () => {
 			await page.goto(`http://${serverAddr}/dropdown`);
 			await page.waitForSelector('#dropdown');
 			await page.focus('#dropdown');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
@@ -89,12 +89,12 @@ describe('Dropdown', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const dropdownPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const dropdownPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await dropdownPage.tracing.start({path: filename, screenshots: false});
 			await dropdownPage.goto(`http://${serverAddr}/dropdown`);
 			await dropdownPage.waitForSelector('#dropdown');
-			await dropdownPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await dropdownPage.tracing.stop();
 

@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, getFileName} = require('../utils');
+const {clsValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('Picker', () => {
 	const component = 'Picker';
@@ -16,16 +16,16 @@ describe('Picker', () => {
 				await page.waitForSelector('#pickerDefault');
 				await page.click('[aria-label$="next item"]'); // to move mouse on the picker.
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 
 				const averageFPS = await getAverageFPS();
@@ -41,18 +41,18 @@ describe('Picker', () => {
 				await page.goto(`http://${serverAddr}/picker`);
 				await page.waitForSelector('#pickerDefault');
 				await page.focus('[aria-label$="next item"]');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 
 				const averageFPS = await getAverageFPS();
@@ -67,9 +67,9 @@ describe('Picker', () => {
 			await page.evaluateOnNewDocument(CLS);
 			await page.goto(`http://${serverAddr}/picker`);
 			await page.waitForSelector('#pickerDefault');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.click('[aria-label$="next item"]');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 
 			let actualFirstInput = await page.evaluate(() => {
 				return window.fid;
@@ -94,12 +94,12 @@ describe('Picker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const pickerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+				const pickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 				await pickerPage.tracing.start({path: filename, screenshots: false});
 				await pickerPage.goto(`http://${serverAddr}/picker`);
 				await pickerPage.waitForSelector('#pickerDefault');
-				await pickerPage.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 
 				await pickerPage.tracing.stop();
 
@@ -150,16 +150,16 @@ describe('Picker', () => {
 				await page.waitForSelector('#pickerJoined');
 				await page.click('#pickerJoined'); // to move mouse on the picker.
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 
 				const averageFPS = await getAverageFPS();
@@ -173,18 +173,18 @@ describe('Picker', () => {
 				await page.goto(`http://${serverAddr}/pickerJoined`);
 				await page.waitForSelector('#pickerJoined');
 				await page.focus('#pickerJoined');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 
 				const averageFPS = await getAverageFPS();
@@ -197,9 +197,9 @@ describe('Picker', () => {
 			await page.evaluateOnNewDocument(CLS);
 			await page.goto(`http://${serverAddr}/pickerJoined`);
 			await page.waitForSelector('#pickerJoined');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.click('#pickerJoined');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 
 			let actualFirstInput = await page.evaluate(() => {
 				return window.fid;
@@ -224,12 +224,12 @@ describe('Picker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const pickerJoinedPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+				const pickerJoinedPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 				await pickerJoinedPage.tracing.start({path: filename, screenshots: false});
 				await pickerJoinedPage.goto(`http://${serverAddr}/pickerJoined`);
 				await pickerJoinedPage.waitForSelector('#pickerJoined');
-				await pickerJoinedPage.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 
 				await pickerJoinedPage.tracing.stop();
 

@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('Input', () => {
 	const component = 'Input';
@@ -13,9 +13,9 @@ describe('Input', () => {
 		await page.goto(`http://${serverAddr}/input`);
 		await page.waitForSelector('.inputView');
 		await page.focus('.inputView');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Enter');
 		await page.keyboard.down('A');
 		await page.keyboard.up('A');
@@ -30,7 +30,7 @@ describe('Input', () => {
 		await page.keyboard.down('Backspace');
 		await page.keyboard.up('Backspace');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Enter');
 		await page.keyboard.down('A');
 		await page.keyboard.up('A');
@@ -45,7 +45,7 @@ describe('Input', () => {
 		await page.keyboard.down('Backspace');
 		await page.keyboard.up('Backspace');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Enter');
 		await page.keyboard.down('A');
 		await page.keyboard.up('A');
@@ -60,7 +60,7 @@ describe('Input', () => {
 		await page.keyboard.down('Backspace');
 		await page.keyboard.up('Backspace');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Enter');
 
 		const averageFPS = await getAverageFPS();
@@ -74,9 +74,9 @@ describe('Input', () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/input`);
 		await page.waitForSelector('.inputView');
-		await page.waitForTimeout(100);
+		await new Promise(r => setTimeout(r, 100));
 		await page.click('.inputView');
-		await page.waitForTimeout(100);
+		await new Promise(r => setTimeout(r, 100));
 		await page.keyboard.down('A');
 		await page.keyboard.up('A');
 		await page.keyboard.down('B');
@@ -110,12 +110,12 @@ describe('Input', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const inputPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const inputPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await inputPage.tracing.start({path: filename, screenshots: false});
 			await inputPage.goto(`http://${serverAddr}/input`);
 			await inputPage.waitForSelector('.inputView');
-			await inputPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await inputPage.tracing.stop();
 

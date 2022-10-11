@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('TimePicker', () => {
 	const component = 'TimePicker';
@@ -13,9 +13,9 @@ describe('TimePicker', () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/timePicker`);
 			await page.waitForSelector('#timePicker');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.click('[aria-label$="hour change a value with up down button"]');
-			await page.waitForTimeout(1000);
+			await new Promise(r => setTimeout(r, 1000));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -30,9 +30,9 @@ describe('TimePicker', () => {
 			await page.goto(`http://${serverAddr}/timePicker`);
 			await page.waitForSelector('#timePicker');
 			await page.focus('[aria-label$="hour change a value with up down button"]');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -69,12 +69,12 @@ describe('TimePicker', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const timePickerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const timePickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await timePickerPage.tracing.start({path: filename, screenshots: false});
 			await timePickerPage.goto(`http://${serverAddr}/timePicker`);
 			await timePickerPage.waitForSelector('#timePicker');
-			await timePickerPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await timePickerPage.tracing.stop();
 

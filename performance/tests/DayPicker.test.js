@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('DayPicker', () => {
 	const component = 'DayPicker';
@@ -12,19 +12,19 @@ describe('DayPicker', () => {
 		it('animates', async () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/dayPicker`);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click('#dayPicker'); // to move mouse on the dayPicker.
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
@@ -41,18 +41,18 @@ describe('DayPicker', () => {
 			await page.waitForSelector('#dayPicker');
 			await page.focus('#dayPicker');
 			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
@@ -90,11 +90,11 @@ describe('DayPicker', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const dayPickerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const dayPickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await dayPickerPage.tracing.start({path: filename, screenshots: false});
 			await dayPickerPage.goto(`http://${serverAddr}/dayPicker`);
 			await dayPickerPage.waitForSelector('#dayPicker');
-			await dayPickerPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await dayPickerPage.tracing.stop();
 

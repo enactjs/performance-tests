@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('PopupTabLayout', () => {
 	const component = 'PopupTabLayout';
@@ -17,34 +17,34 @@ describe('PopupTabLayout', () => {
 		await page.keyboard.down('ArrowDown');
 		await page.keyboard.up('ArrowDown');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Enter');
 		await page.keyboard.down('ArrowUp');
 		await page.keyboard.up('ArrowUp');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Enter');
 		await page.keyboard.down('Escape');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Escape');
 		await page.keyboard.down('ArrowDown');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('ArrowDown');
 		await page.keyboard.down('ArrowRight');
 		await page.keyboard.up('ArrowRight');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Enter');
 		await page.keyboard.down('ArrowUp');
 		await page.keyboard.up('ArrowUp');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Enter');
 		await page.keyboard.down('Escape');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Escape');
 		await page.keyboard.down('Escape');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Escape');
 
 		const averageFPS = await getAverageFPS();
@@ -63,18 +63,18 @@ describe('PopupTabLayout', () => {
 		await page.keyboard.down('ArrowDown');
 		await page.keyboard.up('ArrowDown');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Enter');
 		await page.keyboard.down('ArrowUp');
 		await page.keyboard.up('ArrowUp');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Enter');
 		await page.keyboard.down('Escape');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Escape');
 		await page.keyboard.down('Escape');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.up('Escape');
 
 		let actualFirstInput = await firstInputValue();
@@ -97,12 +97,12 @@ describe('PopupTabLayout', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const popupTabLayoutPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const popupTabLayoutPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await popupTabLayoutPage.tracing.start({path: filename, screenshots: false});
 			await popupTabLayoutPage.goto(`http://${serverAddr}/popupTabLayout`);
 			await popupTabLayoutPage.waitForSelector('#popupTabLayout');
-			await popupTabLayoutPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await popupTabLayoutPage.tracing.stop();
 

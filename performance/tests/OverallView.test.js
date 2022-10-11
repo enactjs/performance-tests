@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('OverallView', () => {
 	const component = 'Overall';
@@ -36,7 +36,7 @@ describe('OverallView', () => {
 
 		// Change Slider value
 		await page.keyboard.down('ArrowRight');
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 		await page.keyboard.up('ArrowRight');
 
 		// focus various spottable components in the first panel and force the scroller to move
@@ -96,12 +96,12 @@ describe('OverallView', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const overallViewPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const overallViewPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await overallViewPage.tracing.start({path: filename, screenshots: false});
 			await overallViewPage.goto(`http://${serverAddr}/overallView`);
 			await overallViewPage.waitForSelector('#virtualGridList');
-			await overallViewPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await overallViewPage.tracing.stop();
 

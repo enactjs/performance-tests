@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('FixedPopupPanels', () => {
 	const component = 'FixedPopupPanels';
@@ -12,11 +12,11 @@ describe('FixedPopupPanels', () => {
 		it('animates', async () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/fixedPopupPanels`);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 
 			await page.click('#button'); // to move mouse on the button.
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
@@ -33,9 +33,9 @@ describe('FixedPopupPanels', () => {
 			await page.waitForSelector('#button');
 
 			await page.focus('#button');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
@@ -73,12 +73,12 @@ describe('FixedPopupPanels', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const fixedPopupPanelsPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const fixedPopupPanelsPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await fixedPopupPanelsPage.tracing.start({path: filename, screenshots: false});
 			await fixedPopupPanelsPage.goto(`http://${serverAddr}/fixedPopupPanels?open=true`);
 			await fixedPopupPanelsPage.waitForSelector('#fixedPopupPanels');
-			await fixedPopupPanelsPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await fixedPopupPanelsPage.tracing.stop();
 

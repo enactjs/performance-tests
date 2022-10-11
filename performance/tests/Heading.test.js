@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, getFileName} = require('../utils');
+const {clsValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('Heading', () => {
 	const component = 'Heading';
@@ -14,7 +14,7 @@ describe('Heading', () => {
 		await page.waitForSelector('#heading');
 		await page.focus('#heading');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 
 		let actualCLS = await clsValue();
 
@@ -32,12 +32,12 @@ describe('Heading', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const headingPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const headingPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await headingPage.tracing.start({path: filename, screenshots: false});
 			await headingPage.goto(`http://${serverAddr}/heading`);
 			await headingPage.waitForSelector('#heading');
-			await headingPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await headingPage.tracing.stop();
 

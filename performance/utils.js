@@ -31,6 +31,13 @@ const clsValue = () => {
 	return page.evaluate(() => window.cls);
 };
 
+const newPageMultiple = async () => {
+	const newPage = await testMultiple.newPage();
+	await newPage.setViewport({width: 1920, height: 1080});
+
+	return newPage;
+};
+
 const ipAddress = () => {
 	const ifaces = os.networkInterfaces();
 	let address = 'localhost';
@@ -52,5 +59,6 @@ module.exports = {
 	firstInputValue,
 	getFileName,
 	ipAddress,
+	newPageMultiple,
 	scrollAtPoint
 };

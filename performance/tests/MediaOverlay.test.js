@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('MediaOverlay', () => {
 	const component = 'MediaOverlay';
@@ -13,7 +13,7 @@ describe('MediaOverlay', () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/mediaOverlay`);
 			await page.waitForSelector('#mediaOverlay');
-			await page.waitForTimeout(1000);
+			await new Promise(r => setTimeout(r, 1000));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -27,7 +27,7 @@ describe('MediaOverlay', () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/mediaOverlay`);
 			await page.waitForSelector('#mediaOverlay');
-			await page.waitForTimeout(1000);
+			await new Promise(r => setTimeout(r, 1000));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -43,7 +43,7 @@ describe('MediaOverlay', () => {
 		await page.waitForSelector('#mediaOverlay');
 		await page.focus('#mediaOverlay');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -65,12 +65,12 @@ describe('MediaOverlay', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const mediaOverlayPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const mediaOverlayPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await mediaOverlayPage.tracing.start({path: filename, screenshots: false});
 			await mediaOverlayPage.goto(`http://${serverAddr}/mediaOverlay`);
 			await mediaOverlayPage.waitForSelector('#mediaOverlay');
-			await mediaOverlayPage.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 
 			await mediaOverlayPage.tracing.stop();
 

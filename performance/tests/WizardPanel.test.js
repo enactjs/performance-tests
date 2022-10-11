@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('WizardPanels', () => {
 	const component = 'WizardPanels';
@@ -12,9 +12,9 @@ describe('WizardPanels', () => {
 		it('animates', async () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/wizardPanels`);
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.click('#nextButton'); // to animate the WizardPanel.
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -29,9 +29,9 @@ describe('WizardPanels', () => {
 			await page.goto(`http://${serverAddr}/wizardPanels`);
 			await page.waitForSelector('#wizardPanels');
 			await page.focus('#nextButton');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -68,12 +68,12 @@ describe('WizardPanels', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const wizardPanelPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const wizardPanelPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await wizardPanelPage.tracing.start({path: filename, screenshots: false});
 			await wizardPanelPage.goto(`http://${serverAddr}/wizardPanels`);
 			await wizardPanelPage.waitForSelector('#wizardPanels');
-			await wizardPanelPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await wizardPanelPage.tracing.stop();
 

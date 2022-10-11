@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('KeyGuide', () => {
 	const component = 'KeyGuide';
@@ -12,7 +12,7 @@ describe('KeyGuide', () => {
 		await FPS();
 		await page.goto(`http://${serverAddr}/keyGuide`);
 		await page.waitForSelector('#keyGuide');
-		await page.waitForTimeout(2000);
+		await new Promise(r => setTimeout(r, 2000));
 
 		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -27,7 +27,7 @@ describe('KeyGuide', () => {
 		await page.waitForSelector('#keyGuide');
 		await page.focus('#keyGuide');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -49,12 +49,12 @@ describe('KeyGuide', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const keyGuidePage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const keyGuidePage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await keyGuidePage.tracing.start({path: filename, screenshots: false});
 			await keyGuidePage.goto(`http://${serverAddr}/keyGuide`);
 			await keyGuidePage.waitForSelector('#keyGuide');
-			await keyGuidePage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await keyGuidePage.tracing.stop();
 

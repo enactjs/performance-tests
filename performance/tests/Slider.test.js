@@ -1,7 +1,7 @@
 /* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 const TestResults = require('../TestResults');
 
 describe('Slider', () => {
@@ -60,7 +60,7 @@ describe('Slider', () => {
 		await page.waitForSelector('#slider');
 		await page.focus('#slider');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -82,12 +82,12 @@ describe('Slider', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const sliderPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const sliderPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await sliderPage.tracing.start({path: filename, screenshots: false});
 			await sliderPage.goto(`http://${serverAddr}/slider`);
 			await sliderPage.waitForSelector('#slider');
-			await sliderPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await sliderPage.tracing.stop();
 

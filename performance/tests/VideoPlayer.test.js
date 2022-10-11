@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('VideoPlayer', () => {
 	const component = 'VideoPlayer';
@@ -13,9 +13,9 @@ describe('VideoPlayer', () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/videoPlayer`);
 			await page.waitForSelector('#videoPlayer');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.click('[aria-label="Next"]'); // to jump forward in the video.
-			await page.waitForTimeout(1000);
+			await new Promise(r => setTimeout(r, 1000));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -29,11 +29,11 @@ describe('VideoPlayer', () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/videoPlayer`);
 			await page.waitForSelector('#videoPlayer');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.focus('[aria-label="Next"]');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -47,7 +47,7 @@ describe('VideoPlayer', () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/videoPlayer`);
 		await page.waitForSelector('#videoPlayer');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.focus('[aria-label="Next"]');
 		await page.keyboard.down('Enter');
 
@@ -71,12 +71,12 @@ describe('VideoPlayer', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const videoPlayerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const videoPlayerPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await videoPlayerPage.tracing.start({path: filename, screenshots: false});
 			await videoPlayerPage.goto(`http://${serverAddr}/videoPlayer`);
 			await videoPlayerPage.waitForSelector('#videoPlayer');
-			await videoPlayerPage.waitForTimeout(1000);
+			await new Promise(r => setTimeout(r, 1000));
 
 			await videoPlayerPage.tracing.stop();
 

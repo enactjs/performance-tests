@@ -1,6 +1,6 @@
 /* global page */
 
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const {ipAddress} = require('./performance/utils');
 
 global.stepNumber = 5;

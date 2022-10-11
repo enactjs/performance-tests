@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName, scrollAtPoint} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple, scrollAtPoint} = require('../utils');
 
 describe( 'Scroller', () => {
 	const component = 'Scroller';
@@ -15,7 +15,7 @@ describe( 'Scroller', () => {
 			await page.focus('[aria-label="scroll up or down with up down button"]');
 			await page.keyboard.down('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(2000);
+			await new Promise(r => setTimeout(r, 2000));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -31,13 +31,13 @@ describe( 'Scroller', () => {
 			const scroller = '#scroller';
 
 			await scrollAtPoint(page, scroller, 1000);
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await scrollAtPoint(page, scroller, 1000);
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await scrollAtPoint(page, scroller, 1000);
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await scrollAtPoint(page, scroller, 1000);
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -54,7 +54,7 @@ describe( 'Scroller', () => {
 		await page.focus('[aria-label="scroll up or down with up down button"]');
 		await page.keyboard.down('Enter');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(2000);
+		await new Promise(r => setTimeout(r, 2000));
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -76,12 +76,12 @@ describe( 'Scroller', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const scrollerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const scrollerPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await scrollerPage.tracing.start({path: filename, screenshots: false});
 			await scrollerPage.goto(`http://${serverAddr}/scroller`);
 			await scrollerPage.waitForSelector('#scroller');
-			await scrollerPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await scrollerPage.tracing.stop();
 
@@ -130,10 +130,10 @@ describe( 'Scroller', () => {
 
 		for (let i = 0; i < 300; i++) {
 			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(10);
+			await new Promise(r => setTimeout(r, 10));
 		}
 
-		await page.waitForTimeout(1000);
+		await new Promise(r => setTimeout(r, 1000));
 
 		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'Scroller Native Frames Per Second', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});

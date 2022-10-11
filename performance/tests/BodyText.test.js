@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, getFileName} = require('../utils');
+const {clsValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('BodyText', () => {
 	const component = 'BodyText';
@@ -14,7 +14,7 @@ describe('BodyText', () => {
 		await page.waitForSelector('#bodyText');
 		await page.focus('#bodyText');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 
 		let actualCLS = await clsValue();
 
@@ -32,12 +32,12 @@ describe('BodyText', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const bodyTextPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const bodyTextPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await bodyTextPage.tracing.start({path: filename, screenshots: false});
 			await bodyTextPage.goto(`http://${serverAddr}/bodyText`);
 			await bodyTextPage.waitForSelector('#bodyText');
-			await bodyTextPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await bodyTextPage.tracing.stop();
 

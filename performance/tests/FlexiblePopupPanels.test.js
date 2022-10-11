@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('FlexiblePopupPanels', () => {
 	const component = 'FlexiblePopupPanels';
@@ -12,11 +12,11 @@ describe('FlexiblePopupPanels', () => {
 		it('animates', async () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/flexiblePopupPanels`);
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.click('#button'); // to move mouse on the button.
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.click('[aria-label="Exit app"]'); // to close the popup.
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
@@ -33,15 +33,15 @@ describe('FlexiblePopupPanels', () => {
 			await page.waitForSelector('#button');
 
 			await page.focus('#button');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.focus('[aria-label="Exit app"]'); // to close the popup.
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
@@ -79,12 +79,12 @@ describe('FlexiblePopupPanels', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const flexiblePopupPanelsPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const flexiblePopupPanelsPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await flexiblePopupPanelsPage.tracing.start({path: filename, screenshots: false});
 			await flexiblePopupPanelsPage.goto(`http://${serverAddr}/flexiblePopupPanels?open=true`);
 			await flexiblePopupPanelsPage.waitForSelector('#flexiblePopupPanels');
-			await flexiblePopupPanelsPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await flexiblePopupPanelsPage.tracing.stop();
 

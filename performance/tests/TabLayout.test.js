@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('TabLayout', () => {
 	const component = 'TabLayout';
@@ -13,9 +13,9 @@ describe('TabLayout', () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/tabLayout`);
 			await page.waitForSelector('#tabLayout');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('ArrowRight');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -51,12 +51,12 @@ describe('TabLayout', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const tabLayoutPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const tabLayoutPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await tabLayoutPage.tracing.start({path: filename, screenshots: false});
 			await tabLayoutPage.goto(`http://${serverAddr}/tabLayout`);
 			await tabLayoutPage.waitForSelector('#tabLayout');
-			await tabLayoutPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await tabLayoutPage.tracing.stop();
 

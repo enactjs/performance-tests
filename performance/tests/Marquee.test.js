@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 const component = 'Marquee';
 const MarqueeText = '[class$="Marquee_marquee"]';
@@ -15,7 +15,7 @@ describe('Marquee', () => {
 		await page.goto(`http://${serverAddr}/marquee`);
 		await page.waitForSelector('#marquee');
 		await page.hover(MarqueeText);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 
 		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -29,7 +29,7 @@ describe('Marquee', () => {
 		await page.goto(`http://${serverAddr}/marquee`);
 		await page.waitForSelector('#marquee');
 		await page.hover(MarqueeText);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -51,12 +51,12 @@ describe('Marquee', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const marqueePage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const marqueePage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await marqueePage.tracing.start({path: filename, screenshots: false});
 			await marqueePage.goto(`http://${serverAddr}/marquee`);
 			await marqueePage.waitForSelector('#marquee');
-			await marqueePage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await marqueePage.tracing.stop();
 
@@ -106,10 +106,10 @@ describe('Marquee', () => {
 
 				await page.goto(`http://${serverAddr}/marqueeMultiple?count=${count}`);
 				await page.waitForSelector('#Container');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 
 				await page.hover('#Marquee_5');
-				await page.waitForTimeout(2000);
+				await new Promise(r => setTimeout(r, 2000));
 
 				const averageFPS = await getAverageFPS();
 				TestResults.addResult({component: component, type: 'Marquee Multiple Hover Frames Per Second', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -123,7 +123,7 @@ describe('Marquee', () => {
 
 				await page.goto(`http://${serverAddr}/marqueeMultiple?count=${count}&marqueeOn=render`);
 				await page.waitForSelector('#Container');
-				await page.waitForTimeout(2000);
+				await new Promise(r => setTimeout(r, 2000));
 
 				const averageFPS = await getAverageFPS();
 				TestResults.addResult({component: component, type: 'Marquee Multiple Render Frames Per Second', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});

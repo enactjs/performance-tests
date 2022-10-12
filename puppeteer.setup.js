@@ -1,4 +1,4 @@
-/* global page */
+/* global page, targetEnv */
 
 const puppeteer = require('puppeteer-core');
 const {ipAddress} = require('./performance/utils');

@@ -1,4 +1,4 @@
-/* global page, targetEnv */
+/* global page, testMultiple */
 
 const os = require('os');
 

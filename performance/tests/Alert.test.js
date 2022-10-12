@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxFID, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, maxCLS, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxFID, maxFID, stepNumber, maxDCL, maxFCP, maxLCP, maxCLS, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');

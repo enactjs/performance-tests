@@ -1,8 +1,8 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('TooltipDecorator', () => {
 	const component = 'TooltipDecorator';
@@ -14,7 +14,7 @@ describe('TooltipDecorator', () => {
 			await page.goto(`http://${serverAddr}/tooltipDecorator`);
 			await page.waitForSelector('#tooltipDecorator');
 			await page.focus('#tooltipDecorator');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -51,12 +51,12 @@ describe('TooltipDecorator', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const tooltipDecoratorPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const tooltipDecoratorPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await tooltipDecoratorPage.tracing.start({path: filename, screenshots: false});
 			await tooltipDecoratorPage.goto(`http://${serverAddr}/tooltipDecorator`);
 			await tooltipDecoratorPage.waitForSelector('#tooltipDecorator');
-			await tooltipDecoratorPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await tooltipDecoratorPage.tracing.stop();
 

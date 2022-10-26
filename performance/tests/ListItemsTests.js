@@ -1,9 +1,9 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 /* eslint-disable*/
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName, scrollAtPoint} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple, scrollAtPoint} = require('../utils');
 
 const listItemTests = (componentName, dataSize) => describe(componentName, () => {
 	jest.setTimeout(100000);
@@ -19,13 +19,13 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 			await page.waitForSelector(`#${componentName}`);
 			await page.focus('[aria-label="scroll up or down with up down button"]');
 			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(2000);
+			await new Promise(r => setTimeout(r, 2000));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -42,13 +42,13 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 			await page.goto(pageURL);
 			await page.waitForSelector(List);
 			await scrollAtPoint(page, List, 1000);
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await scrollAtPoint(page, List, 1000);
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await scrollAtPoint(page, List, 1000);
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await scrollAtPoint(page, List, 1000);
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Mousewheel', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -85,12 +85,12 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const ListPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const ListPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await ListPage.tracing.start({path: filename, screenshots: false});
 			await ListPage.goto(pageURL);
 			await ListPage.waitForSelector(`#${componentName}`);
-			await ListPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await ListPage.tracing.stop();
 

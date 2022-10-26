@@ -1,8 +1,8 @@
-/* global page, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, getFileName} = require('../utils');
+const {clsValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('Image', () => {
 	const component = 'Image';
@@ -14,7 +14,7 @@ describe('Image', () => {
 		await page.waitForSelector('#image');
 		await page.focus('#image');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 
 		let actualCLS = await clsValue();
 
@@ -32,12 +32,12 @@ describe('Image', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const imagePage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const imagePage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await imagePage.tracing.start({path: filename, screenshots: false});
 			await imagePage.goto(`http://${serverAddr}/image`);
 			await imagePage.waitForSelector('#image');
-			await imagePage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await imagePage.tracing.stop();
 

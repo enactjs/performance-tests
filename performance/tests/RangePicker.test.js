@@ -1,8 +1,8 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, getFileName} = require('../utils');
+const {clsValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('RangePicker', () => {
 	const component = 'RangePicker';
@@ -16,16 +16,16 @@ describe('RangePicker', () => {
 				await page.waitForSelector('#rangePickerDefault');
 				await page.click('[aria-label$="press ok button to increase the value"]'); // to move mouse on the rangePicker.
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 
 				const averageFPS = await getAverageFPS();
@@ -41,18 +41,18 @@ describe('RangePicker', () => {
 				await page.goto(`http://${serverAddr}/rangePicker`);
 				await page.waitForSelector('#rangePickerDefault');
 				await page.focus('[aria-label$="press ok button to increase the value"]');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 
 				const averageFPS = await getAverageFPS();
@@ -67,9 +67,9 @@ describe('RangePicker', () => {
 			await page.evaluateOnNewDocument(CLS);
 			await page.goto(`http://${serverAddr}/rangePicker`);
 			await page.waitForSelector('#rangePickerDefault');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.click('[aria-label$="press ok button to increase the value"]');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 
 			let actualFirstInput = await page.evaluate(() => {
 				return window.fid;
@@ -94,12 +94,12 @@ describe('RangePicker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const rangePickerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+				const rangePickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 				await rangePickerPage.tracing.start({path: filename, screenshots: false});
 				await rangePickerPage.goto(`http://${serverAddr}/rangePicker`);
 				await rangePickerPage.waitForSelector('#rangePickerDefault');
-				await rangePickerPage.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 
 				await rangePickerPage.tracing.stop();
 
@@ -148,16 +148,16 @@ describe('RangePicker', () => {
 				await page.waitForSelector('#rangePickerJoined');
 				await page.click('#rangePickerJoined'); // to move mouse on the rangePicker.
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 				await page.mouse.down();
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.mouse.up();
 
 				const averageFPS = await getAverageFPS();
@@ -171,18 +171,18 @@ describe('RangePicker', () => {
 				await page.goto(`http://${serverAddr}/rangePickerJoined`);
 				await page.waitForSelector('#rangePickerJoined');
 				await page.focus('#rangePickerJoined');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 				await page.keyboard.down('Enter');
-				await page.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 				await page.keyboard.up('Enter');
 
 				const averageFPS = await getAverageFPS();
@@ -195,9 +195,9 @@ describe('RangePicker', () => {
 			await page.evaluateOnNewDocument(CLS);
 			await page.goto(`http://${serverAddr}/rangePickerJoined`);
 			await page.waitForSelector('#rangePickerJoined');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.click('#rangePickerJoined');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 
 			let actualFirstInput = await page.evaluate(() => {
 				return window.fid;
@@ -222,12 +222,12 @@ describe('RangePicker', () => {
 			let avgFCP = 0;
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
-				const rangePickerJoinedPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+				const rangePickerJoinedPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 				await rangePickerJoinedPage.tracing.start({path: filename, screenshots: false});
 				await rangePickerJoinedPage.goto(`http://${serverAddr}/rangePickerJoined`);
 				await rangePickerJoinedPage.waitForSelector('#rangePickerJoined');
-				await rangePickerJoinedPage.waitForTimeout(200);
+				await new Promise(r => setTimeout(r, 200));
 
 				await rangePickerJoinedPage.tracing.stop();
 

@@ -1,8 +1,8 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('RadioItem', () => {
 	const component = 'RadioItem';
@@ -15,16 +15,16 @@ describe('RadioItem', () => {
 			await page.waitForSelector('#radioItem');
 			await page.click('#radioItem'); // to move mouse on the radioItem.
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
@@ -40,18 +40,18 @@ describe('RadioItem', () => {
 			await page.goto(`http://${serverAddr}/radioItem`);
 			await page.waitForSelector('#radioItem');
 			await page.focus('#radioItem');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
@@ -66,9 +66,9 @@ describe('RadioItem', () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/radioItem`);
 		await page.waitForSelector('#radioItem');
-		await page.waitForTimeout(100);
+		await new Promise(r => setTimeout(r, 100));
 		await page.click('#radioItem');
-		await page.waitForTimeout(100);
+		await new Promise(r => setTimeout(r, 100));
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -90,12 +90,12 @@ describe('RadioItem', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const radioItemPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const radioItemPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await radioItemPage.tracing.start({path: filename, screenshots: false});
 			await radioItemPage.goto(`http://${serverAddr}/radioItem`);
 			await radioItemPage.waitForSelector('#radioItem');
-			await radioItemPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await radioItemPage.tracing.stop();
 

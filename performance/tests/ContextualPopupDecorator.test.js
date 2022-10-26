@@ -1,8 +1,8 @@
-/* global page, minFPS, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, getFileName} = require('../utils');
+const {clsValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('ContextualPopupDecorator', () => {
 	const component = 'ContextualPopupDecorator';
@@ -14,16 +14,16 @@ describe('ContextualPopupDecorator', () => {
 		await page.waitForSelector('#contextualPopupDecorator');
 		await page.click('#contextualPopupDecorator'); // to move mouse on the button.
 		await page.mouse.down();
-		await page.waitForTimeout(100);
+		await new Promise(r => setTimeout(r, 100));
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitForTimeout(100);
+		await new Promise(r => setTimeout(r, 100));
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitForTimeout(100);
+		await new Promise(r => setTimeout(r, 100));
 		await page.mouse.up();
 		await page.mouse.down();
-		await page.waitForTimeout(100);
+		await new Promise(r => setTimeout(r, 100));
 		await page.mouse.up();
 
 		const averageFPS = await getAverageFPS();
@@ -35,7 +35,7 @@ describe('ContextualPopupDecorator', () => {
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/contextualPopupDecorator`);
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 		await page.waitForSelector('#contextualPopupDecorator');
 		await page.click('#contextualPopupDecorator');
 
@@ -56,12 +56,12 @@ describe('ContextualPopupDecorator', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const contextualPopupDecoratorPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const contextualPopupDecoratorPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await contextualPopupDecoratorPage.tracing.start({path: filename, screenshots: false});
 			await contextualPopupDecoratorPage.goto(`http://${serverAddr}/contextualPopupDecorator`);
 			await contextualPopupDecoratorPage.waitForSelector('#contextualPopupDecorator');
-			await contextualPopupDecoratorPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await contextualPopupDecoratorPage.tracing.stop();
 

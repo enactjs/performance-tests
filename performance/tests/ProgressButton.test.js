@@ -1,8 +1,8 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('ProgressButton', () => {
 	const component = 'ProgressButton';
@@ -15,16 +15,16 @@ describe('ProgressButton', () => {
 			await page.waitForSelector('#progressButton');
 			await page.click('#progressButton'); // to move mouse on ProgressButton
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
@@ -40,18 +40,18 @@ describe('ProgressButton', () => {
 			await page.goto(`http://${serverAddr}/progressButton`);
 			await page.waitForSelector('#progressButton');
 			await page.focus('#progressButton');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
@@ -89,12 +89,12 @@ describe('ProgressButton', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const progressButtonPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const progressButtonPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await progressButtonPage.tracing.start({path: filename, screenshots: false});
 			await progressButtonPage.goto(`http://${serverAddr}/progressButton`);
 			await progressButtonPage.waitForSelector('#progressButton');
-			await progressButtonPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await progressButtonPage.tracing.stop();
 

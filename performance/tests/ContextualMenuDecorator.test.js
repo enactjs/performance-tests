@@ -1,8 +1,8 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('ContextualMenuDecorator', () => {
 	const component = 'ContextualMenuDecorator';
@@ -12,22 +12,22 @@ describe('ContextualMenuDecorator', () => {
 		it('animates', async () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/contextualMenuDecorator`);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click('[data-index="0"]'); // to move mouse on the first element of the menu.
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.click('[data-index="1"]'); // to move mouse on the first element of the menu.
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.click('[data-index="2"]'); // to move mouse on the first element of the menu.
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.click('[data-index="0"]'); // to move mouse on the first element of the menu.
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
@@ -41,26 +41,26 @@ describe('ContextualMenuDecorator', () => {
 		it('animates', async () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/contextualMenuDecorator`);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.focus('[data-index="0"]');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.focus('[data-index="1"]');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.focus('[data-index="2"]');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.focus('[data-index="0"]');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
@@ -98,12 +98,12 @@ describe('ContextualMenuDecorator', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const contextualMenuDecoratorPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const contextualMenuDecoratorPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await contextualMenuDecoratorPage.tracing.start({path: filename, screenshots: false});
 			await contextualMenuDecoratorPage.goto(`http://${serverAddr}/contextualMenuDecorator`);
 			await contextualMenuDecoratorPage.waitForSelector('[data-index="0"]');
-			await contextualMenuDecoratorPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await contextualMenuDecoratorPage.tracing.stop();
 

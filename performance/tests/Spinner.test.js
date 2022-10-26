@@ -1,8 +1,8 @@
-/* global page, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('Spinner', () => {
 	const component = 'Steps';
@@ -15,7 +15,7 @@ describe('Spinner', () => {
 		await page.waitForSelector('#spinner');
 		await page.focus('#spinner');
 		await page.keyboard.down('Enter');
-		await page.waitForTimeout(200);
+		await new Promise(r => setTimeout(r, 200));
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -37,12 +37,12 @@ describe('Spinner', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const spinnerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const spinnerPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await spinnerPage.tracing.start({path: filename, screenshots: false});
 			await spinnerPage.goto(`http://${serverAddr}/spinner`);
 			await spinnerPage.waitForSelector('#spinner');
-			await spinnerPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await spinnerPage.tracing.stop();
 

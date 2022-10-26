@@ -1,6 +1,6 @@
-/* global page */
+/* global page, targetEnv */
 
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const {ipAddress} = require('./performance/utils');
 
 global.stepNumber = 5;
@@ -21,7 +21,7 @@ global.serverAddr = `${ipAddress()}:8080`;
 
 if (targetEnv === 'PC') {
 	global.beforeAll(async () => {
-		browser = await puppeteer.launch();
+		browser = await puppeteer.launch({args: ['--window-size=1920,1080']});
 		global.testMultiple = browser;
 	});
 

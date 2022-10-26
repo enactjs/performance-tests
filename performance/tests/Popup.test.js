@@ -1,8 +1,8 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {FPS, getAverageFPS, PageLoadingMetrics, FID, CLS} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('Popup', () => {
 	const component = 'Popup';
@@ -15,19 +15,19 @@ describe('Popup', () => {
 		await page.goto(`http://${serverAddr}/popup`);
 		await page.waitForSelector('#popup');
 		await page.click(close);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 		await page.click(open);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 		await page.click(close);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 		await page.click(open);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 		await page.click(close);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 		await page.click(open);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 		await page.click(close);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 
 		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -41,19 +41,19 @@ describe('Popup', () => {
 		await page.goto(`http://${serverAddr}/popup`);
 		await page.waitForSelector('#popup');
 		await page.click(close);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 		await page.click(open);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 		await page.click(close);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 		await page.click(open);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 		await page.click(close);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 		await page.click(open);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 		await page.click(close);
-		await page.waitForTimeout(500);
+		await new Promise(r => setTimeout(r, 500));
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -75,12 +75,12 @@ describe('Popup', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const popupPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const popupPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await popupPage.tracing.start({path: filename, screenshots: false});
 			await popupPage.goto(`http://${serverAddr}/popup`);
 			await popupPage.waitForSelector('#popup');
-			await popupPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await popupPage.tracing.stop();
 

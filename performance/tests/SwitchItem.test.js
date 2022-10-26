@@ -1,8 +1,8 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('SwitchItem', () => {
 	const component = 'SwitchItem';
@@ -13,19 +13,19 @@ describe('SwitchItem', () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/switchItem`);
 			await page.waitForSelector('#switchItem');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.click('#switchItem');
 			await page.mouse.down();
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
@@ -40,20 +40,20 @@ describe('SwitchItem', () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/switchItem`);
 			await page.waitForSelector('#switchItem');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.focus('#switchItem');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
@@ -68,9 +68,9 @@ describe('SwitchItem', () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/switchItem`);
 		await page.waitForSelector('#switchItem');
-		await page.waitForTimeout(100);
+		await new Promise(r => setTimeout(r, 100));
 		await page.click('#switchItem');
-		await page.waitForTimeout(100);
+		await new Promise(r => setTimeout(r, 100));
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -92,12 +92,12 @@ describe('SwitchItem', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const switchItemPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const switchItemPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await switchItemPage.tracing.start({path: filename, screenshots: false});
 			await switchItemPage.goto(`http://${serverAddr}/switchItem`);
 			await switchItemPage.waitForSelector('#switchItem');
-			await switchItemPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await switchItemPage.tracing.stop();
 

@@ -1,8 +1,8 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {FPS, getAverageFPS, PageLoadingMetrics, FID, CLS} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('Panels', () => {
 	const component = 'Panels';
@@ -21,12 +21,12 @@ describe('Panels', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const panelsPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const panelsPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await panelsPage.tracing.start({path: filename, screenshots: false});
 			await panelsPage.goto(`http://${serverAddr}/panels`);
 			await panelsPage.waitForSelector(panel1);
-			await panelsPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await panelsPage.tracing.stop();
 
@@ -72,25 +72,25 @@ describe('Panels', () => {
 			await page.goto(`http://${serverAddr}/panels`);
 			await page.waitForSelector(nextPanelButton);
 			await page.click(nextPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click(previousPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click(nextPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click(previousPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click(nextPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click(previousPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click(nextPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click(previousPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click(nextPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click(previousPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({
@@ -108,17 +108,17 @@ describe('Panels', () => {
 			await page.goto(`http://${serverAddr}/panels`);
 			await page.waitForSelector(nextPanelButton);
 			await page.click(nextPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click(previousPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click(nextPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click(previousPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click(nextPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click(previousPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 
 			let actualFirstInput = await firstInputValue();
 			let actualCLS = await clsValue();
@@ -137,19 +137,19 @@ describe('Panels', () => {
 			await page.goto(`http://${serverAddr}/panels`);
 			await page.waitForSelector(nextPanelButton);
 			await page.click(nextPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('ArrowRight');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('ArrowRight');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('ArrowLeft');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('ArrowLeft');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('ArrowRight');
 
 			const averageFPS = await getAverageFPS();
@@ -164,19 +164,19 @@ describe('Panels', () => {
 			await page.goto(`http://${serverAddr}/panels`);
 			await page.waitForSelector(nextPanelButton);
 			await page.click(nextPanelButton);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('ArrowRight');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('ArrowRight');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('ArrowLeft');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('ArrowLeft');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('ArrowDown');
-			await page.waitForTimeout(100);
+			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('ArrowRight');
 
 			let actualFirstInput = await firstInputValue();

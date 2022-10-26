@@ -1,8 +1,8 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('DatePicker', () => {
 	const component = 'DatePicker';
@@ -12,22 +12,22 @@ describe('DatePicker', () => {
 		it('animates', async () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/datePicker`);
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 			await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.click('[data-webos-voice-group-label="day"]'); // to move mouse on the increment button.
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.click('[data-webos-voice-group-label="year"]'); // to move mouse on the increment button.
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
@@ -43,24 +43,24 @@ describe('DatePicker', () => {
 			await page.goto(`http://${serverAddr}/datePicker`);
 			await page.waitForSelector('[data-webos-voice-group-label="month"]');
 			await page.focus('[data-webos-voice-group-label="month"]');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.focus('[data-webos-voice-group-label="day"]');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.focus('[data-webos-voice-group-label="year"]');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.focus('[data-webos-voice-group-label="month"]');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
@@ -98,12 +98,12 @@ describe('DatePicker', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const datePickerPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const datePickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await datePickerPage.tracing.start({path: filename, screenshots: false});
 			await datePickerPage.goto(`http://${serverAddr}/datePicker`);
 			await datePickerPage.waitForSelector('[data-webos-voice-group-label="month"]');
-			await datePickerPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await datePickerPage.tracing.stop();
 

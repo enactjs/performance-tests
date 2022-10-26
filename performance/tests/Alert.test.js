@@ -1,8 +1,8 @@
-/* global page, minFPS, maxFID, maxFID, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, maxCLS, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxFID, maxFID, stepNumber, maxDCL, maxFCP, maxLCP, maxCLS, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('Alert', () => {
 	const component = 'Alert';
@@ -13,20 +13,20 @@ describe('Alert', () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/alert`);
 
-			await page.waitForTimeout(500);
+			await new Promise(r => setTimeout(r, 500));
 
 			await page.click('#button'); // to move mouse on the button.
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
@@ -42,18 +42,18 @@ describe('Alert', () => {
 			await page.goto(`http://${serverAddr}/alert`);
 			await page.waitForSelector('#button');
 			await page.focus('#button');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
@@ -91,12 +91,12 @@ describe('Alert', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const alertPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const alertPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await alertPage.tracing.start({path: filename, screenshots: false});
 			await alertPage.goto(`http://${serverAddr}/alert`);
 			await alertPage.waitForSelector('#alert');
-			await alertPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await alertPage.tracing.stop();
 

@@ -1,8 +1,8 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, testMultiple, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName} = require('../utils');
+const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('FormCheckboxItem', () => {
 	const component = 'FormCheckboxItem';
@@ -15,16 +15,16 @@ describe('FormCheckboxItem', () => {
 			await page.waitForSelector('#formCheckboxItem');
 			await page.click('#formCheckboxItem'); // to move mouse on formCheckboxItem
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
@@ -40,18 +40,18 @@ describe('FormCheckboxItem', () => {
 			await page.goto(`http://${serverAddr}/formCheckboxItem`);
 			await page.waitForSelector('#formCheckboxItem');
 			await page.focus('#formCheckboxItem');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await page.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
@@ -89,12 +89,12 @@ describe('FormCheckboxItem', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const formCheckboxItemPage = targetEnv === 'TV' ? page : await testMultiple.newPage();
+			const formCheckboxItemPage = targetEnv === 'TV' ? page : await newPageMultiple();
 
 			await formCheckboxItemPage.tracing.start({path: filename, screenshots: false});
 			await formCheckboxItemPage.goto(`http://${serverAddr}/formCheckboxItem`);
 			await formCheckboxItemPage.waitForSelector('#formCheckboxItem');
-			await formCheckboxItemPage.waitForTimeout(200);
+			await new Promise(r => setTimeout(r, 200));
 
 			await formCheckboxItemPage.tracing.stop();
 

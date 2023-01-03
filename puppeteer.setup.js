@@ -6,11 +6,11 @@ const {ipAddress} = require('./performance/utils');
 global.stepNumber = 5;
 global.passRatio = 0.7;
 global.maxCLS = 0.1;
-global.maxDCL = 2000;
-global.maxFCP = 1800;
+global.maxDCL = 1000;
+global.maxFCP = 900;
 global.maxFID = 100;
 global.minFPS = 20;
-global.maxLCP = 2500;
+global.maxLCP = 1250;
 
 let browser;
 

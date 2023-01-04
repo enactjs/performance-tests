@@ -3,7 +3,7 @@
 const puppeteer = require('puppeteer-core');
 const {ipAddress} = require('./performance/utils');
 
-global.CPUThrottling = 4;
+global.CPUThrottling = 3;
 global.maxCLS = 0.1;
 global.maxDCL = 2000;
 global.maxFCP = 1800;

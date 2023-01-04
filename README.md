@@ -172,6 +172,7 @@ describe('Dropdown', () => {
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const dropdownPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await dropdownPage.emulateCPUThrottling(CPUThrottling);
 
 			await dropdownPage.tracing.start({path: filename, screenshots: false});
 			await dropdownPage.goto(`http://${serverAddr}/dropdown`);

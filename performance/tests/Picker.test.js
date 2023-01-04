@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -95,6 +95,7 @@ describe('Picker', () => {
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
 				const pickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
+				await pickerPage.emulateCPUThrottling(CPUThrottling);
 
 				await pickerPage.tracing.start({path: filename, screenshots: false});
 				await pickerPage.goto(`http://${serverAddr}/picker`);
@@ -225,6 +226,7 @@ describe('Picker', () => {
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
 				const pickerJoinedPage = targetEnv === 'TV' ? page : await newPageMultiple();
+				await pickerJoinedPage.emulateCPUThrottling(CPUThrottling);
 
 				await pickerJoinedPage.tracing.start({path: filename, screenshots: false});
 				await pickerJoinedPage.goto(`http://${serverAddr}/pickerJoined`);

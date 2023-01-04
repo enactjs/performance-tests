@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 /* eslint-disable*/
 
 const TestResults = require('../TestResults');
@@ -86,6 +86,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const ListPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await ListPage.emulateCPUThrottling(CPUThrottling);
 
 			await ListPage.tracing.start({path: filename, screenshots: false});
 			await ListPage.goto(pageURL);

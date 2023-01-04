@@ -3,14 +3,15 @@
 const puppeteer = require('puppeteer-core');
 const {ipAddress} = require('./performance/utils');
 
-global.stepNumber = 5;
-global.passRatio = 0.7;
+global.CPUThrottling = 4;
 global.maxCLS = 0.1;
 global.maxDCL = 2000;
 global.maxFCP = 1800;
 global.maxFID = 100;
-global.minFPS = 20;
 global.maxLCP = 2500;
+global.minFPS = 20;
+global.passRatio = 0.7;
+global.stepNumber = 5;
 
 let browser;
 

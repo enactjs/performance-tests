@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {FPS, getAverageFPS, PageLoadingMetrics, FID, CLS} = require('../TraceModel');
@@ -76,6 +76,7 @@ describe('Popup', () => {
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const popupPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await popupPage.emulateCPUThrottling(CPUThrottling);
 
 			await popupPage.tracing.start({path: filename, screenshots: false});
 			await popupPage.goto(`http://${serverAddr}/popup`);

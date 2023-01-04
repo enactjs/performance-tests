@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -95,6 +95,7 @@ describe('RangePicker', () => {
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
 				const rangePickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
+				await rangePickerPage.emulateCPUThrottling(CPUThrottling);
 
 				await rangePickerPage.tracing.start({path: filename, screenshots: false});
 				await rangePickerPage.goto(`http://${serverAddr}/rangePicker`);
@@ -223,6 +224,7 @@ describe('RangePicker', () => {
 			let avgLCP = 0;
 			for (let step = 0; step < stepNumber; step++) {
 				const rangePickerJoinedPage = targetEnv === 'TV' ? page : await newPageMultiple();
+				await rangePickerJoinedPage.emulateCPUThrottling(CPUThrottling);
 
 				await rangePickerJoinedPage.tracing.start({path: filename, screenshots: false});
 				await rangePickerJoinedPage.goto(`http://${serverAddr}/rangePickerJoined`);

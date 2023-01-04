@@ -1,4 +1,4 @@
-/* global page, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, PageLoadingMetrics} = require('../TraceModel');
@@ -38,6 +38,7 @@ describe('Spinner', () => {
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const spinnerPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await spinnerPage.emulateCPUThrottling(CPUThrottling);
 
 			await spinnerPage.tracing.start({path: filename, screenshots: false});
 			await spinnerPage.goto(`http://${serverAddr}/spinner`);

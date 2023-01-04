@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -99,6 +99,7 @@ describe('DatePicker', () => {
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const datePickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await datePickerPage.emulateCPUThrottling(CPUThrottling);
 
 			await datePickerPage.tracing.start({path: filename, screenshots: false});
 			await datePickerPage.goto(`http://${serverAddr}/datePicker`);

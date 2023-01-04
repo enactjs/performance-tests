@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -91,6 +91,8 @@ describe('DayPicker', () => {
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const dayPickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await dayPickerPage.emulateCPUThrottling(CPUThrottling);
+
 			await dayPickerPage.tracing.start({path: filename, screenshots: false});
 			await dayPickerPage.goto(`http://${serverAddr}/dayPicker`);
 			await dayPickerPage.waitForSelector('#dayPicker');

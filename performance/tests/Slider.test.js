@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
@@ -83,6 +83,7 @@ describe('Slider', () => {
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const sliderPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await sliderPage.emulateCPUThrottling(CPUThrottling);
 
 			await sliderPage.tracing.start({path: filename, screenshots: false});
 			await sliderPage.goto(`http://${serverAddr}/slider`);

@@ -34,11 +34,15 @@ TV_IP=10.0.1.1 npm run test-tv
 You can simulate a low-end device with a CPU throttling option reducing the results when measuring the score for the **DCL**, **FCP** and **LCP**. Available commands are:
 
 ### Testing on PC
+Example:
+If you want to run tests on the PC with a CPU throttling of 3 you can run this command:
 ```
 npm run test -- --throttling=3
 ```
 
 ### Testing on TV board
+Example: 
+If you want to run tests on the TV with a CPU throttling of 2 you can run this command:
 ```
 npm run test-tv -- --throttling=2
 ```

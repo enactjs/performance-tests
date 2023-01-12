@@ -29,16 +29,18 @@ npm run serve
 TV_IP=10.0.1.1 npm run test-tv
 ```
 
-## Adding Throttling
+## CPU Throttling
 
-If the test environment is too good, and the metrics are too big to catch dips in performance after a PR you can test it with `CPU throttling` with the commands:
+You can simulate a low-end device with a CPU throttling option reducing the results when measuring the score for the **DCL**, **FCP** and **LCP**. Available commands are:
 
+### Testing on PC
 ```
-npm run test -- --throttling=4
+npm run test -- --throttling=3
 ```
 
+### Testing on TV board
 ```
-npm run test-tv -- --throttling=3
+npm run test-tv -- --throttling=2
 ```
 
 ## Adding Tests

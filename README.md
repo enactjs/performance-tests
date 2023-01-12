@@ -31,24 +31,14 @@ TV_IP=10.0.1.1 npm run test-tv
 
 ## Adding Throttling
 
-If the test environment is too good, and the metrics are too big to catch dips in performance after a PR you can test it with `CPU throttling` of 2 with the commands:
+If the test environment is too good, and the metrics are too big to catch dips in performance after a PR you can test it with `CPU throttling` with the commands:
 
 ```
-npm run test-throttling
-```
-
-```
-npm run test-tv-throttling
-```
-
-or for a custom value use the commands:
-
-```
-npm run test --throttling=4
+npm run test -- --throttling=4
 ```
 
 ```
-npm run test-tv --throttling=3
+npm run test-tv -- --throttling=3
 ```
 
 ## Adding Tests

@@ -14,11 +14,10 @@ global.stepNumber = 5;
 
 let browser;
 
-const customTargetCPUThrottling = process.env.npm_config_throttling || 1;
 const targetCPUThrottling = process.argv.filter((x) => x.startsWith('--throttling='))[0];
 const targetEnvArg = process.argv.filter((x) => x.startsWith('--target='))[0];
 
-global.CPUThrottling = targetCPUThrottling ? parseInt(targetCPUThrottling.split('=')[1]) : parseInt(customTargetCPUThrottling);
+global.CPUThrottling = targetCPUThrottling ? parseInt(targetCPUThrottling.split('=')[1]) : 1;
 global.targetEnv = targetEnvArg ? targetEnvArg.split('=')[1] : 'PC';
 
 global.serverAddr = `${ipAddress()}:8080`;

@@ -31,7 +31,11 @@ TV_IP=10.0.1.1 npm run test-tv
 
 ## CPU Throttling
 
-You can simulate a low-end device with a CPU throttling option reducing the results when measuring the score for the **DCL**, **FCP** and **LCP**. Available commands are:
+You can simulate a low-end device with a CPU throttling option.
+
+See https://pptr.dev/api/puppeteer.page.emulatecputhrottling for the available option value.
+
+Available commands are:
 
 ### Testing on PC
 Example:

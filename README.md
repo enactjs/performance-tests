@@ -31,22 +31,22 @@ TV_IP=10.0.1.1 npm run test-tv
 
 ## CPU Throttling
 
-You can simulate a low-end device with a CPU throttling option.
+You can simulate a low-end device with a CPU throttling option. 1 is no throttle, 2 is 2x slowdown.
 
-See https://pptr.dev/api/puppeteer.page.emulatecputhrottling for the available option value.
+See the [Puppeteer API docs](https://pptr.dev/api/puppeteer.page.emulatecputhrottling) for the detailed information.
 
 Available commands are:
 
 ### Testing on PC
 Example:
-If you want to run tests on the PC with a CPU throttling of 3 you can run this command:
+If you want to run tests on the PC with CPU throttling with 3x slowdown, you can run this command:
 ```
 npm run test -- --throttling=3
 ```
 
 ### Testing on TV board
 Example: 
-If you want to run tests on the TV with a CPU throttling of 2 you can run this command:
+If you want to run tests on the TV with a CPU throttling with 2x slowdown, you can run this command:
 ```
 npm run test-tv -- --throttling=2
 ```

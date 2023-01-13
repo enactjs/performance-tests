@@ -29,6 +29,28 @@ npm run serve
 TV_IP=10.0.1.1 npm run test-tv
 ```
 
+## CPU Throttling
+
+You can simulate a low-end device with a CPU throttling option.
+
+See https://pptr.dev/api/puppeteer.page.emulatecputhrottling for the available option value.
+
+Available commands are:
+
+### Testing on PC
+Example:
+If you want to run tests on the PC with a CPU throttling of 3 you can run this command:
+```
+npm run test -- --throttling=3
+```
+
+### Testing on TV board
+Example: 
+If you want to run tests on the TV with a CPU throttling of 2 you can run this command:
+```
+npm run test-tv -- --throttling=2
+```
+
 ## Adding Tests
 
 This project works a bit differently than a regular test suite for now. We have Jest installed more as a test runner, but we don't really use assertions for now. We use it more to gather and report numbers.
@@ -172,6 +194,7 @@ describe('Dropdown', () => {
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const dropdownPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await dropdownPage.emulateCPUThrottling(CPUThrottling);
 
 			await dropdownPage.tracing.start({path: filename, screenshots: false});
 			await dropdownPage.goto(`http://${serverAddr}/dropdown`);

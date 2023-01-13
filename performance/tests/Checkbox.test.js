@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -90,6 +90,7 @@ describe('Checkbox', () => {
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const checkboxPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await checkboxPage.emulateCPUThrottling(CPUThrottling);
 
 			await checkboxPage.tracing.start({path: filename, screenshots: false});
 			await checkboxPage.goto(`http://${serverAddr}/checkbox`);

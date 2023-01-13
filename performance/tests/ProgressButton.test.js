@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -90,6 +90,7 @@ describe('ProgressButton', () => {
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const progressButtonPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await progressButtonPage.emulateCPUThrottling(CPUThrottling);
 
 			await progressButtonPage.tracing.start({path: filename, screenshots: false});
 			await progressButtonPage.goto(`http://${serverAddr}/progressButton`);

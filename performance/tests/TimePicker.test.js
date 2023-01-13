@@ -1,4 +1,4 @@
-/* global page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -70,6 +70,7 @@ describe('TimePicker', () => {
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const timePickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await timePickerPage.emulateCPUThrottling(CPUThrottling);
 
 			await timePickerPage.tracing.start({path: filename, screenshots: false});
 			await timePickerPage.goto(`http://${serverAddr}/timePicker`);

@@ -1,4 +1,4 @@
-/* global page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../TestResults');
 const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
@@ -57,6 +57,7 @@ describe('ContextualPopupDecorator', () => {
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const contextualPopupDecoratorPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await contextualPopupDecoratorPage.emulateCPUThrottling(CPUThrottling);
 
 			await contextualPopupDecoratorPage.tracing.start({path: filename, screenshots: false});
 			await contextualPopupDecoratorPage.goto(`http://${serverAddr}/contextualPopupDecorator`);

@@ -3,18 +3,21 @@
 const puppeteer = require('puppeteer-core');
 const {ipAddress} = require('./performance/utils');
 
-global.stepNumber = 5;
-global.passRatio = 0.7;
 global.maxCLS = 0.1;
 global.maxDCL = 2000;
 global.maxFCP = 1800;
 global.maxFID = 100;
-global.minFPS = 20;
 global.maxLCP = 2500;
+global.minFPS = 20;
+global.passRatio = 0.7;
+global.stepNumber = 5;
 
 let browser;
 
+const targetCPUThrottling = process.argv.filter((x) => x.startsWith('--throttling='))[0];
 const targetEnvArg = process.argv.filter((x) => x.startsWith('--target='))[0];
+
+global.CPUThrottling = targetCPUThrottling ? parseInt(targetCPUThrottling.split('=')[1]) : 1;
 global.targetEnv = targetEnvArg ? targetEnvArg.split('=')[1] : 'PC';
 
 global.serverAddr = `${ipAddress()}:8080`;

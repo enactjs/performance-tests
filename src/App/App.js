@@ -52,7 +52,7 @@ import WizardPanels from '../views/WizardPanels';
 
 import css from './App.less';
 
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 const App = kind({
 	name: 'App',
@@ -65,56 +65,54 @@ const App = kind({
 	render: (props) => (
 		<Router>
 			<div {...props}>
-				<Routes>
-					<Route path="/alert" element={<Alert />} />
-					<Route path="/button" element={<Button />} />
-					<Route path="/bodyText" element={<BodyText />} />
-					<Route path="/checkbox" element={<Checkbox />} />
-					<Route path="/checkboxItem" element={<CheckboxItem />} />
-					<Route path="/contextualMenuDecorator" element={<ContextualMenuDecorator />} />
-					<Route path="/contextualPopupDecorator" element={<ContextualPopupDecorator />} />
-					<Route path="/datePicker" element={<DatePicker />} />
-					<Route path="/dayPicker" element={<DayPicker />} />
-					<Route path="/dropdown" element={<Dropdown />} />
-					<Route path="/fixedPopupPanels" element={<FixedPopupPanels />} />
-					<Route path="/flexiblePopupPanels" element={<FlexiblePopupPanels />} />
-					<Route path="/formCheckboxItem" element={<FormCheckboxItem />} />
-					<Route path="/heading" element={<Heading />} />
-					<Route path="/icon" element={<Icon />} />
-					<Route path="/image" element={<Image />} />
-					<Route path="/imageItem" element={<ImageItem />} />
-					<Route path="/input" element={<Input />} />
-					<Route path="/item" element={<Item />} />
-					<Route path="/items" element={<Items />} />
-					<Route path="/keyGuide" element={<KeyGuide />} />
-					<Route path="/marquee" element={<Marquee />} />
-					<Route path="/marqueeMultiple" element={<MarqueeMultiple />} />
-					<Route path="/mediaOverlay" element={<MediaOverlay />} />
-					<Route path="/overallView" element={<OverallView />} />
-					<Route path="/panels" element={<Panels />} />
-					<Route path="/picker" element={<Picker />} />
-					<Route path="/pickerJoined" element={<PickerJoined />} />
-					<Route path="/popup" element={<Popup />} />
-					<Route path="/popupTabLayout" element={<PopupTabLayout />} />
-					<Route path="/progressBar" element={<ProgressBar />} />
-					<Route path="/progressButton" element={<ProgressButton />} />
-					<Route path="/radioItem" element={<RadioItem />} />
-					<Route path="/rangePicker" element={<RangePicker />} />
-					<Route path="/rangePickerJoined" element={<RangePickerJoined />} />
-					<Route path="/scroller" element={<ScrollerPanel />} />
-					<Route path="/scrollerMultipleChildren" element={<ScrollerMultipleChildren />} />
-					<Route path="/slider" element={<Slider />} />
-					<Route path="/spinner" element={<Spinner />} />
-					<Route path="/steps" element={<Steps />} />
-					<Route path="/switch" element={<Switch />} />
-					<Route path="/switchItem" element={<SwitchItem />} />
-					<Route path="/tabLayout" element={<TabLayout />} />
-					<Route path="/timePicker" element={<TimePicker />} />
-					<Route path="/tooltipDecorator" element={<TooltipDecorator />} />
-					<Route path="/videoPlayer" element={<VideoPlayer />} />
-					<Route path="/virtualList" element={<VirtualList />} />
-					<Route path="/wizardPanels" element={<WizardPanels />} />
-				</Routes>
+				<Route path="/alert" component={Alert} />
+				<Route path="/button" component={Button} />
+				<Route path="/bodyText" component={BodyText} />
+				<Route path="/checkbox" component={Checkbox} />
+				<Route path="/checkboxItem" component={CheckboxItem} />
+				<Route path="/contextualMenuDecorator" component={ContextualMenuDecorator} />
+				<Route path="/contextualPopupDecorator" component={ContextualPopupDecorator} />
+				<Route path="/datePicker" component={DatePicker} />
+				<Route path="/dayPicker" component={DayPicker} />
+				<Route path="/dropdown" component={Dropdown} />
+				<Route path="/fixedPopupPanels" component={FixedPopupPanels} />
+				<Route path="/flexiblePopupPanels" component={FlexiblePopupPanels} />
+				<Route path="/formCheckboxItem" component={FormCheckboxItem} />
+				<Route path="/heading" component={Heading} />
+				<Route path="/icon" component={Icon} />
+				<Route path="/image" component={Image} />
+				<Route path="/imageItem" component={ImageItem} />
+				<Route path="/input" component={Input} />
+				<Route path="/item" component={Item} />
+				<Route path="/items" component={Items} />
+				<Route path="/keyGuide" component={KeyGuide} />
+				<Route path="/marquee" component={Marquee} />
+				<Route path="/marqueeMultiple" component={MarqueeMultiple} />
+				<Route path="/mediaOverlay" component={MediaOverlay} />
+				<Route path="/overallView" component={OverallView} />
+				<Route path="/panels" component={Panels} />
+				<Route path="/picker" component={Picker} />
+				<Route path="/pickerJoined" component={PickerJoined} />
+				<Route path="/popup" component={Popup} />
+				<Route path="/popupTabLayout" component={PopupTabLayout} />
+				<Route path="/progressBar" component={ProgressBar} />
+				<Route path="/progressButton" component={ProgressButton} />
+				<Route path="/radioItem" component={RadioItem} />
+				<Route path="/rangePicker" component={RangePicker} />
+				<Route path="/rangePickerJoined" component={RangePickerJoined} />
+				<Route path="/scroller" component={ScrollerPanel} />
+				<Route path="/scrollerMultipleChildren" component={ScrollerMultipleChildren} />
+				<Route path="/slider" component={Slider} />
+				<Route path="/spinner" component={Spinner} />
+				<Route path="/steps" component={Steps} />
+				<Route path="/switch" component={Switch} />
+				<Route path="/switchItem" component={SwitchItem} />
+				<Route path="/tabLayout" component={TabLayout} />
+				<Route path="/timePicker" component={TimePicker} />
+				<Route path="/tooltipDecorator" component={TooltipDecorator} />
+				<Route path="/videoPlayer" component={VideoPlayer} />
+				<Route path="/virtualList" component={VirtualList} />
+				<Route path="/wizardPanels" component={WizardPanels} />
 			</div>
 		</Router>
 	)

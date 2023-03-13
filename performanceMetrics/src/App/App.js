@@ -6,7 +6,6 @@ import Spinner from '@enact/sandstone/Spinner';
 import TabLayout, {Tab} from '@enact/sandstone/TabLayout';
 import ThemeDecorator from '@enact/sandstone/ThemeDecorator';
 import Layout, {Cell} from '@enact/ui/Layout';
-import axios from 'axios';
 import classnames from 'classnames';
 import {useCallback, useEffect, useRef, useState} from 'react';
 
@@ -100,17 +99,19 @@ const App = (props) => {
 
 	useEffect (() => {
 		let developTestDatesStringArray, releaseVersionsStringArray = [];
-		axios.get('./releaseVersions.txt')
+		fetch('./releaseVersions.txt')
+			.then(result => result.text())
 			.then(result => {
-				releaseVersionsStringArray = result.data.split('\n');
+				releaseVersionsStringArray = result.split('\n');
 				releaseVersionsStringArray.pop();
 
 				setListOfVersions(releaseVersionsStringArray);
 			});
 
-		axios.get('./developTestDate.txt')
+		fetch('./developTestDate.txt')
+			.then(result => result.text())
 			.then(result => {
-				developTestDatesStringArray = result.data.split('\n');
+				developTestDatesStringArray = result.split('\n');
 				developTestDatesStringArray.pop();
 
 				setListOfTestDates(developTestDatesStringArray);
@@ -121,14 +122,14 @@ const App = (props) => {
 		let componentMetrics = [], promises = [];
 
 		for (let version of listOfVersions) {
-			promises.push(axios.get('./' + version + '/' + selectedComponent + '.txt'));
+			promises.push(fetch('./' + version + '/' + selectedComponent + '.txt').then(result => result.text()));
 		}
 
 		Promise.allSettled(promises).then((results) => {
-			const successfulResults = results.filter((result) => result.status === 'fulfilled');
+			const successfulResults = results.filter((result) => result.value.includes('EnactVersion'));
 
 			for (let result of successfulResults) {
-				let resultJSON  = result.value.data.split('\n');
+				let resultJSON  = result.value.split('\n');
 				resultJSON.pop();
 
 				resultJSON.forEach(function (item, index) {
@@ -150,14 +151,14 @@ const App = (props) => {
 		let componentMetrics = [], promises = [];
 
 		for (let buildDate of listOfTestDates) {
-			promises.push(axios.get('./develop/' + buildDate + '/' + selectedComponent + '.txt'));
+			promises.push(fetch('./develop/' + buildDate + '/' + selectedComponent + '.txt').then(result => result.text()));
 		}
 
 		Promise.allSettled(promises).then((results) => {
-			const successfulResults = results.filter((result) => result.status === 'fulfilled');
+			const successfulResults = results.filter((result) => result.value.includes('ReactVersion'));
 
 			for (let result of successfulResults) {
-				let resultJSON  = result.value.data.split('\n');
+				let resultJSON  = result.value.split('\n');
 				resultJSON.pop();
 
 				resultJSON.forEach(function (item, index) {

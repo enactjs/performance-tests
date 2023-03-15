@@ -1,7 +1,7 @@
 require('dotenv').config();
 const  fs = require('fs');
 const path = require('path');
-const fetch = require('node-fetch');
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const {version: ReactVersion} = require('react/package.json');
 const {version: EnactVersion} = require('@enact/core/package.json');

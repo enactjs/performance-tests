@@ -126,7 +126,7 @@ const App = (props) => {
 		}
 
 		Promise.allSettled(promises).then((results) => {
-			const successfulResults = results.filter((result) => result.value.includes('EnactVersion'));
+			const successfulResults = results.filter((result) => result.value.includes('ReactVersion'));
 
 			for (let result of successfulResults) {
 				let resultJSON  = result.value.split('\n');

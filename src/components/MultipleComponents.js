@@ -1,8 +1,10 @@
 import qs from 'qs';
 import Item from '@enact/sandstone/Item';
+import {useLocation} from 'react-router-dom';
 
-const MultipleComponents = ({location}) => {
+const MultipleComponents = () => {
 	const arr = [];
+	const location = useLocation();
 	const search = qs.parse(location.search, {ignoreQueryPrefix: true});
 	const count = parseInt(search.count) || 1;
 

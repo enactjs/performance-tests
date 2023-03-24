@@ -4,9 +4,11 @@ import Item from '@enact/sandstone/Item';
 import {FlexiblePopupPanels, Panel, Header} from '@enact/sandstone/FlexiblePopupPanels';
 import qs from 'qs';
 import {useCallback, useState} from 'react';
+import {useLocation} from 'react-router-dom';
 
-const FlexiblePopupPanelsView = (props) => {
-	const search = qs.parse(props.location.search, {ignoreQueryPrefix: true});
+const FlexiblePopupPanelsView = () => {
+	const location = useLocation();
+	const search = qs.parse(location.search, {ignoreQueryPrefix: true});
 	const [open, setOpen] = useState(search.open === 'true');
 
 	const onButtonClick = useCallback(() => {

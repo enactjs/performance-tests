@@ -1,12 +1,17 @@
 import kind from '@enact/core/kind';
 import Marquee from '@enact/sandstone/Marquee';
 import qs from 'qs';
+import {useLocation} from 'react-router-dom';
 
 const MarqueeMultiple = kind({
 	name: 'MarqueeMultiple',
 
-	render: ({location}) => {
+	functional: true,
+
+	render: () => {
 		const arr = [];
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		const location = useLocation();
 		const search = qs.parse(location.search, {ignoreQueryPrefix: true});
 		const count = parseInt(search.count);
 		const marqueeOn = search.marqueeOn || 'hover';

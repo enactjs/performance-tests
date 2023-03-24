@@ -1,7 +1,7 @@
 require('dotenv').config();
 const  fs = require('fs');
 const path = require('path');
-const fetch = require('node-fetch');
+const fetchAPI = (...args) => import('node-fetch').then(({default: fetchData}) => fetchData(...args));
 
 const {version: ReactVersion} = require('react/package.json');
 const {version: EnactVersion} = require('@enact/core/package.json');
@@ -17,7 +17,7 @@ const TestResult = module.exports = {
 		TestResult.results.push(result);
 		// batch this in the future
 		if (API_URL) {
-			fetch(API_URL, {
+			fetchAPI(API_URL, {
 				method: 'POST',
 				body: JSON.stringify(result),
 				headers: {'Content-Type': 'application/json'}}

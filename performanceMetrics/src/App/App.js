@@ -7,7 +7,7 @@ import TabLayout, {Tab} from '@enact/sandstone/TabLayout';
 import ThemeDecorator from '@enact/sandstone/ThemeDecorator';
 import Layout, {Cell} from '@enact/ui/Layout';
 import classnames from 'classnames';
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 
 import Chart from '../views/Chart';
 
@@ -62,13 +62,7 @@ const listOfComponents = [
 
 const App = (props) => {
 	const [componentReleasedData, setComponentReleasedData] = useState([]);
-	const componentReleasedDataRef = useRef([]);
-	componentReleasedDataRef.current = componentReleasedData;
-
 	const [componentDevelopData, setComponentDevelopData] = useState([]);
-	const componentDevelopDataRef = useRef([]);
-	componentDevelopDataRef.current = componentDevelopData;
-
 	const [selectedComponent, setSelectedComponent] = useState(listOfComponents[0]);
 	const [listOfMetrics, setListOfMetrics] = useState([]);
 	const [listOfVersions, setListOfVersions] = useState([]);
@@ -140,7 +134,7 @@ const App = (props) => {
 			}
 
 			setComponentReleasedData(componentMetrics);
-			setListOfMetrics([...new Set(componentReleasedDataRef.current.map(item => item.type))]);
+			setListOfMetrics([...new Set(componentMetrics.map(item => item.type))]);
 		});
 	}, [listOfVersions, selectedComponent]); // eslint-disable-line react-hooks/exhaustive-deps
 

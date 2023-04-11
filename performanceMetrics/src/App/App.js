@@ -7,7 +7,7 @@ import TabLayout, {Tab} from '@enact/sandstone/TabLayout';
 import ThemeDecorator from '@enact/sandstone/ThemeDecorator';
 import Layout, {Cell} from '@enact/ui/Layout';
 import classnames from 'classnames';
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 
 import Chart from '../views/Chart';
 
@@ -62,13 +62,7 @@ const listOfComponents = [
 
 const App = (props) => {
 	const [componentReleasedData, setComponentReleasedData] = useState([]);
-	const componentReleasedDataRef = useRef([]);
-	componentReleasedDataRef.current = componentReleasedData;
-
 	const [componentDevelopData, setComponentDevelopData] = useState([]);
-	const componentDevelopDataRef = useRef([]);
-	componentDevelopDataRef.current = componentDevelopData;
-
 	const [selectedComponent, setSelectedComponent] = useState(listOfComponents[0]);
 	const [listOfMetrics, setListOfMetrics] = useState([]);
 	const [listOfVersions, setListOfVersions] = useState([]);
@@ -87,14 +81,11 @@ const App = (props) => {
 		return year + '-' + month + '-' + day;
 	};
 
-	const convertBuildDateStringToMilis = (string) => {
-		let year = string.slice(8, 12);
-		let month = string.slice(12, 14);
-		let day = string.slice(14, 16);
-		let hour = string.slice(16, 18);
+	const getDefaultStartDate = () => {
+		let date = new Date();
+		date.setMonth(date.getMonth() - 1);
 
-		// setting the hour to -9 hours prior because the filename contains timestamp in KST
-		return new Date(year, month - 1, day, hour - 9, 0, 0).getTime();
+		return date.getTime() - (9 * 60 * 60 * 1000);
 	};
 
 	useEffect (() => {
@@ -143,7 +134,7 @@ const App = (props) => {
 			}
 
 			setComponentReleasedData(componentMetrics);
-			setListOfMetrics([...new Set(componentReleasedDataRef.current.map(item => item.type))]);
+			setListOfMetrics([...new Set(componentMetrics.map(item => item.type))]);
 		});
 	}, [listOfVersions, selectedComponent]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -177,9 +168,8 @@ const App = (props) => {
 
 	useEffect(() => {
 		if (listOfTestDates.length > 0) {
-			setStartDate(convertBuildDateStringToMilis(listOfTestDates[0]));
-			// include all entries from the latest date, regardless of their hour/minute/second
-			setEndDate(new Date().getTime() + (1000 * 60 * 60 * 24));
+			setStartDate(getDefaultStartDate());
+			setEndDate(Date.now());
 		}
 	}, [listOfTestDates]);
 
@@ -197,13 +187,6 @@ const App = (props) => {
 	const onEndDateSelect = useCallback(({value}) => {
 		setEndDate(new Date(value).getTime());
 	}, []);
-
-	const getDefaultDate = () => {
-		let date = new Date();
-		date.setMonth(date.getMonth() - 1);
-
-		return date;
-	};
 
 	return (
 		<div {...props} className={classnames(props.className, css.app)}>
@@ -224,10 +207,10 @@ const App = (props) => {
 					<Heading size="small" spacing="none" >Start Date:</Heading>
 					<DatePicker
 						className={css.datePicker}
-						defaultValue={getDefaultDate()}
 						noLabel
 						maxYear={new Date().getFullYear()}
 						onChange={onStartDateSelect}
+						value={new Date(startDate)}
 					/>
 				</Cell>
 				<Cell shrink>
@@ -237,6 +220,7 @@ const App = (props) => {
 						noLabel
 						maxYear={new Date().getFullYear()}
 						onChange={onEndDateSelect}
+						value={new Date(endDate)}
 					/>
 				</Cell>
 			</Layout>

@@ -88,7 +88,7 @@ const App = (props) => {
 		const day = date.slice(6, 8);
 
 		return new Date(year, month - 1, day).getTime();
-	}
+	};
 
 	const getDefaultStartDate = () => {
 		let date = new Date();

@@ -71,7 +71,7 @@ const App = (props) => {
 	const [startDate, setStartDate] = useState();
 	const [endDate, setEndDate] = useState();
 
-	const convertDateFromMilisToYMD = (timestamp) => {
+	const convertDateFromMillisToYMD = (timestamp) => {
 		const date = new Date(timestamp);
 
 		const year = date.getFullYear();
@@ -79,6 +79,15 @@ const App = (props) => {
 		const day = date.getDate();
 
 		return year + '-' + month + '-' + day;
+	};
+
+	const getDateFromBuildDate = (buildDate) => {
+		const date = buildDate.split('-').pop();
+		const year = date.slice(0, 4);
+		const month = date.slice(4, 6);
+		const day = date.slice(6, 8);
+
+		return new Date(year, month - 1, day).getTime();
 	};
 
 	const getDefaultStartDate = () => {
@@ -128,7 +137,7 @@ const App = (props) => {
 				});
 
 				for (let element of resultJSON) {
-					element.date = convertDateFromMilisToYMD(element.timestamp);
+					element.date = convertDateFromMillisToYMD(element.timestamp);
 					componentMetrics.push(element);
 				}
 			}
@@ -140,9 +149,11 @@ const App = (props) => {
 
 	useEffect (() => {
 		let componentMetrics = [], promises = [];
-
 		for (let buildDate of listOfTestDates) {
-			promises.push(fetch('./develop/' + buildDate + '/' + selectedComponent + '.txt').then(result => result.text()));
+			const date = getDateFromBuildDate(buildDate);
+			if (startDate <= date && endDate >= date) {
+				promises.push(fetch('./develop/' + buildDate + '/' + selectedComponent + '.txt').then(result => result.text()));
+			}
 		}
 
 		Promise.allSettled(promises).then((results) => {
@@ -157,14 +168,14 @@ const App = (props) => {
 				});
 
 				for ( let element of resultJSON) {
-					element.date = convertDateFromMilisToYMD(element.timestamp);
+					element.date = convertDateFromMillisToYMD(element.timestamp);
 					componentMetrics.push(element);
 				}
 			}
 
 			setComponentDevelopData(componentMetrics);
 		});
-	}, [listOfTestDates, selectedComponent]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [endDate, listOfTestDates, selectedComponent, startDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (listOfTestDates.length > 0) {
@@ -239,7 +250,6 @@ const App = (props) => {
 							)}
 						</Scroller>
 					}
-
 				</Tab>
 				<Tab title="Develop branch metrics">
 					{componentDevelopData.length === 0 ?
@@ -248,7 +258,7 @@ const App = (props) => {
 							{listOfMetrics.map((metric) =>
 								<Chart
 									key={metric}
-									inputData={componentDevelopData.filter(entry => entry.type === metric && entry.timestamp >= startDate && entry.timestamp <= endDate)}
+									inputData={componentDevelopData.filter(entry => entry.type === metric)}
 									title={metric}
 									xAxis="date"
 								/>

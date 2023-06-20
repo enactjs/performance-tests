@@ -38,13 +38,13 @@
 		"@enact/spotlight": "^4.7.1",
 		"@enact/ui": "^4.7.1",
 		"@enact/webos": "^4.7.1",
-		"dotenv": "^16.1.4",
+		"dotenv": "^16.3.1",
 		"node-fetch": "^3.3.1",
 		"prop-types": "^15.8.1",
 		"qs": "^6.11.2",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"react-router-dom": "^6.12.1"
+		"react-router-dom": "^6.13.0"
 	},
 	"devDependencies": {
 		"jest": "^28.1.3",

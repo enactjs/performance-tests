@@ -34,7 +34,7 @@ import Popup from '../views/Popup';
 import PopupTabLayout from '../views/PopupTabLayout';
 import ProgressBar from '../views/ProgressBar';
 import ProgressButton from '../views/ProgressButton';
-import QuickGuidePanels from "../views/QuickGuidePanels";
+import QuickGuidePanels from '../views/QuickGuidePanels';
 import RadioItem from '../views/RadioItem';
 import RangePicker from '../views/RangePicker';
 import RangePickerJoined from '../views/RangePickerJoined';

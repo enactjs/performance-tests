@@ -2,7 +2,7 @@
 
 const TestResults = require('../TestResults');
 const {CLS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, getFileName, newPageMultiple} = require("../utils");
+const {clsValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('IconItem', () => {
 	const component = 'IconItem';

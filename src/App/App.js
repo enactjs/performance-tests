@@ -16,6 +16,7 @@ import FlexiblePopupPanels from '../views/FlexiblePopupPanels';
 import FormCheckboxItem from '../views/FormCheckboxItem';
 import Heading from '../views/Heading';
 import Icon from '../views/Icon';
+import IconItem from '../views/IconItem';
 import Image from '../views/Image';
 import ImageItem from '../views/ImageItem';
 import Input from '../views/Input';
@@ -33,6 +34,7 @@ import Popup from '../views/Popup';
 import PopupTabLayout from '../views/PopupTabLayout';
 import ProgressBar from '../views/ProgressBar';
 import ProgressButton from '../views/ProgressButton';
+import QuickGuidePanels from '../views/QuickGuidePanels';
 import RadioItem from '../views/RadioItem';
 import RangePicker from '../views/RangePicker';
 import RangePickerJoined from '../views/RangePickerJoined';
@@ -81,6 +83,7 @@ const App = kind({
 					<Route path="/formCheckboxItem" element={<FormCheckboxItem />} />
 					<Route path="/heading" element={<Heading />} />
 					<Route path="/icon" element={<Icon />} />
+					<Route path="/iconItem" element={<IconItem />} />
 					<Route path="/image" element={<Image />} />
 					<Route path="/imageItem" element={<ImageItem />} />
 					<Route path="/input" element={<Input />} />
@@ -98,6 +101,7 @@ const App = kind({
 					<Route path="/popupTabLayout" element={<PopupTabLayout />} />
 					<Route path="/progressBar" element={<ProgressBar />} />
 					<Route path="/progressButton" element={<ProgressButton />} />
+					<Route path="/quickGuidePanels" element={<QuickGuidePanels />} />
 					<Route path="/radioItem" element={<RadioItem />} />
 					<Route path="/rangePicker" element={<RangePicker />} />
 					<Route path="/rangePickerJoined" element={<RangePickerJoined />} />

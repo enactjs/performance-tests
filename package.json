@@ -1,11 +1,12 @@
 {
 	"name": "perf-puppeteer",
 	"version": "1.0.0",
-	"description": "A general template for an Enact Sandstone application.",
+	"description": "A general template for an Enact Sandstone and Agate application.",
 	"author": "",
 	"main": "src/index.js",
 	"scripts": {
 		"serve": "enact serve",
+		"serve-agate": "set REACT_APP_AGATE=true && enact serve",
 		"pack": "enact pack",
 		"pack-p": "enact pack -p",
 		"watch": "enact pack --watch",
@@ -13,6 +14,7 @@
 		"lint": "enact lint .",
 		"license": "enact license",
 		"test": "jest --detectOpenHandles --target=PC",
+		"test-agate": "set REACT_APP_AGATE=true && jest --detectOpenHandles --target=PC",
 		"test-tv": "jest --detectOpenHandles --target=TV",
 		"stop": "pkill -f 'enact serve'",
 		"test-all": "npm-run-all --parallel serve wait-on",
@@ -24,7 +26,7 @@
 	"private": true,
 	"repository": "",
 	"enact": {
-		"theme": "sandstone"
+		"theme": "sandstone/agate"
 	},
 	"eslintIgnore": [
 		"node_modules/*",
@@ -32,6 +34,7 @@
 		"dist/*"
 	],
 	"dependencies": {
+		"@enact/agate": "^2.0.7",
 		"@enact/core": "^4.7.6",
 		"@enact/i18n": "^4.7.6",
 		"@enact/sandstone": "^2.7.10",

@@ -18,8 +18,10 @@
 		"test-tv": "jest --detectOpenHandles --target=TV",
 		"stop": "pkill -f 'enact serve'",
 		"test-all": "npm-run-all --parallel serve wait-on",
+		"test-all-agate": "set REACT_APP_AGATE=true && npm-run-all --parallel serve wait-on",
 		"test-all-tv": "npm-run-all --parallel serve wait-on-tv",
 		"wait-on": "wait-on http://localhost:8080/ && npm test && npm stop",
+		"wait-on-agate": "set REACT_APP_AGATE=true && wait-on http://localhost:8080/ && npm test && npm stop",
 		"wait-on-tv": "wait-on http://localhost:8080/ && npm run test-tv && npm stop"
 	},
 	"license": "UNLICENSED",

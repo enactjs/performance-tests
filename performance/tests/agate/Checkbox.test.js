@@ -4,27 +4,27 @@ const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
-describe('Button', () => {
-	const component = 'Button';
+describe('Checkbox', () => {
+	const component = 'Checkbox';
 	TestResults.newFile(component);
 
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/button`);
-			await page.waitForSelector('#agate-button');
-			await page.click('#agate-button'); // to move mouse on the button.
+			await page.goto(`http://${serverAddr}/checkbox`);
+			await new Promise(r => setTimeout(r, 500));
+			await page.click('#agate-checkbox'); // to move mouse on the checkbox.
 			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 100));
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 100));
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 100));
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 100));
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
@@ -37,21 +37,21 @@ describe('Button', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/button`);
-			await page.waitForSelector('#agate-button');
-			await page.focus('#agate-button');
-			await new Promise(r => setTimeout(r, 100));
+			await page.goto(`http://${serverAddr}/checkbox`);
+			await page.waitForSelector('#agate-checkbox');
+			await page.focus('#agate-checkbox');
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
+			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
@@ -64,11 +64,10 @@ describe('Button', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/button`);
-		await page.waitForSelector('#agate-button');
-		await page.focus('#agate-button');
+		await page.goto(`http://${serverAddr}/checkbox`);
+		await page.waitForSelector('#agate-checkbox');
+		await page.focus('#agate-checkbox');
 		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 200));
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -90,15 +89,15 @@ describe('Button', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const buttonPage = targetEnv === 'TV' ? page : await newPageMultiple();
-			await buttonPage.emulateCPUThrottling(CPUThrottling);
+			const checkboxPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await checkboxPage.emulateCPUThrottling(CPUThrottling);
 
-			await buttonPage.tracing.start({path: filename, screenshots: false});
-			await buttonPage.goto(`http://${serverAddr}/button`);
-			await buttonPage.waitForSelector('#agate-button');
+			await checkboxPage.tracing.start({path: filename, screenshots: false});
+			await checkboxPage.goto(`http://${serverAddr}/checkbox`);
+			await checkboxPage.waitForSelector('#agate-checkbox');
 			await new Promise(r => setTimeout(r, 200));
 
-			await buttonPage.tracing.stop();
+			await checkboxPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -116,7 +115,7 @@ describe('Button', () => {
 				passContLCP += 1;
 			}
 
-			if (targetEnv === 'PC') await buttonPage.close();
+			if (targetEnv === 'PC') await checkboxPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

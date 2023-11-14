@@ -5,7 +5,7 @@ const ButtonView = kind({
 	name: 'ButtonView',
 
 	render: () => (
-		<Button id="button">Hello World!</Button>
+		<Button id="agate-button">Hello World!</Button>
 	)
 });
 

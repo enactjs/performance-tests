@@ -29,13 +29,15 @@ const TestResult = module.exports = {
 				.catch(err => console.log(err));
 		} else {
 			console.log(JSON.stringify(result));
-			const txtPath = path.join(__dirname, 'testResults', `${component}.txt`); // eslint-disable-line
+			const txtPath = process.env.REACT_APP_AGATE ?
+				path.join(__dirname, 'testResults/agate', `${component}.txt`) : // eslint-disable-line
+				path.join(__dirname, 'testResults/sandstone', `${component}.txt`); // eslint-disable-line
 
 			fs.appendFileSync(txtPath, JSON.stringify(result) + '\n');
 		}
 	},
 	newFile: (component) => {
-		const dir = 'testResults';
+		const dir = process.env.REACT_APP_AGATE ? 'testResults/agate' : 'testResults/sandstone'
 
 		if (!fs.existsSync('performance/' + dir)) {
 			fs.mkdirSync('performance/' + dir);

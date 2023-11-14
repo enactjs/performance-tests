@@ -2,6 +2,7 @@ import kind from '@enact/core/kind';
 import ThemeDecorator from '@enact/agate/ThemeDecorator';
 
 import Button from '../views/agate/Button';
+import Checkbox from '../views/agate/Checkbox';
 
 import css from './App.less';
 
@@ -20,6 +21,7 @@ const AgateApp = kind({
 			<div {...props}>
 				<Routes>
 					<Route path="/button" element={<Button />} />
+					<Route path="/checkbox" element={<Checkbox />} />
 				</Routes>
 			</div>
 		</Router>

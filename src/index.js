@@ -8,7 +8,7 @@ let appElement;
 if (typeof window !== 'undefined') {
 	const container = document.getElementById('root');
 	const root = createRoot(container);
-	// console.log('aaa'. process.env.REACT_APP_LIBRARY);
+
 	import('process').then(() => {
 		if (process.env.REACT_APP_AGATE) {
 			appElement = (<AgateApp />)

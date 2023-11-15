@@ -14,7 +14,7 @@ const TestResult = module.exports = {
 	results: [],
 	addResult: ({component, type, actualValue}) => {
 		const timestamp = Date.now();
-		const result = process.env.REACT_APP_AGATE ?
+		const result = process.env.REACT_APP_AGATE !== undefined ?
 			{ReactVersion, EnactVersion, AgateVersion, timestamp, component, type, actualValue} :
 			{ReactVersion, EnactVersion, SandstoneVersion, timestamp, component, type, actualValue}
 		TestResult.results.push(result);
@@ -29,7 +29,7 @@ const TestResult = module.exports = {
 				.catch(err => console.log(err));
 		} else {
 			console.log(JSON.stringify(result));
-			const txtPath = process.env.REACT_APP_AGATE ?
+			const txtPath = process.env.REACT_APP_AGATE !== undefined ?
 				path.join(__dirname, 'testResults/agate', `${component}.txt`) : // eslint-disable-line
 				path.join(__dirname, 'testResults/sandstone', `${component}.txt`); // eslint-disable-line
 
@@ -39,16 +39,19 @@ const TestResult = module.exports = {
 	newFile: (component) => {
 		const dir = 'testResults';
 
-		if (process.env.REACT_APP_AGATE) {
-			if (!fs.existsSync('performance/' + dir + '/agate')) {
-				fs.mkdirSync('performance/' + dir + '/agate');
+		if (process.env.REACT_APP_AGATE !== undefined) {
+			if (!fs.existsSync('performance/testResults')) {
+				fs.mkdirSync('performance/' + dir + '/agate', {recursive: true});
 			}
 		} else {
-			if (!fs.existsSync('performance/' + dir + '/sandstone')) {
-				fs.mkdirSync('performance/' + dir + '/sandstone');
+			if (!fs.existsSync('performance/testResults')) {
+				fs.mkdirSync('performance/' + dir + '/sandstone', {recursive: true});
 			}
 		}
-		const txtPath = path.join(__dirname, dir, `${component}.txt`); // eslint-disable-line
+
+		const txtPath = process.env.REACT_APP_AGATE !== undefined ?
+			path.join(__dirname, 'testResults/agate', `${component}.txt`) : // eslint-disable-line
+			path.join(__dirname, 'testResults/sandstone', `${component}.txt`); // eslint-disable-line
 
 		fs.access(txtPath, fs.F_OK, (err) => {
 			if (err) {

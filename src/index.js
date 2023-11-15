@@ -4,13 +4,15 @@ import SandstoneApp from './App/Sandstone-App.js';
 
 let appElement;
 
+console.log(typeof process.env.REACT_APP_AGATE);
+
 // In a browser environment, render instead of exporting
 if (typeof window !== 'undefined') {
 	const container = document.getElementById('root');
 	const root = createRoot(container);
 
 	import('process').then(() => {
-		if (process.env.REACT_APP_AGATE) {
+		if (process.env.REACT_APP_AGATE !== undefined) {
 			appElement = (<AgateApp />)
 			root.render(appElement);
 		} else {

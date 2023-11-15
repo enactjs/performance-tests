@@ -1,6 +1,6 @@
 let base;
 
-if (process.env.REACT_APP_AGATE) {
+if (process.env.REACT_APP_AGATE !== undefined) {
 	base = 'agate';
 } else {
 	base = 'sandstone'

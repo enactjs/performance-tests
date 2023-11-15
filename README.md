@@ -29,6 +29,19 @@ npm run serve
 TV_IP=10.0.1.1 npm run test-tv
 ```
 
+## Testing Agate components
+To run tests on Agate components, include an environment variable.
+
+```
+// .env
+REACT_APP_AGATE
+```
+Start the server with Agate components and run the test suite on it
+```
+npm run serve-agate
+npm run test-agate
+```
+
 ## CPU Throttling
 
 You can simulate a low-end device with a CPU throttling option. 1 is no throttle, 2 is 2x slowdown.

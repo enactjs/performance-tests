@@ -4,8 +4,6 @@ import SandstoneApp from './App/Sandstone-App.js';
 
 let appElement;
 
-console.log(typeof process.env.REACT_APP_AGATE);
-
 // In a browser environment, render instead of exporting
 if (typeof window !== 'undefined') {
 	const container = document.getElementById('root');

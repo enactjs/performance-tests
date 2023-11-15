@@ -40,11 +40,11 @@ const TestResult = module.exports = {
 		const dir = 'testResults';
 
 		if (process.env.REACT_APP_AGATE !== undefined) {
-			if (!fs.existsSync('performance/testResults')) {
+			if (!fs.existsSync('performance/' + dir) || !fs.existsSync('performance/' + dir + '/agate')) {
 				fs.mkdirSync('performance/' + dir + '/agate', {recursive: true});
 			}
 		} else {
-			if (!fs.existsSync('performance/testResults')) {
+			if (!fs.existsSync('performance/' + dir) || !fs.existsSync('performance/' + dir + '/sandstone')) {
 				fs.mkdirSync('performance/' + dir + '/sandstone', {recursive: true});
 			}
 		}

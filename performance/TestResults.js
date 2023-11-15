@@ -37,10 +37,16 @@ const TestResult = module.exports = {
 		}
 	},
 	newFile: (component) => {
-		const dir = process.env.REACT_APP_AGATE ? 'testResults/agate' : 'testResults/sandstone'
+		const dir = 'testResults';
 
-		if (!fs.existsSync('performance/' + dir)) {
-			fs.mkdirSync('performance/' + dir);
+		if (process.env.REACT_APP_AGATE) {
+			if (!fs.existsSync('performance/' + dir + '/agate')) {
+				fs.mkdirSync('performance/' + dir + '/agate');
+			}
+		} else {
+			if (!fs.existsSync('performance/' + dir + '/sandstone')) {
+				fs.mkdirSync('performance/' + dir + '/sandstone');
+			}
 		}
 		const txtPath = path.join(__dirname, dir, `${component}.txt`); // eslint-disable-line
 

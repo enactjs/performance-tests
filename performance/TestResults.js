@@ -9,12 +9,13 @@ const {version: SandstoneVersion} = require('@enact/sandstone/package.json');
 const {version: AgateVersion} = require('@enact/agate/package.json');
 
 const API_URL = process.env.API_URL;
+const testAgateComponents = process.argv.some(arg => arg === '--library=agate');
 
 const TestResult = module.exports = {
 	results: [],
 	addResult: ({component, type, actualValue}) => {
 		const timestamp = Date.now();
-		const result = process.env.REACT_APP_AGATE !== undefined ?
+		const result = testAgateComponents ?
 			{ReactVersion, EnactVersion, AgateVersion, timestamp, component, type, actualValue} :
 			{ReactVersion, EnactVersion, SandstoneVersion, timestamp, component, type, actualValue}
 		TestResult.results.push(result);
@@ -29,7 +30,7 @@ const TestResult = module.exports = {
 				.catch(err => console.log(err));
 		} else {
 			console.log(JSON.stringify(result));
-			const txtPath = process.env.REACT_APP_AGATE !== undefined ?
+			const txtPath = testAgateComponents ?
 				path.join(__dirname, 'testResults/agate', `${component}.txt`) : // eslint-disable-line
 				path.join(__dirname, 'testResults/sandstone', `${component}.txt`); // eslint-disable-line
 
@@ -39,7 +40,7 @@ const TestResult = module.exports = {
 	newFile: (component) => {
 		const dir = 'testResults';
 
-		if (process.env.REACT_APP_AGATE !== undefined) {
+		if (testAgateComponents) {
 			if (!fs.existsSync('performance/' + dir) || !fs.existsSync('performance/' + dir + '/agate')) {
 				fs.mkdirSync('performance/' + dir + '/agate', {recursive: true});
 			}
@@ -49,7 +50,7 @@ const TestResult = module.exports = {
 			}
 		}
 
-		const txtPath = process.env.REACT_APP_AGATE !== undefined ?
+		const txtPath = testAgateComponents ?
 			path.join(__dirname, 'testResults/agate', `${component}.txt`) : // eslint-disable-line
 			path.join(__dirname, 'testResults/sandstone', `${component}.txt`); // eslint-disable-line
 

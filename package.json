@@ -6,7 +6,7 @@
 	"main": "src/index.js",
 	"scripts": {
 		"serve": "enact serve",
-		"serve-agate": "set REACT_APP_AGATE=true && enact serve",
+		"serve-agate": "corss-env REACT_APP_AGATE=true && enact serve",
 		"pack": "enact pack",
 		"pack-p": "enact pack -p",
 		"watch": "enact pack --watch",
@@ -14,14 +14,14 @@
 		"lint": "enact lint .",
 		"license": "enact license",
 		"test": "jest --detectOpenHandles --target=PC",
-		"test-agate": "set REACT_APP_AGATE=true && jest --detectOpenHandles --target=PC",
+		"test-agate": "jest --detectOpenHandles --target=PC --library=agate",
 		"test-tv": "jest --detectOpenHandles --target=TV",
 		"stop": "pkill -f 'enact serve'",
 		"test-all": "npm-run-all --parallel serve wait-on",
-		"test-all-agate": "set REACT_APP_AGATE=true && npm-run-all --parallel serve wait-on",
+		"test-all-agate": "npm-run-all --parallel serve-agate wait-on-agate",
 		"test-all-tv": "npm-run-all --parallel serve wait-on-tv",
 		"wait-on": "wait-on http://localhost:8080/ && npm test && npm stop",
-		"wait-on-agate": "set REACT_APP_AGATE=true && wait-on http://localhost:8080/ && npm test && npm stop",
+		"wait-on-agate": "wait-on http://localhost:8080/ && npm run test-agate && npm stop",
 		"wait-on-tv": "wait-on http://localhost:8080/ && npm run test-tv && npm stop"
 	},
 	"license": "UNLICENSED",
@@ -52,6 +52,7 @@
 		"react-router-dom": "^6.16.0"
 	},
 	"devDependencies": {
+		"cross-env": "^7.0.3",
 		"jest": "^29.7.0",
 		"jest-environment-jsdom": "^29.7.0",
 		"npm-run-all": "^4.1.5",

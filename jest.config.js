@@ -1,6 +1,8 @@
 let base;
 
-if (process.env.REACT_APP_AGATE !== undefined) {
+const testAgateComponents = process.argv.some(arg => arg === '--library=agate');
+
+if (testAgateComponents) {
 	base = 'agate';
 } else {
 	base = 'sandstone'

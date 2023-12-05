@@ -30,6 +30,7 @@ TV_IP=10.0.1.1 npm run test-tv
 ```
 
 ## Testing Agate components
+
 Start the server with Agate components and run the test suite on it.
 ```
 npm run serve-agate

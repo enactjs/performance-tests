@@ -6,7 +6,7 @@
 	"main": "src/index.js",
 	"scripts": {
 		"serve": "enact serve",
-		"serve-agate": "corss-env REACT_APP_AGATE=true && enact serve",
+		"serve-agate": "cross-env REACT_APP_AGATE=true enact serve",
 		"pack": "enact pack",
 		"pack-p": "enact pack -p",
 		"watch": "enact pack --watch",

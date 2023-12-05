@@ -35,6 +35,7 @@ Start the server with Agate components and run the test suite on it
 npm run serve-agate
 npm run test-agate
 ```
+On Windows OS you might need to install `cross-env` globally with `npm install -g cross-env`
 
 ## CPU Throttling
 

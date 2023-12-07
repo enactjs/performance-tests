@@ -1,5 +1,5 @@
+import TimePicker from '@enact/agate/TimePicker';
 import kind from '@enact/core/kind';
-import TimePicker from '@enact/sandstone/TimePicker';
 
 const TimePickerView = kind({
 	name: 'TimePickerView',

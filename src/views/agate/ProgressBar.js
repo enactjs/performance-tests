@@ -1,6 +1,5 @@
 import ProgressBar from '@enact/agate/ProgressBar';
 import kind from '@enact/core/kind';
-import Slider from "@enact/sandstone/Slider";
 
 const ProgressBarView = kind({
 	name: 'ProgressBar',

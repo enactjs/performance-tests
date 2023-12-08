@@ -3,6 +3,8 @@ import ThemeDecorator from '@enact/agate/ThemeDecorator';
 
 import Button from '../views/agate/Button';
 import Checkbox from '../views/agate/Checkbox';
+import Popup from "../views/agate/Popup";
+import PopupMenu from "../views/agate/PopupMenu";
 import ProgressBar from '../views/agate/ProgressBar';
 import RadioItem from '../views/agate/RadioItem';
 import RangePicker from '../views/agate/RangePicker';
@@ -37,6 +39,8 @@ const AgateApp = kind({
 				<Routes>
 					<Route path="/button" element={<Button />} />
 					<Route path="/checkbox" element={<Checkbox />} />
+					<Route path="/popup" element={<Popup />} />
+					<Route path="/popupMenu" element={<PopupMenu />} />
 					<Route path="/progressBar" element={<ProgressBar />} />
 					<Route path="/radioItem" element={<RadioItem />} />
 					<Route path="/rangePicker" element={<RangePicker />} />

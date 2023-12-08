@@ -6,7 +6,9 @@ We utilize puppeteer to get chrome performance traces.
 
 ## Testing on PC
 
-To run all you have to do is start the server and run the test suite on it.
+### Testing Sandstone components
+
+Start the server with Sandstone components and run the test suite on it.
 ```
 npm run test-all
 ```
@@ -15,6 +17,19 @@ npm run test-all
 npm run serve
 npm run test
 ```
+
+### Testing Agate components
+
+Start the server with Agate components and run the test suite on it.
+```
+npm run test-all-agate
+```
+
+```
+npm run serve-agate
+npm run test-agate
+```
+On Windows OS you might need to install `cross-env` globally with `npm install -g cross-env`.
 
 ## Testing on TV
 
@@ -28,15 +43,6 @@ TV_IP=10.0.1.1 npm run test-all-tv
 npm run serve
 TV_IP=10.0.1.1 npm run test-tv
 ```
-
-## Testing Agate components
-
-Start the server with Agate components and run the test suite on it.
-```
-npm run serve-agate
-npm run test-agate
-```
-On Windows OS you might need to install `cross-env` globally with `npm install -g cross-env`.
 
 ## CPU Throttling
 

@@ -2,20 +2,30 @@
 
 const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
-const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
+const {clsValue, getFileName, newPageMultiple} = require('../../utils');
 
-describe('TimePicker', () => {
-	const component = 'TimePicker';
+describe('Picker', () => {
+	const component = 'Picker';
 	TestResults.newFile(component);
 
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/timePicker`);
-			await page.waitForSelector('#timePicker');
+			await page.goto(`http://${serverAddr}/picker`);
+			await page.waitForSelector('#picker');
+			await page.click('[aria-label$="next item"]'); // to move mouse on the picker.
+			await page.mouse.down();
 			await new Promise(r => setTimeout(r, 200));
-			await page.click('[aria-label$="hour next item"]');
-			await new Promise(r => setTimeout(r, 1000));
+			await page.mouse.up();
+			await page.mouse.down();
+			await new Promise(r => setTimeout(r, 200));
+			await page.mouse.up();
+			await page.mouse.down();
+			await new Promise(r => setTimeout(r, 200));
+			await page.mouse.up();
+			await page.mouse.down();
+			await new Promise(r => setTimeout(r, 200));
+			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -27,12 +37,22 @@ describe('TimePicker', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/timePicker`);
-			await page.waitForSelector('#timePicker');
-			await page.focus('[aria-label$="hour next item"]');
+			await page.goto(`http://${serverAddr}/picker`);
+			await page.waitForSelector('#picker');
+			await page.focus('[aria-label$="next item"]');
 			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('ArrowDown');
+			await page.keyboard.down('Enter');
 			await new Promise(r => setTimeout(r, 200));
+			await page.keyboard.up('Enter');
+			await page.keyboard.down('Enter');
+			await new Promise(r => setTimeout(r, 200));
+			await page.keyboard.up('Enter');
+			await page.keyboard.down('Enter');
+			await new Promise(r => setTimeout(r, 200));
+			await page.keyboard.up('Enter');
+			await page.keyboard.down('Enter');
+			await new Promise(r => setTimeout(r, 200));
+			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -44,18 +64,22 @@ describe('TimePicker', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/timePicker`);
-		await page.waitForSelector('#timePicker');
-		await page.focus('[aria-label$="hour next item"]');
-		await page.keyboard.down('ArrowDown');
+		await page.goto(`http://${serverAddr}/picker`);
+		await page.waitForSelector('#picker');
+		await new Promise(r => setTimeout(r, 100));
+		await page.click('[aria-label$="next item"]');
+		await new Promise(r => setTimeout(r, 100));
 
-		let actualFirstInput = await firstInputValue();
+		let actualFirstInput = await page.evaluate(() => {
+			return window.fid;
+		});
+
 		let actualCLS = await clsValue();
 
 		TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
-		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
-
 		expect(actualFirstInput).toBeLessThan(maxFID);
+
+		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
@@ -69,15 +93,15 @@ describe('TimePicker', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const timePickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
-			await timePickerPage.emulateCPUThrottling(CPUThrottling);
+			const pickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await pickerPage.emulateCPUThrottling(CPUThrottling);
 
-			await timePickerPage.tracing.start({path: filename, screenshots: false});
-			await timePickerPage.goto(`http://${serverAddr}/timePicker`);
-			await timePickerPage.waitForSelector('#timePicker');
+			await pickerPage.tracing.start({path: filename, screenshots: false});
+			await pickerPage.goto(`http://${serverAddr}/picker`);
+			await pickerPage.waitForSelector('#picker');
 			await new Promise(r => setTimeout(r, 200));
 
-			await timePickerPage.tracing.stop();
+			await pickerPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -95,7 +119,7 @@ describe('TimePicker', () => {
 				passContLCP += 1;
 			}
 
-			if (targetEnv === 'PC') await timePickerPage.close();
+			if (targetEnv === 'PC') await pickerPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

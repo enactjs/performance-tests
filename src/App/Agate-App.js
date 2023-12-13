@@ -3,6 +3,18 @@ import ThemeDecorator from '@enact/agate/ThemeDecorator';
 
 import Button from '../views/agate/Button';
 import Checkbox from '../views/agate/Checkbox';
+import Icon from "../views/agate/Icon";
+import Image from "../views/agate/Image";
+import ImageItem from "../views/agate/ImageItem";
+import IncrementSlider from '../views/agate/IncrementSlider';
+import Input from '../views/agate/Input';
+import Item from '../views/agate/Item';
+import Keypad from '../views/agate/Keypad';
+import LabeledIcon from '../views/agate/LabeledIcon';
+import LabeledIconButton from '../views/agate/LabeledIconButton';
+import Marquee from '../views/agate/Marquee';
+import Panels from '../views/agate/Panels';
+import Picker from '../views/agate/Picker';
 import Popup from "../views/agate/Popup";
 import PopupMenu from "../views/agate/PopupMenu";
 import ProgressBar from '../views/agate/ProgressBar';
@@ -39,6 +51,18 @@ const AgateApp = kind({
 				<Routes>
 					<Route path="/button" element={<Button />} />
 					<Route path="/checkbox" element={<Checkbox />} />
+					<Route path="/icon" element={<Icon />} />
+					<Route path="/image" element={<Image />} />
+					<Route path="/imageItem" element={<ImageItem />} />
+					<Route path="/incrementSlider" element={<IncrementSlider />} />
+					<Route path="/input" element={<Input />} />
+					<Route path="/item" element={<Item />} />
+					<Route path="/keypad" element={<Keypad />} />
+					<Route path="/labeledIcon" element={<LabeledIcon />} />
+					<Route path="/labeledIconButton" element={<LabeledIconButton />} />
+					<Route path="/marquee" element={<Marquee />} />
+					<Route path="/panels" element={<Panels />} />
+					<Route path="/picker" element={<Picker />} />
 					<Route path="/popup" element={<Popup />} />
 					<Route path="/popupMenu" element={<PopupMenu />} />
 					<Route path="/progressBar" element={<ProgressBar />} />

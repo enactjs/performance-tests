@@ -4,50 +4,32 @@ const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
-describe('TimePicker', () => {
-	const component = 'TimePicker';
+const component = 'Marquee';
+const MarqueeText = '[class$="Marquee_marquee"]';
+
+describe('Marquee', () => {
 	TestResults.newFile(component);
 
-	describe('click', () => {
-		it('animates', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/timePicker`);
-			await page.waitForSelector('#timePicker');
-			await new Promise(r => setTimeout(r, 200));
-			await page.click('[aria-label$="hour next item"]');
-			await new Promise(r => setTimeout(r, 1000));
+	it('FPS on hover', async () => {
+		await FPS();
+		await page.goto(`http://${serverAddr}/marquee`);
+		await page.waitForSelector('#marquee');
+		await page.hover(MarqueeText);
+		await new Promise(r => setTimeout(r, 500));
 
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+		const averageFPS = await getAverageFPS();
+		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
-
-	describe('keypress', () => {
-		it('animates', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/timePicker`);
-			await page.waitForSelector('#timePicker');
-			await page.focus('[aria-label$="hour next item"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('ArrowDown');
-			await new Promise(r => setTimeout(r, 200));
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
+		expect(averageFPS).toBeGreaterThan(minFPS);
 	});
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/timePicker`);
-		await page.waitForSelector('#timePicker');
-		await page.focus('[aria-label$="hour next item"]');
-		await page.keyboard.down('ArrowDown');
+		await page.goto(`http://${serverAddr}/marquee`);
+		await page.waitForSelector('#marquee');
+		await page.hover(MarqueeText);
+		await new Promise(r => setTimeout(r, 500));
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -69,15 +51,15 @@ describe('TimePicker', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const timePickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
-			await timePickerPage.emulateCPUThrottling(CPUThrottling);
+			const marqueePage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await marqueePage.emulateCPUThrottling(CPUThrottling);
 
-			await timePickerPage.tracing.start({path: filename, screenshots: false});
-			await timePickerPage.goto(`http://${serverAddr}/timePicker`);
-			await timePickerPage.waitForSelector('#timePicker');
+			await marqueePage.tracing.start({path: filename, screenshots: false});
+			await marqueePage.goto(`http://${serverAddr}/marquee`);
+			await marqueePage.waitForSelector('#marquee');
 			await new Promise(r => setTimeout(r, 200));
 
-			await timePickerPage.tracing.stop();
+			await marqueePage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -95,7 +77,7 @@ describe('TimePicker', () => {
 				passContLCP += 1;
 			}
 
-			if (targetEnv === 'PC') await timePickerPage.close();
+			if (targetEnv === 'PC') await marqueePage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;
@@ -115,3 +97,4 @@ describe('TimePicker', () => {
 		expect(avgLCP).toBeLessThan(maxLCP);
 	});
 });
+

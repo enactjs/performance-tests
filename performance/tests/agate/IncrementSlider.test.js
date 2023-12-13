@@ -1,21 +1,30 @@
 /* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
-const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
+const TestResults = require('../../TestResults');
 
-describe('TimePicker', () => {
-	const component = 'TimePicker';
+describe('IncrementSlider', () => {
+	const component = 'IncrementSlider';
 	TestResults.newFile(component);
 
-	describe('click', () => {
-		it('animates', async () => {
+	describe('drag', () => {
+		it('increment', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/timePicker`);
-			await page.waitForSelector('#timePicker');
-			await new Promise(r => setTimeout(r, 200));
-			await page.click('[aria-label$="hour next item"]');
-			await new Promise(r => setTimeout(r, 1000));
+			await page.goto(`http://${serverAddr}/incrementSlider`);
+			await page.waitForSelector('#incrementSlider');
+			const {x: posX, y: posY} = await page.evaluate(() => {
+				const knobElement = document.querySelector('[class$="Slider_knob"]');
+				const {x, y} = knobElement.getBoundingClientRect();
+				return {x, y};
+			});
+
+			await page.mouse.move(posX, posY);
+			await page.mouse.down();
+
+			for (let i = 0; i < 100; i++) {
+				await page.mouse.move(posX + (i * 10), posY);
+			}
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -24,15 +33,18 @@ describe('TimePicker', () => {
 		});
 	});
 
-	describe('keypress', () => {
-		it('animates', async () => {
+	describe('keyboard', () => {
+		it('increment', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/timePicker`);
-			await page.waitForSelector('#timePicker');
-			await page.focus('[aria-label$="hour next item"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('ArrowDown');
-			await new Promise(r => setTimeout(r, 200));
+			await page.goto(`http://${serverAddr}/incrementSlider`);
+			await page.waitForSelector('#incrementSlider');
+			await page.focus('#incrementSlider');
+
+			await page.keyboard.press('Enter');
+
+			for (let i = 0; i < 100; i++) {
+				await page.keyboard.down('ArrowRight');
+			}
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -44,10 +56,11 @@ describe('TimePicker', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/timePicker`);
-		await page.waitForSelector('#timePicker');
-		await page.focus('[aria-label$="hour next item"]');
-		await page.keyboard.down('ArrowDown');
+		await page.goto(`http://${serverAddr}/incrementSlider`);
+		await page.waitForSelector('#incrementSlider');
+		await page.focus('#incrementSlider');
+		await page.keyboard.down('Enter');
+		await new Promise(r => setTimeout(r, 200));
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
@@ -69,15 +82,15 @@ describe('TimePicker', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const timePickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
-			await timePickerPage.emulateCPUThrottling(CPUThrottling);
+			const incrementSliderPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await incrementSliderPage.emulateCPUThrottling(CPUThrottling);
 
-			await timePickerPage.tracing.start({path: filename, screenshots: false});
-			await timePickerPage.goto(`http://${serverAddr}/timePicker`);
-			await timePickerPage.waitForSelector('#timePicker');
+			await incrementSliderPage.tracing.start({path: filename, screenshots: false});
+			await incrementSliderPage.goto(`http://${serverAddr}/incrementSlider`);
+			await incrementSliderPage.waitForSelector('#incrementSlider');
 			await new Promise(r => setTimeout(r, 200));
 
-			await timePickerPage.tracing.stop();
+			await incrementSliderPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -95,7 +108,7 @@ describe('TimePicker', () => {
 				passContLCP += 1;
 			}
 
-			if (targetEnv === 'PC') await timePickerPage.close();
+			if (targetEnv === 'PC') await incrementSliderPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;
@@ -115,3 +128,4 @@ describe('TimePicker', () => {
 		expect(avgLCP).toBeLessThan(maxLCP);
 	});
 });
+

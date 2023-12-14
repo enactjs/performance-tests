@@ -4,16 +4,16 @@ const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
-describe('WindDirectionControl', () => {
-	const component = 'WindDirectionControl';
+describe('ArcPicker', () => {
+	const component = 'ArcPicker';
 	TestResults.newFile(component);
 
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/windDirectionControl`);
-			await page.waitForSelector('#agate-windDirectionControl');
-			await page.click('#agate-windDirectionControl'); // to move mouse on the button.
+			await page.goto(`http://${serverAddr}/arcPicker`);
+			await page.waitForSelector('#arcPicker');
+			await page.click('#arcPicker'); // to move mouse on the button.
 			await page.mouse.down();
 			await new Promise(r => setTimeout(r, 100));
 			await page.mouse.up();
@@ -37,9 +37,9 @@ describe('WindDirectionControl', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/windDirectionControl`);
-			await page.waitForSelector('#agate-windDirectionControl');
-			await page.focus('#agate-windDirectionControl');
+			await page.goto(`http://${serverAddr}/arcPicker`);
+			await page.waitForSelector('#arcPicker');
+			await page.focus('#arcPicker');
 			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('ArrowUp');
 			await new Promise(r => setTimeout(r, 100));
@@ -64,9 +64,9 @@ describe('WindDirectionControl', () => {
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/windDirectionControl`);
-		await page.waitForSelector('#agate-windDirectionControl');
-		await page.focus('#agate-windDirectionControl');
+		await page.goto(`http://${serverAddr}/arcPicker`);
+		await page.waitForSelector('#arcPicker');
+		await page.focus('#arcPicker');
 		await page.keyboard.down('ArrowUp');
 		await new Promise(r => setTimeout(r, 200));
 
@@ -90,15 +90,15 @@ describe('WindDirectionControl', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const windDirectionControlPage = targetEnv === 'TV' ? page : await newPageMultiple();
-			await windDirectionControlPage.emulateCPUThrottling(CPUThrottling);
+			const arcPickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			await arcPickerPage.emulateCPUThrottling(CPUThrottling);
 
-			await windDirectionControlPage.tracing.start({path: filename, screenshots: false});
-			await windDirectionControlPage.goto(`http://${serverAddr}/windDirectionControl`);
-			await windDirectionControlPage.waitForSelector('#agate-windDirectionControl');
+			await arcPickerPage.tracing.start({path: filename, screenshots: false});
+			await arcPickerPage.goto(`http://${serverAddr}/arcPicker`);
+			await arcPickerPage.waitForSelector('#arcPicker');
 			await new Promise(r => setTimeout(r, 200));
 
-			await windDirectionControlPage.tracing.stop();
+			await arcPickerPage.tracing.stop();
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;
@@ -116,7 +116,7 @@ describe('WindDirectionControl', () => {
 				passContLCP += 1;
 			}
 
-			if (targetEnv === 'PC') await windDirectionControlPage.close();
+			if (targetEnv === 'PC') await arcPickerPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;

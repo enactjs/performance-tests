@@ -1,5 +1,5 @@
-import kind from '@enact/core/kind';
 import WindDirectionControl from '@enact/agate/WindDirectionControl';
+import kind from '@enact/core/kind';
 
 const WindDirectionControlView = kind({
 	name: 'WindDirectionControlView',

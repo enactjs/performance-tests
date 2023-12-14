@@ -1,8 +1,14 @@
 import kind from '@enact/core/kind';
 import ThemeDecorator from '@enact/agate/ThemeDecorator';
 
+import ArcPicker from '../views/agate/ArcPicker';
+import ArcSlider from '../views/agate/ArcSlider';
+import BodyText from '../views/agate/BodyText';
 import Button from '../views/agate/Button';
 import Checkbox from '../views/agate/Checkbox';
+import FanSpeedControl from "../views/agate/FanSpeedControl";
+import Header from "../views/agate/Header";
+import Heading from "../views/agate/Heading";
 import Icon from "../views/agate/Icon";
 import Image from "../views/agate/Image";
 import ImageItem from "../views/agate/ImageItem";
@@ -49,8 +55,14 @@ const AgateApp = kind({
 		<Router>
 			<div {...props}>
 				<Routes>
+					<Route path="/arcPicker" element={<ArcPicker />} />
+					<Route path="/arcSlider" element={<ArcSlider />} />
+					<Route path="/bodyText" element={<BodyText />} />
 					<Route path="/button" element={<Button />} />
 					<Route path="/checkbox" element={<Checkbox />} />
+					<Route path="/fanSpeedControl" element={<FanSpeedControl />} />
+					<Route path="/header" element={<Header />} />
+					<Route path="/heading" element={<Heading />} />
 					<Route path="/icon" element={<Icon />} />
 					<Route path="/image" element={<Image />} />
 					<Route path="/imageItem" element={<ImageItem />} />

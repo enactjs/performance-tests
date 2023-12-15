@@ -20,7 +20,7 @@
 		"test-all-tv": "npm-run-all --parallel serve wait-on-tv",
 		"wait-on-sandstone": "wait-on http://localhost:8080/ && npm test -- --target=PC --theme=sandstone && npm stop",
 		"wait-on-agate": "wait-on http://localhost:8080/ && npm test -- --target=PC --theme=agate && npm stop",
-		"wait-on-tv": "wait-on http://localhost:8080/ && npm test --target=TV --theme=sandstone && npm stop"
+		"wait-on-tv": "wait-on http://localhost:8080/ && npm test -- --target=TV --theme=sandstone && npm stop"
 	},
 	"license": "UNLICENSED",
 	"private": true,

@@ -14,8 +14,8 @@ npm run test-all
 ```
 
 ```
-npm run serve
-npm run test
+npm run serve-sandstone
+npm run test -- --theme=sandstone
 ```
 
 ### Testing Agate components
@@ -27,7 +27,7 @@ npm run test-all-agate
 
 ```
 npm run serve-agate
-npm run test-agate
+npm run test -- --theme=agate
 ```
 On Windows OS you might need to install `cross-env` globally with `npm install -g cross-env`.
 

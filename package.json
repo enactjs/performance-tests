@@ -15,7 +15,7 @@
 		"license": "enact license",
 		"test": "jest --detectOpenHandles",
 		"stop": "pkill -f 'enact serve'",
-		"test-all-sandstone": "npm-run-all --parallel serve-sandstone wait-on-sandstone",
+		"test-all": "npm-run-all --parallel serve-sandstone wait-on-sandstone",
 		"test-all-agate": "npm-run-all --parallel serve-agate wait-on-agate",
 		"test-all-tv": "npm-run-all --parallel serve wait-on-tv",
 		"wait-on-sandstone": "wait-on http://localhost:8080/ && npm test -- --target=PC --theme=sandstone && npm stop",

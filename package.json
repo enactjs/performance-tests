@@ -17,7 +17,7 @@
 		"stop": "pkill -f 'enact serve'",
 		"test-all": "npm-run-all --parallel serve-sandstone wait-on-sandstone",
 		"test-all-agate": "npm-run-all --parallel serve-agate wait-on-agate",
-		"test-all-tv": "npm-run-all --parallel serve wait-on-tv",
+		"test-all-tv": "npm-run-all --parallel serve-sandstone wait-on-tv",
 		"wait-on-sandstone": "wait-on http://localhost:8080/ && npm test -- --target=PC --theme=sandstone && npm stop",
 		"wait-on-agate": "wait-on http://localhost:8080/ && npm test -- --target=PC --theme=agate && npm stop",
 		"wait-on-tv": "wait-on http://localhost:8080/ && npm test -- --target=TV --theme=sandstone && npm stop"

@@ -1,5 +1,7 @@
 // sandstone or agate based on provided `--theme` command line argument
 const themeEnvArg = process.argv.filter((x) => x.startsWith('--theme='))[0];
+
+// set base default to sandstone
 const base = themeEnvArg ? themeEnvArg.split('=')[1] : 'sandstone';
 
 module.exports = {

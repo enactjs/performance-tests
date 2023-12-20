@@ -9,16 +9,19 @@ const {version: SandstoneVersion} = require('@enact/sandstone/package.json');
 const {version: AgateVersion} = require('@enact/agate/package.json');
 
 const API_URL = process.env.API_URL;
-const themeEnvArg = process.argv.filter((x) => x.startsWith('--theme='))[0].split('=')[1];
+const themeEnvArg = process.argv.filter((x) => x.startsWith('--theme='))[0];
+
+// set default theme to sandstone
+const theme = themeEnvArg ? themeEnvArg.split('=')[1] : 'sandstone';
 
 const TestResult = module.exports = {
 	results: [],
 	addResult: ({component, type, actualValue}) => {
 		const timestamp = Date.now();
 		let result;
-		if (themeEnvArg === 'sandstone') {
+		if (theme === 'sandstone') {
 			result = {ReactVersion, EnactVersion, SandstoneVersion, timestamp, component, type, actualValue};
-		} else if (themeEnvArg === 'agate') {
+		} else if (theme === 'agate') {
 			result = {ReactVersion, EnactVersion, AgateVersion, timestamp, component, type, actualValue};
 		}
 		TestResult.results.push(result);
@@ -34,9 +37,9 @@ const TestResult = module.exports = {
 		} else {
 			console.log(JSON.stringify(result));
 			let txtPath;
-			if (themeEnvArg === 'sandstone') {
+			if (theme === 'sandstone') {
 				txtPath = path.join(__dirname, 'testResults/sandstone', `${component}.txt`); // eslint-disable-line
-			} else if (themeEnvArg === 'agate') {
+			} else if (theme === 'agate') {
 				txtPath = path.join(__dirname, 'testResults/agate', `${component}.txt`); // eslint-disable-line
 			}
 
@@ -46,20 +49,20 @@ const TestResult = module.exports = {
 	newFile: (component) => {
 		const dir = 'testResults';
 
-		if (themeEnvArg === 'sandstone') {
+		if (theme === 'sandstone') {
 			if (!fs.existsSync('performance/' + dir) || !fs.existsSync('performance/' + dir + '/sandstone')) {
 				fs.mkdirSync('performance/' + dir + '/sandstone', {recursive: true});
 			}
-		} else if (themeEnvArg === 'agate') {
+		} else if (theme === 'agate') {
 			if (!fs.existsSync('performance/' + dir) || !fs.existsSync('performance/' + dir + '/agate')) {
 				fs.mkdirSync('performance/' + dir + '/agate', {recursive: true});
 			}
 		}
 
 		let txtPath;
-		if (themeEnvArg === 'sandstone') {
+		if (theme === 'sandstone') {
 			txtPath = path.join(__dirname, 'testResults/sandstone', `${component}.txt`); // eslint-disable-line
-		} else if (themeEnvArg === 'agate') {
+		} else if (theme === 'agate') {
 			txtPath = path.join(__dirname, 'testResults/agate', `${component}.txt`); // eslint-disable-line
 		}
 

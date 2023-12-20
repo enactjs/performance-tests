@@ -15,12 +15,7 @@
 		"license": "enact license",
 		"test": "jest --detectOpenHandles",
 		"stop": "pkill -f 'enact serve'",
-		"test-all": "npm-run-all --parallel serve-sandstone wait-on-sandstone",
-		"test-all-agate": "npm-run-all --parallel serve-agate wait-on-agate",
-		"test-all-tv": "npm-run-all --parallel serve-sandstone wait-on-tv",
-		"wait-on-sandstone": "wait-on http://localhost:8080/ && npm test -- --target=PC --theme=sandstone && npm stop",
-		"wait-on-agate": "wait-on http://localhost:8080/ && npm test -- --target=PC --theme=agate && npm stop",
-		"wait-on-tv": "wait-on http://localhost:8080/ && npm test -- --target=TV --theme=sandstone && npm stop"
+		"test-all": "node ./scripts/test-all.js"
 	},
 	"license": "UNLICENSED",
 	"private": true,
@@ -47,7 +42,8 @@
 		"qs": "^6.11.2",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"react-router-dom": "^6.20.0"
+		"react-router-dom": "^6.20.0",
+		"shelljs": "^0.8.5"
 	},
 	"devDependencies": {
 		"cross-env": "^7.0.3",

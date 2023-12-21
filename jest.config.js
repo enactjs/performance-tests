@@ -1,12 +1,8 @@
-let base;
+// sandstone or agate based on provided `--theme` command line argument
+const themeEnvArg = process.argv.filter((x) => x.startsWith('--theme='))[0];
 
-const testAgateComponents = process.argv.some(arg => arg === '--library=agate');
-
-if (testAgateComponents) {
-	base = 'agate';
-} else {
-	base = 'sandstone'
-}
+// set base default to sandstone
+const base = themeEnvArg ? themeEnvArg.split('=')[1] : 'sandstone';
 
 module.exports = {
 	setupFilesAfterEnv: ['./jest.setup.js', './puppeteer.setup.js'],

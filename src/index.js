@@ -10,11 +10,11 @@ if (typeof window !== 'undefined') {
 	const root = createRoot(container);
 
 	import('process').then(() => {
-		if (process.env.REACT_APP_AGATE !== undefined) {
-			appElement = (<AgateApp />)
+		if (process.env.REACT_APP_ENACT_THEME === 'sandstone') {
+			appElement = (<SandstoneApp />);
 			root.render(appElement);
-		} else {
-			appElement = (<SandstoneApp />)
+		} else if (process.env.REACT_APP_ENACT_THEME === 'agate') {
+			appElement = (<AgateApp />);
 			root.render(appElement);
 		}
 	});

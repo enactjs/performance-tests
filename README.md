@@ -6,36 +6,43 @@ We utilize puppeteer to get chrome performance traces.
 
 ## Testing on PC
 
-To run all you have to do is start the server and run the test suite on it.
+### Testing Sandstone components
+
+Start the server with Sandstone components and run the test suite on it.
 ```
-npm run test-all
+npm run test-all -- --theme=sandstone
 ```
 
 ```
-npm run serve
-npm run test
+npm run serve-sandstone
+npm run test -- --theme=sandstone
 ```
+
+### Testing Agate components
+
+Start the server with Agate components and run the test suite on it.
+```
+npm run test-all -- --theme=agate
+```
+
+```
+npm run serve-agate
+npm run test -- --theme=agate
+```
+On Windows OS you might need to install `cross-env` globally with `npm install -g cross-env`.
 
 ## Testing on TV
 
-Pass the IP address of the TV as an environment variable and use the `npm run test-tv` task:
+Pass the IP address of the TV as an environment variable and use the `npm run test` task:
 
 ```bash
-TV_IP=10.0.1.1 npm run test-all-tv
+TV_IP=10.0.1.1 npm run test-all -- --target=TV --theme=sandstone
 ```
 
 ```bash
 npm run serve
-TV_IP=10.0.1.1 npm run test-tv
+TV_IP=10.0.1.1 npm run test -- --target=TV --theme=sandstone
 ```
-
-## Testing Agate components
-Start the server with Agate components and run the test suite on it
-```
-npm run serve-agate
-npm run test-agate
-```
-On Windows OS you might need to install `cross-env` globally with `npm install -g cross-env`
 
 ## CPU Throttling
 
@@ -49,14 +56,14 @@ Available commands are:
 Example:
 If you want to run tests on the PC with CPU throttling with 3x slowdown, you can run this command:
 ```
-npm run test -- --throttling=3
+npm run test -- --target=PC --throttling=3
 ```
 
 ### Testing on TV board
 Example: 
 If you want to run tests on the TV with a CPU throttling with 2x slowdown, you can run this command:
 ```
-npm run test-tv -- --throttling=2
+npm run test -- --target=TV --throttling=2
 ```
 
 ## Adding Tests

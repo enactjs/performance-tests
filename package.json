@@ -5,24 +5,17 @@
 	"author": "",
 	"main": "src/index.js",
 	"scripts": {
-		"serve": "enact serve",
-		"serve-agate": "cross-env REACT_APP_AGATE=true enact serve",
+		"serve-sandstone": "cross-env REACT_APP_ENACT_THEME=sandstone enact serve",
+		"serve-agate": "cross-env REACT_APP_ENACT_THEME=agate enact serve",
 		"pack": "enact pack",
 		"pack-p": "enact pack -p",
 		"watch": "enact pack --watch",
 		"clean": "enact clean",
 		"lint": "enact lint .",
 		"license": "enact license",
-		"test": "jest --detectOpenHandles --target=PC",
-		"test-agate": "jest --detectOpenHandles --target=PC --library=agate",
-		"test-tv": "jest --detectOpenHandles --target=TV",
+		"test": "jest --detectOpenHandles",
 		"stop": "pkill -f 'enact serve'",
-		"test-all": "npm-run-all --parallel serve wait-on",
-		"test-all-agate": "npm-run-all --parallel serve-agate wait-on-agate",
-		"test-all-tv": "npm-run-all --parallel serve wait-on-tv",
-		"wait-on": "wait-on http://localhost:8080/ && npm test && npm stop",
-		"wait-on-agate": "wait-on http://localhost:8080/ && npm run test-agate && npm stop",
-		"wait-on-tv": "wait-on http://localhost:8080/ && npm run test-tv && npm stop"
+		"test-all": "node ./scripts/test-all.js"
 	},
 	"license": "UNLICENSED",
 	"private": true,
@@ -37,19 +30,20 @@
 	],
 	"dependencies": {
 		"@enact/agate": "^2.0.7",
-		"@enact/core": "^4.7.6",
-		"@enact/i18n": "^4.7.6",
-		"@enact/sandstone": "^2.7.10",
-		"@enact/spotlight": "^4.7.6",
-		"@enact/ui": "^4.7.6",
-		"@enact/webos": "^4.7.6",
+		"@enact/core": "^4.7.8",
+		"@enact/i18n": "^4.7.8",
+		"@enact/sandstone": "^2.7.12",
+		"@enact/spotlight": "^4.7.8",
+		"@enact/ui": "^4.7.8",
+		"@enact/webos": "^4.7.8",
 		"dotenv": "^16.3.1",
 		"node-fetch": "^3.3.2",
 		"prop-types": "^15.8.1",
 		"qs": "^6.11.2",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"react-router-dom": "^6.16.0"
+		"react-router-dom": "^6.20.0",
+		"shelljs": "^0.8.5"
 	},
 	"devDependencies": {
 		"cross-env": "^7.0.3",
@@ -58,6 +52,6 @@
 		"npm-run-all": "^4.1.5",
 		"puppeteer": "^18.2.1",
 		"puppeteer-core": "^18.2.1",
-		"wait-on": "^7.0.1"
+		"wait-on": "^7.2.0"
 	}
 }

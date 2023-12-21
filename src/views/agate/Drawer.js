@@ -17,7 +17,7 @@ const DrawerView = () => {
 				<Button id="button-close" onClick={handleToggle}>Close</Button>
 			</Drawer>
 		</>
-	)
+	);
 };
 
 export default DrawerView;

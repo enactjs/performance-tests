@@ -123,4 +123,4 @@ describe('CheckboxItem', () => {
 		expect(passContLCP).toBeGreaterThan(passRatio * stepNumber);
 		expect(avgLCP).toBeLessThan(maxLCP);
 	});
-})
+});

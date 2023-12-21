@@ -7,6 +7,7 @@ const ContextualPopupButton = ContextualPopupDecorator(Button);
 const popup = () => <h2>Popup</h2>;
 
 const ContextualPopupDecoratorView = kind({
+	name: 'ContextualPopupDecoratorView',
 
 	render: () => (
 		<ContextualPopupButton id="agate-contextualPopupDecorator" popupComponent={popup} open>Button</ContextualPopupButton>

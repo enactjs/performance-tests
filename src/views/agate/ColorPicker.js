@@ -3,7 +3,7 @@ import ColorPicker from '@enact/agate/ColorPicker';
 
 const colors = ['green', 'yellow', 'orange', 'red', 'black', 'gray', 'white', '#cc5500', 'maroon', 'brown'];
 
-const isOpen = window.location.search.startsWith("?open")
+const isOpen = window.location.search.startsWith("?open");
 
 const ColorPickerView = kind({
 	name: 'ColorPickerView',

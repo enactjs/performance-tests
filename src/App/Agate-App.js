@@ -6,6 +6,13 @@ import ArcSlider from '../views/agate/ArcSlider';
 import BodyText from '../views/agate/BodyText';
 import Button from '../views/agate/Button';
 import Checkbox from '../views/agate/Checkbox';
+import CheckboxItem from '../views/agate/CheckboxItem';
+import ColorPicker from '../views/agate/ColorPicker';
+import ContextualPopupDecorator from '../views/agate/ContextualPopupDecorator';
+import DatePicker from '../views/agate/DatePicker';
+import DateTimePicker from '../views/agate/DateTimePicker';
+import Drawer from '../views/agate/Drawer';
+import Dropdown from '../views/agate/Dropdown';
 import FanSpeedControl from "../views/agate/FanSpeedControl";
 import Header from "../views/agate/Header";
 import Heading from "../views/agate/Heading";
@@ -19,6 +26,7 @@ import Keypad from '../views/agate/Keypad';
 import LabeledIcon from '../views/agate/LabeledIcon';
 import LabeledIconButton from '../views/agate/LabeledIconButton';
 import Marquee from '../views/agate/Marquee';
+import MediaPlayer from '../views/agate/MediaPlayer';
 import Panels from '../views/agate/Panels';
 import Picker from '../views/agate/Picker';
 import Popup from "../views/agate/Popup";
@@ -60,6 +68,13 @@ const AgateApp = kind({
 					<Route path="/bodyText" element={<BodyText />} />
 					<Route path="/button" element={<Button />} />
 					<Route path="/checkbox" element={<Checkbox />} />
+					<Route path="/checkboxItem" element={<CheckboxItem />} />
+					<Route path="/colorPicker" element={<ColorPicker />} />
+					<Route path="/contextualPopupDecorator" element={<ContextualPopupDecorator />} />
+					<Route path="/datePicker" element={<DatePicker />} />
+					<Route path="/dateTimePicker" element={<DateTimePicker />} />
+					<Route path="/drawer" element={<Drawer />} />
+					<Route path="/dropdown" element={<Dropdown />} />
 					<Route path="/fanSpeedControl" element={<FanSpeedControl />} />
 					<Route path="/header" element={<Header />} />
 					<Route path="/heading" element={<Heading />} />
@@ -73,6 +88,7 @@ const AgateApp = kind({
 					<Route path="/labeledIcon" element={<LabeledIcon />} />
 					<Route path="/labeledIconButton" element={<LabeledIconButton />} />
 					<Route path="/marquee" element={<Marquee />} />
+					<Route path="/mediaPlayer" element={<MediaPlayer />} />
 					<Route path="/panels" element={<Panels />} />
 					<Route path="/picker" element={<Picker />} />
 					<Route path="/popup" element={<Popup />} />

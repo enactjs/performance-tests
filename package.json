@@ -17,7 +17,7 @@
 		"stop": "pkill -f 'enact serve'",
 		"test-all": "concurrently \"npm run serve\" \"npm run wait-on\"",
 		"test-all-tv": "npm-run-all --parallel serve wait-on-tv",
-		"wait-on": "concurrently \"npm test\" \"npm stop\"",
+		"wait-on": "npm test && npm stop",
 		"wait-on-tv": "wait-on http://localhost:8080/ && npm run test-tv && npm stop"
 	},
 	"license": "UNLICENSED",

@@ -40,7 +40,7 @@ TV_IP=10.0.1.1 npm run test-all -- --target=TV --theme=sandstone
 ```
 
 ```bash
-npm run serve
+npm run serve-sandstone
 TV_IP=10.0.1.1 npm run test -- --target=TV --theme=sandstone
 ```
 

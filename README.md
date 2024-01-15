@@ -40,7 +40,7 @@ TV_IP=10.0.1.1 npm run test-all -- --target=TV --theme=sandstone
 ```
 
 ```bash
-npm run serve
+npm run serve-sandstone
 TV_IP=10.0.1.1 npm run test -- --target=TV --theme=sandstone
 ```
 
@@ -56,14 +56,16 @@ Available commands are:
 Example:
 If you want to run tests on the PC with CPU throttling with 3x slowdown, you can run this command:
 ```
-npm run test -- --target=PC --throttling=3
+npm run test -- --target=PC --theme=sandstone --throttling=3
+npm run test -- --target=PC --theme=agate --throttling=3
 ```
 
 ### Testing on TV board
 Example: 
 If you want to run tests on the TV with a CPU throttling with 2x slowdown, you can run this command:
 ```
-npm run test -- --target=TV --throttling=2
+npm run test -- --target=TV --theme=sandstone --throttling=2
+npm run test -- --target=TV --theme=agate --throttling=2
 ```
 
 ## Adding Tests

@@ -12,7 +12,7 @@ const PickerView = kind({
 	name: 'PickerView',
 
 	render: () => (
-		<Picker id="picker" title="Picker Default" >{pickerList}</Picker>
+		<Picker id="picker" title="Picker Default">{pickerList}</Picker>
 	)
 });
 

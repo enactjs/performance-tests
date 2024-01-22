@@ -2,7 +2,7 @@ import Button from '@enact/agate/Button';
 import Header from '@enact/agate/Header';
 import Item from '@enact/agate/Item';
 import {Panel, Panels} from '@enact/agate/Panels';
-import TabGroup from "@enact/agate/TabGroup";
+import TabGroup from '@enact/agate/TabGroup';
 import {useCallback, useState} from 'react';
 
 const PanelsView = () => {

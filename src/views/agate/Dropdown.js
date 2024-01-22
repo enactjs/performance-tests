@@ -1,5 +1,5 @@
-import kind from '@enact/core/kind';
 import Dropdown from '@enact/agate/Dropdown';
+import kind from '@enact/core/kind';
 
 const items = [
 	'Option 1',

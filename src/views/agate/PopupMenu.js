@@ -14,8 +14,8 @@ const PopupMenuView = () => {
 			<Button id="button-open" onClick={handleToggle}>open</Button>
 			<PopupMenu
 				id="popupMenu"
-				open={open}
 				onClose={handleToggle}
+				open={open}
 			>
 				<Button id="button-close" onClick={handleToggle}>close</Button>
 			</PopupMenu>

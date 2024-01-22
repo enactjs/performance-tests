@@ -5,7 +5,7 @@ const TimePickerView = kind({
 	name: 'TimePickerView',
 
 	render: () => (
-		<TimePicker id="timePicker"	/>
+		<TimePicker id="timePicker" />
 	)
 });
 

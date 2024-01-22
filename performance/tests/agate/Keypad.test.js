@@ -28,6 +28,7 @@ describe('Keypad', () => {
 			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
+
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
@@ -55,6 +56,7 @@ describe('Keypad', () => {
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
+
 			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
@@ -77,9 +79,11 @@ describe('Keypad', () => {
 		let actualCLS = await clsValue();
 
 		TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
+
 		expect(actualFirstInput).toBeLessThan(maxFID);
 
 		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
+
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 

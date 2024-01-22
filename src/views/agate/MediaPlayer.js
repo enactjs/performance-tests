@@ -1,5 +1,5 @@
-import kind from '@enact/core/kind';
 import MediaPlayer from '@enact/agate/MediaPlayer';
+import kind from '@enact/core/kind';
 
 const audioFiles = [
 	'https://sampleswap.org/mp3/artist/254731/BossPlayer_Your-Right-Here-160.mp3',

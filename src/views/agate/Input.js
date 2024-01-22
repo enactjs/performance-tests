@@ -6,8 +6,8 @@ const InputView = kind({
 
 	render: () => (
 		<Input
-			id="input"
 			defaultValue="Input field"
+			id="input"
 		/>
 	)
 });

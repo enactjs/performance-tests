@@ -77,9 +77,11 @@ describe('Picker', () => {
 		let actualCLS = await clsValue();
 
 		TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
+
 		expect(actualFirstInput).toBeLessThan(maxFID);
 
 		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
+
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 

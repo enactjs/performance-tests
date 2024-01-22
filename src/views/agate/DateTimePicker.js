@@ -1,5 +1,5 @@
-import kind from '@enact/core/kind';
 import DateTimePicker from '@enact/agate/DateTimePicker';
+import kind from '@enact/core/kind';
 
 const DateTimePickerView = kind({
 	name: 'DateTimePickerView',

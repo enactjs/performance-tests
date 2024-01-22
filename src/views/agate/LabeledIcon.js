@@ -6,8 +6,8 @@ const LabeledIconView = kind({
 
 	render: () => (
 		<LabeledIcon
-			id="labeledIcon"
 			icon="temperature"
+			id="labeledIcon"
 		>
 			LabeledIcon
 		</LabeledIcon>

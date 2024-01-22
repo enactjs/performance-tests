@@ -50,9 +50,9 @@ const VirtualListView = kind({
 		return (
 			<div style={{height: '700px'}}>
 				<VirtualList
-					id="VirtualList"
 					dataSize={dataSizeProp}
 					focusableScrollbar
+					id="VirtualList"
 					itemRenderer={renderItem}
 					itemSize={itemSize}
 				/>

@@ -19,6 +19,7 @@ describe('LabeledIconButton', () => {
 		let actualCLS = await clsValue();
 
 		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
+
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
@@ -41,7 +42,6 @@ describe('LabeledIconButton', () => {
 			await new Promise(r => setTimeout(r, 200));
 
 			await labeledIconButtonPage.tracing.stop();
-
 
 			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
 			avgDCL = avgDCL + actualDCL;

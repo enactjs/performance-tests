@@ -5,7 +5,7 @@ const ScrollerView = kind({
 	name: 'ScrollerView',
 
 	render: () => (
-		<div style={{height: '700px'}} id="scroller">
+		<div id="scroller" style={{height: '700px'}}>
 			<Scroller focusableScrollbar>
 				<div style={{height: '5000px'}}>
 					Content

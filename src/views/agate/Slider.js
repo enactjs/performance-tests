@@ -7,7 +7,7 @@ const SliderView = kind({
 	render: () => (
 		<>
 			Slider
-			<Slider id="slider" min={0} max={100} defaultValue={0} />
+			<Slider defaultValue={0} id="slider" max={100} min={0} />
 		</>
 	)
 });

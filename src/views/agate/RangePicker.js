@@ -6,10 +6,10 @@ const RangePickerView = kind({
 
 	render: () => (
 		<RangePicker
+			defaultValue={0}
 			id="rangePicker"
 			max={100}
 			min={0}
-			defaultValue={0}
 			title="Range Picker"
 		/>
 	)

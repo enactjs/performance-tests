@@ -58,7 +58,6 @@ describe('Drawer', () => {
 			await page.keyboard.down('Enter');
 			await page.keyboard.up('Enter');
 
-
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 

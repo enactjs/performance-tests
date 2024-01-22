@@ -7,8 +7,8 @@ const ToggleButtonView = kind({
 	render: () => (
 		<ToggleButton
 			id="agate-togglebutton"
-			toggleOnLabel="On"
 			toggleOffLabel="Off"
+			toggleOnLabel="On"
 		/>
 	)
 });

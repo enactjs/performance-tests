@@ -1,5 +1,5 @@
-import kind from '@enact/core/kind';
 import CheckboxItem from '@enact/agate/CheckboxItem';
+import kind from '@enact/core/kind';
 
 const CheckboxItemView = kind({
 	name: 'CheckboxItemView',

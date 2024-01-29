@@ -13,7 +13,7 @@ import Chart from '../views/Chart';
 
 import css from './App.module.less';
 
-const listOfComponents = [
+const listOfSandstoneComponent = [
 	'Overall',
 	'Alert',
 	'BodyText',
@@ -62,10 +62,58 @@ const listOfComponents = [
 	'WizardPanels'
 ];
 
+const listOfAgateComponent = [
+	'ArcPicker',
+	'ArcSlider',
+	'BodyText',
+	'Button',
+	'Checkbox',
+	'CheckboxItem',
+	'ContextualPopupDecorator',
+	'DatePicker',
+	'DateTimePicker',
+	'Drawer',
+	'Dropdown',
+	'FanSpeedControl',
+	'Header',
+	'Heading',
+	'Icon',
+	'Image',
+	'ImageItem',
+	'IncrementSlider',
+	'Input',
+	'Item',
+	'Keypad',
+	'LabeledIcon',
+	'LabeledIconButton',
+	'Marquee',
+	'Panels',
+	'Picker',
+	'Popup',
+	'PopupMenu',
+	'RadioItem',
+	'RangePicker',
+	'Scroller',
+	'Slider',
+	'SliderButton',
+	'SwitchItem',
+	'TabGroup',
+	'TemperatureControl',
+	'ThumbnailItem',
+	'TimePicker',
+	'TooltipDecorator',
+	'VirtualList',
+	'WindDirectionControl'
+];
+
+const listOfThemes = ['Sandstone', 'Agate'];
+
 const App = (props) => {
 	const [componentReleasedData, setComponentReleasedData] = useState([]);
 	const [componentDevelopData, setComponentDevelopData] = useState([]);
-	const [selectedComponent, setSelectedComponent] = useState(listOfComponents[0]);
+	const [selectedTheme, setSelectedTheme] = useState(listOfThemes[0]);
+	const [selectedListOfComponents, setSelectedListOfComponents] = useState(listOfSandstoneComponent);
+	const [selectedComponent, setSelectedComponent] = useState(selectedListOfComponents[0]);
 	const [listOfMetrics, setListOfMetrics] = useState([]);
 	const [listOfVersions, setListOfVersions] = useState([]);
 	const [listOfTestDates, setListOfTestDates] = useState([]);
@@ -101,7 +149,7 @@ const App = (props) => {
 
 	useEffect (() => {
 		let developTestDatesStringArray, releaseVersionsStringArray = [];
-		fetch('./releaseVersions.txt')
+		fetch('./' + selectedTheme + '/releaseVersions.txt')
 			.then(result => result.text())
 			.then(result => {
 				releaseVersionsStringArray = result.split('\n');
@@ -110,7 +158,7 @@ const App = (props) => {
 				setListOfVersions(releaseVersionsStringArray);
 			});
 
-		fetch('./developTestDate.txt')
+		fetch('./' + selectedTheme + '/developTestDate.txt')
 			.then(result => result.text())
 			.then(result => {
 				developTestDatesStringArray = result.split('\n');
@@ -118,13 +166,13 @@ const App = (props) => {
 
 				setListOfTestDates(developTestDatesStringArray);
 			});
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [selectedTheme]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect (() => {
 		let componentMetrics = [], promises = [];
 
 		for (let version of listOfVersions) {
-			promises.push(fetch('./' + version + '/' + selectedComponent + '.txt').then(result => result.text()));
+			promises.push(fetch('./' + selectedTheme + '/' + version + '/' + selectedComponent + '.txt').then(result => result.text()));
 		}
 
 		Promise.allSettled(promises).then((results) => {
@@ -154,7 +202,7 @@ const App = (props) => {
 		for (let buildDate of listOfTestDates) {
 			const date = getDateFromBuildDate(buildDate);
 			if (startDate <= date && endDate >= date) {
-				promises.push(fetch('./develop/' + buildDate + '/' + selectedComponent + '.txt').then(result => result.text()));
+				promises.push(fetch('./' + selectedTheme + '/develop/' + buildDate + '/' + selectedComponent + '.txt').then(result => result.text()));
 			}
 		}
 
@@ -186,6 +234,15 @@ const App = (props) => {
 		}
 	}, [listOfTestDates]);
 
+	const onThemeSelect = useCallback(({data}) => {
+		setSelectedTheme(data);
+		setSelectedListOfComponents(data === 'Sandstone' ? listOfSandstoneComponent : listOfAgateComponent);
+	}, []);
+
+	useEffect(() => {
+		setSelectedComponent(selectedListOfComponents[0]);
+	}, [selectedListOfComponents]);
+
 	const onComponentSelect = useCallback(({data}) => {
 		setComponentReleasedData([]);
 		setComponentDevelopData([]);
@@ -206,14 +263,25 @@ const App = (props) => {
 			<Heading showLine spacing="large" >Sandstone Performance Metrics</Heading>
 			<Layout align="start start" orientation="horizontal">
 				<Cell shrink>
-					<Heading size="small" spacing="none" >Component:</Heading>
+					<Heading size="small" spacing="none" >Theme Library:</Heading>
 					<Dropdown
 						className={css.dropdown}
 						defaultSelected={0}
-						onSelect={onComponentSelect}
-						width="x-large"
+						onSelect={onThemeSelect}
+						width="large"
 					>
-						{listOfComponents}
+						{listOfThemes}
+					</Dropdown>
+				</Cell>
+				<Cell shrink>
+					<Heading size="small" spacing="none" >Component:</Heading>
+					<Dropdown
+						className={css.dropdown}
+						onSelect={onComponentSelect}
+						selected={selectedListOfComponents.findIndex(value => value === selectedComponent)}
+						width="large"
+					>
+						{selectedListOfComponents}
 					</Dropdown>
 				</Cell>
 				<Cell shrink>

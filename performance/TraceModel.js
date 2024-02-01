@@ -1,4 +1,4 @@
-/* global requestAnimationFrame, PerformanceObserver */
+/* global requestAnimationFrame */
 
 const fs = require('fs');
 

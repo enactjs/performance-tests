@@ -5,6 +5,7 @@
 	"author": "",
 	"main": "src/index.js",
 	"scripts": {
+		"serve": "cross-env REACT_APP_ENACT_THEME=sandstone enact serve",
 		"serve-sandstone": "cross-env REACT_APP_ENACT_THEME=sandstone enact serve",
 		"serve-agate": "cross-env REACT_APP_ENACT_THEME=agate enact serve",
 		"pack": "enact pack",

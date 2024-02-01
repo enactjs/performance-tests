@@ -8,27 +8,32 @@ We utilize puppeteer to get chrome performance traces.
 
 ### Testing Sandstone components
 
-Start the server with Sandstone components and run the test suite on it.
-```
-npm run test-all -- --theme=sandstone
-```
+You can start the server and run the test suite on it separately. Sandstone is the default theme, so you can simply use:
 
 ```
-npm run serve-sandstone
-npm run test -- --theme=sandstone
+npm run serve
+npm run test
+```
+
+Alternatively, you can use the test-all command to start the server and run the test suite together:
+
+```
+npm run test-all
 ```
 
 ### Testing Agate components
 
-Start the server with Agate components and run the test suite on it.
-```
-npm run test-all -- --theme=agate
-```
+Start the server with Agate components and run the test suite on it. You can specify the theme by adding --theme=agate at the end of the command:
 
 ```
 npm run serve-agate
 npm run test -- --theme=agate
 ```
+
+```
+npm run test-all -- --theme=agate
+```
+
 On Windows OS you might need to install `cross-env` globally with `npm install -g cross-env`.
 
 ## Testing on TV
@@ -47,7 +52,6 @@ TV_IP=10.0.1.1 npm run test -- --target=TV --theme=sandstone
 ## CPU Throttling
 
 You can simulate a low-end device with a CPU throttling option. 1 is no throttle, 2 is 2x slowdown.
-
 See the [Puppeteer API docs](https://pptr.dev/api/puppeteer.page.emulatecputhrottling) for the detailed information.
 
 Available commands are:

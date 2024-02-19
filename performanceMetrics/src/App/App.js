@@ -260,7 +260,7 @@ const App = (props) => {
 
 	return (
 		<div {...props} className={classnames(props.className, css.app)}>
-			<Heading showLine spacing="large" >Sandstone Performance Metrics</Heading>
+			<Heading showLine spacing="large" >Enact Performance Metrics</Heading>
 			<Layout align="start start" orientation="horizontal">
 				<Cell shrink>
 					<Heading size="small" spacing="none" >Theme Library:</Heading>
@@ -315,7 +315,7 @@ const App = (props) => {
 									key={metric}
 									inputData={componentReleasedData.filter(entry => entry.type === metric && entry.timestamp >= startDate && entry.timestamp <= endDate)}
 									title={metric}
-									xAxis="SandstoneVersion"
+									xAxis={selectedTheme === "Sandstone" ? "SandstoneVersion" : "AgateVersion"}
 								/>
 							)}
 						</Scroller>

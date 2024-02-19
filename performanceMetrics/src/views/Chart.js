@@ -56,6 +56,7 @@ const Chart = kind({
 		},
 		xLabel: ({xAxis}) => {
 			if (xAxis.includes('SandstoneVersion')) return 'Sandstone Version';
+			else if (xAxis.includes('AgateVersion')) return 'Agate Version';
 			else if (xAxis.includes('date'))  return 'Date';
 		},
 		yLabel: ({title}) => {

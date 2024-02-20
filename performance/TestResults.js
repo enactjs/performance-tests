@@ -36,12 +36,7 @@ const TestResult = module.exports = {
 				.catch(err => console.log(err));
 		} else {
 			console.log(JSON.stringify(result));
-			let txtPath;
-			if (theme === 'sandstone') {
-				txtPath = path.join(__dirname, 'testResults/sandstone', `${component}.txt`); // eslint-disable-line
-			} else if (theme === 'agate') {
-				txtPath = path.join(__dirname, 'testResults/agate', `${component}.txt`); // eslint-disable-line
-			}
+			const txtPath = path.join(__dirname, 'testResults', `${component}.txt`); // eslint-disable-line
 
 			fs.appendFileSync(txtPath, JSON.stringify(result) + '\n');
 		}
@@ -49,22 +44,10 @@ const TestResult = module.exports = {
 	newFile: (component) => {
 		const dir = 'testResults';
 
-		if (theme === 'sandstone') {
-			if (!fs.existsSync('performance/' + dir) || !fs.existsSync('performance/' + dir + '/sandstone')) {
-				fs.mkdirSync('performance/' + dir + '/sandstone', {recursive: true});
-			}
-		} else if (theme === 'agate') {
-			if (!fs.existsSync('performance/' + dir) || !fs.existsSync('performance/' + dir + '/agate')) {
-				fs.mkdirSync('performance/' + dir + '/agate', {recursive: true});
-			}
+		if (!fs.existsSync('performance/' + dir)) {
+			fs.mkdirSync('performance/' + dir);
 		}
-
-		let txtPath;
-		if (theme === 'sandstone') {
-			txtPath = path.join(__dirname, 'testResults/sandstone', `${component}.txt`); // eslint-disable-line
-		} else if (theme === 'agate') {
-			txtPath = path.join(__dirname, 'testResults/agate', `${component}.txt`); // eslint-disable-line
-		}
+		const txtPath = path.join(__dirname, dir, `${component}.txt`); // eslint-disable-line
 
 		fs.access(txtPath, fs.F_OK, (err) => {
 			if (err) {

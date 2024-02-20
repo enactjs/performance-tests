@@ -10,7 +10,8 @@ const CustomTooltip = ({active, payload}) => {
 		return (
 			<div className={css.customTooltip}>
 				<div>{`Value: ${payload[0].value}`}</div>
-				<div>{`Sandstone Version: ${payload[0].payload.SandstoneVersion}`}</div>
+				{payload[0].payload.SandstoneVersion ? <div>{`Sandstone Version: ${payload[0].payload.SandstoneVersion}`}</div> : <></>}
+				{payload[0].payload.AgateVersion ? <div>{`Agate Version: ${payload[0].payload.AgateVersion}`}</div> : <></>}
 				<div>{`Date: ${payload[0].payload.date}`}</div>
 			</div>
 		);
@@ -55,6 +56,7 @@ const Chart = kind({
 		},
 		xLabel: ({xAxis}) => {
 			if (xAxis.includes('SandstoneVersion')) return 'Sandstone Version';
+			else if (xAxis.includes('AgateVersion')) return 'Agate Version';
 			else if (xAxis.includes('date'))  return 'Date';
 		},
 		yLabel: ({title}) => {

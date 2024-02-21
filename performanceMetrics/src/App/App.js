@@ -149,7 +149,7 @@ const App = (props) => {
 
 	useEffect (() => {
 		let developTestDatesStringArray, releaseVersionsStringArray = [];
-		fetch('./' + selectedTheme + '/releaseVersions.txt')
+		fetch('./' + selectedTheme.toLowerCase() + '/releaseVersions.txt')
 			.then(result => result.text())
 			.then(result => {
 				releaseVersionsStringArray = result.split('\n');
@@ -158,7 +158,7 @@ const App = (props) => {
 				setListOfVersions(releaseVersionsStringArray);
 			});
 
-		fetch('./' + selectedTheme + '/developTestDate.txt')
+		fetch('./' + selectedTheme.toLowerCase() + '/developTestDate.txt')
 			.then(result => result.text())
 			.then(result => {
 				developTestDatesStringArray = result.split('\n');
@@ -172,7 +172,7 @@ const App = (props) => {
 		let componentMetrics = [], promises = [];
 
 		for (let version of listOfVersions) {
-			promises.push(fetch('./' + selectedTheme + '/' + version + '/' + selectedComponent + '.txt').then(result => result.text()));
+			promises.push(fetch('./' + selectedTheme.toLowerCase() + '/' + version + '/' + selectedComponent + '.txt').then(result => result.text()));
 		}
 
 		Promise.allSettled(promises).then((results) => {
@@ -202,7 +202,7 @@ const App = (props) => {
 		for (let buildDate of listOfTestDates) {
 			const date = getDateFromBuildDate(buildDate);
 			if (startDate <= date && endDate >= date) {
-				promises.push(fetch('./' + selectedTheme + '/develop/' + buildDate + '/' + selectedComponent + '.txt').then(result => result.text()));
+				promises.push(fetch('./' + selectedTheme.toLowerCase() + '/develop/' + buildDate + '/' + selectedComponent + '.txt').then(result => result.text()));
 			}
 		}
 

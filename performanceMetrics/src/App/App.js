@@ -149,6 +149,8 @@ const App = (props) => {
 
 	useEffect (() => {
 		let developTestDatesStringArray, releaseVersionsStringArray = [];
+		setSelectedComponent(null);
+
 		fetch('./' + selectedTheme.toLowerCase() + '/releaseVersions.txt')
 			.then(result => result.text())
 			.then(result => {
@@ -156,6 +158,7 @@ const App = (props) => {
 				releaseVersionsStringArray.pop();
 
 				setListOfVersions(releaseVersionsStringArray);
+				setSelectedComponent(selectedListOfComponents[0]);
 			});
 
 		fetch('./' + selectedTheme.toLowerCase() + '/developTestDate.txt')
@@ -171,60 +174,65 @@ const App = (props) => {
 	useEffect (() => {
 		let componentMetrics = [], promises = [];
 
-		for (let version of listOfVersions) {
-			promises.push(fetch('./' + selectedTheme.toLowerCase() + '/' + version + '/' + selectedComponent + '.txt').then(result => result.text()));
-		}
-
-		Promise.allSettled(promises).then((results) => {
-			const successfulResults = results.filter((result) => result.value.includes('ReactVersion'));
-
-			for (let result of successfulResults) {
-				let resultJSON  = result.value.split('\n');
-				resultJSON.pop();
-
-				resultJSON.forEach(function (item, index) {
-					resultJSON[index] = JSON.parse(resultJSON[index]);
-				});
-
-				for (let element of resultJSON) {
-					element.date = convertDateFromMillisToYMD(element.timestamp);
-					componentMetrics.push(element);
-				}
+		if(selectedComponent) {
+			for (let version of listOfVersions) {
+				promises.push(fetch('./' + selectedTheme.toLowerCase() + '/' + version + '/' + selectedComponent + '.txt').then(result => result.text()));
 			}
 
-			setComponentReleasedData(componentMetrics);
-			setListOfMetrics([...new Set(componentMetrics.map(item => item.type))]);
-		});
+			Promise.allSettled(promises).then((results) => {
+				const successfulResults = results.filter((result) => result.value.includes('ReactVersion'));
+
+				for (let result of successfulResults) {
+					let resultJSON  = result.value.split('\n');
+					resultJSON.pop();
+
+					resultJSON.forEach(function (item, index) {
+						resultJSON[index] = JSON.parse(resultJSON[index]);
+					});
+
+					for (let element of resultJSON) {
+						element.date = convertDateFromMillisToYMD(element.timestamp);
+						componentMetrics.push(element);
+					}
+				}
+
+				setComponentReleasedData(componentMetrics);
+				setListOfMetrics([...new Set(componentMetrics.map(item => item.type))]);
+			});
+		}
 	}, [listOfVersions, selectedComponent]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect (() => {
 		let componentMetrics = [], promises = [];
-		for (let buildDate of listOfTestDates) {
-			const date = getDateFromBuildDate(buildDate);
-			if (startDate <= date && endDate >= date) {
-				promises.push(fetch('./' + selectedTheme.toLowerCase() + '/develop/' + buildDate + '/' + selectedComponent + '.txt').then(result => result.text()));
-			}
-		}
 
-		Promise.allSettled(promises).then((results) => {
-			const successfulResults = results.filter((result) => result.value.includes('ReactVersion'));
-
-			for (let result of successfulResults) {
-				let resultJSON  = result.value.split('\n');
-				resultJSON.pop();
-
-				resultJSON.forEach(function (item, index) {
-					resultJSON[index] = JSON.parse(resultJSON[index]);
-				});
-
-				for ( let element of resultJSON) {
-					element.date = convertDateFromMillisToYMD(element.timestamp);
-					componentMetrics.push(element);
+		if(selectedComponent) {
+			for (let buildDate of listOfTestDates) {
+				const date = getDateFromBuildDate(buildDate);
+				if (startDate <= date && endDate >= date) {
+					promises.push(fetch('./' + selectedTheme.toLowerCase() + '/develop/' + buildDate + '/' + selectedComponent + '.txt').then(result => result.text()));
 				}
 			}
 
-			setComponentDevelopData(componentMetrics);
-		});
+			Promise.allSettled(promises).then((results) => {
+				const successfulResults = results.filter((result) => result.value.includes('ReactVersion'));
+
+				for (let result of successfulResults) {
+					let resultJSON  = result.value.split('\n');
+					resultJSON.pop();
+
+					resultJSON.forEach(function (item, index) {
+						resultJSON[index] = JSON.parse(resultJSON[index]);
+					});
+
+					for ( let element of resultJSON) {
+						element.date = convertDateFromMillisToYMD(element.timestamp);
+						componentMetrics.push(element);
+					}
+				}
+
+				setComponentDevelopData(componentMetrics);
+			});
+		}
 	}, [endDate, listOfTestDates, selectedComponent, startDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
@@ -238,10 +246,6 @@ const App = (props) => {
 		setSelectedTheme(data);
 		setSelectedListOfComponents(data === 'Sandstone' ? listOfSandstoneComponent : listOfAgateComponent);
 	}, []);
-
-	useEffect(() => {
-		setSelectedComponent(selectedListOfComponents[0]);
-	}, [selectedListOfComponents]);
 
 	const onComponentSelect = useCallback(({data}) => {
 		setComponentReleasedData([]);

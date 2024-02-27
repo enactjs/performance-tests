@@ -7,8 +7,8 @@ import {useCallback, useState} from 'react';
 import {useLocation} from 'react-router-dom';
 
 const FixedPopupPanelsView = () => {
-	const location = useLocation();
-	const search = qs.parse(location.search, {ignoreQueryPrefix: true});
+	const currentLocation = useLocation();
+	const search = qs.parse(currentLocation.search, {ignoreQueryPrefix: true});
 	const [open, setOpen] = useState(search.open === 'true');
 
 	const onButtonClick = useCallback(() => {

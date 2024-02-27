@@ -8,7 +8,7 @@ const ImageItemView = kind({
 	render: () => (
 		<ImageItem
 			id="imageItem"
-			src="https://via.placeholder.com/600x600"
+			src="https://placehold.co/600x600"
 			style={{width: ri.scaleToRem(600), height: ri.scaleToRem(600)}}
 		>
 			Image Item caption

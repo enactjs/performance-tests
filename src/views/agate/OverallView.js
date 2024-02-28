@@ -11,6 +11,7 @@ import Slider from '@enact/agate/Slider';
 import TooltipDecorator from '@enact/agate/TooltipDecorator';
 import {VirtualGridList} from '@enact/agate/VirtualList';
 import ri from '@enact/ui/resolution';
+import PropTypes from 'prop-types';
 import {useCallback, useState} from 'react';
 
 const items = [];
@@ -27,6 +28,10 @@ const renderItem = ({index, ...rest}) => {
 			{caption}
 		</ImageItem>
 	);
+};
+
+renderItem.propTypes = {
+	index: PropTypes.number
 };
 
 for (let i = 0; i < 100; i++) {
@@ -65,22 +70,23 @@ const OverallView = () => {
 	};
 
 	return (
-		<div style={{paddingBottom: '56.25%'}}>
+		<>
 			<TabbedPanels
 				index={index}
 				noCloseButton
 				onSelect={onSelect} // eslint-disable-line react/jsx-no-bind
 				orientation="vertical"
 				tabs={[
-					{title: 'Button', icon: 'netbook'},
-					{title: 'Item', icon: 'aircirculation'},
-					{title: 'LabeledIconButton', icon: 'temperature'}
+					{title: 'First Tab', icon: 'netbook'},
+					{title: 'Second Tab', icon: 'aircirculation'},
+					{title: 'Third Tab', icon: 'temperature'}
 				]}
 			>
 				<beforeTabs>
 					<Button
 						aria-label="Previous Tab"
 						icon="arrowlargeleft"
+						id="backwardButton"
 						onClick={onBeforeTabs} // eslint-disable-line react/jsx-no-bind
 						size="small"
 						type="grid"
@@ -90,6 +96,7 @@ const OverallView = () => {
 					<Button
 						aria-label="Next Tab"
 						icon="arrowlargeright"
+						id="forwardButton"
 						onClick={onAfterTabs} // eslint-disable-line react/jsx-no-bind
 						size="small"
 						type="grid"
@@ -97,8 +104,8 @@ const OverallView = () => {
 				</afterTabs>
 				<Panel>
 					<Scroller horizontalScrollbar="hidden">
-						<Header title="This is a very long header to test Marquee" type="compact"/>
-						<Slider autoFocus defaultValue={50} id="slider" max={100} min={0}/>
+						<Header title="This is a very long header to test Marquee" type="compact" />
+						<Slider autoFocus defaultValue={50} id="slider" max={100} min={0} />
 						<CheckboxItem id="checkboxItem">This is a checkbox item</CheckboxItem>
 						<TooltipButton
 							id="tooltipButton"
@@ -107,40 +114,46 @@ const OverallView = () => {
 						>
 							Next Panel
 						</TooltipButton>
-						<VirtualGridList
-							dataSize={items.length}
-							focusableScrollbar
-							id="virtualGridList"
-							itemRenderer={renderItem}
-							itemSize={{
-								minWidth: ri.scale(339), // 267px(size of expanded ImageItem) + 36px(for shadow) * 2
-								minHeight: ri.scale(339) // 267px(size of expanded ImageItem) + 36px(for shadow) * 2
-							}}
-							verticalScrollbar="hidden"
-						/>
+						<div>
+							<VirtualGridList
+								dataSize={items.length}
+								focusableScrollbar
+								id="virtualGridList"
+								itemRenderer={renderItem}
+								itemSize={{
+									minWidth: ri.scale(339), // 267px(size of expanded ImageItem) + 36px(for shadow) * 2
+									minHeight: ri.scale(339) // 267px(size of expanded ImageItem) + 36px(for shadow) * 2
+								}}
+								verticalScrollbar="hidden"
+							/>
+						</div>
 					</Scroller>
 				</Panel>
 				<Panel>
-					<Header title="Color Adjust Color Adjust Color Adjust Color Adjust" type="compact"/>
-					<DatePicker/>
-					<VirtualGridList
-						dataSize={items.length}
-						focusableScrollbar
-						id="virtualGridListSecond"
-						itemRenderer={renderItem}
-						itemSize={{
-							minWidth: ri.scale(339), // 267px(size of expanded ImageItem) + 36px(for shadow) * 2
-							minHeight: ri.scale(339) // 267px(size of expanded ImageItem) + 36px(for shadow) * 2
-						}}
-						verticalScrollbar="visible"
-					/>
+					<Scroller horizontalScrollbar="hidden">
+						<Header title="The title of the second tab is very long" type="compact" />
+						<DatePicker />
+						<div>
+							<VirtualGridList
+								dataSize={items.length}
+								focusableScrollbar
+								id="virtualGridListSecond"
+								itemRenderer={renderItem}
+								itemSize={{
+									minWidth: ri.scale(339), // 267px(size of expanded ImageItem) + 36px(for shadow) * 2
+									minHeight: ri.scale(339) // 267px(size of expanded ImageItem) + 36px(for shadow) * 2
+								}}
+								verticalScrollbar="hidden"
+							/>
+						</div>
+					</Scroller>
 				</Panel>
 				<Panel className="enact-fit">
-					<Header title="The title of the second tab is very long" type="compact"/>
-					<Slider autoFocus defaultValue={50} id="slider" max={100} min={0}/>
+					<Header title="The title of the third tab is very long" type="compact" />
+					<Slider autoFocus defaultValue={50} id="slider" max={100} min={0} />
 				</Panel>
 			</TabbedPanels>
-		</div>
+		</>
 	);
 };
 

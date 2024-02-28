@@ -10,6 +10,7 @@ import Slider from '@enact/sandstone/Slider';
 import TooltipDecorator from '@enact/sandstone/TooltipDecorator';
 import {VirtualGridList} from '@enact/sandstone/VirtualList';
 import ri from '@enact/ui/resolution';
+import PropTypes from 'prop-types';
 import {useCallback, useState} from 'react';
 
 const items = [];
@@ -26,6 +27,10 @@ const renderItem = ({index, ...rest}) => {
 			{caption}
 		</ImageItem>
 	);
+};
+
+renderItem.propTypes = {
+	index: PropTypes.number
 };
 
 for (let i = 0; i < 100; i++) {

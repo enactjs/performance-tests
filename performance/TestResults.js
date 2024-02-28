@@ -32,10 +32,10 @@ const TestResult = module.exports = {
 				body: JSON.stringify(result),
 				headers: {'Content-Type': 'application/json'}}
 			)
-				.then(res => console.log(res.json()))
-				.catch(err => console.log(err));
+				.then(res => console.log(res.json())) // eslint-disable-line no-console
+				.catch(err => console.log(err)); // eslint-disable-line no-console
 		} else {
-			console.log(JSON.stringify(result));
+			console.log(JSON.stringify(result)); // eslint-disable-line no-console
 			const txtPath = path.join(__dirname, 'testResults', `${component}.txt`); // eslint-disable-line
 
 			fs.appendFileSync(txtPath, JSON.stringify(result) + '\n');

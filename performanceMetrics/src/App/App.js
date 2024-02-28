@@ -63,6 +63,7 @@ const listOfSandstoneComponent = [
 ];
 
 const listOfAgateComponent = [
+	'Overall',
 	'ArcPicker',
 	'ArcSlider',
 	'BodyText',
@@ -174,7 +175,7 @@ const App = (props) => {
 	useEffect (() => {
 		let componentMetrics = [], promises = [];
 
-		if(selectedComponent) {
+		if (selectedComponent) {
 			for (let version of listOfVersions) {
 				promises.push(fetch('./' + selectedTheme.toLowerCase() + '/' + version + '/' + selectedComponent + '.txt').then(result => result.text()));
 			}
@@ -205,7 +206,7 @@ const App = (props) => {
 	useEffect (() => {
 		let componentMetrics = [], promises = [];
 
-		if(selectedComponent) {
+		if (selectedComponent) {
 			for (let buildDate of listOfTestDates) {
 				const date = getDateFromBuildDate(buildDate);
 				if (startDate <= date && endDate >= date) {

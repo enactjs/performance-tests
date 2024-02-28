@@ -13,7 +13,7 @@ describe('Marquee', () => {
 	it('FPS on hover', async () => {
 		await FPS();
 		await page.goto(`http://${serverAddr}/marquee`);
-		await page.waitForSelector('#marquee');
+		await page.waitForSelector(MarqueeText);
 		await page.hover(MarqueeText);
 		await new Promise(r => setTimeout(r, 500));
 
@@ -27,7 +27,7 @@ describe('Marquee', () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/marquee`);
-		await page.waitForSelector('#marquee');
+		await page.waitForSelector(MarqueeText);
 		await page.hover(MarqueeText);
 		await new Promise(r => setTimeout(r, 500));
 

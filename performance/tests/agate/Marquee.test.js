@@ -5,7 +5,6 @@ const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceM
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
 const component = 'Marquee';
-const MarqueeText = '[class$="Marquee_marquee"]';
 
 describe('Marquee', () => {
 	TestResults.newFile(component);
@@ -14,8 +13,8 @@ describe('Marquee', () => {
 		await FPS();
 		await page.goto(`http://${serverAddr}/marquee`);
 		await page.waitForSelector('#marquee');
-		await page.hover(MarqueeText);
-		await new Promise(r => setTimeout(r, 500));
+		await page.hover('#marquee');
+		await new Promise(r => setTimeout(r, 1000));
 
 		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -28,8 +27,8 @@ describe('Marquee', () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/marquee`);
 		await page.waitForSelector('#marquee');
-		await page.hover(MarqueeText);
-		await new Promise(r => setTimeout(r, 500));
+		await page.hover('#marquee');
+		await new Promise(r => setTimeout(r, 1000));
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();

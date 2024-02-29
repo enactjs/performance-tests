@@ -15,14 +15,14 @@ describe('OverallView', () => {
 		await page.click('[aria-label="Next Tab"]'); // to move to the next panel.
 		await page.waitForSelector('#virtualGridListSecond');
 		await new Promise(r => setTimeout(r, 200));
-		await page.click(('[aria-label="Previous Tab"]')); // to move to the previous panel.
+		await page.click(('[aria-label="Previous Tab"]')); // to move to the previous tab.
 		await page.waitForSelector('#tooltipButton');
 		await new Promise(r => setTimeout(r, 200));
 
 		await page.click('#tooltipButton'); // to move to the next panel.
 		await page.waitForSelector('#virtualGridListSecond');
 		await new Promise(r => setTimeout(r, 200));
-		await page.click(('[aria-label="Previous Tab"]')); // to move to the previous panel.
+		await page.click(('[aria-label="Previous Tab"]')); // to move to the previous tab.
 		await page.waitForSelector('#tooltipButton');
 		await new Promise(r => setTimeout(r, 100));
 
@@ -84,10 +84,10 @@ describe('OverallView', () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/overallView`);
 		await page.waitForSelector('#tooltipButton');
-		await page.click('[aria-label="Next Tab"]'); // to move to the next panel.
+		await page.click('[aria-label="Next Tab"]'); // to move to the next tab.
 		await page.waitForSelector('#virtualGridListSecond');
 		await new Promise(r => setTimeout(r, 200));
-		await page.click(('[aria-label="Previous Tab"]')); // to move to the previous panel.
+		await page.click(('[aria-label="Previous Tab"]')); // to move to the previous tab.
 		await page.waitForSelector('#tooltipButton');
 		await new Promise(r => setTimeout(r, 200));
 

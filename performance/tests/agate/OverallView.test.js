@@ -26,7 +26,6 @@ describe('OverallView', () => {
 		await page.waitForSelector('#tooltipButton');
 		await new Promise(r => setTimeout(r, 100));
 
-
 		// focus various spottable components in the first tab and force the scroller to move
 		await page.keyboard.down('ArrowDown');
 		await page.keyboard.up('ArrowDown');

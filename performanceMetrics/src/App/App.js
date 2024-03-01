@@ -225,7 +225,7 @@ const App = (props) => {
 						resultJSON[index] = JSON.parse(resultJSON[index]);
 					});
 
-					for ( let element of resultJSON) {
+					for (let element of resultJSON) {
 						element.date = convertDateFromMillisToYMD(element.timestamp);
 						componentMetrics.push(element);
 					}

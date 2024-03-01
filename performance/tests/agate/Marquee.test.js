@@ -14,7 +14,7 @@ describe('Marquee', () => {
 		await page.goto(`http://${serverAddr}/marquee`);
 		await page.waitForSelector('#marquee');
 		await page.hover('#marquee');
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 500));
 
 		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -28,7 +28,7 @@ describe('Marquee', () => {
 		await page.goto(`http://${serverAddr}/marquee`);
 		await page.waitForSelector('#marquee');
 		await page.hover('#marquee');
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 500));
 
 		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();

@@ -14,7 +14,7 @@ describe('IncrementSlider', () => {
 			await page.goto(`http://${serverAddr}/incrementSlider`);
 			await page.waitForSelector('#incrementSlider');
 			const {x: posX, y: posY} = await page.evaluate(() => {
-				const knobElement = document.querySelector('[class$="Slider_knob"]');
+				const knobElement = document.querySelector('[class*="Slider_knob"]');
 				const {x, y} = knobElement.getBoundingClientRect();
 				return {x, y};
 			});

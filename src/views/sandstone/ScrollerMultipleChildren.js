@@ -11,14 +11,14 @@ const types = {
 };
 
 const ScrollerMultipleChildren = () => {
-	const location = useLocation();
-	const search = qs.parse(location.search, {ignoreQueryPrefix: true});
+	const currentLocation = useLocation();
+	const search = qs.parse(currentLocation.search, {ignoreQueryPrefix: true});
 	const type = search.type;
 	const Scroller = types[type] || ScrollerJS;
 
 	return (
 		<Scroller id="Scroller">
-			<MultipleComponents location={location} />
+			<MultipleComponents location={currentLocation} />
 		</Scroller>
 	);
 };

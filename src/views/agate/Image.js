@@ -7,7 +7,7 @@ const ImageView = kind({
 	render: () => (
 		<>
 			<p>Image</p>
-			<Image id="image" src="https://via.placeholder.com/600x600" />
+			<Image id="image" src="https://placehold.co/600x600" />
 		</>
 	)
 });

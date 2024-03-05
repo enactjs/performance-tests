@@ -27,6 +27,7 @@ import LabeledIcon from '../views/agate/LabeledIcon';
 import LabeledIconButton from '../views/agate/LabeledIconButton';
 import Marquee from '../views/agate/Marquee';
 import MediaPlayer from '../views/agate/MediaPlayer';
+import OverallView from '../views/agate/OverallView';
 import Panels from '../views/agate/Panels';
 import Picker from '../views/agate/Picker';
 import Popup from "../views/agate/Popup";
@@ -89,6 +90,7 @@ const AgateApp = kind({
 					<Route path="/labeledIconButton" element={<LabeledIconButton />} />
 					<Route path="/marquee" element={<Marquee />} />
 					<Route path="/mediaPlayer" element={<MediaPlayer />} />
+					<Route path="/overallView" element={<OverallView />} />
 					<Route path="/panels" element={<Panels />} />
 					<Route path="/picker" element={<Picker />} />
 					<Route path="/popup" element={<Popup />} />

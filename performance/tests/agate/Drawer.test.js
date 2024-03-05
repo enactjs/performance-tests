@@ -7,7 +7,7 @@ const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../..
 describe('Drawer', () => {
 	const component = 'Drawer';
 	const open = '#button-open';
-	const close = '#button-close';
+	const closeButton = '#button-close';
 	TestResults.newFile(component);
 
 	describe('click', () => {
@@ -15,19 +15,19 @@ describe('Drawer', () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/drawer`);
 			await page.waitForSelector('#agate-drawer');
-			await page.click(close);
+			await page.click(closeButton);
 			await new Promise(r => setTimeout(r, 500));
 			await page.click(open);
 			await new Promise(r => setTimeout(r, 500));
-			await page.click(close);
+			await page.click(closeButton);
 			await new Promise(r => setTimeout(r, 500));
 			await page.click(open);
 			await new Promise(r => setTimeout(r, 500));
-			await page.click(close);
+			await page.click(closeButton);
 			await new Promise(r => setTimeout(r, 500));
 			await page.click(open);
 			await new Promise(r => setTimeout(r, 500));
-			await page.click(close);
+			await page.click(closeButton);
 			await new Promise(r => setTimeout(r, 500));
 
 			const averageFPS = await getAverageFPS();
@@ -70,11 +70,11 @@ describe('Drawer', () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/drawer`);
 		await page.waitForSelector('#agate-drawer');
-		await page.click(close);
+		await page.click(closeButton);
 		await new Promise(r => setTimeout(r, 500));
 		await page.click(open);
 		await new Promise(r => setTimeout(r, 500));
-		await page.click(close);
+		await page.click(closeButton);
 		await new Promise(r => setTimeout(r, 500));
 
 		let actualFirstInput = await firstInputValue();

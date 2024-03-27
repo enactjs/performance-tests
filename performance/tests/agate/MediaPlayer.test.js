@@ -4,8 +4,8 @@ const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
-describe('CheckboxItem', () => {
-	const component = 'CheckboxItem';
+describe('MediaPlayer', () => {
+	const component = 'MediaPlayer';
 	TestResults.newFile(component);
 
 	describe('click', () => {

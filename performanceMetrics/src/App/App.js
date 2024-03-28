@@ -249,10 +249,12 @@ const App = (props) => {
 	}, []);
 
 	const onComponentSelect = useCallback(({data}) => {
-		setComponentReleasedData([]);
-		setComponentDevelopData([]);
-		setSelectedComponent(data);
-	}, []);
+		if (data !== selectedComponent) {
+			setComponentReleasedData([]);
+			setComponentDevelopData([]);
+			setSelectedComponent(data);
+		}
+	}, [selectedComponent]);
 
 
 	const onStartDateSelect = useCallback(({value}) => {

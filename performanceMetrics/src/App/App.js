@@ -51,6 +51,7 @@ const listOfSandstoneComponent = [
 	'RangePicker',
 	'Scroller',
 	'Slider',
+	'Spinner',
 	'Steps',
 	'Switch',
 	'SwitchItem',
@@ -88,6 +89,7 @@ const listOfAgateComponent = [
 	'LabeledIcon',
 	'LabeledIconButton',
 	'Marquee',
+	'MediaPlayer',
 	'Panels',
 	'Picker',
 	'Popup',
@@ -102,6 +104,7 @@ const listOfAgateComponent = [
 	'TemperatureControl',
 	'ThumbnailItem',
 	'TimePicker',
+	'ToggleButton',
 	'TooltipDecorator',
 	'VirtualList',
 	'WindDirectionControl'

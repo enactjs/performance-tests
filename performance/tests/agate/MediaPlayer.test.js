@@ -4,8 +4,8 @@ const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
-describe('CheckboxItem', () => {
-	const component = 'CheckboxItem';
+describe('MediaPlayer', () => {
+	const component = 'MediaPlayer';
 	TestResults.newFile(component);
 
 	describe('click', () => {
@@ -43,7 +43,7 @@ describe('CheckboxItem', () => {
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});

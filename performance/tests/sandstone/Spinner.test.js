@@ -5,7 +5,7 @@ const {CLS, FID, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('Spinner', () => {
-	const component = 'Steps';
+	const component = 'Spinner';
 	TestResults.newFile(component);
 
 	it('should have a good FID and CLS', async () => {

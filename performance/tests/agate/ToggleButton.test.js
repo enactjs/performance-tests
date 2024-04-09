@@ -4,8 +4,8 @@ const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
-describe('Button', () => {
-	const component = 'Button';
+describe('ToggleButton', () => {
+	const component = 'ToggleButton';
 	TestResults.newFile(component);
 
 	describe('click', () => {

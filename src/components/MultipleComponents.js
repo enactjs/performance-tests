@@ -4,8 +4,8 @@ import {useLocation} from 'react-router-dom';
 
 const MultipleComponents = () => {
 	const arr = [];
-	const location = useLocation();
-	const search = qs.parse(location.search, {ignoreQueryPrefix: true});
+	const currentLocation = useLocation();
+	const search = qs.parse(currentLocation.search, {ignoreQueryPrefix: true});
 	const count = parseInt(search.count) || 1;
 
 	for (let index = 0; index < count; index++) {

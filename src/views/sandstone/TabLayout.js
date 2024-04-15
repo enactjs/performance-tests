@@ -12,7 +12,7 @@ const images = new Array(20).fill().map((_, i) => (
 		inline
 		key={`image${i}`}
 		label="ImageItem label"
-		src="http://via.placeholder.com/360x240/"
+		src="https://placehold.co/360x240/"
 		style={{
 			width: scaleToRem(384),
 			height: scaleToRem(294)

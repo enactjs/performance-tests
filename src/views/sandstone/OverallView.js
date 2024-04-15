@@ -10,6 +10,7 @@ import Slider from '@enact/sandstone/Slider';
 import TooltipDecorator from '@enact/sandstone/TooltipDecorator';
 import {VirtualGridList} from '@enact/sandstone/VirtualList';
 import ri from '@enact/ui/resolution';
+import PropTypes from 'prop-types';
 import {useCallback, useState} from 'react';
 
 const items = [];
@@ -28,6 +29,10 @@ const renderItem = ({index, ...rest}) => {
 	);
 };
 
+renderItem.propTypes = {
+	index: PropTypes.number
+};
+
 for (let i = 0; i < 100; i++) {
 	const
 		count = ('00' + i).slice(-3),
@@ -35,9 +40,9 @@ for (let i = 0; i < 100; i++) {
 		color = Math.floor((Math.random() * (0x1000000 - 0x101010)) + 0x101010).toString(16),
 		label = `SubItem ${count}`,
 		src = {
-			'hd': `http://via.placeholder.com/200x200/${color}/ffffff/png?text=Image+${i}`,
-			'fhd': `http://via.placeholder.com/300x300/${color}/ffffff/png?text=Image+${i}`,
-			'uhd': `http://via.placeholder.com/600x600/${color}/ffffff/png?text=Image+${i}`
+			'hd': `https://placehold.co/200x200/${color}/ffffff/png?text=Image+${i}`,
+			'fhd': `https://placehold.co/300x300/${color}/ffffff/png?text=Image+${i}`,
+			'uhd': `https://placehold.co/600x600/${color}/ffffff/png?text=Image+${i}`
 		};
 
 	items.push({caption, label, src});

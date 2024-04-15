@@ -13,7 +13,7 @@ import Chart from '../views/Chart';
 
 import css from './App.module.less';
 
-const listOfComponents = [
+const listOfSandstoneComponent = [
 	'Overall',
 	'Alert',
 	'BodyText',
@@ -51,6 +51,7 @@ const listOfComponents = [
 	'RangePicker',
 	'Scroller',
 	'Slider',
+	'Spinner',
 	'Steps',
 	'Switch',
 	'SwitchItem',
@@ -62,10 +63,61 @@ const listOfComponents = [
 	'WizardPanels'
 ];
 
+const listOfAgateComponent = [
+	'Overall',
+	'ArcPicker',
+	'ArcSlider',
+	'BodyText',
+	'Button',
+	'Checkbox',
+	'CheckboxItem',
+	'ContextualPopupDecorator',
+	'DatePicker',
+	'DateTimePicker',
+	'Drawer',
+	'Dropdown',
+	'FanSpeedControl',
+	'Header',
+	'Heading',
+	'Icon',
+	'Image',
+	'ImageItem',
+	'IncrementSlider',
+	'Input',
+	'Item',
+	'Keypad',
+	'LabeledIcon',
+	'LabeledIconButton',
+	'Marquee',
+	'MediaPlayer',
+	'Panels',
+	'Picker',
+	'Popup',
+	'PopupMenu',
+	'RadioItem',
+	'RangePicker',
+	'Scroller',
+	'Slider',
+	'SliderButton',
+	'SwitchItem',
+	'TabGroup',
+	'TemperatureControl',
+	'ThumbnailItem',
+	'TimePicker',
+	'ToggleButton',
+	'TooltipDecorator',
+	'VirtualList',
+	'WindDirectionControl'
+];
+
+const listOfThemes = ['Sandstone', 'Agate'];
+
 const App = (props) => {
 	const [componentReleasedData, setComponentReleasedData] = useState([]);
 	const [componentDevelopData, setComponentDevelopData] = useState([]);
-	const [selectedComponent, setSelectedComponent] = useState(listOfComponents[0]);
+	const [selectedTheme, setSelectedTheme] = useState(listOfThemes[0]);
+	const [selectedListOfComponents, setSelectedListOfComponents] = useState(listOfSandstoneComponent);
+	const [selectedComponent, setSelectedComponent] = useState(selectedListOfComponents[0]);
 	const [listOfMetrics, setListOfMetrics] = useState([]);
 	const [listOfVersions, setListOfVersions] = useState([]);
 	const [listOfTestDates, setListOfTestDates] = useState([]);
@@ -101,16 +153,19 @@ const App = (props) => {
 
 	useEffect (() => {
 		let developTestDatesStringArray, releaseVersionsStringArray = [];
-		fetch('./releaseVersions.txt')
+		setSelectedComponent(null);
+
+		fetch('./' + selectedTheme.toLowerCase() + '/releaseVersions.txt')
 			.then(result => result.text())
 			.then(result => {
 				releaseVersionsStringArray = result.split('\n');
 				releaseVersionsStringArray.pop();
 
 				setListOfVersions(releaseVersionsStringArray);
+				setSelectedComponent(selectedListOfComponents[0]);
 			});
 
-		fetch('./developTestDate.txt')
+		fetch('./' + selectedTheme.toLowerCase() + '/developTestDate.txt')
 			.then(result => result.text())
 			.then(result => {
 				developTestDatesStringArray = result.split('\n');
@@ -118,65 +173,70 @@ const App = (props) => {
 
 				setListOfTestDates(developTestDatesStringArray);
 			});
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [selectedTheme]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect (() => {
 		let componentMetrics = [], promises = [];
 
-		for (let version of listOfVersions) {
-			promises.push(fetch('./' + version + '/' + selectedComponent + '.txt').then(result => result.text()));
-		}
-
-		Promise.allSettled(promises).then((results) => {
-			const successfulResults = results.filter((result) => result.value.includes('ReactVersion'));
-
-			for (let result of successfulResults) {
-				let resultJSON  = result.value.split('\n');
-				resultJSON.pop();
-
-				resultJSON.forEach(function (item, index) {
-					resultJSON[index] = JSON.parse(resultJSON[index]);
-				});
-
-				for (let element of resultJSON) {
-					element.date = convertDateFromMillisToYMD(element.timestamp);
-					componentMetrics.push(element);
-				}
+		if (selectedComponent) {
+			for (let version of listOfVersions) {
+				promises.push(fetch('./' + selectedTheme.toLowerCase() + '/' + version + '/' + selectedComponent + '.txt').then(result => result.text()));
 			}
 
-			setComponentReleasedData(componentMetrics);
-			setListOfMetrics([...new Set(componentMetrics.map(item => item.type))]);
-		});
+			Promise.allSettled(promises).then((results) => {
+				const successfulResults = results.filter((result) => result.value.includes('ReactVersion'));
+
+				for (let result of successfulResults) {
+					let resultJSON  = result.value.split('\n');
+					resultJSON.pop();
+
+					resultJSON.forEach(function (item, index) {
+						resultJSON[index] = JSON.parse(resultJSON[index]);
+					});
+
+					for (let element of resultJSON) {
+						element.date = convertDateFromMillisToYMD(element.timestamp);
+						componentMetrics.push(element);
+					}
+				}
+
+				setComponentReleasedData(componentMetrics);
+				setListOfMetrics([...new Set(componentMetrics.map(item => item.type))]);
+			});
+		}
 	}, [listOfVersions, selectedComponent]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect (() => {
 		let componentMetrics = [], promises = [];
-		for (let buildDate of listOfTestDates) {
-			const date = getDateFromBuildDate(buildDate);
-			if (startDate <= date && endDate >= date) {
-				promises.push(fetch('./develop/' + buildDate + '/' + selectedComponent + '.txt').then(result => result.text()));
-			}
-		}
 
-		Promise.allSettled(promises).then((results) => {
-			const successfulResults = results.filter((result) => result.value.includes('ReactVersion'));
-
-			for (let result of successfulResults) {
-				let resultJSON  = result.value.split('\n');
-				resultJSON.pop();
-
-				resultJSON.forEach(function (item, index) {
-					resultJSON[index] = JSON.parse(resultJSON[index]);
-				});
-
-				for ( let element of resultJSON) {
-					element.date = convertDateFromMillisToYMD(element.timestamp);
-					componentMetrics.push(element);
+		if (selectedComponent) {
+			for (let buildDate of listOfTestDates) {
+				const date = getDateFromBuildDate(buildDate);
+				if (startDate <= date && endDate >= date) {
+					promises.push(fetch('./' + selectedTheme.toLowerCase() + '/develop/' + buildDate + '/' + selectedComponent + '.txt').then(result => result.text()));
 				}
 			}
 
-			setComponentDevelopData(componentMetrics);
-		});
+			Promise.allSettled(promises).then((results) => {
+				const successfulResults = results.filter((result) => result.value.includes('ReactVersion'));
+
+				for (let result of successfulResults) {
+					let resultJSON  = result.value.split('\n');
+					resultJSON.pop();
+
+					resultJSON.forEach(function (item, index) {
+						resultJSON[index] = JSON.parse(resultJSON[index]);
+					});
+
+					for (let element of resultJSON) {
+						element.date = convertDateFromMillisToYMD(element.timestamp);
+						componentMetrics.push(element);
+					}
+				}
+
+				setComponentDevelopData(componentMetrics);
+			});
+		}
 	}, [endDate, listOfTestDates, selectedComponent, startDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
@@ -186,11 +246,18 @@ const App = (props) => {
 		}
 	}, [listOfTestDates]);
 
-	const onComponentSelect = useCallback(({data}) => {
-		setComponentReleasedData([]);
-		setComponentDevelopData([]);
-		setSelectedComponent(data);
+	const onThemeSelect = useCallback(({data}) => {
+		setSelectedTheme(data);
+		setSelectedListOfComponents(data === 'Sandstone' ? listOfSandstoneComponent : listOfAgateComponent);
 	}, []);
+
+	const onComponentSelect = useCallback(({data}) => {
+		if (data !== selectedComponent) {
+			setComponentReleasedData([]);
+			setComponentDevelopData([]);
+			setSelectedComponent(data);
+		}
+	}, [selectedComponent]);
 
 
 	const onStartDateSelect = useCallback(({value}) => {
@@ -203,17 +270,28 @@ const App = (props) => {
 
 	return (
 		<div {...props} className={classnames(props.className, css.app)}>
-			<Heading showLine spacing="large" >Sandstone Performance Metrics</Heading>
+			<Heading showLine spacing="large" >Enact Performance Metrics</Heading>
 			<Layout align="start start" orientation="horizontal">
+				<Cell shrink>
+					<Heading size="small" spacing="none" >Theme Library:</Heading>
+					<Dropdown
+						className={css.dropdown}
+						defaultSelected={0}
+						onSelect={onThemeSelect}
+						width="large"
+					>
+						{listOfThemes}
+					</Dropdown>
+				</Cell>
 				<Cell shrink>
 					<Heading size="small" spacing="none" >Component:</Heading>
 					<Dropdown
 						className={css.dropdown}
-						defaultSelected={0}
 						onSelect={onComponentSelect}
-						width="x-large"
+						selected={selectedListOfComponents.findIndex(value => value === selectedComponent)}
+						width="large"
 					>
-						{listOfComponents}
+						{selectedListOfComponents}
 					</Dropdown>
 				</Cell>
 				<Cell shrink>
@@ -247,7 +325,7 @@ const App = (props) => {
 									key={metric}
 									inputData={componentReleasedData.filter(entry => entry.type === metric && entry.timestamp >= startDate && entry.timestamp <= endDate)}
 									title={metric}
-									xAxis="SandstoneVersion"
+									xAxis={selectedTheme === "Sandstone" ? "SandstoneVersion" : "AgateVersion"}
 								/>
 							)}
 						</Scroller>

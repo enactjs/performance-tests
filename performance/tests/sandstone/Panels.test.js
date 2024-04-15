@@ -8,7 +8,7 @@ describe('Panels', () => {
 	const component = 'Panels';
 	const panel1 = '#panel-1';
 	const nextPanelButton = '#goToNextPanel';
-	const previousPanelButton = '.enact_sandstone_Panels_Header_back';
+	const previousPanelButton = '[aria-label="go to previous"]';
 	TestResults.newFile(component);
 
 	it('should have a good DCL, FCP and LCP', async () => {

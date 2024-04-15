@@ -7,7 +7,7 @@ const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../..
 describe('Drawer', () => {
 	const component = 'Drawer';
 	const open = '#button-open';
-	const close = '#button-close';
+	const closeButton = '#button-close';
 	TestResults.newFile(component);
 
 	describe('click', () => {
@@ -15,19 +15,19 @@ describe('Drawer', () => {
 			await FPS();
 			await page.goto(`http://${serverAddr}/drawer`);
 			await page.waitForSelector('#agate-drawer');
-			await page.click(close);
+			await page.click(closeButton);
 			await new Promise(r => setTimeout(r, 500));
 			await page.click(open);
 			await new Promise(r => setTimeout(r, 500));
-			await page.click(close);
+			await page.click(closeButton);
 			await new Promise(r => setTimeout(r, 500));
 			await page.click(open);
 			await new Promise(r => setTimeout(r, 500));
-			await page.click(close);
+			await page.click(closeButton);
 			await new Promise(r => setTimeout(r, 500));
 			await page.click(open);
 			await new Promise(r => setTimeout(r, 500));
-			await page.click(close);
+			await page.click(closeButton);
 			await new Promise(r => setTimeout(r, 500));
 
 			const averageFPS = await getAverageFPS();
@@ -59,7 +59,7 @@ describe('Drawer', () => {
 			await page.keyboard.up('Enter');
 
 			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
@@ -70,11 +70,11 @@ describe('Drawer', () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/drawer`);
 		await page.waitForSelector('#agate-drawer');
-		await page.click(close);
+		await page.click(closeButton);
 		await new Promise(r => setTimeout(r, 500));
 		await page.click(open);
 		await new Promise(r => setTimeout(r, 500));
-		await page.click(close);
+		await page.click(closeButton);
 		await new Promise(r => setTimeout(r, 500));
 
 		let actualFirstInput = await firstInputValue();

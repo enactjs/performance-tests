@@ -8,7 +8,7 @@ const throttlingEnvArg = process.argv.filter(x => x.startsWith('--throttling'))[
 // set default value --target=PC, --theme=sandstone and --throttling=1
 const target = targetEnvArg ? targetEnvArg.split('=')[1] : 'PC';
 const theme = themeEnvArg ? themeEnvArg.split('=')[1] : 'sandstone';
-const throttling = throttlingEnvArg? throttlingEnvArg.split('=')[1] : 1;
+const throttling = throttlingEnvArg ? throttlingEnvArg.split('=')[1] : 1;
 
 if (!shell.which('enact')) {
 	errorExit('Sorry, this script requires the enact cli tool');
@@ -23,7 +23,7 @@ shell.exec(`wait-on http://localhost:8080/ && npm test -- --target=${target} --t
 	shell.exec('npm stop');
 });
 
-function errorExit(message, code = 1) {
-	console.error(message);
+function errorExit (message, code = 1) {
+	console.error(message); // eslint-disable-line no-console
 	process.exit(code);
 }

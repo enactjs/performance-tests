@@ -11,8 +11,8 @@ const MarqueeMultiple = kind({
 	render: () => {
 		const arr = [];
 		// eslint-disable-next-line react-hooks/rules-of-hooks
-		const location = useLocation();
-		const search = qs.parse(location.search, {ignoreQueryPrefix: true});
+		const currentLocation = useLocation();
+		const search = qs.parse(currentLocation.search, {ignoreQueryPrefix: true});
 		const count = parseInt(search.count);
 		const marqueeOn = search.marqueeOn || 'hover';
 

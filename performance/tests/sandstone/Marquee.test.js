@@ -5,7 +5,6 @@ const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceM
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
 const component = 'Marquee';
-const MarqueeText = '[class$="Marquee_marquee"]';
 
 describe('Marquee', () => {
 	TestResults.newFile(component);
@@ -14,7 +13,7 @@ describe('Marquee', () => {
 		await FPS();
 		await page.goto(`http://${serverAddr}/marquee`);
 		await page.waitForSelector('#marquee');
-		await page.hover(MarqueeText);
+		await page.hover('#marquee');
 		await new Promise(r => setTimeout(r, 500));
 
 		const averageFPS = await getAverageFPS();
@@ -28,7 +27,7 @@ describe('Marquee', () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/marquee`);
 		await page.waitForSelector('#marquee');
-		await page.hover(MarqueeText);
+		await page.hover('#marquee');
 		await new Promise(r => setTimeout(r, 500));
 
 		let actualFirstInput = await firstInputValue();
@@ -113,7 +112,7 @@ describe('Marquee', () => {
 				await new Promise(r => setTimeout(r, 2000));
 
 				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component, type: 'Marquee Multiple Hover Frames Per Second', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+				TestResults.addResult({component: component, type: `${count} Marquee Multiple Hover Frames Per Second`, actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 			});
 		}
 
@@ -127,7 +126,7 @@ describe('Marquee', () => {
 				await new Promise(r => setTimeout(r, 2000));
 
 				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component, type: 'Marquee Multiple Render Frames Per Second', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+				TestResults.addResult({component: component, type: `${count} Marquee Multiple Render Frames Per Second`, actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 			});
 		}
 	});

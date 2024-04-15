@@ -1,16 +1,16 @@
 import kind from '@enact/core/kind';
-import QuickGuidePanels, {Panel} from '@enact/sandstone/QuickGuidePanels';
+import QuickGuidePanels, {QuickGuidePanel} from '@enact/sandstone/QuickGuidePanels';
 
 const QuickGuidePanelsView = kind({
-	name: 'IconItemView',
+	name: 'QuickGuidePanelsView',
 
 	render: () => (
 		<QuickGuidePanels>
-			<Panel>
+			<QuickGuidePanel>
 				<div id="panel-1">View 1</div>
-			</Panel>
-			<Panel>View 2</Panel>
-			<Panel>View 3</Panel>
+			</QuickGuidePanel>
+			<QuickGuidePanel>View 2</QuickGuidePanel>
+			<QuickGuidePanel>View 3</QuickGuidePanel>
 		</QuickGuidePanels>
 	)
 });

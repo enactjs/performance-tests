@@ -1,7 +1,7 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../../TestResults');
-const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, coreWebVitals, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('OverallView', () => {
@@ -141,6 +141,37 @@ describe('OverallView', () => {
 
 		expect(passContLCP).toBeGreaterThan(passRatio * stepNumber);
 		expect(avgLCP).toBeLessThan(maxLCP);
+	});
+
+
+	it('should have a good INP', async () => {
+		await page.goto(`http://${serverAddr}/overallView`);
+		await coreWebVitals.attachCWV_Lib(page);
+		await page.waitForSelector('#tooltipButton');
+		await page.click('#tooltipButton'); // to move to the next panel.
+		await page.waitForSelector('#virtualGridListSecond');
+		await page.keyboard.down('Escape'); // to move to the previous panel.
+		await page.keyboard.up('Escape');
+		await page.waitForSelector('#tooltipButton');
+		await new Promise(r => setTimeout(r, 200));
+
+		let inpValue;
+
+		page.on("console", (msg) => {
+			inpValue = Number(msg.text());
+			TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
+			expect(inpValue).toBeLessThan(maxINP);
+		});
+
+		await page.evaluateHandle(() => {
+			window.webVitals.getINP(function (inp) {
+				console.log(inp.value); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
+			}
+			);
+		});
 	});
 });
 

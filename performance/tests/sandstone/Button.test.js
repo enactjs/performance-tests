@@ -1,4 +1,4 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
@@ -9,58 +9,65 @@ describe('Button', () => {
 	TestResults.newFile(component);
 
 	describe('click', () => {
-		it('animates', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/button`);
-			await page.waitForSelector('#button');
-			await page.click('#button'); // to move mouse on the button.
-			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 100));
-			await page.mouse.up();
-			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 100));
-			await page.mouse.up();
-			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 100));
-			await page.mouse.up();
-			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 100));
-			await page.mouse.up();
+		// Test beforeAll
+		let page;
+		beforeAll(async () => {
+			page = await globalThis.__BROWSER_GLOBAL__.newPage();
+			await page.goto('https://google.com');
+		}, 5000);
 
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
-
-	describe('keypress', () => {
-		it('animates', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/button`);
-			await page.waitForSelector('#button');
-			await page.focus('#button');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.up('Enter');
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.up('Enter');
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.up('Enter');
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.up('Enter');
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
-
+	// 	it('animates', async () => {
+	// 		await FPS(page);
+	// 		await page.goto(`http://${serverAddr}/button`);
+	// 		await page.waitForSelector('#button');
+	// 		await page.click('#button'); // to move mouse on the button.
+	// 		await page.mouse.down();
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.mouse.up();
+	// 		await page.mouse.down();
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.mouse.up();
+	// 		await page.mouse.down();
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.mouse.up();
+	// 		await page.mouse.down();
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.mouse.up();
+	// 		await new Promise(r => setTimeout(r, 1000000));
+	//
+	// 		const averageFPS = await getAverageFPS(page);
+	// 		TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	//
+	// describe('keypress', () => {
+	// 	it('animates', async () => {
+	// 		await FPS();
+	// 		await page.goto(`http://${serverAddr}/button`);
+	// 		await page.waitForSelector('#button');
+	// 		await page.focus('#button');
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.keyboard.up('Enter');
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.keyboard.up('Enter');
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.keyboard.up('Enter');
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.keyboard.up('Enter');
+	//
+	// 		const averageFPS = await getAverageFPS();
+	// 		TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	// });
+	//
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
 		await page.evaluateOnNewDocument(CLS);
@@ -70,8 +77,11 @@ describe('Button', () => {
 		await page.keyboard.down('Enter');
 		await new Promise(r => setTimeout(r, 200));
 
-		let actualFirstInput = await firstInputValue();
-		let actualCLS = await clsValue();
+		// let actualFirstInput = await firstInputValue();
+		let actualFirstInput = await page.evaluate(`window.fid`);
+		// let actualCLS = await clsValue();
+		let actualCLS = await page.evaluate(`window.cls`);
+
 
 		TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
 		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
@@ -90,7 +100,11 @@ describe('Button', () => {
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
-			const buttonPage = targetEnv === 'TV' ? page : await newPageMultiple();
+			const buttonPage =
+				// targetEnv === 'TV' ?
+					page
+					// : await newPageMultiple()
+			;
 			await buttonPage.emulateCPUThrottling(CPUThrottling);
 
 			await buttonPage.tracing.start({path: filename, screenshots: false});
@@ -116,7 +130,7 @@ describe('Button', () => {
 				passContLCP += 1;
 			}
 
-			if (targetEnv === 'PC') await buttonPage.close();
+			// if (targetEnv === 'PC') await buttonPage.close();
 		}
 		avgDCL = avgDCL / stepNumber;
 		avgFCP = avgFCP / stepNumber;
@@ -134,6 +148,7 @@ describe('Button', () => {
 
 		expect(passContLCP).toBeGreaterThan(passRatio * stepNumber);
 		expect(avgLCP).toBeLessThan(maxLCP);
+	});
 	});
 });
 

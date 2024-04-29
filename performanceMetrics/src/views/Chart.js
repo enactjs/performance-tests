@@ -84,7 +84,7 @@ const Chart = kind({
 						left: 80,
 						bottom: 50
 					}}
-					width={900}
+					width={600}
 				>
 					<CartesianGrid strokeDasharray="10 10" />
 					<XAxis dataKey={xAxis} interval={0}>

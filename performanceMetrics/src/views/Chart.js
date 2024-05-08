@@ -84,10 +84,10 @@ const Chart = kind({
 						left: 80,
 						bottom: 50
 					}}
-					width={600}
+					width={900}
 				>
 					<CartesianGrid strokeDasharray="10 10" />
-					<XAxis dataKey={xAxis} interval={0}>
+					<XAxis dataKey={xAxis} interval='preserveStartEnd'>
 						<Label
 							offset={10}
 							position="bottom"

@@ -1,7 +1,7 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../../TestResults');
-const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics, coreWebVitals} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple, scrollAtPoint} = require('../../utils');
 
 describe( 'Scroller', () => {
@@ -64,6 +64,34 @@ describe( 'Scroller', () => {
 
 		expect(actualFirstInput).toBeLessThan(maxFID);
 		expect(actualCLS).toBeLessThan(maxCLS);
+	});
+
+	it('should have a good INP', async () => {
+		await page.goto(`http://${serverAddr}/scroller`);
+		await coreWebVitals.attachCwvLib(page);
+		await page.waitForSelector('#scroller');
+		await page.focus('[aria-label="scroll up or down with up down button"]');
+		await page.keyboard.down('Enter');
+		await page.keyboard.down('Enter');
+		await new Promise(r => setTimeout(r, 2000));
+
+		let inpValue;
+
+		page.on("console", (msg) => {
+			inpValue = Number(msg.text());
+			TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
+			expect(inpValue).toBeLessThan(maxINP);
+		});
+
+		await page.evaluateHandle(() => {
+			window.webVitals.getINP(function (inp) {
+				console.log(inp.value); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
+			}
+			);
+		});
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

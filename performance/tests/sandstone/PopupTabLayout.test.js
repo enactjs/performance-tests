@@ -1,7 +1,7 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../../TestResults');
-const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics, coreWebVitals} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('PopupTabLayout', () => {
@@ -85,6 +85,48 @@ describe('PopupTabLayout', () => {
 
 		expect(actualFirstInput).toBeLessThan(maxFID);
 		expect(actualCLS).toBeLessThan(maxCLS);
+	});
+
+	it('should have a good INP', async () => {
+		await page.goto(`http://${serverAddr}/popupTabLayout`);
+		await coreWebVitals.attachCwvLib(page);
+		await page.waitForSelector('#popupTabLayout');
+		await page.keyboard.down('ArrowRight');
+		await page.keyboard.up('ArrowRight');
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await page.keyboard.down('Enter');
+		await new Promise(r => setTimeout(r, 200));
+		await page.keyboard.up('Enter');
+		// await page.keyboard.down('ArrowUp');
+		// await page.keyboard.up('ArrowUp');
+		// await page.keyboard.down('Enter');
+		// await new Promise(r => setTimeout(r, 200));
+		// await page.keyboard.up('Enter');
+		// await page.keyboard.down('Escape');
+		// await new Promise(r => setTimeout(r, 200));
+		// await page.keyboard.up('Escape');
+		// await page.keyboard.down('Escape');
+		// await new Promise(r => setTimeout(r, 200));
+		// await page.keyboard.up('Escape');
+
+		let inpValue;
+
+		page.on("console", (msg) => {
+			inpValue = Number(msg.text());
+			TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
+			expect(inpValue).toBeLessThan(maxINP);
+		});
+
+		await page.evaluateHandle(() => {
+			window.webVitals.getINP(function (inp) {
+				console.log(inp.value); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
+			}
+			);
+		});
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

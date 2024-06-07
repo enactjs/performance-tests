@@ -138,7 +138,7 @@ describe('Button', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/button`);
-		await coreWebVitals.attachCWV_Lib(page);
+		await coreWebVitals.attachCwvLib(page);
 		await new Promise(r => setTimeout(r, 500));
 		await page.waitForSelector('#button');
 		await page.focus('#button');

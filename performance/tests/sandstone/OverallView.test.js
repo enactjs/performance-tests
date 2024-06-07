@@ -146,7 +146,7 @@ describe('OverallView', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/overallView`);
-		await coreWebVitals.attachCWV_Lib(page);
+		await coreWebVitals.attachCwvLib(page);
 		await page.waitForSelector('#tooltipButton');
 		await page.click('#tooltipButton'); // to move to the next panel.
 		await page.waitForSelector('#virtualGridListSecond');

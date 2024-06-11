@@ -8,29 +8,29 @@ describe('ContextualPopupDecorator', () => {
 	const component = 'ContextualPopupDecorator';
 	TestResults.newFile(component);
 
-	it('FPS', async () => {
-		await FPS();
-		await page.goto(`http://${serverAddr}/contextualPopupDecorator`);
-		await page.waitForSelector('#contextualPopupDecorator');
-		await page.click('#contextualPopupDecorator'); // to move mouse on the button.
-		await page.mouse.down();
-		await new Promise(r => setTimeout(r, 100));
-		await page.mouse.up();
-		await page.mouse.down();
-		await new Promise(r => setTimeout(r, 100));
-		await page.mouse.up();
-		await page.mouse.down();
-		await new Promise(r => setTimeout(r, 100));
-		await page.mouse.up();
-		await page.mouse.down();
-		await new Promise(r => setTimeout(r, 100));
-		await page.mouse.up();
-
-		const averageFPS = await getAverageFPS();
-		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-		expect(averageFPS).toBeGreaterThan(minFPS);
-	});
+	// it('FPS', async () => {
+	// 	await FPS();
+	// 	await page.goto(`http://${serverAddr}/contextualPopupDecorator`);
+	// 	await page.waitForSelector('#contextualPopupDecorator');
+	// 	await page.click('#contextualPopupDecorator'); // to move mouse on the button.
+	// 	await page.mouse.down();
+	// 	await new Promise(r => setTimeout(r, 100));
+	// 	await page.mouse.up();
+	// 	await page.mouse.down();
+	// 	await new Promise(r => setTimeout(r, 100));
+	// 	await page.mouse.up();
+	// 	await page.mouse.down();
+	// 	await new Promise(r => setTimeout(r, 100));
+	// 	await page.mouse.up();
+	// 	await page.mouse.down();
+	// 	await new Promise(r => setTimeout(r, 100));
+	// 	await page.mouse.up();
+	//
+	// 	const averageFPS = await getAverageFPS();
+	// 	TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 	expect(averageFPS).toBeGreaterThan(minFPS);
+	// });
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);

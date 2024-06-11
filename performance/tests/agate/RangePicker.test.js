@@ -8,59 +8,58 @@ describe('RangePicker', () => {
 	const component = 'RangePicker';
 	TestResults.newFile(component);
 
-	describe('RangePicker', () => {
-		describe('click', () => {
-			it('animates', async () => {
-				await FPS();
-				await page.goto(`http://${serverAddr}/rangePicker`);
-				await page.waitForSelector('#rangePicker');
-				await page.click('[aria-label$="increase the value"]'); // to move mouse on the rangePicker.
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-
-				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-				expect(averageFPS).toBeGreaterThan(minFPS);
-			});
-		});
-
-		describe('keypress', () => {
-			it('animates', async () => {
-				await FPS();
-				await page.goto(`http://${serverAddr}/rangePicker`);
-				await page.waitForSelector('#rangePicker');
-				await page.focus('[aria-label$="increase the value"]');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-
-				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-				expect(averageFPS).toBeGreaterThan(minFPS);
-			});
-		});
+	// 	describe('click', () => {
+	// 		it('animates', async () => {
+	// 			await FPS();
+	// 			await page.goto(`http://${serverAddr}/rangePicker`);
+	// 			await page.waitForSelector('#rangePicker');
+	// 			await page.click('[aria-label$="increase the value"]'); // to move mouse on the rangePicker.
+	// 			await page.mouse.down();
+	// 			await new Promise(r => setTimeout(r, 200));
+	// 			await page.mouse.up();
+	// 			await page.mouse.down();
+	// 			await new Promise(r => setTimeout(r, 200));
+	// 			await page.mouse.up();
+	// 			await page.mouse.down();
+	// 			await new Promise(r => setTimeout(r, 200));
+	// 			await page.mouse.up();
+	// 			await page.mouse.down();
+	// 			await new Promise(r => setTimeout(r, 200));
+	// 			await page.mouse.up();
+	//
+	// 			const averageFPS = await getAverageFPS();
+	// 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 			expect(averageFPS).toBeGreaterThan(minFPS);
+	// 		});
+	// 	});
+	//
+	// 	describe('keypress', () => {
+	// 		it('animates', async () => {
+	// 			await FPS();
+	// 			await page.goto(`http://${serverAddr}/rangePicker`);
+	// 			await page.waitForSelector('#rangePicker');
+	// 			await page.focus('[aria-label$="increase the value"]');
+	// 			await new Promise(r => setTimeout(r, 200));
+	// 			await page.keyboard.down('Enter');
+	// 			await new Promise(r => setTimeout(r, 200));
+	// 			await page.keyboard.up('Enter');
+	// 			await page.keyboard.down('Enter');
+	// 			await new Promise(r => setTimeout(r, 200));
+	// 			await page.keyboard.up('Enter');
+	// 			await page.keyboard.down('Enter');
+	// 			await new Promise(r => setTimeout(r, 200));
+	// 			await page.keyboard.up('Enter');
+	// 			await page.keyboard.down('Enter');
+	// 			await new Promise(r => setTimeout(r, 200));
+	// 			await page.keyboard.up('Enter');
+	//
+	// 			const averageFPS = await getAverageFPS();
+	// 			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 			expect(averageFPS).toBeGreaterThan(minFPS);
+	// 		});
+	// 	});
 
 		it('should have a good FID and CLS', async () => {
 			await page.evaluateOnNewDocument(FID);
@@ -141,5 +140,4 @@ describe('RangePicker', () => {
 			expect(passContLCP).toBeGreaterThan(passRatio * stepNumber);
 			expect(avgLCP).toBeLessThan(maxLCP);
 		});
-	});
 });

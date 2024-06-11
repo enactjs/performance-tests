@@ -1,5 +1,5 @@
 import kind from '@enact/core/kind';
-import QuickGuidePanels, {QuickGuidePanel} from '@enact/sandstone/QuickGuidePanels';
+import QuickGuidePanels, {Panel as QuickGuidePanel} from '@enact/sandstone/QuickGuidePanels';
 
 const QuickGuidePanelsView = kind({
 	name: 'QuickGuidePanelsView',

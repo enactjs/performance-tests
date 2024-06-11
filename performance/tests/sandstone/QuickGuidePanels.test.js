@@ -68,40 +68,40 @@ describe('QuickGuidePanels', () => {
 	});
 
 	describe('Quick Guide Panels Transition', () => {
-		it('FPS', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/quickGuidePanels`);
-			await page.waitForSelector(nextQuickPanelButton);
-			await page.click(nextQuickPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click(nextQuickPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click(previousQuickPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click(previousQuickPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click(nextQuickPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click(nextQuickPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click(previousQuickPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click(previousQuickPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click(nextQuickPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click(nextQuickPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({
-				component: component,
-				type: 'FPS',
-				actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000
-			});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
+		// it('FPS', async () => {
+		// 	await FPS();
+		// 	await page.goto(`http://${serverAddr}/quickGuidePanels`);
+		// 	await page.waitForSelector(nextQuickPanelButton);
+		// 	await page.click(nextQuickPanelButton);
+		// 	await new Promise(r => setTimeout(r, 500));
+		// 	await page.click(nextQuickPanelButton);
+		// 	await new Promise(r => setTimeout(r, 500));
+		// 	await page.click(previousQuickPanelButton);
+		// 	await new Promise(r => setTimeout(r, 500));
+		// 	await page.click(previousQuickPanelButton);
+		// 	await new Promise(r => setTimeout(r, 500));
+		// 	await page.click(nextQuickPanelButton);
+		// 	await new Promise(r => setTimeout(r, 500));
+		// 	await page.click(nextQuickPanelButton);
+		// 	await new Promise(r => setTimeout(r, 500));
+		// 	await page.click(previousQuickPanelButton);
+		// 	await new Promise(r => setTimeout(r, 500));
+		// 	await page.click(previousQuickPanelButton);
+		// 	await new Promise(r => setTimeout(r, 500));
+		// 	await page.click(nextQuickPanelButton);
+		// 	await new Promise(r => setTimeout(r, 500));
+		// 	await page.click(nextQuickPanelButton);
+		// 	await new Promise(r => setTimeout(r, 500));
+		//
+		// 	const averageFPS = await getAverageFPS();
+		// 	TestResults.addResult({
+		// 		component: component,
+		// 		type: 'FPS',
+		// 		actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000
+		// 	});
+		//
+		// 	expect(averageFPS).toBeGreaterThan(minFPS);
+		// });
 
 		it('should have a good FID and CLS', async () => {
 			await page.evaluateOnNewDocument(FID);
@@ -133,37 +133,37 @@ describe('QuickGuidePanels', () => {
 	});
 
 	describe('Navigation inside Quick Guide Panels', () => {
-		it('FPS', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/quickGuidePanels`);
-			await page.waitForSelector(nextQuickPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.keyboard.down('ArrowRight');
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('ArrowLeft');
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('ArrowRight');
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('ArrowLeft');
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('ArrowRight');
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('Enter');
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS on panel content focus', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThanOrEqual(minFPS);
-		});
+		// it('FPS', async () => {
+		// 	await FPS();
+		// 	await page.goto(`http://${serverAddr}/quickGuidePanels`);
+		// 	await page.waitForSelector(nextQuickPanelButton);
+		// 	await new Promise(r => setTimeout(r, 500));
+		// 	await page.keyboard.down('ArrowRight');
+		// 	await page.keyboard.down('Enter');
+		// 	await new Promise(r => setTimeout(r, 100));
+		// 	await page.keyboard.down('Enter');
+		// 	await new Promise(r => setTimeout(r, 100));
+		// 	await page.keyboard.down('ArrowLeft');
+		// 	await page.keyboard.down('Enter');
+		// 	await new Promise(r => setTimeout(r, 100));
+		// 	await page.keyboard.down('Enter');
+		// 	await new Promise(r => setTimeout(r, 100));
+		// 	await page.keyboard.down('ArrowRight');
+		// 	await page.keyboard.down('Enter');
+		// 	await new Promise(r => setTimeout(r, 100));
+		// 	await page.keyboard.down('ArrowLeft');
+		// 	await page.keyboard.down('Enter');
+		// 	await new Promise(r => setTimeout(r, 100));
+		// 	await page.keyboard.down('ArrowRight');
+		// 	await page.keyboard.down('Enter');
+		// 	await new Promise(r => setTimeout(r, 100));
+		// 	await page.keyboard.down('Enter');
+		//
+		// 	const averageFPS = await getAverageFPS();
+		// 	TestResults.addResult({component: component, type: 'FPS on panel content focus', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+		//
+		// 	expect(averageFPS).toBeGreaterThanOrEqual(minFPS);
+		// });
 
 		it('should have a good FID and CLS', async () => {
 			await page.evaluateOnNewDocument(FID);

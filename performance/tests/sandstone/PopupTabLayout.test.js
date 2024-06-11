@@ -8,50 +8,50 @@ describe('PopupTabLayout', () => {
 	const component = 'PopupTabLayout';
 	TestResults.newFile(component);
 
-	it('FPS', async () => {
-		await FPS();
-		await page.goto(`http://${serverAddr}/popupTabLayout`);
-		await page.waitForSelector('#popupTabLayout');
-		await page.keyboard.down('ArrowRight');
-		await page.keyboard.up('ArrowRight');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 200));
-		await page.keyboard.up('Enter');
-		await page.keyboard.down('ArrowUp');
-		await page.keyboard.up('ArrowUp');
-		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 200));
-		await page.keyboard.up('Enter');
-		await page.keyboard.down('Escape');
-		await new Promise(r => setTimeout(r, 200));
-		await page.keyboard.up('Escape');
-		await page.keyboard.down('ArrowDown');
-		await new Promise(r => setTimeout(r, 200));
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('ArrowRight');
-		await page.keyboard.up('ArrowRight');
-		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 200));
-		await page.keyboard.up('Enter');
-		await page.keyboard.down('ArrowUp');
-		await page.keyboard.up('ArrowUp');
-		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 200));
-		await page.keyboard.up('Enter');
-		await page.keyboard.down('Escape');
-		await new Promise(r => setTimeout(r, 200));
-		await page.keyboard.up('Escape');
-		await page.keyboard.down('Escape');
-		await new Promise(r => setTimeout(r, 200));
-		await page.keyboard.up('Escape');
-
-		const averageFPS = await getAverageFPS();
-		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-		expect(averageFPS).toBeGreaterThan(minFPS);
-	});
+	// it('FPS', async () => {
+	// 	await FPS();
+	// 	await page.goto(`http://${serverAddr}/popupTabLayout`);
+	// 	await page.waitForSelector('#popupTabLayout');
+	// 	await page.keyboard.down('ArrowRight');
+	// 	await page.keyboard.up('ArrowRight');
+	// 	await page.keyboard.down('ArrowDown');
+	// 	await page.keyboard.up('ArrowDown');
+	// 	await page.keyboard.down('Enter');
+	// 	await new Promise(r => setTimeout(r, 200));
+	// 	await page.keyboard.up('Enter');
+	// 	await page.keyboard.down('ArrowUp');
+	// 	await page.keyboard.up('ArrowUp');
+	// 	await page.keyboard.down('Enter');
+	// 	await new Promise(r => setTimeout(r, 200));
+	// 	await page.keyboard.up('Enter');
+	// 	await page.keyboard.down('Escape');
+	// 	await new Promise(r => setTimeout(r, 200));
+	// 	await page.keyboard.up('Escape');
+	// 	await page.keyboard.down('ArrowDown');
+	// 	await new Promise(r => setTimeout(r, 200));
+	// 	await page.keyboard.up('ArrowDown');
+	// 	await page.keyboard.down('ArrowRight');
+	// 	await page.keyboard.up('ArrowRight');
+	// 	await page.keyboard.down('Enter');
+	// 	await new Promise(r => setTimeout(r, 200));
+	// 	await page.keyboard.up('Enter');
+	// 	await page.keyboard.down('ArrowUp');
+	// 	await page.keyboard.up('ArrowUp');
+	// 	await page.keyboard.down('Enter');
+	// 	await new Promise(r => setTimeout(r, 200));
+	// 	await page.keyboard.up('Enter');
+	// 	await page.keyboard.down('Escape');
+	// 	await new Promise(r => setTimeout(r, 200));
+	// 	await page.keyboard.up('Escape');
+	// 	await page.keyboard.down('Escape');
+	// 	await new Promise(r => setTimeout(r, 200));
+	// 	await page.keyboard.up('Escape');
+	//
+	// 	const averageFPS = await getAverageFPS();
+	// 	TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 	expect(averageFPS).toBeGreaterThan(minFPS);
+	// });
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);

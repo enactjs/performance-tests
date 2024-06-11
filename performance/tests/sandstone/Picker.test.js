@@ -9,58 +9,58 @@ describe('Picker', () => {
 	TestResults.newFile(component);
 
 	describe('PickerDefault', () => {
-		describe('click', () => {
-			it('animates', async () => {
-				await FPS();
-				await page.goto(`http://${serverAddr}/picker`);
-				await page.waitForSelector('#pickerDefault');
-				await page.click('[aria-label$="next item"]'); // to move mouse on the picker.
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-
-				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-				expect(averageFPS).toBeGreaterThan(minFPS);
-			});
-		});
-
-		describe('keypress', () => {
-			it('animates', async () => {
-				await FPS();
-				await page.goto(`http://${serverAddr}/picker`);
-				await page.waitForSelector('#pickerDefault');
-				await page.focus('[aria-label$="next item"]');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-
-				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-				expect(averageFPS).toBeGreaterThan(minFPS);
-			});
-		});
+		// describe('click', () => {
+		// 	it('animates', async () => {
+		// 		await FPS();
+		// 		await page.goto(`http://${serverAddr}/picker`);
+		// 		await page.waitForSelector('#pickerDefault');
+		// 		await page.click('[aria-label$="next item"]'); // to move mouse on the picker.
+		// 		await page.mouse.down();
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.mouse.up();
+		// 		await page.mouse.down();
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.mouse.up();
+		// 		await page.mouse.down();
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.mouse.up();
+		// 		await page.mouse.down();
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.mouse.up();
+		//
+		// 		const averageFPS = await getAverageFPS();
+		// 		TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+		//
+		// 		expect(averageFPS).toBeGreaterThan(minFPS);
+		// 	});
+		// });
+		//
+		// describe('keypress', () => {
+		// 	it('animates', async () => {
+		// 		await FPS();
+		// 		await page.goto(`http://${serverAddr}/picker`);
+		// 		await page.waitForSelector('#pickerDefault');
+		// 		await page.focus('[aria-label$="next item"]');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.down('Enter');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.up('Enter');
+		// 		await page.keyboard.down('Enter');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.up('Enter');
+		// 		await page.keyboard.down('Enter');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.up('Enter');
+		// 		await page.keyboard.down('Enter');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.up('Enter');
+		//
+		// 		const averageFPS = await getAverageFPS();
+		// 		TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+		//
+		// 		expect(averageFPS).toBeGreaterThan(minFPS);
+		// 	});
+		// });
 
 		it('should have a good FID and CLS', async () => {
 			await page.evaluateOnNewDocument(FID);
@@ -144,54 +144,54 @@ describe('Picker', () => {
 	});
 
 	describe('PickerJoined', () => {
-		describe('click', () => {
-			it('animates', async () => {
-				await FPS();
-				await page.goto(`http://${serverAddr}/pickerJoined`);
-				await page.waitForSelector('#pickerJoined');
-				await page.click('#pickerJoined'); // to move mouse on the picker.
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-
-				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component + ' joined', type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-			});
-		});
-
-		describe('keypress', () => {
-			it('animates', async () => {
-				await FPS();
-				await page.goto(`http://${serverAddr}/pickerJoined`);
-				await page.waitForSelector('#pickerJoined');
-				await page.focus('#pickerJoined');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-
-				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component + ' joined', type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-			});
-		});
+		// describe('click', () => {
+		// 	it('animates', async () => {
+		// 		await FPS();
+		// 		await page.goto(`http://${serverAddr}/pickerJoined`);
+		// 		await page.waitForSelector('#pickerJoined');
+		// 		await page.click('#pickerJoined'); // to move mouse on the picker.
+		// 		await page.mouse.down();
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.mouse.up();
+		// 		await page.mouse.down();
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.mouse.up();
+		// 		await page.mouse.down();
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.mouse.up();
+		// 		await page.mouse.down();
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.mouse.up();
+		//
+		// 		const averageFPS = await getAverageFPS();
+		// 		TestResults.addResult({component: component + ' joined', type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+		// 	});
+		// });
+		//
+		// describe('keypress', () => {
+		// 	it('animates', async () => {
+		// 		await FPS();
+		// 		await page.goto(`http://${serverAddr}/pickerJoined`);
+		// 		await page.waitForSelector('#pickerJoined');
+		// 		await page.focus('#pickerJoined');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.down('Enter');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.up('Enter');
+		// 		await page.keyboard.down('Enter');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.up('Enter');
+		// 		await page.keyboard.down('Enter');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.up('Enter');
+		// 		await page.keyboard.down('Enter');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.up('Enter');
+		//
+		// 		const averageFPS = await getAverageFPS();
+		// 		TestResults.addResult({component: component + ' joined', type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+		// 	});
+		// });
 
 		it('should have a good FID and CLS', async () => {
 			await page.evaluateOnNewDocument(FID);

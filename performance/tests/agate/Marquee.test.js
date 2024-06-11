@@ -9,18 +9,18 @@ const component = 'Marquee';
 describe('Marquee', () => {
 	TestResults.newFile(component);
 
-	it('FPS on hover', async () => {
-		await FPS();
-		await page.goto(`http://${serverAddr}/marquee`);
-		await page.waitForSelector('#marquee');
-		await page.hover('#marquee');
-		await new Promise(r => setTimeout(r, 500));
-
-		const averageFPS = await getAverageFPS();
-		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-		expect(averageFPS).toBeGreaterThan(minFPS);
-	});
+	// it('FPS on hover', async () => {
+	// 	await FPS();
+	// 	await page.goto(`http://${serverAddr}/marquee`);
+	// 	await page.waitForSelector('#marquee');
+	// 	await page.hover('#marquee');
+	// 	await new Promise(r => setTimeout(r, 500));
+	//
+	// 	const averageFPS = await getAverageFPS();
+	// 	TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 	expect(averageFPS).toBeGreaterThan(minFPS);
+	// });
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);

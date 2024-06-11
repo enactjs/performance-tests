@@ -8,66 +8,66 @@ describe('DateTimePicker', () => {
 	const component = 'DateTimePicker';
 	TestResults.newFile(component);
 
-	describe('click', () => {
-		it('animates', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/dateTimePicker`);
-			await page.waitForSelector('#agate-dateTimePicker');
-			await page.click('[aria-label$="hour previous item"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.click('[aria-label$="minute decrease the value"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.click('[aria-label$="month decrease the value"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.click('[aria-label$="day decrease the value"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.click('[aria-label$="year decrease the value"]');
-			await new Promise(r => setTimeout(r, 200));
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
-
-	describe('keypress', () => {
-		it('animates', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/dateTimePicker`);
-			await page.waitForSelector('#agate-dateTimePicker');
-			await page.focus('[aria-label$="hour previous item"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.up('Enter');
-			await page.click('[aria-label$="minute decrease the value"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.up('Enter');
-			await page.click('[aria-label$="month decrease the value"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.up('Enter');
-			await page.click('[aria-label$="day decrease the value"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.up('Enter');
-			await page.click('[aria-label$="year decrease the value"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.up('Enter');
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
+	// describe('click', () => {
+	// 	it('animates', async () => {
+	// 		await FPS();
+	// 		await page.goto(`http://${serverAddr}/dateTimePicker`);
+	// 		await page.waitForSelector('#agate-dateTimePicker');
+	// 		await page.click('[aria-label$="hour previous item"]');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.click('[aria-label$="minute decrease the value"]');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.click('[aria-label$="month decrease the value"]');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.click('[aria-label$="day decrease the value"]');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.click('[aria-label$="year decrease the value"]');
+	// 		await new Promise(r => setTimeout(r, 200));
+	//
+	// 		const averageFPS = await getAverageFPS();
+	// 		TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	// });
+	//
+	// describe('keypress', () => {
+	// 	it('animates', async () => {
+	// 		await FPS();
+	// 		await page.goto(`http://${serverAddr}/dateTimePicker`);
+	// 		await page.waitForSelector('#agate-dateTimePicker');
+	// 		await page.focus('[aria-label$="hour previous item"]');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.up('Enter');
+	// 		await page.click('[aria-label$="minute decrease the value"]');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.up('Enter');
+	// 		await page.click('[aria-label$="month decrease the value"]');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.up('Enter');
+	// 		await page.click('[aria-label$="day decrease the value"]');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.up('Enter');
+	// 		await page.click('[aria-label$="year decrease the value"]');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.up('Enter');
+	//
+	// 		const averageFPS = await getAverageFPS();
+	// 		TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	// });
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);

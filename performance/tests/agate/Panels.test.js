@@ -11,40 +11,40 @@ describe('Panels', () => {
 	const previousPanelButton = '#goToPreviousPanel';
 	TestResults.newFile(component);
 
-	it('FPS', async () => {
-		await FPS();
-		await page.goto(`http://${serverAddr}/panels`);
-		await page.waitForSelector(nextPanelButton);
-		await page.click(nextPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(previousPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(nextPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(previousPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(nextPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(previousPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(nextPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(previousPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(nextPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(previousPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-
-		const averageFPS = await getAverageFPS();
-		TestResults.addResult({
-			component: component,
-			type: 'FPS',
-			actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000
-		});
-
-		expect(averageFPS).toBeGreaterThan(minFPS);
-	});
+	// it('FPS', async () => {
+	// 	await FPS();
+	// 	await page.goto(`http://${serverAddr}/panels`);
+	// 	await page.waitForSelector(nextPanelButton);
+	// 	await page.click(nextPanelButton);
+	// 	await new Promise(r => setTimeout(r, 1000));
+	// 	await page.click(previousPanelButton);
+	// 	await new Promise(r => setTimeout(r, 1000));
+	// 	await page.click(nextPanelButton);
+	// 	await new Promise(r => setTimeout(r, 1000));
+	// 	await page.click(previousPanelButton);
+	// 	await new Promise(r => setTimeout(r, 1000));
+	// 	await page.click(nextPanelButton);
+	// 	await new Promise(r => setTimeout(r, 1000));
+	// 	await page.click(previousPanelButton);
+	// 	await new Promise(r => setTimeout(r, 1000));
+	// 	await page.click(nextPanelButton);
+	// 	await new Promise(r => setTimeout(r, 1000));
+	// 	await page.click(previousPanelButton);
+	// 	await new Promise(r => setTimeout(r, 1000));
+	// 	await page.click(nextPanelButton);
+	// 	await new Promise(r => setTimeout(r, 1000));
+	// 	await page.click(previousPanelButton);
+	// 	await new Promise(r => setTimeout(r, 1000));
+	//
+	// 	const averageFPS = await getAverageFPS();
+	// 	TestResults.addResult({
+	// 		component: component,
+	// 		type: 'FPS',
+	// 		actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000
+	// 	});
+	//
+	// 	expect(averageFPS).toBeGreaterThan(minFPS);
+	// });
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);

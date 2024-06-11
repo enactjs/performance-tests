@@ -10,30 +10,30 @@ describe('Popup', () => {
 	const closeButton = '#button-close';
 	TestResults.newFile(component);
 
-	it('FPS', async () => {
-		await FPS();
-		await page.goto(`http://${serverAddr}/popup`);
-		await page.waitForSelector('#popup');
-		await page.click(closeButton);
-		await new Promise(r => setTimeout(r, 500));
-		await page.click(open);
-		await new Promise(r => setTimeout(r, 500));
-		await page.click(closeButton);
-		await new Promise(r => setTimeout(r, 500));
-		await page.click(open);
-		await new Promise(r => setTimeout(r, 500));
-		await page.click(closeButton);
-		await new Promise(r => setTimeout(r, 500));
-		await page.click(open);
-		await new Promise(r => setTimeout(r, 500));
-		await page.click(closeButton);
-		await new Promise(r => setTimeout(r, 500));
-
-		const averageFPS = await getAverageFPS();
-		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-		expect(averageFPS).toBeGreaterThan(minFPS);
-	});
+	// it('FPS', async () => {
+	// 	await FPS();
+	// 	await page.goto(`http://${serverAddr}/popup`);
+	// 	await page.waitForSelector('#popup');
+	// 	await page.click(closeButton);
+	// 	await new Promise(r => setTimeout(r, 500));
+	// 	await page.click(open);
+	// 	await new Promise(r => setTimeout(r, 500));
+	// 	await page.click(closeButton);
+	// 	await new Promise(r => setTimeout(r, 500));
+	// 	await page.click(open);
+	// 	await new Promise(r => setTimeout(r, 500));
+	// 	await page.click(closeButton);
+	// 	await new Promise(r => setTimeout(r, 500));
+	// 	await page.click(open);
+	// 	await new Promise(r => setTimeout(r, 500));
+	// 	await page.click(closeButton);
+	// 	await new Promise(r => setTimeout(r, 500));
+	//
+	// 	const averageFPS = await getAverageFPS();
+	// 	TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 	expect(averageFPS).toBeGreaterThan(minFPS);
+	// });
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);

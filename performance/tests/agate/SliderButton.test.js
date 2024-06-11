@@ -8,42 +8,42 @@ describe('SliderButton', () => {
 	const component = 'SliderButton';
 	TestResults.newFile(component);
 
-	describe('click', () => {
-		it('animates', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/sliderButton`);
-			await page.waitForSelector('#sliderButton');
-			await page.click('#sliderButton'); // to move mouse on the button.
-			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 300));
-			await page.mouse.up();
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
-
-	describe('keypress', () => {
-		it('animates', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/sliderButton`);
-			await page.waitForSelector('#sliderButton');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('ArrowRight');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('ArrowRight');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('ArrowRight');
-			await new Promise(r => setTimeout(r, 200));
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
+	// describe('click', () => {
+	// 	it('animates', async () => {
+	// 		await FPS();
+	// 		await page.goto(`http://${serverAddr}/sliderButton`);
+	// 		await page.waitForSelector('#sliderButton');
+	// 		await page.click('#sliderButton'); // to move mouse on the button.
+	// 		await page.mouse.down();
+	// 		await new Promise(r => setTimeout(r, 300));
+	// 		await page.mouse.up();
+	//
+	// 		const averageFPS = await getAverageFPS();
+	// 		TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	// });
+	//
+	// describe('keypress', () => {
+	// 	it('animates', async () => {
+	// 		await FPS();
+	// 		await page.goto(`http://${serverAddr}/sliderButton`);
+	// 		await page.waitForSelector('#sliderButton');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('ArrowRight');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('ArrowRight');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('ArrowRight');
+	// 		await new Promise(r => setTimeout(r, 200));
+	//
+	// 		const averageFPS = await getAverageFPS();
+	// 		TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	// });
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);

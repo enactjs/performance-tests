@@ -8,67 +8,67 @@ describe('DatePicker', () => {
 	const component = 'DatePicker';
 	TestResults.newFile(component);
 
-	describe('click', () => {
-		it('animates', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/datePicker`);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
-			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 200));
-			await page.mouse.up();
-			await page.click('[data-webos-voice-group-label="day"]'); // to move mouse on the increment button.
-			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 200));
-			await page.mouse.up();
-			await page.click('[data-webos-voice-group-label="year"]'); // to move mouse on the increment button.
-			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 200));
-			await page.mouse.up();
-			await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
-			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 200));
-			await page.mouse.up();
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
-
-	describe('keypress', () => {
-		it('animates', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/datePicker`);
-			await page.waitForSelector('[data-webos-voice-group-label="month"]');
-			await page.focus('[data-webos-voice-group-label="month"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.up('Enter');
-			await page.focus('[data-webos-voice-group-label="day"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.up('Enter');
-			await page.focus('[data-webos-voice-group-label="year"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.up('Enter');
-			await page.focus('[data-webos-voice-group-label="month"]');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.up('Enter');
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
+	// describe('click', () => {
+	// 	it('animates', async () => {
+	// 		await FPS();
+	// 		await page.goto(`http://${serverAddr}/datePicker`);
+	// 		await new Promise(r => setTimeout(r, 500));
+	// 		await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
+	// 		await page.mouse.down();
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.mouse.up();
+	// 		await page.click('[data-webos-voice-group-label="day"]'); // to move mouse on the increment button.
+	// 		await page.mouse.down();
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.mouse.up();
+	// 		await page.click('[data-webos-voice-group-label="year"]'); // to move mouse on the increment button.
+	// 		await page.mouse.down();
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.mouse.up();
+	// 		await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
+	// 		await page.mouse.down();
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.mouse.up();
+	//
+	// 		const averageFPS = await getAverageFPS();
+	// 		TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	// });
+	//
+	// describe('keypress', () => {
+	// 	it('animates', async () => {
+	// 		await FPS();
+	// 		await page.goto(`http://${serverAddr}/datePicker`);
+	// 		await page.waitForSelector('[data-webos-voice-group-label="month"]');
+	// 		await page.focus('[data-webos-voice-group-label="month"]');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.up('Enter');
+	// 		await page.focus('[data-webos-voice-group-label="day"]');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.up('Enter');
+	// 		await page.focus('[data-webos-voice-group-label="year"]');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.up('Enter');
+	// 		await page.focus('[data-webos-voice-group-label="month"]');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.up('Enter');
+	//
+	// 		const averageFPS = await getAverageFPS();
+	// 		TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	// });
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);

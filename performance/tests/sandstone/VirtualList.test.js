@@ -1,4 +1,4 @@
-const {listItemTests} = require("./ListItemsTests");
+const {listItemTests} = require('./ListItemsTests');
 
 const componentName = 'VirtualList';
 

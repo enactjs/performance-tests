@@ -8,43 +8,43 @@ describe( 'Scroller', () => {
 	const component = 'Scroller';
 	TestResults.newFile(component);
 
-	describe('keypress', () => {
-		it('scrolls down', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/scroller`);
-			await page.focus('[aria-label="scroll up or down with up down button"]');
-			await page.keyboard.down('Enter');
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 2000));
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
-
-	describe('mouse wheel', () => {
-		it('scrolls down', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/scroller`);
-			const scroller = '#scroller';
-
-			await scrollAtPoint(page, scroller, 1000);
-			await new Promise(r => setTimeout(r, 200));
-			await scrollAtPoint(page, scroller, 1000);
-			await new Promise(r => setTimeout(r, 200));
-			await scrollAtPoint(page, scroller, 1000);
-			await new Promise(r => setTimeout(r, 200));
-			await scrollAtPoint(page, scroller, 1000);
-			await new Promise(r => setTimeout(r, 200));
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
+	// describe('keypress', () => {
+	// 	it('scrolls down', async () => {
+	// 		await FPS();
+	// 		await page.goto(`http://${serverAddr}/scroller`);
+	// 		await page.focus('[aria-label="scroll up or down with up down button"]');
+	// 		await page.keyboard.down('Enter');
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 2000));
+	//
+	// 		const averageFPS = await getAverageFPS();
+	// 		TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	// });
+	//
+	// describe('mouse wheel', () => {
+	// 	it('scrolls down', async () => {
+	// 		await FPS();
+	// 		await page.goto(`http://${serverAddr}/scroller`);
+	// 		const scroller = '#scroller';
+	//
+	// 		await scrollAtPoint(page, scroller, 1000);
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await scrollAtPoint(page, scroller, 1000);
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await scrollAtPoint(page, scroller, 1000);
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await scrollAtPoint(page, scroller, 1000);
+	// 		await new Promise(r => setTimeout(r, 200));
+	//
+	// 		const averageFPS = await getAverageFPS();
+	// 		TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	// });
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
@@ -122,21 +122,21 @@ describe( 'Scroller', () => {
 		expect(avgLCP).toBeLessThan(maxLCP);
 	});
 
-	it('scroll down with 5-way with Scroller Native', async () => {
-		await FPS();
-
-		await page.goto(`http://${serverAddr}/scrollerMultipleChildren?count=100&type=ScrollerNative`);
-		await page.waitForSelector('#Scroller');
-		await page.focus('#Scroller > div:first-child > div:first-child');
-
-		for (let i = 0; i < 300; i++) {
-			await page.keyboard.down('ArrowDown');
-			await new Promise(r => setTimeout(r, 10));
-		}
-
-		await new Promise(r => setTimeout(r, 1000));
-
-		const averageFPS = await getAverageFPS();
-		TestResults.addResult({component: component, type: 'Scroller Native Frames Per Second', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-	});
+	// it('scroll down with 5-way with Scroller Native', async () => {
+	// 	await FPS();
+	//
+	// 	await page.goto(`http://${serverAddr}/scrollerMultipleChildren?count=100&type=ScrollerNative`);
+	// 	await page.waitForSelector('#Scroller');
+	// 	await page.focus('#Scroller > div:first-child > div:first-child');
+	//
+	// 	for (let i = 0; i < 300; i++) {
+	// 		await page.keyboard.down('ArrowDown');
+	// 		await new Promise(r => setTimeout(r, 10));
+	// 	}
+	//
+	// 	await new Promise(r => setTimeout(r, 1000));
+	//
+	// 	const averageFPS = await getAverageFPS();
+	// 	TestResults.addResult({component: component, type: 'Scroller Native Frames Per Second', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	// });
 });

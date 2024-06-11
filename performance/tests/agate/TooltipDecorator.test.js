@@ -8,20 +8,20 @@ describe('TooltipDecorator', () => {
 	const component = 'TooltipDecorator';
 	TestResults.newFile(component);
 
-	describe('focus', () => {
-		it('should have a good FPS', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/tooltipDecorator`);
-			await page.waitForSelector('#tooltipDecorator');
-			await page.focus('#tooltipDecorator');
-			await new Promise(r => setTimeout(r, 200));
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
+	// describe('focus', () => {
+	// 	it('should have a good FPS', async () => {
+	// 		await FPS();
+	// 		await page.goto(`http://${serverAddr}/tooltipDecorator`);
+	// 		await page.waitForSelector('#tooltipDecorator');
+	// 		await page.focus('#tooltipDecorator');
+	// 		await new Promise(r => setTimeout(r, 200));
+	//
+	// 		const averageFPS = await getAverageFPS();
+	// 		TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	// });
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);

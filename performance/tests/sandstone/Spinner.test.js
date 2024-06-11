@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../../TestResults');
-const {CLS, FID, PageLoadingMetrics, coreWebVitals} = require('../../TraceModel');
+const {CLS, coreWebVitals, FID, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('Spinner', () => {

@@ -1,8 +1,8 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv */
 /* eslint-disable*/
 
 const TestResults = require('../../TestResults');
-const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, coreWebVitals, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple, scrollAtPoint} = require('../../utils');
 
 const listItemTests = (componentName, dataSize) => describe(componentName, () => {
@@ -73,6 +73,33 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 
 		expect(actualFirstInput).toBeLessThan(maxFID);
 		expect(actualCLS).toBeLessThan(maxCLS);
+	});
+
+	it('should have a good INP', async () => {
+		await page.goto(pageURL);
+		await coreWebVitals.attachCwvLib(page);
+		await page.waitForSelector(`#${componentName}`);
+		await page.focus(`#${componentName}`);
+		await page.keyboard.down('Enter');
+		await new Promise(r => setTimeout(r, 200));
+
+		let inpValue;
+
+		page.on("console", (msg) => {
+			inpValue = Number(msg.text());
+			TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
+			expect(inpValue).toBeLessThan(maxINP);
+		});
+
+		await page.evaluateHandle(() => {
+			window.webVitals.getINP(function (inp) {
+					console.log(inp.value); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+			);
+		});
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

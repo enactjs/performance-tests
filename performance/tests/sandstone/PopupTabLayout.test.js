@@ -97,18 +97,6 @@ describe('PopupTabLayout', () => {
 		await page.keyboard.up('ArrowDown');
 		await page.keyboard.down('Enter');
 		await new Promise(r => setTimeout(r, 200));
-		await page.keyboard.up('Enter');
-		// await page.keyboard.down('ArrowUp');
-		// await page.keyboard.up('ArrowUp');
-		// await page.keyboard.down('Enter');
-		// await new Promise(r => setTimeout(r, 200));
-		// await page.keyboard.up('Enter');
-		// await page.keyboard.down('Escape');
-		// await new Promise(r => setTimeout(r, 200));
-		// await page.keyboard.up('Escape');
-		// await page.keyboard.down('Escape');
-		// await new Promise(r => setTimeout(r, 200));
-		// await page.keyboard.up('Escape');
 
 		let inpValue;
 

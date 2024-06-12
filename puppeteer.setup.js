@@ -21,15 +21,11 @@ global.CPUThrottling = targetCPUThrottling ? parseInt(targetCPUThrottling.split(
 global.targetEnv = targetEnvArg ? targetEnvArg.split('=')[1] : 'PC';
 
 global.serverAddr = `${ipAddress()}:8080`;
+global.testMultiple = globalThis.__BROWSER_GLOBAL__;
 
 if (targetEnv === 'PC') {
-	global.beforeAll(async () => {
-		browser = await __BROWSER_GLOBAL__;
-		global.testMultiple = browser;
-	});
-
 	global.beforeEach(async () => {
-		const newPage = await browser.newPage();
+		const newPage = await globalThis.__BROWSER_GLOBAL__.newPage();
 
 		await newPage.setViewport({
 			width: 1920,
@@ -41,10 +37,6 @@ if (targetEnv === 'PC') {
 
 	global.afterEach(async () => {
 		await page.close();
-	});
-
-	global.afterAll(async () => {
-		await browser.close();
 	});
 } else if (targetEnv === 'TV') {
 	global.beforeAll(async () => {

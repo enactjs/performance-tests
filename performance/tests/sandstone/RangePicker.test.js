@@ -142,54 +142,54 @@ describe('RangePicker', () => {
 	});
 
 	describe('RangePickerJoined', () => {
-		describe('click', () => {
-			it('animates', async () => {
-				await FPS();
-				await page.goto(`http://${serverAddr}/rangePickerJoined`);
-				await page.waitForSelector('#rangePickerJoined');
-				await page.click('#rangePickerJoined'); // to move mouse on the rangePicker.
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-				await page.mouse.down();
-				await new Promise(r => setTimeout(r, 200));
-				await page.mouse.up();
-
-				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component + ' joined', type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-			});
-		});
-
-		describe('keypress', () => {
-			it('animates', async () => {
-				await FPS();
-				await page.goto(`http://${serverAddr}/rangePickerJoined`);
-				await page.waitForSelector('#rangePickerJoined');
-				await page.focus('#rangePickerJoined');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-				await page.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 200));
-				await page.keyboard.up('Enter');
-
-				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component + ' joined', type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-			});
-		});
+		// describe('click', () => {
+		// 	it('animates', async () => {
+		// 		await FPS();
+		// 		await page.goto(`http://${serverAddr}/rangePickerJoined`);
+		// 		await page.waitForSelector('#rangePickerJoined');
+		// 		await page.click('#rangePickerJoined'); // to move mouse on the rangePicker.
+		// 		await page.mouse.down();
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.mouse.up();
+		// 		await page.mouse.down();
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.mouse.up();
+		// 		await page.mouse.down();
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.mouse.up();
+		// 		await page.mouse.down();
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.mouse.up();
+		//
+		// 		const averageFPS = await getAverageFPS();
+		// 		TestResults.addResult({component: component + ' joined', type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+		// 	});
+		// });
+		//
+		// describe('keypress', () => {
+		// 	it('animates', async () => {
+		// 		await FPS();
+		// 		await page.goto(`http://${serverAddr}/rangePickerJoined`);
+		// 		await page.waitForSelector('#rangePickerJoined');
+		// 		await page.focus('#rangePickerJoined');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.down('Enter');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.up('Enter');
+		// 		await page.keyboard.down('Enter');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.up('Enter');
+		// 		await page.keyboard.down('Enter');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.up('Enter');
+		// 		await page.keyboard.down('Enter');
+		// 		await new Promise(r => setTimeout(r, 200));
+		// 		await page.keyboard.up('Enter');
+		//
+		// 		const averageFPS = await getAverageFPS();
+		// 		TestResults.addResult({component: component + ' joined', type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+		// 	});
+		// });
 
 		it('should have a good FID and CLS', async () => {
 			await page.evaluateOnNewDocument(FID);

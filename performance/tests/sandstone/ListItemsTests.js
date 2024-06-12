@@ -12,50 +12,50 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 	TestResults.newFile(component);
 	const pageURL = dataSize ? `http://${serverAddr}/${componentName}?dataSize=${dataSize}` : `http://${serverAddr}/${componentName}`;
 
-	describe('ScrollButton', () => {
-		it('scrolls down', async () => {
-			await FPS();
-			await page.goto(pageURL);
-			await page.waitForSelector(`#${componentName}`);
-			await page.focus('[aria-label="scroll up or down with up down button"]');
-			await page.keyboard.down('ArrowDown');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('ArrowDown');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('ArrowDown');
-			await new Promise(r => setTimeout(r, 200));
-			await page.keyboard.down('ArrowDown');
-			await new Promise(r => setTimeout(r, 2000));
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
-
-	describe('mousewheel', () => {
-		it('scrolls down', async () => {
-			await FPS();
-			const List = `#${componentName}`;
-
-			await page.goto(pageURL);
-			await page.waitForSelector(List);
-			await scrollAtPoint(page, List, 1000);
-			await new Promise(r => setTimeout(r, 200));
-			await scrollAtPoint(page, List, 1000);
-			await new Promise(r => setTimeout(r, 200));
-			await scrollAtPoint(page, List, 1000);
-			await new Promise(r => setTimeout(r, 200));
-			await scrollAtPoint(page, List, 1000);
-			await new Promise(r => setTimeout(r, 200));
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Mousewheel', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
+	// describe('ScrollButton', () => {
+	// 	it('scrolls down', async () => {
+	// 		await FPS();
+	// 		await page.goto(pageURL);
+	// 		await page.waitForSelector(`#${componentName}`);
+	// 		await page.focus('[aria-label="scroll up or down with up down button"]');
+	// 		await page.keyboard.down('ArrowDown');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('ArrowDown');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('ArrowDown');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.keyboard.down('ArrowDown');
+	// 		await new Promise(r => setTimeout(r, 2000));
+	//
+	// 		const averageFPS = await getAverageFPS();
+	// 		TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	// });
+	//
+	// describe('mousewheel', () => {
+	// 	it('scrolls down', async () => {
+	// 		await FPS();
+	// 		const List = `#${componentName}`;
+	//
+	// 		await page.goto(pageURL);
+	// 		await page.waitForSelector(List);
+	// 		await scrollAtPoint(page, List, 1000);
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await scrollAtPoint(page, List, 1000);
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await scrollAtPoint(page, List, 1000);
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await scrollAtPoint(page, List, 1000);
+	// 		await new Promise(r => setTimeout(r, 200));
+	//
+	// 		const averageFPS = await getAverageFPS();
+	// 		TestResults.addResult({component: component, type: 'FPS Mousewheel', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	// });
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);

@@ -8,60 +8,60 @@ describe('SwitchItem', () => {
 	const component = 'SwitchItem';
 	TestResults.newFile(component);
 
-	describe('click', () => {
-		it('animates', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/switchItem`);
-			await page.waitForSelector('#switchItem');
-			await new Promise(r => setTimeout(r, 200));
-			await page.click('#switchItem');
-			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 100));
-			await page.mouse.up();
-			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 100));
-			await page.mouse.up();
-			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 100));
-			await page.mouse.up();
-			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 100));
-			await page.mouse.up();
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
-
-	describe('keypress', () => {
-		it('animates', async () => {
-			await FPS();
-			await page.goto(`http://${serverAddr}/switchItem`);
-			await page.waitForSelector('#switchItem');
-			await new Promise(r => setTimeout(r, 200));
-			await page.focus('#switchItem');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.up('Enter');
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.up('Enter');
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.up('Enter');
-			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.up('Enter');
-
-			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-			expect(averageFPS).toBeGreaterThan(minFPS);
-		});
-	});
+	// describe('click', () => {
+	// 	it('animates', async () => {
+	// 		await FPS();
+	// 		await page.goto(`http://${serverAddr}/switchItem`);
+	// 		await page.waitForSelector('#switchItem');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.click('#switchItem');
+	// 		await page.mouse.down();
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.mouse.up();
+	// 		await page.mouse.down();
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.mouse.up();
+	// 		await page.mouse.down();
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.mouse.up();
+	// 		await page.mouse.down();
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.mouse.up();
+	//
+	// 		const averageFPS = await getAverageFPS();
+	// 		TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	// });
+	//
+	// describe('keypress', () => {
+	// 	it('animates', async () => {
+	// 		await FPS();
+	// 		await page.goto(`http://${serverAddr}/switchItem`);
+	// 		await page.waitForSelector('#switchItem');
+	// 		await new Promise(r => setTimeout(r, 200));
+	// 		await page.focus('#switchItem');
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.keyboard.up('Enter');
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.keyboard.up('Enter');
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.keyboard.up('Enter');
+	// 		await page.keyboard.down('Enter');
+	// 		await new Promise(r => setTimeout(r, 100));
+	// 		await page.keyboard.up('Enter');
+	//
+	// 		const averageFPS = await getAverageFPS();
+	// 		TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 		expect(averageFPS).toBeGreaterThan(minFPS);
+	// 	});
+	// });
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);

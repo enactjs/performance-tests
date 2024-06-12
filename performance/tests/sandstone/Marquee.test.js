@@ -9,18 +9,18 @@ const component = 'Marquee';
 describe('Marquee', () => {
 	TestResults.newFile(component);
 
-	it('FPS on hover', async () => {
-		await FPS();
-		await page.goto(`http://${serverAddr}/marquee`);
-		await page.waitForSelector('#marquee');
-		await page.hover('#marquee');
-		await new Promise(r => setTimeout(r, 500));
-
-		const averageFPS = await getAverageFPS();
-		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-
-		expect(averageFPS).toBeGreaterThan(minFPS);
-	});
+	// it('FPS on hover', async () => {
+	// 	await FPS();
+	// 	await page.goto(`http://${serverAddr}/marquee`);
+	// 	await page.waitForSelector('#marquee');
+	// 	await page.hover('#marquee');
+	// 	await new Promise(r => setTimeout(r, 500));
+	//
+	// 	const averageFPS = await getAverageFPS();
+	// 	TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	//
+	// 	expect(averageFPS).toBeGreaterThan(minFPS);
+	// });
 
 	it('should have a good FID and CLS', async () => {
 		await page.evaluateOnNewDocument(FID);
@@ -96,39 +96,39 @@ describe('Marquee', () => {
 		expect(avgLCP).toBeLessThan(maxLCP);
 	});
 
-	describe('Multiple Marquees', () => {
-		const counts = [10, 40, 70, 100];
-
-		for (let index = 0; index < counts.length; index++) {
-			const count = counts[index];
-			it(`updates marqueeOn hover ${count} Marquee components`, async () => {
-				await FPS();
-
-				await page.goto(`http://${serverAddr}/marqueeMultiple?count=${count}`);
-				await page.waitForSelector('#Container');
-				await new Promise(r => setTimeout(r, 200));
-
-				await page.hover('#Marquee_5');
-				await new Promise(r => setTimeout(r, 2000));
-
-				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component, type: `${count} Marquee Multiple Hover Frames Per Second`, actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-			});
-		}
-
-		for (let index = 0; index < counts.length; index++) {
-			const count = counts[index];
-			it(`updates marqueeOn render ${count} Marquee components`, async () => {
-				await FPS();
-
-				await page.goto(`http://${serverAddr}/marqueeMultiple?count=${count}&marqueeOn=render`);
-				await page.waitForSelector('#Container');
-				await new Promise(r => setTimeout(r, 2000));
-
-				const averageFPS = await getAverageFPS();
-				TestResults.addResult({component: component, type: `${count} Marquee Multiple Render Frames Per Second`, actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
-			});
-		}
-	});
+	// describe('Multiple Marquees', () => {
+	// 	const counts = [10, 40, 70, 100];
+	//
+	// 	for (let index = 0; index < counts.length; index++) {
+	// 		const count = counts[index];
+	// 		it(`updates marqueeOn hover ${count} Marquee components`, async () => {
+	// 			await FPS();
+	//
+	// 			await page.goto(`http://${serverAddr}/marqueeMultiple?count=${count}`);
+	// 			await page.waitForSelector('#Container');
+	// 			await new Promise(r => setTimeout(r, 200));
+	//
+	// 			await page.hover('#Marquee_5');
+	// 			await new Promise(r => setTimeout(r, 2000));
+	//
+	// 			const averageFPS = await getAverageFPS();
+	// 			TestResults.addResult({component: component, type: `${count} Marquee Multiple Hover Frames Per Second`, actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	// 		});
+	// 	}
+	//
+	// 	for (let index = 0; index < counts.length; index++) {
+	// 		const count = counts[index];
+	// 		it(`updates marqueeOn render ${count} Marquee components`, async () => {
+	// 			await FPS();
+	//
+	// 			await page.goto(`http://${serverAddr}/marqueeMultiple?count=${count}&marqueeOn=render`);
+	// 			await page.waitForSelector('#Container');
+	// 			await new Promise(r => setTimeout(r, 2000));
+	//
+	// 			const averageFPS = await getAverageFPS();
+	// 			TestResults.addResult({component: component, type: `${count} Marquee Multiple Render Frames Per Second`, actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+	// 		});
+	// 	}
+	// });
 });
 

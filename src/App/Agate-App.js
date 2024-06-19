@@ -48,7 +48,7 @@ import TooltipDecorator from '../views/agate/TooltipDecorator';
 import VirtualList from '../views/agate/VirtualList';
 import WindDirectionControl from '../views/agate/WindDirectionControl';
 
-import css from './App.less';
+import * as css from './App.less';
 
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 

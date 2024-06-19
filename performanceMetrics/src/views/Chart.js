@@ -3,7 +3,7 @@ import {Heading} from '@enact/sandstone/Heading';
 import PropTypes from 'prop-types';
 import {CartesianGrid, Label, Line, LineChart, ReferenceLine, Tooltip, XAxis, YAxis} from 'recharts';
 
-import css from './Chart.module.less';
+import * as css from './Chart.module.less';
 
 const CustomTooltip = ({active, payload}) => {
 	if (active && payload && payload.length) {

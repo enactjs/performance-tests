@@ -52,7 +52,7 @@ import VideoPlayer from '../views/sandstone/VideoPlayer';
 import VirtualList from '../views/sandstone/VirtualList';
 import WizardPanels from '../views/sandstone/WizardPanels';
 
-import css from './App.less';
+import * as css from './App.less';
 
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 

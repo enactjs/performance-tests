@@ -11,7 +11,7 @@ import {useCallback, useEffect, useState} from 'react';
 
 import Chart from '../views/Chart';
 
-import css from './App.module.less';
+import * as css from './App.module.less';
 
 const listOfSandstoneComponent = [
 	'Overall',

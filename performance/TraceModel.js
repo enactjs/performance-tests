@@ -4,21 +4,31 @@
 const fs = require('fs');
 
 const FPS = async () =>  {
-	window.FPSValues = [];
-	let previousFrame, currentFrame;
-	previousFrame = performance.now();
+	global.FPSValues = [];
+	global.previousFrame = performance.now();
 
-	requestAnimationFrame(
-		async function calculateNewFPS () {
-			currentFrame = performance.now();
-			window.FPSValues.push(Math.round(1000 / (currentFrame - previousFrame)));
-			previousFrame = currentFrame;
-			await requestAnimationFrame(calculateNewFPS);
-		}
-	);
+		console.log("avbvbvc")
+		global.FPSValues = await browser.execute(async function () {
+			let FPSValuesIntern;
+			window.FPSValues = [1,2];
+			window.previousFrame = performance.now();
+
+			await requestAnimationFrame(
+				async function calculateNewFPS () {
+					window.currentFrame = performance.now();
+					window.FPSValues.push(Math.round(1000 / (window.currentFrame - window.previousFrame)));
+					window.previousFrame = window.currentFrame;
+					await requestAnimationFrame(calculateNewFPS);
+				}
+			);
+				return window.FPSValues;
+		});
+	console.log(global.FPSValues)
 };
 
-const getAverageFPS = () => (window.FPSValues.reduce((a, b) => a + b, 0) / window.FPSValues.length) || 0;
+const getAverageFPS = () => {
+	return (global.FPSValues.reduce((a, b) => a + b, 0) / global.FPSValues.length) || 0;
+}
 
 const FID = () => {
 	window.fid = 0;

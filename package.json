@@ -15,6 +15,7 @@
 		"lint": "enact lint .",
 		"license": "enact license",
 		"test": "jest --detectOpenHandles",
+		"test-performance": "start-tests wdio.conf.js",
 		"stop": "pkill -f 'enact serve'",
 		"test-all": "node ./scripts/test-all.js"
 	},
@@ -47,6 +48,7 @@
 		"shelljs": "^0.8.5"
 	},
 	"devDependencies": {
+		"@enact/ui-test-utils": "^1.0.8",
 		"cross-env": "^7.0.3",
 		"jest": "^29.7.0",
 		"jest-environment-jsdom": "^29.7.0",

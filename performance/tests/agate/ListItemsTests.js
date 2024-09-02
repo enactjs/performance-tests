@@ -82,12 +82,12 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 		await page.focus(`#${componentName}`);
 		await page.keyboard.down('ArrowDown');
 		await page.keyboard.up('ArrowDown');
-		await new Promise(r => setTimeout(r, 100));
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.down('ArrowDown');
 		await page.keyboard.up('ArrowDown');
-		await new Promise(r => setTimeout(r, 100));
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 2000));
 
 		let inpValue;
 

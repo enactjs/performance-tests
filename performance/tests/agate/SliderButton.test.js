@@ -66,8 +66,10 @@ describe('SliderButton', () => {
 		await page.goto(`http://${serverAddr}/sliderButton`);
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#sliderButton');
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.down('ArrowRight');
-		await new Promise(r => setTimeout(r, 1000));
+		await page.keyboard.up('ArrowRight');
+		await new Promise(r => setTimeout(r, 2000));
 
 		let inpValue;
 

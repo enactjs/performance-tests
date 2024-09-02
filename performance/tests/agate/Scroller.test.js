@@ -71,10 +71,10 @@ describe( 'Scroller', () => {
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#scroller');
 		await page.focus('[aria-label="scroll down"]');
-		await new Promise(r => setTimeout(r, 100));
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.down('Enter');
 		await page.keyboard.up('Enter');
-		await new Promise(r => setTimeout(r, 100));
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.down('Enter');
 		await page.keyboard.up('Enter');
 		await new Promise(r => setTimeout(r, 2000));

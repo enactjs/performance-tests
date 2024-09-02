@@ -77,8 +77,16 @@ describe('IncrementSlider', () => {
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#incrementSlider');
 		await page.focus('#incrementSlider');
+		await new Promise(r => setTimeout(r, 300));
 		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 1000));
+		await page.keyboard.up('Enter');
+		await new Promise(r => setTimeout(r, 300));
+		await page.keyboard.down('ArrowRight');
+		await page.keyboard.up('ArrowRight');
+		await new Promise(r => setTimeout(r, 300));
+		await page.keyboard.down('ArrowRight');
+		await page.keyboard.up('ArrowRight');
+		await new Promise(r => setTimeout(r, 2000));
 
 		let inpValue;
 

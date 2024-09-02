@@ -1,4 +1,3 @@
-/* eslint-disable */
 /* global requestAnimationFrame */
 
 const fs = require('fs');

@@ -1,4 +1,4 @@
-/* global CPUThrottling, page, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals */
 
 const TestResults = require('../../TestResults');
 const {CLS, FID, PageLoadingMetrics} = require('../../TraceModel');

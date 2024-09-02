@@ -1,4 +1,4 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, maxINP, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv, webVitals */
 
 const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
@@ -56,11 +56,11 @@ describe('KeyGuide', () => {
 
 		await page.evaluateHandle(() => {
 			webVitals.onINP(function (inp) {
-					console.log(inp.value); // eslint-disable-line no-console
-				},
-				{
-					reportAllChanges: true
-				}
+				console.log(inp.value); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
+			}
 			);
 		});
 	});

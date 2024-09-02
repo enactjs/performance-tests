@@ -93,8 +93,10 @@ describe('ContextualMenuDecorator', () => {
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('[data-index="0"]');
 		await page.focus('[data-index="0"]');
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 1000));
+		await page.keyboard.up('Enter');
+		await new Promise(r => setTimeout(r, 2000));
 
 		let inpValue;
 

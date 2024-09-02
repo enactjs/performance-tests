@@ -88,9 +88,9 @@ describe('Picker', () => {
 			await page.goto(`http://${serverAddr}/picker`);
 			await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 			await page.waitForSelector('#pickerDefault');
-			await new Promise(r => setTimeout(r, 100));
+			await new Promise(r => setTimeout(r, 300));
 			await page.click('[aria-label$="next item"]');
-			await new Promise(r => setTimeout(r, 1500));
+			await new Promise(r => setTimeout(r, 2000));
 
 			let inpValue;
 
@@ -246,9 +246,9 @@ describe('Picker', () => {
 			await page.goto(`http://${serverAddr}/pickerJoined`);
 			await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 			await page.waitForSelector('#pickerJoined');
-			await new Promise(r => setTimeout(r, 100));
+			await new Promise(r => setTimeout(r, 300));
 			await page.click('#pickerJoined');
-			await new Promise(r => setTimeout(r, 1500));
+			await new Promise(r => setTimeout(r, 2000));
 
 			let inpValue;
 

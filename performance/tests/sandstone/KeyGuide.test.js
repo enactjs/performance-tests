@@ -43,8 +43,9 @@ describe('KeyGuide', () => {
 		await page.goto(`http://${serverAddr}/keyGuide`);
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#keyGuide');
+		await new Promise(r => setTimeout(r, 200));
 		await page.click('#keyGuide');
-		await new Promise(r => setTimeout(r, 500));
+		await new Promise(r => setTimeout(r, 2000));
 
 		let inpValue;
 

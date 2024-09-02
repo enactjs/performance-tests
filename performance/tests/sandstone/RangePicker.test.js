@@ -88,9 +88,9 @@ describe('RangePicker', () => {
 			await page.goto(`http://${serverAddr}/rangePicker`);
 			await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 			await page.waitForSelector('#rangePickerDefault');
-			await new Promise(r => setTimeout(r, 100));
+			await new Promise(r => setTimeout(r, 300));
 			await page.click('[aria-label$="press ok button to increase the value"]');
-			await new Promise(r => setTimeout(r, 1000));
+			await new Promise(r => setTimeout(r, 2000));
 
 			let inpValue;
 
@@ -244,11 +244,11 @@ describe('RangePicker', () => {
 			await page.goto(`http://${serverAddr}/rangePickerJoined`);
 			await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 			await page.waitForSelector('#rangePickerJoined');
-			await new Promise(r => setTimeout(r, 100));
+			await new Promise(r => setTimeout(r, 300));
 			await page.click('#rangePickerJoined');
-			await new Promise(r => setTimeout(r, 100));
+			await new Promise(r => setTimeout(r, 300));
 			await page.click('#rangePickerJoined');
-			await new Promise(r => setTimeout(r, 1000));
+			await new Promise(r => setTimeout(r, 1500));
 
 			let inpValue;
 
@@ -269,60 +269,60 @@ describe('RangePicker', () => {
 			});
 		});
 
-		// it('should have a good DCL, FCP and LCP', async () => {
-		// 	const filename = getFileName(component);
-		//
-		// 	let passContDCL = 0;
-		// 	let passContFCP = 0;
-		// 	let passContLCP = 0;
-		// 	let avgDCL = 0;
-		// 	let avgFCP = 0;
-		// 	let avgLCP = 0;
-		// 	for (let step = 0; step < stepNumber; step++) {
-		// 		const rangePickerJoinedPage = targetEnv === 'TV' ? page : await newPageMultiple();
-		// 		await rangePickerJoinedPage.emulateCPUThrottling(CPUThrottling);
-		//
-		// 		await rangePickerJoinedPage.tracing.start({path: filename, screenshots: false});
-		// 		await rangePickerJoinedPage.goto(`http://${serverAddr}/rangePickerJoined`);
-		// 		await rangePickerJoinedPage.waitForSelector('#rangePickerJoined');
-		// 		await new Promise(r => setTimeout(r, 200));
-		//
-		// 		await rangePickerJoinedPage.tracing.stop();
-		//
-		// 		const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
-		// 		avgDCL = avgDCL + actualDCL;
-		// 		if (actualDCL < maxDCL) {
-		// 			passContDCL += 1;
-		// 		}
-		//
-		// 		avgFCP = avgFCP + actualFCP;
-		// 		if (actualFCP < maxFCP) {
-		// 			passContFCP += 1;
-		// 		}
-		//
-		// 		avgLCP = avgLCP + actualLCP;
-		// 		if (actualLCP < maxLCP) {
-		// 			passContLCP += 1;
-		// 		}
-		//
-		// 		if (targetEnv === 'PC') await rangePickerJoinedPage.close();
-		// 	}
-		// 	avgDCL = avgDCL / stepNumber;
-		// 	avgFCP = avgFCP / stepNumber;
-		// 	avgLCP = avgLCP / stepNumber;
-		//
-		// 	TestResults.addResult({component: component + ' joined', type: 'DCL', actualValue: Math.round((avgDCL + Number.EPSILON) * 1000) / 1000});
-		// 	TestResults.addResult({component: component + ' joined', type: 'FCP', actualValue: Math.round((avgFCP + Number.EPSILON) * 1000) / 1000});
-		// 	TestResults.addResult({component: component + ' joined', type: 'LCP', actualValue: Math.round((avgLCP + Number.EPSILON) * 1000) / 1000});
-		//
-		// 	expect(passContDCL).toBeGreaterThan(passRatio * stepNumber);
-		// 	expect(avgDCL).toBeLessThan(maxDCL);
-		//
-		// 	expect(passContFCP).toBeGreaterThan(passRatio * stepNumber);
-		// 	expect(avgFCP).toBeLessThan(maxFCP);
-		//
-		// 	expect(passContLCP).toBeGreaterThan(passRatio * stepNumber);
-		// 	expect(avgLCP).toBeLessThan(maxLCP);
-		// });
+		it('should have a good DCL, FCP and LCP', async () => {
+			const filename = getFileName(component);
+
+			let passContDCL = 0;
+			let passContFCP = 0;
+			let passContLCP = 0;
+			let avgDCL = 0;
+			let avgFCP = 0;
+			let avgLCP = 0;
+			for (let step = 0; step < stepNumber; step++) {
+				const rangePickerJoinedPage = targetEnv === 'TV' ? page : await newPageMultiple();
+				await rangePickerJoinedPage.emulateCPUThrottling(CPUThrottling);
+
+				await rangePickerJoinedPage.tracing.start({path: filename, screenshots: false});
+				await rangePickerJoinedPage.goto(`http://${serverAddr}/rangePickerJoined`);
+				await rangePickerJoinedPage.waitForSelector('#rangePickerJoined');
+				await new Promise(r => setTimeout(r, 200));
+
+				await rangePickerJoinedPage.tracing.stop();
+
+				const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
+				avgDCL = avgDCL + actualDCL;
+				if (actualDCL < maxDCL) {
+					passContDCL += 1;
+				}
+
+				avgFCP = avgFCP + actualFCP;
+				if (actualFCP < maxFCP) {
+					passContFCP += 1;
+				}
+
+				avgLCP = avgLCP + actualLCP;
+				if (actualLCP < maxLCP) {
+					passContLCP += 1;
+				}
+
+				if (targetEnv === 'PC') await rangePickerJoinedPage.close();
+			}
+			avgDCL = avgDCL / stepNumber;
+			avgFCP = avgFCP / stepNumber;
+			avgLCP = avgLCP / stepNumber;
+
+			TestResults.addResult({component: component + ' joined', type: 'DCL', actualValue: Math.round((avgDCL + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component + ' joined', type: 'FCP', actualValue: Math.round((avgFCP + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component + ' joined', type: 'LCP', actualValue: Math.round((avgLCP + Number.EPSILON) * 1000) / 1000});
+
+			expect(passContDCL).toBeGreaterThan(passRatio * stepNumber);
+			expect(avgDCL).toBeLessThan(maxDCL);
+
+			expect(passContFCP).toBeGreaterThan(passRatio * stepNumber);
+			expect(avgFCP).toBeLessThan(maxFCP);
+
+			expect(passContLCP).toBeGreaterThan(passRatio * stepNumber);
+			expect(avgLCP).toBeLessThan(maxLCP);
+		});
 	});
 });

@@ -149,11 +149,12 @@ describe('OverallView', () => {
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#tooltipButton');
 		await page.click('#tooltipButton'); // to move to the next panel.
+		await new Promise(r => setTimeout(r, 200));
 		await page.waitForSelector('#virtualGridListSecond');
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.down('Escape'); // to move to the previous panel.
 		await page.keyboard.up('Escape');
-		await page.waitForSelector('#tooltipButton');
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 2000));
 
 		let inpValue;
 

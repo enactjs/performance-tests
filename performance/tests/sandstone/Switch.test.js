@@ -90,7 +90,7 @@ describe('Switch', () => {
 		await page.click('#switch');
 		await new Promise(r => setTimeout(r, 200));
 		await page.click('#switch');
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 2000));
 
 		let inpValue;
 

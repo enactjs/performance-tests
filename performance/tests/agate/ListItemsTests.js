@@ -80,6 +80,12 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector(`#${componentName}`);
 		await page.focus(`#${componentName}`);
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await new Promise(r => setTimeout(r, 100));
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await new Promise(r => setTimeout(r, 100));
 		await page.keyboard.down('Enter');
 		await new Promise(r => setTimeout(r, 1000));
 

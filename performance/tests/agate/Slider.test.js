@@ -77,7 +77,12 @@ describe('Slider', () => {
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#slider');
 		await page.focus('#slider');
+		await new Promise(r => setTimeout(r, 100));
 		await page.keyboard.down('Enter');
+		await page.keyboard.up('Enter');
+		await new Promise(r => setTimeout(r, 100));
+		await page.keyboard.down('Enter');
+		await page.keyboard.up('Enter');
 		await new Promise(r => setTimeout(r, 1000));
 
 		let inpValue;

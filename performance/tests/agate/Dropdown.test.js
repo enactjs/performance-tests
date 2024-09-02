@@ -84,8 +84,16 @@ describe('Dropdown', () => {
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#agate-dropdown');
 		await page.focus('#agate-dropdown');
+		await new Promise(r => setTimeout(r, 100));
 		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 1000));
+		await page.keyboard.up('Enter');
+		await new Promise(r => setTimeout(r, 100));
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await new Promise(r => setTimeout(r, 100));
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await new Promise(r => setTimeout(r, 2000));
 
 		let inpValue;
 

@@ -44,8 +44,9 @@ describe('Marquee', () => {
 		await page.goto(`http://${serverAddr}/marquee`);
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#marquee');
+		await new Promise(r => setTimeout(r, 100));
 		await page.click('#marquee');
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 2000));
 
 		let inpValue;
 

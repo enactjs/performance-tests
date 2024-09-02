@@ -72,8 +72,9 @@ describe('MediaPlayer', () => {
 		await page.goto(`http://${serverAddr}/mediaPlayer`);
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#agate-mediaPlayer');
+		await new Promise(r => setTimeout(r, 100));
 		await page.click('[aria-label="Play"]'); // play the audio.
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 2000));
 
 		let inpValue;
 

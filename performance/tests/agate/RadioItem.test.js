@@ -86,6 +86,8 @@ describe('RadioItem', () => {
 		await page.waitForSelector('#radioItem');
 		await new Promise(r => setTimeout(r, 100));
 		await page.click('#radioItem');
+		await new Promise(r => setTimeout(r, 100));
+		await page.click('#radioItem');
 		await new Promise(r => setTimeout(r, 1000));
 
 		let inpValue;

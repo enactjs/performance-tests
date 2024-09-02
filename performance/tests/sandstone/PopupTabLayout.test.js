@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../../TestResults');
-const {CLS, coreWebVitals, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('PopupTabLayout', () => {
@@ -89,14 +89,17 @@ describe('PopupTabLayout', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/popupTabLayout`);
-		await coreWebVitals.attachCwvLib(page);
+		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#popupTabLayout');
-		await page.keyboard.down('ArrowRight');
-		await page.keyboard.up('ArrowRight');
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.down('ArrowDown');
 		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('Enter');
 		await new Promise(r => setTimeout(r, 200));
+		await page.keyboard.down('ArrowRight');
+		await page.keyboard.up('ArrowRight');
+		await new Promise(r => setTimeout(r, 200));
+		await page.keyboard.down('Enter');
+		await new Promise(r => setTimeout(r, 1000));
 
 		let inpValue;
 
@@ -107,7 +110,7 @@ describe('PopupTabLayout', () => {
 		});
 
 		await page.evaluateHandle(() => {
-			window.webVitals.getINP(function (inp) {
+			webVitals.onINP(function (inp) {
 				console.log(inp.value); // eslint-disable-line no-console
 			},
 			{

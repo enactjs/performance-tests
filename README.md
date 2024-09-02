@@ -104,7 +104,7 @@ FID is calculated using the PerformanceObserver interface. Its observer() method
 ### INP
 
 Interaction to Next Paint (INP) is a web performance metric that measures how quickly a website updates or shows changes after a user interacts with it. It specifically captures the delay between when a user interacts with your site—like clicking a link, pressing a key on the keyboard, or tapping a button—and when they see a visual response (see https://web.dev/articles/inp).
-INP is calculated from the coreWebVitals function. It logs the INP value in the console and we are monitoring the console in order to read the actual value.
+INP is calculated from the onINP() webVitals function. It logs the INP value in the console and we are monitoring the console in order to read the actual value.
 
 ### CLS
 
@@ -126,7 +126,7 @@ Test results are compared to the optimum values which are stored in global varia
 - global.maxDCL = 2000; 
 - global.maxFCP = 1800; 
 - global.maxFID = 100; 
-- global.maxFID = 200;
+- global.maxINP = 200;
 - global.minFPS = 20; 
 - global.maxLCP = 2500;
 
@@ -212,11 +212,12 @@ describe('Dropdown', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/dropdown`);
-		await coreWebVitals.attachCwvLib(page);
+		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#dropdown');
 		await page.focus('#dropdown');
-		await page.keyboard.down('Enter');
 		await new Promise(r => setTimeout(r, 100));
+		await page.keyboard.down('Enter');
+		await new Promise(r => setTimeout(r, 1000));
 
 		let inpValue;
 
@@ -227,7 +228,7 @@ describe('Dropdown', () => {
 		});
 
 		await page.evaluateHandle(() => {
-			window.webVitals.getINP(function (inp) {
+			webVitals.onINP(function (inp) {
 					console.log(inp.value); // eslint-disable-line no-console
 				},
 				{

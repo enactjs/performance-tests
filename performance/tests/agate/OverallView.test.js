@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../../TestResults');
-const {CLS, coreWebVitals, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('OverallView', () => {
@@ -102,14 +102,14 @@ describe('OverallView', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/overallView`);
-		await coreWebVitals.attachCwvLib(page);
+		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#tooltipButton');
 		await page.click('[aria-label="Next Tab"]'); // to move to the next tab.
 		await page.waitForSelector('#virtualGridListSecond');
 		await new Promise(r => setTimeout(r, 200));
 		await page.click(('[aria-label="Previous Tab"]')); // to move to the previous tab.
 		await page.waitForSelector('#tooltipButton');
-		await new Promise(r => setTimeout(r, 200));
+		await new Promise(r => setTimeout(r, 1000));
 
 		let inpValue;
 
@@ -120,7 +120,7 @@ describe('OverallView', () => {
 		});
 
 		await page.evaluateHandle(() => {
-			window.webVitals.getINP(function (inp) {
+			webVitals.onINP(function (inp) {
 				console.log(inp.value); // eslint-disable-line no-console
 			},
 			{

@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../../TestResults');
-const {CLS, coreWebVitals, FID, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, FID, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('Spinner', () => {
@@ -29,11 +29,12 @@ describe('Spinner', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/spinner`);
-		await coreWebVitals.attachCwvLib(page);
+		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#spinner');
-		await page.focus('#spinner');
-		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 200));
+		await page.click('#spinner');
+		await new Promise(r => setTimeout(r, 100));
+		await page.click('#spinner');
+		await new Promise(r => setTimeout(r, 1000));
 
 		let inpValue;
 
@@ -44,7 +45,7 @@ describe('Spinner', () => {
 		});
 
 		await page.evaluateHandle(() => {
-			window.webVitals.getINP(function (inp) {
+			webVitals.onINP(function (inp) {
 				console.log(inp.value); // eslint-disable-line no-console
 			},
 			{

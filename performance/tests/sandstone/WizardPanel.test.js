@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../../TestResults');
-const {CLS, coreWebVitals, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('WizardPanels', () => {
@@ -60,11 +60,11 @@ describe('WizardPanels', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/wizardPanels`);
-		await coreWebVitals.attachCwvLib(page);
+		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#wizardPanels');
 		await page.focus('#wizardPanels');
 		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 200));
+		await new Promise(r => setTimeout(r, 1000));
 
 		let inpValue;
 
@@ -75,7 +75,7 @@ describe('WizardPanels', () => {
 		});
 
 		await page.evaluateHandle(() => {
-			window.webVitals.getINP(function (inp) {
+			webVitals.onINP(function (inp) {
 				console.log(inp.value); // eslint-disable-line no-console
 			},
 			{

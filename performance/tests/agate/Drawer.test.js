@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../../TestResults');
-const {CLS, coreWebVitals, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('Drawer', () => {
@@ -89,14 +89,14 @@ describe('Drawer', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/drawer`);
-		await coreWebVitals.attachCwvLib(page);
+		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#agate-drawer');
 		await page.click(closeButton);
 		await new Promise(r => setTimeout(r, 500));
 		await page.click(open);
 		await new Promise(r => setTimeout(r, 500));
 		await page.click(closeButton);
-		await new Promise(r => setTimeout(r, 500));
+		await new Promise(r => setTimeout(r, 1000));
 
 		let inpValue;
 
@@ -107,7 +107,7 @@ describe('Drawer', () => {
 		});
 
 		await page.evaluateHandle(() => {
-			window.webVitals.getINP(function (inp) {
+			webVitals.onINP(function (inp) {
 				console.log(inp.value); // eslint-disable-line no-console
 			},
 			{

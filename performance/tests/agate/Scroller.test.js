@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../../TestResults');
-const {CLS, coreWebVitals, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple, scrollAtPoint} = require('../../utils');
 
 describe( 'Scroller', () => {
@@ -68,7 +68,7 @@ describe( 'Scroller', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/scroller`);
-		await coreWebVitals.attachCwvLib(page);
+		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#scroller');
 		await page.focus('[aria-label="scroll down"]');
 		await page.keyboard.down('Enter');
@@ -84,7 +84,7 @@ describe( 'Scroller', () => {
 		});
 
 		await page.evaluateHandle(() => {
-			window.webVitals.getINP(function (inp) {
+			webVitals.onINP(function (inp) {
 				console.log(inp.value); // eslint-disable-line no-console
 			},
 			{

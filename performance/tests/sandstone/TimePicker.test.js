@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../../TestResults');
-const {CLS, coreWebVitals, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('TimePicker', () => {
@@ -61,11 +61,16 @@ describe('TimePicker', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/timePicker`);
-		await coreWebVitals.attachCwvLib(page);
+		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#timePicker');
 		await page.focus('[aria-label$="hour change a value with up down button"]');
+		await new Promise(r => setTimeout(r, 100));
 		await page.keyboard.down('ArrowDown');
-		await new Promise(r => setTimeout(r, 200));
+		await page.keyboard.up('ArrowDown');
+		await new Promise(r => setTimeout(r, 100));
+		await page.keyboard.down('ArrowDown');
+		await page.keyboard.up('ArrowDown');
+		await new Promise(r => setTimeout(r, 2000));
 
 		let inpValue;
 
@@ -76,7 +81,7 @@ describe('TimePicker', () => {
 		});
 
 		await page.evaluateHandle(() => {
-			window.webVitals.getINP(function (inp) {
+			webVitals.onINP(function (inp) {
 				console.log(inp.value); // eslint-disable-line no-console
 			},
 			{

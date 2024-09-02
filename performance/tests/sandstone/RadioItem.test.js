@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../../TestResults');
-const {CLS, coreWebVitals, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('RadioItem', () => {
@@ -82,11 +82,11 @@ describe('RadioItem', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/radioItem`);
-		await coreWebVitals.attachCwvLib(page);
+		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#radioItem');
 		await new Promise(r => setTimeout(r, 100));
 		await page.click('#radioItem');
-		await new Promise(r => setTimeout(r, 100));
+		await new Promise(r => setTimeout(r, 1000));
 
 		let inpValue;
 
@@ -97,7 +97,7 @@ describe('RadioItem', () => {
 		});
 
 		await page.evaluateHandle(() => {
-			window.webVitals.getINP(function (inp) {
+			webVitals.onINP(function (inp) {
 				console.log(inp.value); // eslint-disable-line no-console
 			},
 			{

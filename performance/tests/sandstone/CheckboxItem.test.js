@@ -83,9 +83,10 @@ describe('CheckboxItem', () => {
 		await page.goto(`http://${serverAddr}/checkboxItem`);
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#checkboxItem');
-		await page.focus('#checkboxItem');
-		await page.keyboard.down('Enter');
-		await page.keyboard.down('Enter');
+		await new Promise(r => setTimeout(r, 100));
+		await page.click('#checkboxItem');
+		await new Promise(r => setTimeout(r, 100));
+		await page.click('#checkboxItem');
 		await new Promise(r => setTimeout(r, 1000));
 
 		let inpValue;

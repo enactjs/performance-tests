@@ -248,7 +248,7 @@ describe('Picker', () => {
 			await page.waitForSelector('#pickerJoined');
 			await new Promise(r => setTimeout(r, 100));
 			await page.click('#pickerJoined');
-			await new Promise(r => setTimeout(r, 1000));
+			await new Promise(r => setTimeout(r, 1500));
 
 			let inpValue;
 

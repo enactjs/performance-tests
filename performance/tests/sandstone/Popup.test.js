@@ -65,6 +65,45 @@ describe('Popup', () => {
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
+	it('should have a good INP', async () => {
+		await page.goto(`http://${serverAddr}/popup`);
+		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
+		await page.waitForSelector('#popup');
+		await page.click(close);
+		await new Promise(r => setTimeout(r, 500));
+		await page.click(open);
+		await new Promise(r => setTimeout(r, 500));
+		await page.click(close);
+		await new Promise(r => setTimeout(r, 500));
+		await page.click(open);
+		await new Promise(r => setTimeout(r, 500));
+		await page.click(close);
+		await new Promise(r => setTimeout(r, 500));
+		await page.click(open);
+		await new Promise(r => setTimeout(r, 500));
+		await page.click(close);
+		await new Promise(r => setTimeout(r, 2000));
+
+		let inpValue;
+
+		page.on("console", (msg) => {
+			inpValue = Number(msg.text());
+			TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
+			expect(inpValue).toBeLessThan(maxINP);
+		});
+
+		await page.evaluateHandle(() => {
+			webVitals.onINP(function (inp) {
+					console.log(inp.value); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+			);
+		});
+	});
+
+
 	it('should have a good DCL, FCP and LCP', async () => {
 		const filename = getFileName(component);
 

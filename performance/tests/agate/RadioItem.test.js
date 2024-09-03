@@ -88,7 +88,7 @@ describe('RadioItem', () => {
 		await page.click('#radioItem');
 		await new Promise(r => setTimeout(r, 100));
 		await page.click('#radioItem');
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 100));
 
 		let inpValue;
 
@@ -107,6 +107,7 @@ describe('RadioItem', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

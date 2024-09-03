@@ -96,7 +96,7 @@ describe('RangePicker', () => {
 			await page.click('[aria-label$="increase the value"]');
 			await new Promise(r => setTimeout(r, 200));
 			await page.click('[aria-label$="increase the value"]');
-			await new Promise(r => setTimeout(r, 2000));
+			await new Promise(r => setTimeout(r, 200));
 
 			let inpValue;
 
@@ -115,6 +115,7 @@ describe('RangePicker', () => {
 				}
 				);
 			});
+			await new Promise(r => setTimeout(r, 1000));
 		});
 
 		it('should have a good DCL, FCP and LCP', async () => {

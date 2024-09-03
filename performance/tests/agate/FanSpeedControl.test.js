@@ -85,8 +85,10 @@ describe('FanSpeedControl', () => {
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#fanSpeedControl');
 		await page.focus('#fanSpeedControl');
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.down('ArrowUp');
-		await new Promise(r => setTimeout(r, 1000));
+		await page.keyboard.up('ArrowUp');
+		await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 
@@ -105,6 +107,7 @@ describe('FanSpeedControl', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

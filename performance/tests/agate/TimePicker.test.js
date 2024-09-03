@@ -64,8 +64,10 @@ describe('TimePicker', () => {
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#timePicker');
 		await page.focus('[aria-label$="hour next item"]');
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.down('ArrowDown');
-		await new Promise(r => setTimeout(r, 1000));
+		await page.keyboard.up('ArrowDown');
+		await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 
@@ -84,6 +86,7 @@ describe('TimePicker', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

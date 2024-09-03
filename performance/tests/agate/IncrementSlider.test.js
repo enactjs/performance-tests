@@ -86,7 +86,7 @@ describe('IncrementSlider', () => {
 		await new Promise(r => setTimeout(r, 300));
 		await page.keyboard.down('ArrowRight');
 		await page.keyboard.up('ArrowRight');
-		await new Promise(r => setTimeout(r, 2000));
+		await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 
@@ -105,6 +105,7 @@ describe('IncrementSlider', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

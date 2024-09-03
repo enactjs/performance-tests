@@ -49,8 +49,10 @@ describe('TabGroup', () => {
 		await page.goto(`http://${serverAddr}/tabGroup`);
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#tabGroup');
+		await new Promise(r => setTimeout(r, 100));
 		await page.keyboard.down('ArrowRight');
-		await new Promise(r => setTimeout(r, 1000));
+		await page.keyboard.up('ArrowRight');
+		await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 
@@ -69,6 +71,7 @@ describe('TabGroup', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

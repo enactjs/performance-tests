@@ -124,7 +124,7 @@ describe('Input', () => {
 		await new Promise(r => setTimeout(r, 100));
 		await page.keyboard.down('Backspace');
 		await page.keyboard.up('Backspace');
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 100));
 
 		let inpValue;
 
@@ -143,6 +143,7 @@ describe('Input', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

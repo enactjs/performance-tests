@@ -86,7 +86,7 @@ describe('Item', () => {
 		await page.waitForSelector('#item');
 		await new Promise(r => setTimeout(r, 100));
 		await page.click('#item');
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 100));
 
 		let inpValue;
 
@@ -105,6 +105,7 @@ describe('Item', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

@@ -109,7 +109,7 @@ describe('OverallView', () => {
 		await new Promise(r => setTimeout(r, 200));
 		await page.click(('[aria-label="Previous Tab"]')); // to move to the previous tab.
 		await page.waitForSelector('#tooltipButton');
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 
@@ -128,6 +128,7 @@ describe('OverallView', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

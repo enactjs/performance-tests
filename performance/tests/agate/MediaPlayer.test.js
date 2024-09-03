@@ -74,7 +74,7 @@ describe('MediaPlayer', () => {
 		await page.waitForSelector('#agate-mediaPlayer');
 		await new Promise(r => setTimeout(r, 100));
 		await page.click('[aria-label="Play"]'); // play the audio.
-		await new Promise(r => setTimeout(r, 2000));
+		await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 
@@ -93,6 +93,7 @@ describe('MediaPlayer', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

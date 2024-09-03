@@ -93,7 +93,7 @@ describe('Keypad', () => {
 		await page.waitForSelector('#keypad');
 		await new Promise(r => setTimeout(r, 100));
 		await page.click('[aria-label$="1"]');
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 100));
 
 		let inpValue;
 
@@ -112,6 +112,7 @@ describe('Keypad', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

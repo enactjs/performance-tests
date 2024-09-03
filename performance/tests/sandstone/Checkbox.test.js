@@ -87,7 +87,7 @@ describe('Checkbox', () => {
 		await page.click('#checkbox');
 		await new Promise(r => setTimeout(r, 200));
 		await page.click('#checkbox');
-		await new Promise(r => setTimeout(r, 2000));
+		await new Promise(r => setTimeout(r, 1000));
 
 		let inpValue;
 
@@ -106,6 +106,7 @@ describe('Checkbox', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

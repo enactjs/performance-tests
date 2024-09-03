@@ -83,9 +83,9 @@ describe('CheckboxItem', () => {
 		await page.goto(`http://${serverAddr}/checkboxItem`);
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('#checkboxItem');
-		await new Promise(r => setTimeout(r, 100));
+		await new Promise(r => setTimeout(r, 200));
 		await page.click('#checkboxItem');
-		await new Promise(r => setTimeout(r, 100));
+		await new Promise(r => setTimeout(r, 200));
 		await page.click('#checkboxItem');
 		await new Promise(r => setTimeout(r, 1000));
 
@@ -106,6 +106,7 @@ describe('CheckboxItem', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

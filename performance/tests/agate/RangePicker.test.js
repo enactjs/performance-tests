@@ -1,4 +1,4 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
@@ -88,7 +88,7 @@ describe('RangePicker', () => {
 
 		it('should have a good INP', async () => {
 			await page.goto(`http://${serverAddr}/rangePicker`);
-			await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
+			await page.addScriptTag({url: webVitalsURL});
 			await page.waitForSelector('#rangePicker');
 			await new Promise(r => setTimeout(r, 200));
 			await page.click('[aria-label$="increase the value"]');

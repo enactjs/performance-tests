@@ -1,4 +1,4 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
@@ -79,7 +79,7 @@ describe('ColorPicker', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/colorPicker`);
-		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
+		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#agate-colorPicker');
 		await page.focus('#agate-colorPicker');
 		await new Promise(r => setTimeout(r, 200));

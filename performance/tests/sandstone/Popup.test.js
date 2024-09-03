@@ -67,7 +67,7 @@ describe('Popup', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/popup`);
-		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
+		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#popup');
 		await page.click(close);
 		await new Promise(r => setTimeout(r, 500));

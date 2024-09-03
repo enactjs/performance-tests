@@ -12,6 +12,7 @@ global.maxLCP = 2500;
 global.minFPS = 20;
 global.passRatio = 0.7;
 global.stepNumber = 5;
+global.webVitalsURL = 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js';
 
 let browser;
 

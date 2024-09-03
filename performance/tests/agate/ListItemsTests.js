@@ -1,4 +1,4 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 /* eslint-disable*/
 
 const TestResults = require('../../TestResults');
@@ -77,7 +77,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 
 	it('should have a good INP', async () => {
 		await page.goto(pageURL);
-		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
+		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector(`#${componentName}`);
 		await page.focus(`#${componentName}`);
 		await page.keyboard.down('ArrowDown');

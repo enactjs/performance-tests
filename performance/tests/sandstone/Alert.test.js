@@ -1,4 +1,4 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxFID, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, maxCLS, passRatio, serverAddr, targetEnv, webVitals */
+/* global CPUThrottling, page, minFPS, maxFID, maxFID, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, maxCLS, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
@@ -83,7 +83,7 @@ describe('Alert', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/alert`);
-		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
+		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#button');
 		await page.focus('#button');
 		await page.keyboard.down('Enter');

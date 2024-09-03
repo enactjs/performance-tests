@@ -42,7 +42,7 @@ describe('Marquee', () => {
 
 	it('should have a good INP', async () => {
 		await page.goto(`http://${serverAddr}/marquee`);
-		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
+		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#marquee');
 		await new Promise(r => setTimeout(r, 200));
 		await page.click('#marquee');

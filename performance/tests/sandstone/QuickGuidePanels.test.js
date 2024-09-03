@@ -146,7 +146,7 @@ describe('QuickGuidePanels', () => {
 			await page.click(nextQuickPanelButton);
 			await new Promise(r => setTimeout(r, 500));
 			await page.click(previousQuickPanelButton);
-			await new Promise(r => setTimeout(r, 1000));
+			await new Promise(r => setTimeout(r, 200));
 
 			let inpValue;
 
@@ -165,6 +165,7 @@ describe('QuickGuidePanels', () => {
 				}
 				);
 			});
+			await new Promise(r => setTimeout(r, 1000));
 		});
 	});
 

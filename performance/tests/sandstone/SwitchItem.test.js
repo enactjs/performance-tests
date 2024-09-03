@@ -90,7 +90,7 @@ describe('SwitchItem', () => {
 		await page.click('#switchItem');
 		await new Promise(r => setTimeout(r, 200));
 		await page.click('#switchItem');
-		await new Promise(r => setTimeout(r, 2000));
+		await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 
@@ -109,6 +109,7 @@ describe('SwitchItem', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

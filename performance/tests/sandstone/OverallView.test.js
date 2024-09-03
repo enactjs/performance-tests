@@ -154,7 +154,7 @@ describe('OverallView', () => {
 		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.down('Escape'); // to move to the previous panel.
 		await page.keyboard.up('Escape');
-		await new Promise(r => setTimeout(r, 2000));
+		await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 
@@ -173,6 +173,7 @@ describe('OverallView', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 });
 

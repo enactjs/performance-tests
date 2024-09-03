@@ -70,7 +70,7 @@ describe('TimePicker', () => {
 		await new Promise(r => setTimeout(r, 100));
 		await page.keyboard.down('ArrowDown');
 		await page.keyboard.up('ArrowDown');
-		await new Promise(r => setTimeout(r, 2000));
+		await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 
@@ -89,6 +89,7 @@ describe('TimePicker', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

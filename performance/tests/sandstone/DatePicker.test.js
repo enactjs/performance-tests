@@ -93,8 +93,10 @@ describe('DatePicker', () => {
 		await page.addScriptTag({url: 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js'});
 		await page.waitForSelector('[data-webos-voice-group-label="month"]');
 		await page.focus('[data-webos-voice-group-label="month"]');
+		await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 1000));
+		await page.keyboard.up('Enter');
+		await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 
@@ -113,6 +115,7 @@ describe('DatePicker', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

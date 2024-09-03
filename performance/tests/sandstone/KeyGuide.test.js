@@ -45,7 +45,7 @@ describe('KeyGuide', () => {
 		await page.waitForSelector('#keyGuide');
 		await new Promise(r => setTimeout(r, 200));
 		await page.click('#keyGuide');
-		await new Promise(r => setTimeout(r, 2000));
+		await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 
@@ -64,6 +64,7 @@ describe('KeyGuide', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

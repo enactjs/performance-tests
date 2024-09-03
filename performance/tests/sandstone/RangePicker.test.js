@@ -90,7 +90,7 @@ describe('RangePicker', () => {
 			await page.waitForSelector('#rangePickerDefault');
 			await new Promise(r => setTimeout(r, 300));
 			await page.click('[aria-label$="press ok button to increase the value"]');
-			await new Promise(r => setTimeout(r, 2000));
+			await new Promise(r => setTimeout(r, 300));
 
 			let inpValue;
 
@@ -109,6 +109,7 @@ describe('RangePicker', () => {
 				}
 				);
 			});
+			await new Promise(r => setTimeout(r, 1000));
 		});
 
 		it('should have a good DCL, FCP and LCP', async () => {
@@ -248,7 +249,7 @@ describe('RangePicker', () => {
 			await page.click('#rangePickerJoined');
 			await new Promise(r => setTimeout(r, 300));
 			await page.click('#rangePickerJoined');
-			await new Promise(r => setTimeout(r, 1500));
+			await new Promise(r => setTimeout(r, 300));
 
 			let inpValue;
 
@@ -267,6 +268,7 @@ describe('RangePicker', () => {
 				}
 				);
 			});
+			await new Promise(r => setTimeout(r, 1000));
 		});
 
 		it('should have a good DCL, FCP and LCP', async () => {

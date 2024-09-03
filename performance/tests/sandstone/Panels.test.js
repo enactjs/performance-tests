@@ -146,7 +146,7 @@ describe('Panels', () => {
 			await page.click(nextPanelButton);
 			await new Promise(r => setTimeout(r, 500));
 			await page.click(previousPanelButton);
-			await new Promise(r => setTimeout(r, 1000));
+			await new Promise(r => setTimeout(r, 500));
 
 			let inpValue;
 
@@ -165,6 +165,7 @@ describe('Panels', () => {
 				}
 				);
 			});
+			await new Promise(r => setTimeout(r, 1000));
 		});
 	});
 

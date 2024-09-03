@@ -46,7 +46,7 @@ describe('Marquee', () => {
 		await page.waitForSelector('#marquee');
 		await new Promise(r => setTimeout(r, 200));
 		await page.click('#marquee');
-		await new Promise(r => setTimeout(r, 2000));
+		await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 
@@ -65,6 +65,7 @@ describe('Marquee', () => {
 				}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

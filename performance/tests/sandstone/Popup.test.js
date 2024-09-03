@@ -82,7 +82,7 @@ describe('Popup', () => {
 		await page.click(open);
 		await new Promise(r => setTimeout(r, 500));
 		await page.click(close);
-		await new Promise(r => setTimeout(r, 2000));
+		await new Promise(r => setTimeout(r, 500));
 
 		let inpValue;
 
@@ -101,6 +101,7 @@ describe('Popup', () => {
 				}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 

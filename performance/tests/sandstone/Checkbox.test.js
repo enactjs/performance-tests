@@ -87,7 +87,7 @@ describe('Checkbox', () => {
 		await page.click('#checkbox');
 		await new Promise(r => setTimeout(r, 200));
 		await page.click('#checkbox');
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 

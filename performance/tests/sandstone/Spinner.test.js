@@ -35,7 +35,7 @@ describe('Spinner', () => {
 		await page.click('#spinner');
 		await new Promise(r => setTimeout(r, 200));
 		await page.click('#spinner');
-		await new Promise(r => setTimeout(r, 2000));
+		await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 
@@ -54,6 +54,7 @@ describe('Spinner', () => {
 			}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

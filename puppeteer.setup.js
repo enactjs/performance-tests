@@ -12,7 +12,6 @@ global.maxLCP = 2500;
 global.minFPS = 20;
 global.passRatio = 0.7;
 global.stepNumber = 5;
-global.webVitalsURL = 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js';
 
 let browser;
 
@@ -23,6 +22,7 @@ global.CPUThrottling = targetCPUThrottling ? parseInt(targetCPUThrottling.split(
 global.targetEnv = targetEnvArg ? targetEnvArg.split('=')[1] : 'PC';
 
 global.serverAddr = `${ipAddress()}:8080`;
+global.webVitalsURL = 'https://unpkg.com/web-vitals@4/dist/web-vitals.iife.js';
 
 if (targetEnv === 'PC') {
 	global.beforeAll(async () => {

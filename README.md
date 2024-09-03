@@ -217,7 +217,7 @@ describe('Dropdown', () => {
 		await page.focus('#dropdown');
 		await new Promise(r => setTimeout(r, 100));
 		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 1000));
+		await new Promise(r => setTimeout(r, 100));
 
 		let inpValue;
 
@@ -236,6 +236,7 @@ describe('Dropdown', () => {
 				}
 			);
 		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

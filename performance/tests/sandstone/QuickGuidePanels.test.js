@@ -264,7 +264,7 @@ describe('QuickGuidePanels', () => {
 			await page.keyboard.down('Enter');
 			await new Promise(r => setTimeout(r, 100));
 			await page.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 1000));
+			await new Promise(r => setTimeout(r, 100));
 
 			let inpValue;
 
@@ -283,6 +283,7 @@ describe('QuickGuidePanels', () => {
 				}
 				);
 			});
+			await new Promise(r => setTimeout(r, 1000));
 		});
 	});
 });

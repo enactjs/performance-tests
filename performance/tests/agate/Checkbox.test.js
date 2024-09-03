@@ -24,7 +24,7 @@ describe('Checkbox', () => {
 			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 			await page.mouse.down();
-			await new Promise(r => setTimeout(r, 1000));
+			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();

@@ -47,7 +47,7 @@ describe('TooltipDecorator', () => {
 		await page.waitForSelector('#tooltipDecorator');
 		await page.focus('#tooltipDecorator');
 		await new Promise(r => setTimeout(r, 200));
-		await page.keyboard.down('Enter')
+		await page.keyboard.down('Enter');
 		await page.keyboard.up('Enter');
 		await new Promise(r => setTimeout(r, 200));
 

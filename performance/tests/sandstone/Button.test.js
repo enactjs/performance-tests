@@ -102,11 +102,11 @@ describe('Button', () => {
 
 		await page.evaluateHandle(() => {
 			webVitals.onINP(function (inp) {
-					console.log(inp.value); // eslint-disable-line no-console
-				},
-				{
-					reportAllChanges: true
-				}
+				console.log(inp.value); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
+			}
 			);
 		});
 		await new Promise(r => setTimeout(r, 1000));

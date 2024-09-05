@@ -63,7 +63,6 @@ describe('RangePicker', () => {
 		});
 
 		it('should have a good CLS', async () => {
-
 			await page.evaluateOnNewDocument(CLS);
 			await page.goto(`http://${serverAddr}/rangePicker`);
 			await page.waitForSelector('#rangePicker');

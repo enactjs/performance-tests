@@ -104,7 +104,6 @@ describe('QuickGuidePanels', () => {
 		});
 
 		it('should have a good CLS', async () => {
-
 			await page.evaluateOnNewDocument(CLS);
 			await page.goto(`http://${serverAddr}/quickGuidePanels`);
 			await page.waitForSelector(nextQuickPanelButton);
@@ -200,7 +199,6 @@ describe('QuickGuidePanels', () => {
 		});
 
 		it('should have a good CLS', async () => {
-
 			await page.evaluateOnNewDocument(CLS);
 			await page.goto(`http://${serverAddr}/quickGuidePanels`);
 			await page.waitForSelector(nextQuickPanelButton);

@@ -63,7 +63,6 @@ describe('Picker', () => {
 		});
 
 		it('should have a good CLS', async () => {
-
 			await page.evaluateOnNewDocument(CLS);
 			await page.goto(`http://${serverAddr}/picker`);
 			await page.waitForSelector('#pickerDefault');
@@ -216,7 +215,6 @@ describe('Picker', () => {
 		});
 
 		it('should have a good CLS', async () => {
-
 			await page.evaluateOnNewDocument(CLS);
 			await page.goto(`http://${serverAddr}/pickerJoined`);
 			await page.waitForSelector('#pickerJoined');

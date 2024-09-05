@@ -104,7 +104,6 @@ describe('Panels', () => {
 		});
 
 		it('should have a good CLS', async () => {
-
 			await page.evaluateOnNewDocument(CLS);
 			await page.goto(`http://${serverAddr}/panels`);
 			await page.waitForSelector(nextPanelButton);
@@ -194,7 +193,6 @@ describe('Panels', () => {
 		});
 
 		it('should have a good CLS', async () => {
-
 			await page.evaluateOnNewDocument(CLS);
 			await page.goto(`http://${serverAddr}/panels`);
 			await page.waitForSelector(nextPanelButton);

@@ -101,6 +101,11 @@ FPS is read using the performance.now() method and Window.requestAnimationFrame(
 First Input Delay (FID) measures "the time from when a user first interacts with a page (i.e. when they click a link, tap on a button, or use a custom, JavaScript-powered control) to the time when the browser is actually able to begin processing event handlers in response to that interaction" (see https://web.dev/fid/).
 FID is calculated using the PerformanceObserver interface. Its observer() method specifies the set of entry types to observe (in this case first-input). The performance observer's callback function will be invoked when a performance entry is recorded for one of the specified entryTypes.
 
+### INP
+
+Interaction to Next Paint (INP) is a web performance metric that measures how quickly a website updates or shows changes after a user interacts with it. It specifically captures the delay between when a user interacts with your site—like clicking a link, pressing a key on the keyboard, or tapping a button—and when they see a visual response (see https://web.dev/articles/inp).
+INP is calculated from the onINP() webVitals function. It logs the INP value in the console and we are monitoring the console in order to read the actual value.
+
 ### CLS
 
 Cumulative Layout Shift (CLS) is "a measure of the largest burst of layout shift scores for every unexpected layout shift that occurs during the entire lifespan of a page. A layout shift occurs any time a visible element changes its position from one rendered frame to the next" (see https://web.dev/cls/).
@@ -121,6 +126,7 @@ Test results are compared to the optimum values which are stored in global varia
 - global.maxDCL = 2000; 
 - global.maxFCP = 1800; 
 - global.maxFID = 100; 
+- global.maxINP = 200;
 - global.minFPS = 20; 
 - global.maxLCP = 2500;
 
@@ -202,6 +208,35 @@ describe('Dropdown', () => {
 
 		expect(actualFirstInput).toBeLessThan(maxFID);
 		expect(actualCLS).toBeLessThan(maxCLS);
+	});
+
+	it('should have a good INP', async () => {
+		await page.goto(`http://${serverAddr}/dropdown`);
+		await page.addScriptTag({url: webVitalsURL});
+		await page.waitForSelector('#dropdown');
+		await page.focus('#dropdown');
+		await new Promise(r => setTimeout(r, 100));
+		await page.keyboard.down('Enter');
+		await new Promise(r => setTimeout(r, 100));
+
+		let inpValue;
+
+		page.on("console", (msg) => {
+			inpValue = Number(msg.text());
+			TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
+			expect(inpValue).toBeLessThan(maxINP);
+		});
+
+		await page.evaluateHandle(() => {
+			webVitals.onINP(function (inp) {
+					console.log(inp.value); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+			);
+		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

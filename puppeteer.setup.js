@@ -7,6 +7,7 @@ global.maxCLS = 0.1;
 global.maxDCL = 2000;
 global.maxFCP = 1800;
 global.maxFID = 100;
+global.maxINP = 200;
 global.maxLCP = 2500;
 global.minFPS = 20;
 global.passRatio = 0.7;
@@ -21,6 +22,7 @@ global.CPUThrottling = targetCPUThrottling ? parseInt(targetCPUThrottling.split(
 global.targetEnv = targetEnvArg ? targetEnvArg.split('=')[1] : 'PC';
 
 global.serverAddr = `${ipAddress()}:8080`;
+global.webVitalsURL = 'https://unpkg.com/web-vitals@4.2.3/dist/web-vitals.iife.js';
 
 if (targetEnv === 'PC') {
 	global.beforeAll(async () => {

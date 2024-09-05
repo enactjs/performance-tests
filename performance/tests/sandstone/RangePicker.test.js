@@ -1,4 +1,4 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
@@ -82,6 +82,34 @@ describe('RangePicker', () => {
 
 			TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
 			expect(actualCLS).toBeLessThan(maxCLS);
+		});
+
+		it('should have a good INP', async () => {
+			await page.goto(`http://${serverAddr}/rangePicker`);
+			await page.addScriptTag({url: webVitalsURL});
+			await page.waitForSelector('#rangePickerDefault');
+			await new Promise(r => setTimeout(r, 300));
+			await page.click('[aria-label$="press ok button to increase the value"]');
+			await new Promise(r => setTimeout(r, 300));
+
+			let inpValue;
+
+			page.on("console", (msg) => {
+				inpValue = Number(msg.text());
+				TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
+				expect(inpValue).toBeLessThan(maxINP);
+			});
+
+			await page.evaluateHandle(() => {
+				webVitals.onINP(function (inp) {
+					console.log(inp.value); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+				);
+			});
+			await new Promise(r => setTimeout(r, 1000));
 		});
 
 		it('should have a good DCL, FCP and LCP', async () => {
@@ -211,6 +239,36 @@ describe('RangePicker', () => {
 
 			TestResults.addResult({component: component + ' joined', type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
 			expect(actualCLS).toBeLessThan(maxCLS);
+		});
+
+		it('should have a good INP', async () => {
+			await page.goto(`http://${serverAddr}/rangePickerJoined`);
+			await page.addScriptTag({url: webVitalsURL});
+			await page.waitForSelector('#rangePickerJoined');
+			await new Promise(r => setTimeout(r, 300));
+			await page.click('#rangePickerJoined');
+			await new Promise(r => setTimeout(r, 300));
+			await page.click('#rangePickerJoined');
+			await new Promise(r => setTimeout(r, 300));
+
+			let inpValue;
+
+			page.on("console", (msg) => {
+				inpValue = Number(msg.text());
+				TestResults.addResult({component: component + ' joined', type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
+				expect(inpValue).toBeLessThan(maxINP);
+			});
+
+			await page.evaluateHandle(() => {
+				webVitals.onINP(function (inp) {
+					console.log(inp.value); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+				);
+			});
+			await new Promise(r => setTimeout(r, 1000));
 		});
 
 		it('should have a good DCL, FCP and LCP', async () => {

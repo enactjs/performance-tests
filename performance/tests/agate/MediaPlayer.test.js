@@ -1,4 +1,4 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
 const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
@@ -66,6 +66,34 @@ describe('MediaPlayer', () => {
 
 		expect(actualFirstInput).toBeLessThan(maxFID);
 		expect(actualCLS).toBeLessThan(maxCLS);
+	});
+
+	it('should have a good INP', async () => {
+		await page.goto(`http://${serverAddr}/mediaPlayer`);
+		await page.addScriptTag({url: webVitalsURL});
+		await page.waitForSelector('#agate-mediaPlayer');
+		await new Promise(r => setTimeout(r, 100));
+		await page.click('[aria-label="Play"]'); // play the audio.
+		await new Promise(r => setTimeout(r, 200));
+
+		let inpValue;
+
+		page.on("console", (msg) => {
+			inpValue = Number(msg.text());
+			TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
+			expect(inpValue).toBeLessThan(maxINP);
+		});
+
+		await page.evaluateHandle(() => {
+			webVitals.onINP(function (inp) {
+				console.log(inp.value); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
+			}
+			);
+		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

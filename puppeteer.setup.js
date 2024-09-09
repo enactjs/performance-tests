@@ -6,7 +6,6 @@ const {ipAddress} = require('./performance/utils');
 global.maxCLS = 0.1;
 global.maxDCL = 2000;
 global.maxFCP = 1800;
-global.maxFID = 100;
 global.maxINP = 200;
 global.maxLCP = 2500;
 global.minFPS = 20;

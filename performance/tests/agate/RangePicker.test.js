@@ -1,7 +1,7 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
+/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('RangePicker', () => {
@@ -62,8 +62,7 @@ describe('RangePicker', () => {
 			});
 		});
 
-		it('should have a good FID and CLS', async () => {
-			await page.evaluateOnNewDocument(FID);
+		it('should have a good CLS', async () => {
 			await page.evaluateOnNewDocument(CLS);
 			await page.goto(`http://${serverAddr}/rangePicker`);
 			await page.waitForSelector('#rangePicker');
@@ -71,15 +70,7 @@ describe('RangePicker', () => {
 			await page.click('[aria-label$="increase the value"]');
 			await new Promise(r => setTimeout(r, 100));
 
-			let actualFirstInput = await page.evaluate(() => {
-				return window.fid;
-			});
-
 			let actualCLS = await clsValue();
-
-			TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
-
-			expect(actualFirstInput).toBeLessThan(maxFID);
 
 			TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
 

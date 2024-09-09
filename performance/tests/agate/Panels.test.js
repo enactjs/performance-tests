@@ -1,8 +1,8 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
+/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
-const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
+const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {clsValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('Panels', () => {
 	const component = 'Panels';
@@ -46,8 +46,7 @@ describe('Panels', () => {
 		expect(averageFPS).toBeGreaterThan(minFPS);
 	});
 
-	it('should have a good FID and CLS', async () => {
-		await page.evaluateOnNewDocument(FID);
+	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/panels`);
 		await page.waitForSelector(nextPanelButton);
@@ -64,13 +63,10 @@ describe('Panels', () => {
 		await page.click(previousPanelButton);
 		await new Promise(r => setTimeout(r, 1000));
 
-		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
 
-		TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
 		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
 
-		expect(actualFirstInput).toBeLessThan(maxFID);
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 

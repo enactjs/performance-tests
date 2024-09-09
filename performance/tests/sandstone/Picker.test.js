@@ -1,7 +1,7 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
+/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('Picker', () => {
@@ -62,8 +62,7 @@ describe('Picker', () => {
 			});
 		});
 
-		it('should have a good FID and CLS', async () => {
-			await page.evaluateOnNewDocument(FID);
+		it('should have a good CLS', async () => {
 			await page.evaluateOnNewDocument(CLS);
 			await page.goto(`http://${serverAddr}/picker`);
 			await page.waitForSelector('#pickerDefault');
@@ -71,16 +70,10 @@ describe('Picker', () => {
 			await page.click('[aria-label$="next item"]');
 			await new Promise(r => setTimeout(r, 100));
 
-			let actualFirstInput = await page.evaluate(() => {
-				return window.fid;
-			});
-
 			let actualCLS = await clsValue();
 
-			TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
-			expect(actualFirstInput).toBeLessThan(maxFID);
-
 			TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
+
 			expect(actualCLS).toBeLessThan(maxCLS);
 		});
 
@@ -221,8 +214,7 @@ describe('Picker', () => {
 			});
 		});
 
-		it('should have a good FID and CLS', async () => {
-			await page.evaluateOnNewDocument(FID);
+		it('should have a good CLS', async () => {
 			await page.evaluateOnNewDocument(CLS);
 			await page.goto(`http://${serverAddr}/pickerJoined`);
 			await page.waitForSelector('#pickerJoined');
@@ -230,16 +222,10 @@ describe('Picker', () => {
 			await page.click('#pickerJoined');
 			await new Promise(r => setTimeout(r, 100));
 
-			let actualFirstInput = await page.evaluate(() => {
-				return window.fid;
-			});
-
 			let actualCLS = await clsValue();
 
-			TestResults.addResult({component: component + ' joined', type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
-			expect(actualFirstInput).toBeLessThan(maxFID);
-
 			TestResults.addResult({component: component + ' joined', type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
+
 			expect(actualCLS).toBeLessThan(maxCLS);
 		});
 

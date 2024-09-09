@@ -1,8 +1,8 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
+/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {FPS, getAverageFPS, PageLoadingMetrics, FID, CLS} = require('../../TraceModel');
-const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
+const {FPS, getAverageFPS, PageLoadingMetrics, CLS} = require('../../TraceModel');
+const {clsValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('Popup', () => {
 	const component = 'Popup';
@@ -35,8 +35,7 @@ describe('Popup', () => {
 		expect(averageFPS).toBeGreaterThan(minFPS);
 	});
 
-	it('should have a good FID and CLS', async () => {
-		await page.evaluateOnNewDocument(FID);
+	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/popup`);
 		await page.waitForSelector('#popup');
@@ -55,13 +54,10 @@ describe('Popup', () => {
 		await page.click(close);
 		await new Promise(r => setTimeout(r, 500));
 
-		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
 
-		TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
 		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
 
-		expect(actualFirstInput).toBeLessThan(maxFID);
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 

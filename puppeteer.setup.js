@@ -25,7 +25,11 @@ global.webVitalsURL = 'https://unpkg.com/web-vitals@4.2.3/dist/web-vitals.iife.j
 
 if (targetEnv === 'PC') {
 	global.beforeAll(async () => {
-		browser = await puppeteer.launch({args: ['--window-size=1920,1080']});
+		browser = await puppeteer.launch({
+			args: ['--window-size=1920,1080'],
+			executablePath: require('puppeteer').executablePath(),
+			headless: true
+		});
 		global.testMultiple = browser;
 	});
 

@@ -6,7 +6,7 @@ const base = themeEnvArg ? themeEnvArg.split('=')[1] : 'sandstone';
 
 module.exports = {
 	setupFilesAfterEnv: ['./jest.setup.js', './puppeteer.setup.js'],
-	testEnvironment: 'jsdom',
+	testEnvironment: '<rootDir>/jsdom-extended.js',
 	testMatch: [
 		'<rootDir>/performance/tests/' + base + '/*.test.js'
 	]

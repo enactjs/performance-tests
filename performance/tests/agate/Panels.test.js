@@ -70,7 +70,7 @@ describe('Panels', () => {
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
-	it('should have a good INP', async () => {
+	it('should have a good CLS and INP', async () => {
 		await page.goto(`http://${serverAddr}/panels`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector(nextPanelButton);
@@ -87,21 +87,36 @@ describe('Panels', () => {
 		await page.click(previousPanelButton);
 		await new Promise(r => setTimeout(r, 1000));
 
-		let inpValue;
+		let inpValue, clsValue;
 
 		page.on("console", (msg) => {
-			inpValue = Number(msg.text());
-			TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
-			expect(inpValue).toBeLessThan(maxINP);
+			let jsonMsg = JSON.parse(msg.text());
+			if(jsonMsg.name === 'CLS') {
+				clsValue = Number(jsonMsg.value);
+				TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((clsValue + Number.EPSILON) * 1000) / 1000});
+				expect(clsValue).toBeLessThan(maxCLS);
+			} else if (jsonMsg.name === 'INP') {
+				inpValue = Number(jsonMsg.value);
+				TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
+				expect(inpValue).toBeLessThan(maxINP);
+			}
 		});
 
 		await page.evaluateHandle(() => {
 			webVitals.onINP(function (inp) {
-				console.log(inp.value); // eslint-disable-line no-console
-			},
-			{
-				reportAllChanges: true
-			}
+					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+			);
+
+			webVitals.onCLS(function (cls) {
+					console.log(JSON.stringify({"name": cls.name, "value": cls.value})); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
 			);
 		});
 		await new Promise(r => setTimeout(r, 1000));

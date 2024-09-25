@@ -1,8 +1,8 @@
 /* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
-const {clsValue, getFileName, newPageMultiple} = require('../../utils');
+const {FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {getFileName, newPageMultiple} = require('../../utils');
 
 describe('OverallView', () => {
 	const component = 'Overall';
@@ -76,24 +76,6 @@ describe('OverallView', () => {
 		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 		expect(averageFPS).toBeGreaterThan(minFPS);
-	});
-
-	it('should have a good CLS', async () => {
-		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/overallView`);
-		await page.waitForSelector('#tooltipButton');
-		await page.click('[aria-label="Next Tab"]'); // to move to the next tab.
-		await page.waitForSelector('#virtualGridListSecond');
-		await new Promise(r => setTimeout(r, 200));
-		await page.click(('[aria-label="Previous Tab"]')); // to move to the previous tab.
-		await page.waitForSelector('#tooltipButton');
-		await new Promise(r => setTimeout(r, 200));
-
-		let actualCLS = await clsValue();
-
-		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
-
-		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
 	it('should have a good CLS and INP', async () => {

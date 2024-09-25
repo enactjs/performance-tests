@@ -1,8 +1,8 @@
 /* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
-const {clsValue, getFileName, newPageMultiple} = require('../../utils');
+const {FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {getFileName, newPageMultiple} = require('../../utils');
 
 describe('RangePicker', () => {
 	const component = 'RangePicker';
@@ -60,21 +60,6 @@ describe('RangePicker', () => {
 
 				expect(averageFPS).toBeGreaterThan(minFPS);
 			});
-		});
-
-		it('should have a good CLS', async () => {
-			await page.evaluateOnNewDocument(CLS);
-			await page.goto(`http://${serverAddr}/rangePicker`);
-			await page.waitForSelector('#rangePicker');
-			await new Promise(r => setTimeout(r, 100));
-			await page.click('[aria-label$="increase the value"]');
-			await new Promise(r => setTimeout(r, 100));
-
-			let actualCLS = await clsValue();
-
-			TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
-
-			expect(actualCLS).toBeLessThan(maxCLS);
 		});
 
 		it('should have a good CLS and INP', async () => {

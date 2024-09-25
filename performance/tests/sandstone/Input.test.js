@@ -1,8 +1,8 @@
 /* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
-const {clsValue, getFileName, newPageMultiple} = require('../../utils');
+const {FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {getFileName, newPageMultiple} = require('../../utils');
 
 describe('Input', () => {
 	const component = 'Input';
@@ -67,33 +67,6 @@ describe('Input', () => {
 		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 		expect(averageFPS).toBeGreaterThan(minFPS);
-	});
-
-	it('should have a good CLS', async () => {
-		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/input`);
-		await page.waitForSelector('.inputView');
-		await new Promise(r => setTimeout(r, 100));
-		await page.click('.inputView');
-		await new Promise(r => setTimeout(r, 100));
-		await page.keyboard.down('A');
-		await page.keyboard.up('A');
-		await page.keyboard.down('B');
-		await page.keyboard.up('B');
-		await page.keyboard.down('B');
-		await page.keyboard.up('B');
-		await page.keyboard.down('A');
-		await page.keyboard.up('A');
-		await page.keyboard.down('Backspace');
-		await page.keyboard.up('Backspace');
-		await page.keyboard.down('Backspace');
-		await page.keyboard.up('Backspace');
-
-		let actualCLS = await clsValue();
-
-		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
-
-		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
 	it('should have a good CLS and INP', async () => {

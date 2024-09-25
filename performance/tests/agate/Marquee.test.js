@@ -1,8 +1,8 @@
 /* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
-const {clsValue, getFileName, newPageMultiple} = require('../../utils');
+const {FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {getFileName, newPageMultiple} = require('../../utils');
 
 const component = 'Marquee';
 
@@ -20,20 +20,6 @@ describe('Marquee', () => {
 		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 		expect(averageFPS).toBeGreaterThan(minFPS);
-	});
-
-	it('should have a good CLS', async () => {
-		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/marquee`);
-		await page.waitForSelector('#marquee');
-		await page.hover('#marquee');
-		await new Promise(r => setTimeout(r, 500));
-
-		let actualCLS = await clsValue();
-
-		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
-
-		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
 	it('should have a good CLS and INP', async () => {

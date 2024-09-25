@@ -1,8 +1,8 @@
 /* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
-const {clsValue, getFileName, newPageMultiple} = require('../../utils');
+const {FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {getFileName, newPageMultiple} = require('../../utils');
 
 describe('VideoPlayer', () => {
 	const component = 'VideoPlayer';
@@ -40,21 +40,6 @@ describe('VideoPlayer', () => {
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
-	});
-
-	it('should have a good CLS', async () => {
-		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/videoPlayer`);
-		await page.waitForSelector('#videoPlayer');
-		await new Promise(r => setTimeout(r, 200));
-		await page.focus('[aria-label="Next"]');
-		await page.keyboard.down('Enter');
-
-		let actualCLS = await clsValue();
-
-		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
-
-		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
 	it('should have a good CLS and INP', async () => {

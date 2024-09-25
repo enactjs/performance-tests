@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
-const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
-const {clsValue, getFileName, newPageMultiple} = require('../../utils');
+const {FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {getFileName, newPageMultiple} = require('../../utils');
 const TestResults = require('../../TestResults');
 
 describe('IncrementSlider', () => {
@@ -51,21 +51,6 @@ describe('IncrementSlider', () => {
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
-	});
-
-	it('should have a good CLS', async () => {
-		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/incrementSlider`);
-		await page.waitForSelector('#incrementSlider');
-		await page.focus('#incrementSlider');
-		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 200));
-
-		let actualCLS = await clsValue();
-
-		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
-
-		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
 	it('should have a good CLS and INP', async () => {

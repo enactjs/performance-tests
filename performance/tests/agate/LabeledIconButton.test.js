@@ -1,26 +1,41 @@
-/* global CPUThrottling, page, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, PageLoadingMetrics} = require('../../TraceModel');
-const {clsValue, getFileName, newPageMultiple} = require('../../utils');
+const {PageLoadingMetrics} = require('../../TraceModel');
+const {getFileName, newPageMultiple} = require('../../utils');
 
 describe('LabeledIconButton', () => {
 	const component = 'LabeledIconButton';
 	TestResults.newFile(component);
 
 	it('should have a good CLS', async () => {
-		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/labeledIconButton`);
+		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#labeledIconButton');
 		await page.focus('#labeledIconButton');
 		await page.keyboard.down('Enter');
 		await new Promise(r => setTimeout(r, 200));
 
-		let actualCLS = await clsValue();
+		let clsValue;
 
-		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
+		page.on("console", (msg) => {
+			let jsonMsg = JSON.parse(msg.text());
 
-		expect(actualCLS).toBeLessThan(maxCLS);
+			clsValue = Number(jsonMsg.value);
+			TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((clsValue + Number.EPSILON) * 1000) / 1000});
+			expect(clsValue).toBeLessThan(maxCLS);
+		});
+
+		await page.evaluateHandle(() => {
+			webVitals.onCLS(function (cls) {
+					console.log(JSON.stringify({"name": cls.name, "value": cls.value})); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+			);
+		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

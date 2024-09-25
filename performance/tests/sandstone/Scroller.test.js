@@ -1,8 +1,8 @@
 /* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
-const {clsValue, getFileName, newPageMultiple, scrollAtPoint} = require('../../utils');
+const {FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {getFileName, newPageMultiple, scrollAtPoint} = require('../../utils');
 
 describe( 'Scroller', () => {
 	const component = 'Scroller';
@@ -44,22 +44,6 @@ describe( 'Scroller', () => {
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
-	});
-
-	it('should have a good CLS', async () => {
-		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/scroller`);
-		await page.waitForSelector('#scroller');
-		await page.focus('[aria-label="scroll up or down with up down button"]');
-		await page.keyboard.down('Enter');
-		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 2000));
-
-		let actualCLS = await clsValue();
-
-		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
-
-		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
 	it('should have a good CLS and INP', async () => {

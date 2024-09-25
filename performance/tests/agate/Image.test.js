@@ -28,11 +28,11 @@ describe('Image', () => {
 
 		await page.evaluateHandle(() => {
 			webVitals.onCLS(function (cls) {
-					console.log(JSON.stringify({"name": cls.name, "value": cls.value})); // eslint-disable-line no-console
-				},
-				{
-					reportAllChanges: true
-				}
+				console.log(JSON.stringify({"name": cls.name, "value": cls.value})); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
+			}
 			);
 		});
 		await new Promise(r => setTimeout(r, 1000));

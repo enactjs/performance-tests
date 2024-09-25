@@ -37,7 +37,7 @@ describe('TooltipDecorator', () => {
 
 		page.on("console", (msg) => {
 			let jsonMsg = JSON.parse(msg.text());
-			if(jsonMsg.name === 'CLS') {
+			if (jsonMsg.name === 'CLS') {
 				clsValue = Number(jsonMsg.value);
 				TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((clsValue + Number.EPSILON) * 1000) / 1000});
 				expect(clsValue).toBeLessThan(maxCLS);
@@ -50,19 +50,19 @@ describe('TooltipDecorator', () => {
 
 		await page.evaluateHandle(() => {
 			webVitals.onINP(function (inp) {
-					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
-				},
-				{
-					reportAllChanges: true
-				}
+				console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
+			}
 			);
 
 			webVitals.onCLS(function (cls) {
-					console.log(JSON.stringify({"name": cls.name, "value": cls.value})); // eslint-disable-line no-console
-				},
-				{
-					reportAllChanges: true
-				}
+				console.log(JSON.stringify({"name": cls.name, "value": cls.value})); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
+			}
 			);
 		});
 		await new Promise(r => setTimeout(r, 1000));

@@ -120,19 +120,18 @@ describe('QuickGuidePanels', () => {
 			await page.click(previousQuickPanelButton);
 			await new Promise(r => setTimeout(r, 200));
 
-			let inpValue, clsValue;
+			let maxValue;
 
 			page.on("console", (msg) => {
 				let jsonMsg = JSON.parse(msg.text());
 				if (jsonMsg.name === 'CLS') {
-					clsValue = Number(jsonMsg.value);
-					TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((clsValue + Number.EPSILON) * 1000) / 1000});
-					expect(clsValue).toBeLessThan(maxCLS);
+					maxValue = maxCLS;
 				} else if (jsonMsg.name === 'INP') {
-					inpValue = Number(jsonMsg.value);
-					TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
-					expect(inpValue).toBeLessThan(maxINP);
+					maxValue = maxINP;
 				}
+
+				TestResults.addResult({component: component, type: jsonMsg.name, actualValue: Math.round((Number() + Number.EPSILON) * 1000) / 1000});
+				expect(Number(jsonMsg.value)).toBeLessThan(maxValue);
 			});
 
 			await page.evaluateHandle(() => {
@@ -216,17 +215,31 @@ describe('QuickGuidePanels', () => {
 			await page.keyboard.down('Enter');
 			await new Promise(r => setTimeout(r, 100));
 
-			let inpValue, clsValue;
+			let maxValue;
 
 			page.on("console", (msg) => {
-				inpValue = Number(msg.text());
-				TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
-				expect(inpValue).toBeLessThan(maxINP);
+				let jsonMsg = JSON.parse(msg.text());
+				if (jsonMsg.name === 'CLS') {
+					maxValue = maxCLS;
+				} else if (jsonMsg.name === 'INP') {
+					maxValue = maxINP;
+				}
+
+				TestResults.addResult({component: component, type: jsonMsg.name, actualValue: Math.round((Number() + Number.EPSILON) * 1000) / 1000});
+				expect(Number(jsonMsg.value)).toBeLessThan(maxValue);
 			});
 
 			await page.evaluateHandle(() => {
 				webVitals.onINP(function (inp) {
-					console.log(inp.value); // eslint-disable-line no-console
+					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+				);
+
+				webVitals.onCLS(function (cls) {
+					console.log(JSON.stringify({"name": cls.name, "value": cls.value})); // eslint-disable-line no-console
 				},
 				{
 					reportAllChanges: true

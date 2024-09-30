@@ -120,19 +120,18 @@ describe('Panels', () => {
 			await page.click(previousPanelButton);
 			await new Promise(r => setTimeout(r, 500));
 
-			let inpValue, clsValue;
+			let maxValue;
 
 			page.on("console", (msg) => {
 				let jsonMsg = JSON.parse(msg.text());
 				if (jsonMsg.name === 'CLS') {
-					clsValue = Number(jsonMsg.value);
-					TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((clsValue + Number.EPSILON) * 1000) / 1000});
-					expect(clsValue).toBeLessThan(maxCLS);
+					maxValue = maxCLS;
 				} else if (jsonMsg.name === 'INP') {
-					inpValue = Number(jsonMsg.value);
-					TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
-					expect(inpValue).toBeLessThan(maxINP);
+					maxValue = maxINP;
 				}
+
+				TestResults.addResult({component: component, type: jsonMsg.name, actualValue: Math.round((Number(jsonMsg.value) + Number.EPSILON) * 1000) / 1000});
+				expect(Number(jsonMsg.value)).toBeLessThan(maxValue);
 			});
 
 			await page.evaluateHandle(() => {
@@ -204,19 +203,18 @@ describe('Panels', () => {
 			await page.keyboard.down('ArrowRight');
 			await new Promise(r => setTimeout(r, 1000));
 
-			let inpValue, clsValue;
+			let maxValue;
 
 			page.on("console", (msg) => {
 				let jsonMsg = JSON.parse(msg.text());
 				if (jsonMsg.name === 'CLS') {
-					clsValue = Number(jsonMsg.value);
-					TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((clsValue + Number.EPSILON) * 1000) / 1000});
-					expect(clsValue).toBeLessThan(maxCLS);
+					maxValue = maxCLS;
 				} else if (jsonMsg.name === 'INP') {
-					inpValue = Number(jsonMsg.value);
-					TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
-					expect(inpValue).toBeLessThan(maxINP);
+					maxValue = maxINP;
 				}
+
+				TestResults.addResult({component: component, type: jsonMsg.name, actualValue: Math.round((Number(jsonMsg.value) + Number.EPSILON) * 1000) / 1000});
+				expect(Number(jsonMsg.value)).toBeLessThan(maxValue);
 			});
 
 			await page.evaluateHandle(() => {

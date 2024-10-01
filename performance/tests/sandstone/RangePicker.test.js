@@ -231,7 +231,7 @@ describe('RangePicker', () => {
 					maxValue = maxINP;
 				}
 
-				TestResults.addResult({component: component, type: jsonMsg.name, actualValue: Math.round((Number(jsonMsg.value) + Number.EPSILON) * 1000) / 1000});
+				TestResults.addResult({component: component + ' joined', type: jsonMsg.name, actualValue: Math.round((Number(jsonMsg.value) + Number.EPSILON) * 1000) / 1000});
 				expect(Number(jsonMsg.value)).toBeLessThan(maxValue);
 			});
 

@@ -41,7 +41,7 @@ npm run test-all -- --theme=agate
 ```
 
 ```
-npm run test -- --theme=agate Alert
+npm run test -- --theme=agate ArcPicker
 ```
 
 On Windows OS you might need to install `cross-env` globally with `npm install -g cross-env`.

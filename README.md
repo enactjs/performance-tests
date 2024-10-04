@@ -21,6 +21,12 @@ Alternatively, you can use the test-all command to start the server and run the 
 npm run test-all
 ```
 
+If you need to test only a certain component, you can specify its name in the test command:
+
+```
+npm run test Alert
+```
+
 ### Testing Agate components
 
 Start the server with Agate components and run the test suite on it. You can specify the theme by adding --theme=agate at the end of the command:
@@ -200,7 +206,7 @@ describe('Dropdown', () => {
 
 		page.on("console", (msg) => {
 			let jsonMsg = JSON.parse(msg.text());
-			if(jsonMsg.name === 'CLS') {
+			if (jsonMsg.name === 'CLS') {
 				maxValue = maxCLS;
 			} else if (jsonMsg.name === 'INP') {
 				maxValue = maxINP;

@@ -23,10 +23,6 @@ async function scrollAtPoint (utilsPage, selector, amount) {
 	}, selector, amount);
 }
 
-const clsValue = () => {
-	return page.evaluate(() => window.cls);
-};
-
 const newPageMultiple = async () => {
 	const newPage = await testMultiple.newPage();
 	await newPage.setViewport({width: 1920, height: 1080});
@@ -51,7 +47,6 @@ const ipAddress = () => {
 };
 
 module.exports = {
-	clsValue,
 	getFileName,
 	ipAddress,
 	newPageMultiple,

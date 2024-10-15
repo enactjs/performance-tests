@@ -49,7 +49,8 @@ import TabLayout from '../views/sandstone/TabLayout';
 import TimePicker from '../views/sandstone/TimePicker';
 import TooltipDecorator from '../views/sandstone/TooltipDecorator';
 import VideoPlayer from '../views/sandstone/VideoPlayer';
-import VirtualList from '../views/sandstone/VirtualList';
+import VirtualListNative from '../views/sandstone/VirtualListNative';
+import VirtualListTranslate from '../views/sandstone/VirtualListTranslate';
 import WizardPanels from '../views/sandstone/WizardPanels';
 
 import css from './App.less';
@@ -116,7 +117,8 @@ const SandstoneApp = kind({
 					<Route path="/timePicker" element={<TimePicker />} />
 					<Route path="/tooltipDecorator" element={<TooltipDecorator />} />
 					<Route path="/videoPlayer" element={<VideoPlayer />} />
-					<Route path="/virtualList" element={<VirtualList />} />
+					<Route path="/virtualListNative" element={<VirtualListNative />} />
+					<Route path="/virtualListTranslate" element={<VirtualListTranslate />} />
 					<Route path="/wizardPanels" element={<WizardPanels />} />
 				</Routes>
 			</div>

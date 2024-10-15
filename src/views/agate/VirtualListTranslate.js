@@ -1,6 +1,6 @@
+import Item from '@enact/agate/Item';
+import VirtualList from '@enact/agate/VirtualList';
 import kind from '@enact/core/kind';
-import Item from '@enact/sandstone/Item';
-import VirtualList from '@enact/sandstone/VirtualList';
 import PropTypes from 'prop-types';
 
 const items = [];
@@ -23,8 +23,8 @@ const renderItem = ({index, ...rest}) => {
 };
 
 
-const VirtualListView = kind({
-	name: 'VirtualListView',
+const VirtualListTranslateView = kind({
+	name: 'VirtualListTranslateView',
 
 	propTypes: {
 		/**
@@ -50,15 +50,16 @@ const VirtualListView = kind({
 		return (
 			<div style={{height: '700px'}}>
 				<VirtualList
-					id="VirtualList"
 					dataSize={dataSizeProp}
 					focusableScrollbar
+					id="VirtualListTranslate"
 					itemRenderer={renderItem}
 					itemSize={itemSize}
+					scrollMode="translate"
 				/>
 			</div>
 		);
 	}
 });
 
-export default VirtualListView;
+export default VirtualListTranslateView;

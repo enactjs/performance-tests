@@ -96,10 +96,10 @@ To get LCP we use the `PageLoadingMetrics` function from `TraceModel`.
 Frames per second (FPS) measures video quality (how many images are displayed consecutively each second). We use it to measure component animation performance.
 FPS is read using the performance.now() method and Window.requestAnimationFrame() for the entire life span of the page. Just before the page is closed the average FPS is calculated.
 
-### FID
+### INP
 
-First Input Delay (FID) measures "the time from when a user first interacts with a page (i.e. when they click a link, tap on a button, or use a custom, JavaScript-powered control) to the time when the browser is actually able to begin processing event handlers in response to that interaction" (see https://web.dev/fid/).
-FID is calculated using the PerformanceObserver interface. Its observer() method specifies the set of entry types to observe (in this case first-input). The performance observer's callback function will be invoked when a performance entry is recorded for one of the specified entryTypes.
+Interaction to Next Paint (INP) is a web performance metric that measures how quickly a website updates or shows changes after a user interacts with it. It specifically captures the delay between when a user interacts with your site—like clicking a link, pressing a key on the keyboard, or tapping a button—and when they see a visual response (see https://web.dev/articles/inp).
+INP is calculated from the onINP() webVitals function. It logs the INP value in the console and we are monitoring the console in order to read the actual value.
 
 ### CLS
 
@@ -109,7 +109,8 @@ CLS is calculated using the PerformanceObserver interface. Its observer() method
 ### Example
 
 Each component is tested repeatedly for both `click` and `keypress` events to measure average FPS. 
-FID and CLS are tested in the same test because they both typically require interactions. We can check the React Devtools to see which component is at the top of a specific component.
+CLS is tested separately because requires interactions. We can check the React Devtools to see which component is at the top of a specific component.
+CLS is tested separately because it is read from using the `web-vitals` library.
 DCL, FCP and LCP are also tested together as they are measured at page load time.
 
 Results can be found in `testResults` folder.
@@ -119,15 +120,15 @@ Test results are compared to the optimum values which are stored in global varia
 **Metrics threshholds:**
 - global.maxCLS = 0.1; 
 - global.maxDCL = 2000; 
-- global.maxFCP = 1800; 
-- global.maxFID = 100; 
+- global.maxFCP = 1800;
+- global.maxINP = 200;
 - global.minFPS = 20; 
 - global.maxLCP = 2500;
 
 ```javascript
 const TestResults = require('../TestResults');
-const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
-const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../utils');
+const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../TraceModel');
+const {clsValue, getFileName, newPageMultiple} = require('../utils');
 
 describe('Dropdown', () => {
 	const component = 'Dropdown';
@@ -186,22 +187,47 @@ describe('Dropdown', () => {
 		});
 	});
 
-	it('should have a good FID and CLS', async () => {
-		await page.evaluateOnNewDocument(FID);
+	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/dropdown`);
 		await page.waitForSelector('#dropdown');
 		await page.focus('#dropdown');
 		await page.keyboard.down('Enter');
-
-		let actualFirstInput = await firstInputValue();
+		
 		let actualCLS = await clsValue();
 
-		TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
 		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
 
-		expect(actualFirstInput).toBeLessThan(maxFID);
 		expect(actualCLS).toBeLessThan(maxCLS);
+	});
+
+	it('should have a good INP', async () => {
+		await page.goto(`http://${serverAddr}/dropdown`);
+		await page.addScriptTag({url: webVitalsURL});
+		await page.waitForSelector('#dropdown');
+		await page.focus('#dropdown');
+		await new Promise(r => setTimeout(r, 100));
+		await page.keyboard.down('Enter');
+		await new Promise(r => setTimeout(r, 100));
+
+		let inpValue;
+
+		page.on("console", (msg) => {
+			inpValue = Number(msg.text());
+			TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
+			expect(inpValue).toBeLessThan(maxINP);
+		});
+
+		await page.evaluateHandle(() => {
+			webVitals.onINP(function (inp) {
+					console.log(inp.value); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+			);
+		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

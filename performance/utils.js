@@ -23,10 +23,6 @@ async function scrollAtPoint (utilsPage, selector, amount) {
 	}, selector, amount);
 }
 
-const firstInputValue = () => {
-	return page.evaluate(() => window.fid);
-};
-
 const clsValue = () => {
 	return page.evaluate(() => window.cls);
 };
@@ -56,7 +52,6 @@ const ipAddress = () => {
 
 module.exports = {
 	clsValue,
-	firstInputValue,
 	getFileName,
 	ipAddress,
 	newPageMultiple,

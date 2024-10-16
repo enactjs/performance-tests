@@ -13,9 +13,11 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 	const pageURL = dataSize ? `http://${serverAddr}/${componentName}?dataSize=${dataSize}` : `http://${serverAddr}/${componentName}`;
 
 	describe('ScrollButton', () => {
-		it('scrolls down', async () => {
+		it('scrolls down with native scrollMode', async () => {
+			const pageURLNative = pageURL + '?scrollMode=native';
+
 			await FPS();
-			await page.goto(pageURL);
+			await page.goto(pageURLNative);
 			await page.waitForSelector(`#${componentName}`);
 			await page.focus('[aria-label="scroll down"]');
 			await page.keyboard.down('Enter');
@@ -28,18 +30,42 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 			await new Promise(r => setTimeout(r, 2000));
 
 			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component, type: 'FPS Keypress Native', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+
+			expect(averageFPS).toBeGreaterThan(minFPS);
+		});
+
+		it('scrolls down with translate scrollMode', async () => {
+			const pageURLTranslate = pageURL + '?scrollMode=translate';
+
+			await FPS();
+			await page.goto(pageURLTranslate);
+			await page.waitForSelector(`#${componentName}`);
+			await page.focus('[aria-label="scroll down"]');
+			await page.keyboard.down('Enter');
+			await new Promise(r => setTimeout(r, 200));
+			await page.keyboard.down('Enter');
+			await new Promise(r => setTimeout(r, 200));
+			await page.keyboard.down('Enter');
+			await new Promise(r => setTimeout(r, 200));
+			await page.keyboard.down('Enter');
+			await new Promise(r => setTimeout(r, 2000));
+
+			const averageFPS = await getAverageFPS();
+			TestResults.addResult({component: component, type: 'FPS Keypress Translate', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
 	});
 
 	describe('mousewheel', () => {
-		it('scrolls down', async () => {
+		it('scrolls down with native scrollMode', async () => {
+			const pageURLNative = pageURL + '?scrollMode=native';
+
 			await FPS();
 			const List = `#${componentName}`;
 
-			await page.goto(pageURL);
+			await page.goto(pageURLNative);
 			await page.waitForSelector(List);
 			await scrollAtPoint(page, List, 1000);
 			await new Promise(r => setTimeout(r, 200));
@@ -51,7 +77,30 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 			await new Promise(r => setTimeout(r, 200));
 
 			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Mousewheel', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component, type: 'FPS Mousewheel Native', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+
+			expect(averageFPS).toBeGreaterThan(minFPS);
+		});
+
+		it('scrolls down with translate scrollMode', async () => {
+			const pageURLTranslate = pageURL + '?scrollMode=translate';
+
+			await FPS();
+			const List = `#${componentName}`;
+
+			await page.goto(pageURLTranslate);
+			await page.waitForSelector(List);
+			await scrollAtPoint(page, List, 1000);
+			await new Promise(r => setTimeout(r, 200));
+			await scrollAtPoint(page, List, 1000);
+			await new Promise(r => setTimeout(r, 200));
+			await scrollAtPoint(page, List, 1000);
+			await new Promise(r => setTimeout(r, 200));
+			await scrollAtPoint(page, List, 1000);
+			await new Promise(r => setTimeout(r, 200));
+
+			const averageFPS = await getAverageFPS();
+			TestResults.addResult({component: component, type: 'FPS Mousewheel Translate', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});

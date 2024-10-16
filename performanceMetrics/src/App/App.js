@@ -59,8 +59,7 @@ const listOfSandstoneComponent = [
 	'TimePicker',
 	'TooltipDecorator',
 	'VideoPlayer',
-	'VirtualListNative',
-	'VirtualListTranslate',
+	'VirtualList',
 	'WizardPanels'
 ];
 

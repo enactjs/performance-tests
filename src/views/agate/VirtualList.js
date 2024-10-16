@@ -23,8 +23,8 @@ const renderItem = ({index, ...rest}) => {
 };
 
 
-const VirtualListNativeView = kind({
-	name: 'VirtualListNativeView',
+const VirtualListView = kind({
+	name: 'VirtualListView',
 
 	propTypes: {
 		/**
@@ -53,7 +53,7 @@ const VirtualListNativeView = kind({
 				<VirtualList
 					dataSize={dataSizeProp}
 					focusableScrollbar
-					id="VirtualListNative"
+					id="VirtualList"
 					itemRenderer={renderItem}
 					itemSize={itemSize}
 					scrollMode={scrollMode}
@@ -63,4 +63,4 @@ const VirtualListNativeView = kind({
 	}
 });
 
-export default VirtualListNativeView;
+export default VirtualListView;

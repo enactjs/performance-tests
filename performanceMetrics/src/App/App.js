@@ -107,8 +107,7 @@ const listOfAgateComponent = [
 	'TimePicker',
 	'ToggleButton',
 	'TooltipDecorator',
-	'VirtualListNative',
-	'VirtualListTranslate',
+	'VirtualList',
 	'WindDirectionControl'
 ];
 

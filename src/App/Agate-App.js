@@ -45,8 +45,7 @@ import TimePicker from '../views/agate/TimePicker';
 import ThumbnailItem from '../views/agate/ThumbnailItem';
 import ToggleButton from '../views/agate/ToggleButton';
 import TooltipDecorator from '../views/agate/TooltipDecorator';
-import VirtualListNative from '../views/agate/VirtualListNative';
-import VirtualListTranslate from '../views/agate/VirtualListTranslate';
+import VirtualList from '../views/agate/VirtualList';
 import WindDirectionControl from '../views/agate/WindDirectionControl';
 
 import css from './App.less';
@@ -109,8 +108,7 @@ const AgateApp = kind({
 					<Route path="/timePicker" element={<TimePicker />} />
 					<Route path="/toggleButton" element={<ToggleButton />} />
 					<Route path="/tooltipDecorator" element={<TooltipDecorator />} />
-					<Route path="/virtualListNative" element={<VirtualListNative />} />
-					<Route path="/virtualListTranslate" element={<VirtualListTranslate />} />
+					<Route path="/virtualList" element={<VirtualList />} />
 					<Route path="/windDirectionControl" element={<WindDirectionControl />} />
 				</Routes>
 			</div>

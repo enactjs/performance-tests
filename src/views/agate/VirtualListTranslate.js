@@ -23,8 +23,8 @@ const renderItem = ({index, ...rest}) => {
 };
 
 
-const VirtualListView = kind({
-	name: 'VirtualListView',
+const VirtualListTranslateView = kind({
+	name: 'VirtualListTranslateView',
 
 	propTypes: {
 		/**
@@ -40,7 +40,6 @@ const VirtualListView = kind({
 	render: ({dataSize}) => {
 		let dataSizeProp = dataSize;
 		const urlDataSize = parseInt(url.searchParams.get('dataSize'));
-		const scrollMode = url.searchParams.get('scrollMode');
 
 		if (!isNaN(urlDataSize)) {
 			dataSizeProp = parseInt(urlDataSize);
@@ -53,14 +52,14 @@ const VirtualListView = kind({
 				<VirtualList
 					dataSize={dataSizeProp}
 					focusableScrollbar
-					id="VirtualList"
+					id="VirtualListTranslate"
 					itemRenderer={renderItem}
 					itemSize={itemSize}
-					scrollMode={scrollMode}
+					scrollMode="translate"
 				/>
 			</div>
 		);
 	}
 });
 
-export default VirtualListView;
+export default VirtualListTranslateView;

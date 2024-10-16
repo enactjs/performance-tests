@@ -59,7 +59,8 @@ const listOfSandstoneComponent = [
 	'TimePicker',
 	'TooltipDecorator',
 	'VideoPlayer',
-	'VirtualList',
+	'VirtualListNative',
+	'VirtualListTranslate',
 	'WizardPanels'
 ];
 
@@ -106,7 +107,8 @@ const listOfAgateComponent = [
 	'TimePicker',
 	'ToggleButton',
 	'TooltipDecorator',
-	'VirtualList',
+	'VirtualListNative',
+	'VirtualListTranslate',
 	'WindDirectionControl'
 ];
 

@@ -1,8 +1,8 @@
 /* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
-const {clsValue, getFileName, newPageMultiple} = require('../../utils');
+const {FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {getFileName, newPageMultiple} = require('../../utils');
 
 describe('Panels', () => {
 	const component = 'Panels';
@@ -103,31 +103,7 @@ describe('Panels', () => {
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
 
-		it('should have a good CLS', async () => {
-			await page.evaluateOnNewDocument(CLS);
-			await page.goto(`http://${serverAddr}/panels`);
-			await page.waitForSelector(nextPanelButton);
-			await page.click(nextPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click(previousPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click(nextPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click(previousPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click(nextPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.click(previousPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-
-			let actualCLS = await clsValue();
-
-			TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
-
-			expect(actualCLS).toBeLessThan(maxCLS);
-		});
-
-		it('should have a good INP', async () => {
+		it('should have a good CLS and INP', async () => {
 			await page.goto(`http://${serverAddr}/panels`);
 			await page.addScriptTag({url: webVitalsURL});
 			await page.waitForSelector(nextPanelButton);
@@ -144,17 +120,31 @@ describe('Panels', () => {
 			await page.click(previousPanelButton);
 			await new Promise(r => setTimeout(r, 500));
 
-			let inpValue;
+			let maxValue;
 
 			page.on("console", (msg) => {
-				inpValue = Number(msg.text());
-				TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
-				expect(inpValue).toBeLessThan(maxINP);
+				let jsonMsg = JSON.parse(msg.text());
+				if (jsonMsg.name === 'CLS') {
+					maxValue = maxCLS;
+				} else if (jsonMsg.name === 'INP') {
+					maxValue = maxINP;
+				}
+
+				TestResults.addResult({component: component, type: jsonMsg.name, actualValue: Math.round((Number(jsonMsg.value) + Number.EPSILON) * 1000) / 1000});
+				expect(Number(jsonMsg.value)).toBeLessThan(maxValue);
 			});
 
 			await page.evaluateHandle(() => {
 				webVitals.onINP(function (inp) {
-					console.log(inp.value); // eslint-disable-line no-console
+					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+				);
+
+				webVitals.onCLS(function (cls) {
+					console.log(JSON.stringify({"name": cls.name, "value": cls.value})); // eslint-disable-line no-console
 				},
 				{
 					reportAllChanges: true
@@ -192,34 +182,7 @@ describe('Panels', () => {
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
 
-		it('should have a good CLS', async () => {
-			await page.evaluateOnNewDocument(CLS);
-			await page.goto(`http://${serverAddr}/panels`);
-			await page.waitForSelector(nextPanelButton);
-			await page.click(nextPanelButton);
-			await new Promise(r => setTimeout(r, 500));
-			await page.keyboard.down('ArrowDown');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('ArrowRight');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('ArrowRight');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('ArrowLeft');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('ArrowLeft');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('ArrowDown');
-			await new Promise(r => setTimeout(r, 100));
-			await page.keyboard.down('ArrowRight');
-
-			let actualCLS = await clsValue();
-
-			TestResults.addResult({component: component, type: 'CLS on panel content focus', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
-
-			expect(actualCLS).toBeLessThan(maxCLS);
-		});
-
-		it('should have a good INP', async () => {
+		it('should have a good CLS and INP', async () => {
 			await page.goto(`http://${serverAddr}/panels`);
 			await page.addScriptTag({url: webVitalsURL});
 			await page.waitForSelector(nextPanelButton);
@@ -240,17 +203,31 @@ describe('Panels', () => {
 			await page.keyboard.down('ArrowRight');
 			await new Promise(r => setTimeout(r, 1000));
 
-			let inpValue;
+			let maxValue;
 
 			page.on("console", (msg) => {
-				inpValue = Number(msg.text());
-				TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
-				expect(inpValue).toBeLessThan(maxINP);
+				let jsonMsg = JSON.parse(msg.text());
+				if (jsonMsg.name === 'CLS') {
+					maxValue = maxCLS;
+				} else if (jsonMsg.name === 'INP') {
+					maxValue = maxINP;
+				}
+
+				TestResults.addResult({component: component, type: jsonMsg.name, actualValue: Math.round((Number(jsonMsg.value) + Number.EPSILON) * 1000) / 1000});
+				expect(Number(jsonMsg.value)).toBeLessThan(maxValue);
 			});
 
 			await page.evaluateHandle(() => {
 				webVitals.onINP(function (inp) {
-					console.log(inp.value); // eslint-disable-line no-console
+					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+				);
+
+				webVitals.onCLS(function (cls) {
+					console.log(JSON.stringify({"name": cls.name, "value": cls.value})); // eslint-disable-line no-console
 				},
 				{
 					reportAllChanges: true

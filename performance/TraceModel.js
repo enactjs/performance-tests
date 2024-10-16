@@ -19,18 +19,6 @@ const FPS = async () =>  {
 
 const getAverageFPS = () => (window.FPSValues.reduce((a, b) => a + b, 0) / window.FPSValues.length) || 0;
 
-const CLS = () => {
-	window.cls = 0;
-	new PerformanceObserver(entryList => {
-		let entries = entryList.getEntries() || [];
-		entries.forEach(e => {
-			if (!e.hadRecentInput) { // omit entries likely caused by user input
-				window.cls += e.value;
-			}
-		});
-	}).observe({type: 'layout-shift', buffered: true});
-};
-
 const PageLoadingMetrics = (filename) => {
 	const events = fs.readFileSync(filename, 'utf8');
 	const result = JSON.parse(events);
@@ -49,7 +37,6 @@ const PageLoadingMetrics = (filename) => {
 };
 
 module.exports = {
-	CLS,
 	FPS,
 	getAverageFPS,
 	PageLoadingMetrics

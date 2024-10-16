@@ -1,8 +1,8 @@
 /* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
-const {clsValue, getFileName, newPageMultiple} = require('../../utils');
+const {FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {getFileName, newPageMultiple} = require('../../utils');
 
 describe('PopupTabLayout', () => {
 	const component = 'PopupTabLayout';
@@ -53,37 +53,7 @@ describe('PopupTabLayout', () => {
 		expect(averageFPS).toBeGreaterThan(minFPS);
 	});
 
-	it('should have a good CLS', async () => {
-		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/popupTabLayout`);
-		await page.waitForSelector('#popupTabLayout');
-		await page.keyboard.down('ArrowRight');
-		await page.keyboard.up('ArrowRight');
-		await page.keyboard.down('ArrowDown');
-		await page.keyboard.up('ArrowDown');
-		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 200));
-		await page.keyboard.up('Enter');
-		await page.keyboard.down('ArrowUp');
-		await page.keyboard.up('ArrowUp');
-		await page.keyboard.down('Enter');
-		await new Promise(r => setTimeout(r, 200));
-		await page.keyboard.up('Enter');
-		await page.keyboard.down('Escape');
-		await new Promise(r => setTimeout(r, 200));
-		await page.keyboard.up('Escape');
-		await page.keyboard.down('Escape');
-		await new Promise(r => setTimeout(r, 200));
-		await page.keyboard.up('Escape');
-
-		let actualCLS = await clsValue();
-
-		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
-
-		expect(actualCLS).toBeLessThan(maxCLS);
-	});
-
-	it('should have a good INP', async () => {
+	it('should have a good CLS and INP', async () => {
 		await page.goto(`http://${serverAddr}/popupTabLayout`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#popupTabLayout');
@@ -97,17 +67,31 @@ describe('PopupTabLayout', () => {
 		await page.keyboard.down('Enter');
 		await new Promise(r => setTimeout(r, 200));
 
-		let inpValue;
+		let maxValue;
 
 		page.on("console", (msg) => {
-			inpValue = Number(msg.text());
-			TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
-			expect(inpValue).toBeLessThan(maxINP);
+			let jsonMsg = JSON.parse(msg.text());
+			if (jsonMsg.name === 'CLS') {
+				maxValue = maxCLS;
+			} else if (jsonMsg.name === 'INP') {
+				maxValue = maxINP;
+			}
+
+			TestResults.addResult({component: component, type: jsonMsg.name, actualValue: Math.round((Number(jsonMsg.value) + Number.EPSILON) * 1000) / 1000});
+			expect(Number(jsonMsg.value)).toBeLessThan(maxValue);
 		});
 
 		await page.evaluateHandle(() => {
 			webVitals.onINP(function (inp) {
-				console.log(inp.value); // eslint-disable-line no-console
+				console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
+			}
+			);
+
+			webVitals.onCLS(function (cls) {
+				console.log(JSON.stringify({"name": cls.name, "value": cls.value})); // eslint-disable-line no-console
 			},
 			{
 				reportAllChanges: true

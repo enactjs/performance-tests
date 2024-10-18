@@ -14,7 +14,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 
 	describe('ScrollButton', () => {
 		it('scrolls down with native scrollMode', async () => {
-			const pageURLNative = pageURL + '&scrollMode=native';
+			const pageURLNative = dataSize ? pageURL + '&scrollMode=native' : pageURL + '?scrollMode=native';
 
 			await FPS();
 			await page.goto(pageURLNative);
@@ -38,7 +38,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 
 	describe('ScrollButton', () => {
 		it('scrolls down with translate scrollMode', async () => {
-			const pageURLTranslate = pageURL + '&scrollMode=translate';
+			const pageURLTranslate = dataSize ? pageURL + '&scrollMode=translate' : pageURL + '?scrollMode=translate';
 
 			await FPS();
 			await page.goto(pageURLTranslate);
@@ -62,7 +62,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 
 	describe('mousewheel', () => {
 		it('scrolls down with native scrollMode', async () => {
-			const pageURLNative = pageURL + '&scrollMode=native';
+			const pageURLNative = dataSize ? pageURL + '&scrollMode=native' : pageURL + '?scrollMode=native';
 
 			await FPS();
 			const List = `#${componentName}`;
@@ -85,7 +85,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 		});
 
 		it('scrolls down with translate scrollMode', async () => {
-			const pageURLTranslate = pageURL + '&scrollMode=translate';
+			const pageURLTranslate = dataSize ? pageURL + '&scrollMode=translate' : pageURL + '?scrollMode=translate';
 
 			await FPS();
 			const List = `#${componentName}`;

@@ -30,7 +30,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 			await new Promise(r => setTimeout(r, 2000));
 
 			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Keypress Native', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component, type: 'FPS Keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
@@ -77,7 +77,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 			await new Promise(r => setTimeout(r, 200));
 
 			const averageFPS = await getAverageFPS();
-			TestResults.addResult({component: component, type: 'FPS Mousewheel Native', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+			TestResults.addResult({component: component, type: 'FPS Mousewheel', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});

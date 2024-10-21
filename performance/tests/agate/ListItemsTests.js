@@ -83,7 +83,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 		});
 
 		it('scrolls down with translate scrollMode', async () => {
-			const pageURLTranslate = pageURL + '&scrollMode=translate';
+			const pageURLTranslate = dataSize ? pageURL + '&scrollMode=translate' : pageURL + '?scrollMode=translate';
 
 			await FPS();
 			const List = `#${componentName}`;

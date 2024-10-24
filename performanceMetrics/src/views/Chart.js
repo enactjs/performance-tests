@@ -28,14 +28,25 @@ const Chart = kind({
 	name: 'Chart',
 
 	propTypes:  {
+		component: PropTypes.string,
 		inputData: PropTypes.array,
 		title: PropTypes.string,
 		xAxis: PropTypes.string
 	},
 
 	computed: {
-		referenceValue: ({title}) => {
-			if ( title.includes('FPS') || title.includes('Frames Per Second')) return 50;
+		referenceValue: ({component, title}) => {
+			if (title.includes('FPS') || title.includes('Frames Per Second')) {
+				if (component === 'VirtualList') {
+					if (title.includes('Translate')) {
+						return 40;
+					} else {
+						return 55;
+					}
+				} else {
+					return 50;
+				}
+			}
 			else if (title.includes('CLS')) return 0.1;
 			else if (title.includes('FID')) return 100;
 			else if (title.includes('INP')) return 200;
@@ -44,7 +55,7 @@ const Chart = kind({
 			else if (title.includes('DCL')) return 2000;
 		},
 		fullTitle: ({title}) => {
-			if ( title.includes('FPS') || title.includes('Frames Per Second')) return title.replace('FPS', 'FPS (Frames Per Second)');
+			if (title.includes('FPS') || title.includes('Frames Per Second')) return title.replace('FPS', 'FPS (Frames Per Second)');
 			else if (title.includes('CLS')) return title.replace('CLS', 'CLS (Cumulative Layout Shift)');
 			else if (title.includes('FID')) return title.replace('FID', 'FID (First Input Delay)');
 			else if (title.includes('INP')) return title.replace('INP', 'INP (Interaction to Next Paint)');
@@ -53,7 +64,7 @@ const Chart = kind({
 			else if (title.includes('DCL')) return title.replace('DCL', 'DCL (DOM Content Load)');
 		},
 		referenceLabel: ({title}) => {
-			if ( title.includes('FPS') || title.includes('Frames Per Second')) return 'Min Value';
+			if (title.includes('FPS') || title.includes('Frames Per Second')) return 'Min Value';
 			else if (title.includes('CLS') || title.includes('FID') | title.includes('INP') || title.includes('FCP') || title.includes('LCP') || title.includes('DCL')) return 'Max Value';
 		},
 		xLabel: ({xAxis}) => {
@@ -62,7 +73,7 @@ const Chart = kind({
 			else if (xAxis.includes('date'))  return 'Date';
 		},
 		yLabel: ({title}) => {
-			if ( title.includes('FPS') || title.includes('Frames Per Second')) return 'fps';
+			if (title.includes('FPS') || title.includes('Frames Per Second')) return 'fps';
 			else if (title.includes('FID') || title.includes('INP') || title.includes('FCP') || title.includes('LCP') || title.includes('DCL')) return 'ms';
 			else return null;
 		}

@@ -322,6 +322,7 @@ const App = (props) => {
 						<Scroller focusableScrollbar verticalScrollbar="visible">
 							{listOfMetrics.map((metric) =>
 								<Chart
+									component={selectedComponent}
 									key={metric}
 									inputData={componentReleasedData.filter(entry => entry.type === metric && entry.timestamp >= startDate && entry.timestamp <= endDate)}
 									title={metric}
@@ -337,6 +338,7 @@ const App = (props) => {
 						<Scroller focusableScrollbar verticalScrollbar="visible">
 							{listOfMetrics.map((metric) =>
 								<Chart
+									component={selectedComponent}
 									key={metric}
 									inputData={componentDevelopData.filter(entry => entry.type === metric)}
 									title={metric}

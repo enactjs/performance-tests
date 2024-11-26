@@ -15,7 +15,6 @@ describe('MediaPlayer', () => {
 			await page.waitForSelector('#agate-mediaPlayer');
 			await page.click('[aria-label=Play]'); // to move mouse on the checkboxItem.
 			await new Promise(r => setTimeout(r, 600));
-			await page.mouse.up();
 			await page.focus('[aria-label=Next]');
 			await page.mouse.down();
 			await new Promise(r => setTimeout(r, 200));

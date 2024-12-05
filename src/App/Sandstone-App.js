@@ -6,6 +6,7 @@ import Button from '../views/sandstone/Button';
 import BodyText from '../views/sandstone/BodyText';
 import Checkbox from '../views/sandstone/Checkbox';
 import CheckboxItem from '../views/sandstone/CheckboxItem';
+import ColorPicker from '../views/sandstone/ColorPicker';
 import ContextualMenuDecorator from '../views/sandstone/ContextualMenuDecorator';
 import ContextualPopupDecorator from '../views/sandstone/ContextualPopupDecorator';
 import DatePicker from '../views/sandstone/DatePicker';
@@ -73,6 +74,7 @@ const SandstoneApp = kind({
 					<Route path="/bodyText" element={<BodyText />} />
 					<Route path="/checkbox" element={<Checkbox />} />
 					<Route path="/checkboxItem" element={<CheckboxItem />} />
+					<Route path="/colorPicker" element={<ColorPicker />} />
 					<Route path="/contextualMenuDecorator" element={<ContextualMenuDecorator />} />
 					<Route path="/contextualPopupDecorator" element={<ContextualPopupDecorator />} />
 					<Route path="/datePicker" element={<DatePicker />} />

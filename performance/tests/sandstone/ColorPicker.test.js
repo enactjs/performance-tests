@@ -1,12 +1,35 @@
 /* global CPUThrottling, page, minFPS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, maxCLS, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, PageLoadingMetrics} = require('../../TraceModel');
+const {CLS, PageLoadingMetrics, FPS, getAverageFPS} = require('../../TraceModel');
 const {clsValue, getFileName, newPageMultiple} = require("../../utils");
 
 describe('ColorPicker', () => {
 	const component = 'ColorPicker';
 	TestResults.newFile(component);
+
+	describe('animates', () => {
+		it('animates', async () => {
+			await FPS();
+			await page.goto(`http://${serverAddr}/colorPicker`);
+			await page.waitForSelector('#colorPicker');
+			await new Promise(r => setTimeout(r, 200));
+			await page.keyboard.down('ArrowDown');
+			await page.keyboard.up('ArrowDown');
+			await new Promise(r => setTimeout(r, 200));
+			await page.keyboard.down('ArrowDown');
+			await page.keyboard.up('ArrowDown');
+			await new Promise(r => setTimeout(r, 200));
+			await page.keyboard.down('Enter');
+			await page.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
+
+			const averageFPS = await getAverageFPS();
+			TestResults.addResult({component: component, type: 'FPS keypress', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+
+			expect(averageFPS).toBeGreaterThan(minFPS);
+		});
+	});
 
 	it('should have good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
@@ -26,30 +49,10 @@ describe('ColorPicker', () => {
 		await page.goto(`http://${serverAddr}/colorPicker`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#colorPicker');
-		// await new Promise(r => setTimeout(r, 200));
 		await page.keyboard.down('ArrowRight');
 		await page.keyboard.up('ArrowRight');
 		await page.keyboard.down('Enter');
 		await page.keyboard.up('Enter');
-		// await new Promise(r => setTimeout(r, 200));
-		// await page.keyboard.down('Enter');
-		// await page.keyboard.up('Enter');
-		// // await new Promise(r => setTimeout(r, 200));
-		// await page.keyboard.down('ArrowRight');
-		// await page.keyboard.up('ArrowRight');
-		// // await new Promise(r => setTimeout(r, 200));
-		// await page.keyboard.down('Enter');
-		// await page.keyboard.up('Enter');
-		// // await new Promise(r => setTimeout(r, 200));
-		// await page.keyboard.down('ArrowLeft');
-		// await page.keyboard.up('ArrowLeft');
-		// // await new Promise(r => setTimeout(r, 200));
-		// await page.keyboard.down('ArrowLeft');
-		// await page.keyboard.up('ArrowLeft');
-		// // await new Promise(r => setTimeout(r, 200));
-		// await page.keyboard.down('Enter');
-		// await page.keyboard.up('Enter');
-		// // await new Promise(r => setTimeout(r, 200));
 
 		let inpValue;
 

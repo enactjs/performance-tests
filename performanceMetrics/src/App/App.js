@@ -270,7 +270,7 @@ const App = (props) => {
 
 	return (
 		<div {...props} className={classnames(props.className, css.app)}>
-			<Heading showLine spacing="large" >Enact Performance Metrics</Heading>
+			<Heading showLine spacing="large" >Testing deployment</Heading>
 			<Layout align="start start" orientation="horizontal">
 				<Cell shrink>
 					<Heading size="small" spacing="none" >Theme Library:</Heading>

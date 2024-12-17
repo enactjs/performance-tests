@@ -5,15 +5,19 @@ const fs = require('fs');
 const FPS = () => {
 	window.FPSValues = [];
 	let previousFrame = performance.now();
+	const targetFrameTime = 1000 / 60; // Manually limit FPS. Target ~16.67ms per frame (60 FPS)
 
 	function calculateNewFPS() {
 		const currentFrame = performance.now();
-		const fps = Math.round(1000 / (currentFrame - previousFrame));
-		window.FPSValues.push(fps);
-		previousFrame = currentFrame;
+		const delta = currentFrame - previousFrame; // the actual time between frames
 
-		// Schedule next execution with ~16ms delay (60 FPS target)
-		setTimeout(calculateNewFPS, 16); // 0ms delay to loop as fast as possible
+		if (delta >= targetFrameTime) { // Only update if enough time has passed
+			const fps = Math.round(1000 / delta);
+			window.FPSValues.push(fps);
+			previousFrame = currentFrame;
+		}
+
+		setTimeout(calculateNewFPS, 0); // Continue the loop as fast as possible
 	}
 
 	calculateNewFPS();

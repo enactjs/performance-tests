@@ -12,8 +12,8 @@ const FPS = () => {
 		window.FPSValues.push(fps);
 		previousFrame = currentFrame;
 
-		// Schedule the next frame using setTimeout
-		setTimeout(calculateNewFPS, 0); // 0ms delay to loop as fast as possible
+		// Schedule next execution with ~16ms delay (60 FPS target)
+		setTimeout(calculateNewFPS, 16); // 0ms delay to loop as fast as possible
 	}
 
 	calculateNewFPS();

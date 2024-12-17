@@ -2,19 +2,21 @@
 
 const fs = require('fs');
 
-const FPS = async () =>  {
+const FPS = () => {
 	window.FPSValues = [];
-	let previousFrame, currentFrame;
-	previousFrame = performance.now();
+	let previousFrame = performance.now();
 
-	requestAnimationFrame(
-		async function calculateNewFPS () {
-			currentFrame = performance.now();
-			window.FPSValues.push(Math.round(1000 / (currentFrame - previousFrame)));
-			previousFrame = currentFrame;
-			await requestAnimationFrame(calculateNewFPS);
-		}
-	);
+	function calculateNewFPS() {
+		const currentFrame = performance.now();
+		const fps = Math.round(1000 / (currentFrame - previousFrame));
+		window.FPSValues.push(fps);
+		previousFrame = currentFrame;
+
+		// Schedule the next frame using setTimeout
+		setTimeout(calculateNewFPS, 0); // 0ms delay to loop as fast as possible
+	}
+
+	calculateNewFPS();
 };
 
 const getAverageFPS = () => (window.FPSValues.reduce((a, b) => a + b, 0) / window.FPSValues.length) || 0;

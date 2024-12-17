@@ -7,11 +7,14 @@ const FPS = async () =>  {
 	let previousFrame, currentFrame;
 	previousFrame = performance.now();
 
-	setInterval(() => {
-		currentFrame = performance.now();
-		window.FPSValues.push(Math.round(1000 / (currentFrame - previousFrame)));
-		previousFrame = currentFrame;
-	}, 1000 / 60); // Approximately 60 updates per second
+	requestAnimationFrame(
+		async function calculateNewFPS () {
+			currentFrame = performance.now();
+			window.FPSValues.push(Math.round(1000 / (currentFrame - previousFrame)));
+			previousFrame = currentFrame;
+			await requestAnimationFrame(calculateNewFPS);
+		}
+	);
 };
 
 const getAverageFPS = () => (window.FPSValues.reduce((a, b) => a + b, 0) / window.FPSValues.length) || 0;

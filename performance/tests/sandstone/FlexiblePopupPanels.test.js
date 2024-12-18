@@ -17,7 +17,6 @@ describe('FlexiblePopupPanels', () => {
 			await new Promise(r => setTimeout(r, 200));
 			await page.click('[aria-label="Exit app"]'); // to close the popup.
 			await new Promise(r => setTimeout(r, 200));
-			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});

@@ -15,7 +15,6 @@ describe('CheckboxItem', () => {
 			await new Promise(r => setTimeout(r, 500));
 			await page.click('#agate-checkboxItem'); // to move mouse on the checkboxItem.
 			await new Promise(r => setTimeout(r, 200));
-			await page.mouse.up();
 			await page.mouse.down();
 			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();

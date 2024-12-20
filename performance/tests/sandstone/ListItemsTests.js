@@ -34,9 +34,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 
 			expect(averageFPS).toBeGreaterThan(minFPS);
 		});
-	});
 
-	describe('ScrollButton', () => {
 		it('scrolls down with translate scrollMode', async () => {
 			const pageURLTranslate = dataSize ? pageURL + '&scrollMode=translate' : pageURL + '?scrollMode=translate';
 

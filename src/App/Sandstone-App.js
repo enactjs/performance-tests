@@ -68,6 +68,7 @@ const SandstoneApp = kind({
 		<Router>
 			<div {...props}>
 				<Routes>
+					<Route path="/" element={<OverallView />} />
 					<Route path="/alert" element={<Alert />} />
 					<Route path="/button" element={<Button />} />
 					<Route path="/bodyText" element={<BodyText />} />
@@ -120,6 +121,9 @@ const SandstoneApp = kind({
 					<Route path="/wizardPanels" element={<WizardPanels />} />
 				</Routes>
 			</div>
+			<div id="FCP"></div>
+			<div id="LCP"></div>
+			<div id="INP"></div>
 		</Router>
 	)
 });

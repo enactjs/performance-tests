@@ -1,6 +1,7 @@
 import {createRoot} from 'react-dom/client';
 import AgateApp from './App/Agate-App.js';
 import SandstoneApp from './App/Sandstone-App.js';
+import reportWebVitals from './reportWebVitals';
 
 let appElement;
 
@@ -21,3 +22,10 @@ if (typeof window !== 'undefined') {
 }
 
 export default appElement;
+
+reportWebVitals((value) => {
+	const vitals = document.getElementById(value.name);
+	vitals.innerHTML = value.value;
+
+	console.log(value);
+});

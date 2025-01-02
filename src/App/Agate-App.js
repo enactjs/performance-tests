@@ -64,6 +64,7 @@ const AgateApp = kind({
 		<Router>
 			<div {...props}>
 				<Routes>
+					<Route path="/" element={<OverallView />} />
 					<Route path="/arcPicker" element={<ArcPicker />} />
 					<Route path="/arcSlider" element={<ArcSlider />} />
 					<Route path="/bodyText" element={<BodyText />} />
@@ -112,6 +113,9 @@ const AgateApp = kind({
 					<Route path="/windDirectionControl" element={<WindDirectionControl />} />
 				</Routes>
 			</div>
+			<div id="FCP"></div>
+			<div id="LCP"></div>
+			<div id="INP"></div>
 		</Router>
 	)
 });

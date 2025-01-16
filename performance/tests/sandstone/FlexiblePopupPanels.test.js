@@ -1,8 +1,8 @@
-/* global CPUThrottling, page, minFPS, maxFID, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, FID, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
-const {clsValue, firstInputValue, getFileName, newPageMultiple} = require('../../utils');
+const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
+const {clsValue, getFileName, newPageMultiple} = require('../../utils');
 
 describe('FlexiblePopupPanels', () => {
 	const component = 'FlexiblePopupPanels';
@@ -17,7 +17,6 @@ describe('FlexiblePopupPanels', () => {
 			await new Promise(r => setTimeout(r, 200));
 			await page.click('[aria-label="Exit app"]'); // to close the popup.
 			await new Promise(r => setTimeout(r, 200));
-			await page.mouse.up();
 
 			const averageFPS = await getAverageFPS();
 			TestResults.addResult({component: component, type: 'FPS Click', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -51,22 +50,48 @@ describe('FlexiblePopupPanels', () => {
 		});
 	});
 
-	it('should have a good FID and CLS', async () => {
-		await page.evaluateOnNewDocument(FID);
+	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/flexiblePopupPanels`);
 		await page.waitForSelector('#button');
 		await page.focus('#button');
 		await page.keyboard.down('Enter');
 
-		let actualFirstInput = await firstInputValue();
 		let actualCLS = await clsValue();
 
-		TestResults.addResult({component: component, type: 'FID', actualValue: Math.round((actualFirstInput + Number.EPSILON) * 1000) / 1000});
 		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
 
-		expect(actualFirstInput).toBeLessThan(maxFID);
 		expect(actualCLS).toBeLessThan(maxCLS);
+	});
+
+	it('should have a good INP', async () => {
+		await page.goto(`http://${serverAddr}/flexiblePopupPanels`);
+		await page.addScriptTag({url: webVitalsURL});
+		await page.waitForSelector('#button');
+		await page.focus('#button');
+		await new Promise(r => setTimeout(r, 200));
+		await page.keyboard.down('Enter');
+		await page.keyboard.up('Enter');
+		await new Promise(r => setTimeout(r, 200));
+
+		let inpValue;
+
+		page.on("console", (msg) => {
+			inpValue = Number(msg.text());
+			TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
+			expect(inpValue).toBeLessThan(maxINP);
+		});
+
+		await page.evaluateHandle(() => {
+			webVitals.onINP(function (inp) {
+				console.log(inp.value); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
+			}
+			);
+		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 
 	it('should have a good DCL, FCP and LCP', async () => {

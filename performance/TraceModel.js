@@ -19,14 +19,6 @@ const FPS = async () =>  {
 
 const getAverageFPS = () => (window.FPSValues.reduce((a, b) => a + b, 0) / window.FPSValues.length) || 0;
 
-const FID = () => {
-	window.fid = 0;
-	new PerformanceObserver(entryList => {
-		let fidEntry = entryList.getEntries()[0];
-		window.fid = fidEntry.processingStart - fidEntry.startTime;
-	}).observe({type: 'first-input', buffered: true});
-};
-
 const CLS = () => {
 	window.cls = 0;
 	new PerformanceObserver(entryList => {
@@ -58,7 +50,6 @@ const PageLoadingMetrics = (filename) => {
 
 module.exports = {
 	CLS,
-	FID,
 	FPS,
 	getAverageFPS,
 	PageLoadingMetrics

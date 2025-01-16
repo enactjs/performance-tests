@@ -40,6 +40,7 @@ const VirtualListView = kind({
 	render: ({dataSize}) => {
 		let dataSizeProp = dataSize;
 		const urlDataSize = parseInt(url.searchParams.get('dataSize'));
+		const scrollMode = url.searchParams.get('scrollMode');
 
 		if (!isNaN(urlDataSize)) {
 			dataSizeProp = parseInt(urlDataSize);
@@ -55,6 +56,7 @@ const VirtualListView = kind({
 					focusableScrollbar
 					itemRenderer={renderItem}
 					itemSize={itemSize}
+					scrollMode={scrollMode}
 				/>
 			</div>
 		);

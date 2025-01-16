@@ -1,4 +1,4 @@
-/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
 const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
@@ -12,19 +12,14 @@ describe('ContextualPopupDecorator', () => {
 		await FPS();
 		await page.goto(`http://${serverAddr}/contextualPopupDecorator`);
 		await page.waitForSelector('#contextualPopupDecorator');
-		await page.click('#contextualPopupDecorator'); // to move mouse on the button.
-		await page.mouse.down();
+		await page.click('#contextualPopupDecorator');
 		await new Promise(r => setTimeout(r, 100));
-		await page.mouse.up();
-		await page.mouse.down();
+		await page.click('#contextualPopupDecorator');
 		await new Promise(r => setTimeout(r, 100));
-		await page.mouse.up();
-		await page.mouse.down();
+		await page.click('#contextualPopupDecorator');
 		await new Promise(r => setTimeout(r, 100));
-		await page.mouse.up();
-		await page.mouse.down();
+		await page.click('#contextualPopupDecorator');
 		await new Promise(r => setTimeout(r, 100));
-		await page.mouse.up();
 
 		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
@@ -46,6 +41,34 @@ describe('ContextualPopupDecorator', () => {
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
+	it('should have a good INP', async () => {
+		await page.goto(`http://${serverAddr}/contextualPopupDecorator`);
+		await page.addScriptTag({url: webVitalsURL});
+		await page.waitForSelector('#contextualPopupDecorator');
+		await new Promise(r => setTimeout(r, 100));
+		await page.click('#contextualPopupDecorator');
+		await new Promise(r => setTimeout(r, 100));
+
+		let inpValue;
+
+		page.on("console", (msg) => {
+			inpValue = Number(msg.text());
+			TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
+			expect(inpValue).toBeLessThan(maxINP);
+		});
+
+		await page.evaluateHandle(() => {
+			webVitals.onINP(function (inp) {
+				console.log(inp.value); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
+			}
+			);
+		});
+		await new Promise(r => setTimeout(r, 1000));
+	});
+
 	it('should have a good DCL, FCP and LCP', async () => {
 		const filename = getFileName(component);
 
@@ -62,6 +85,7 @@ describe('ContextualPopupDecorator', () => {
 			await contextualPopupDecoratorPage.tracing.start({path: filename, screenshots: false});
 			await contextualPopupDecoratorPage.goto(`http://${serverAddr}/contextualPopupDecorator`);
 			await contextualPopupDecoratorPage.waitForSelector('#contextualPopupDecorator');
+			await contextualPopupDecoratorPage.click('#contextualPopupDecorator');
 			await new Promise(r => setTimeout(r, 200));
 
 			await contextualPopupDecoratorPage.tracing.stop();

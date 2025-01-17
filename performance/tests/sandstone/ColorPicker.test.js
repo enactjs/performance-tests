@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, minFPS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, maxCLS, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, PageLoadingMetrics, FPS, getAverageFPS} = require('../../TraceModel');
+const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
 const {clsValue, getFileName, newPageMultiple} = require("../../utils");
 
 describe('ColorPicker', () => {

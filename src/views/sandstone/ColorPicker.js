@@ -1,5 +1,5 @@
 import kind from '@enact/core/kind';
-import ColorPicker from '@enact/sandstone/ColorPickerPOC';
+import ColorPicker from '@enact/sandstone/ColorPicker';
 
 const colors = ['#eb4034', '#32a852', '#3455eb'];
 

@@ -15,7 +15,7 @@ if (!shell.which('enact')) {
 }
 
 // Run pack command and serve app
-shell.exec(`npm run pack-p-${theme} && cd dist && serve -l 8080`, {async: true});
+shell.exec(`npm run pack-p-${theme} && cd dist && serve -l 8080 --no-request-logging`, {async: true});
 
 // Run wait-on command
 shell.exec(`wait-on http://localhost:8080/ && npm test -- --target=${target} --theme=${theme} --throttling=${throttling}`, {async: true}, () => {

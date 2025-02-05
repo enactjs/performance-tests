@@ -11,7 +11,7 @@ describe('VideoPlayer', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/videoPlayer`);
+			await page.goto(`http://${serverAddr}/#/videoPlayer`);
 			await page.waitForSelector('#videoPlayer');
 			await new Promise(r => setTimeout(r, 200));
 			await page.click('[aria-label="Next"]'); // to jump forward in the video.
@@ -27,7 +27,7 @@ describe('VideoPlayer', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/videoPlayer`);
+			await page.goto(`http://${serverAddr}/#/videoPlayer`);
 			await page.waitForSelector('#videoPlayer');
 			await new Promise(r => setTimeout(r, 200));
 			await page.focus('[aria-label="Next"]');
@@ -44,7 +44,7 @@ describe('VideoPlayer', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/videoPlayer`);
+		await page.goto(`http://${serverAddr}/#/videoPlayer`);
 		await page.waitForSelector('#videoPlayer');
 		await new Promise(r => setTimeout(r, 200));
 		await page.focus('[aria-label="Next"]');
@@ -58,7 +58,7 @@ describe('VideoPlayer', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/videoPlayer`);
+		await page.goto(`http://${serverAddr}/#/videoPlayer`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#videoPlayer');
 		await page.focus('[aria-label="Next"]');
@@ -101,7 +101,7 @@ describe('VideoPlayer', () => {
 			await videoPlayerPage.emulateCPUThrottling(CPUThrottling);
 
 			await videoPlayerPage.tracing.start({path: filename, screenshots: false});
-			await videoPlayerPage.goto(`http://${serverAddr}/videoPlayer`);
+			await videoPlayerPage.goto(`http://${serverAddr}/#/videoPlayer`);
 			await videoPlayerPage.waitForSelector('#videoPlayer');
 			await new Promise(r => setTimeout(r, 1000));
 

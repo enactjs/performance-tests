@@ -11,7 +11,7 @@ describe('DatePicker', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/datePicker`);
+			await page.goto(`http://${serverAddr}/#/datePicker`);
 			await new Promise(r => setTimeout(r, 500));
 			await page.click('[data-webos-voice-group-label="month"]'); // to move mouse on the increment button.
 			await page.mouse.down();
@@ -40,7 +40,7 @@ describe('DatePicker', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/datePicker`);
+			await page.goto(`http://${serverAddr}/#/datePicker`);
 			await page.waitForSelector('[data-webos-voice-group-label="month"]');
 			await page.focus('[data-webos-voice-group-label="month"]');
 			await new Promise(r => setTimeout(r, 200));
@@ -72,7 +72,7 @@ describe('DatePicker', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/datePicker`);
+		await page.goto(`http://${serverAddr}/#/datePicker`);
 		await page.waitForSelector('[data-webos-voice-group-label="month"]');
 		await page.focus('[data-webos-voice-group-label="month"]');
 		await page.keyboard.down('Enter');
@@ -85,7 +85,7 @@ describe('DatePicker', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/datePicker`);
+		await page.goto(`http://${serverAddr}/#/datePicker`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('[data-webos-voice-group-label="month"]');
 		await page.focus('[data-webos-voice-group-label="month"]');
@@ -128,7 +128,7 @@ describe('DatePicker', () => {
 			await datePickerPage.emulateCPUThrottling(CPUThrottling);
 
 			await datePickerPage.tracing.start({path: filename, screenshots: false});
-			await datePickerPage.goto(`http://${serverAddr}/datePicker`);
+			await datePickerPage.goto(`http://${serverAddr}/#/datePicker`);
 			await datePickerPage.waitForSelector('[data-webos-voice-group-label="month"]');
 			await new Promise(r => setTimeout(r, 200));
 

@@ -10,7 +10,7 @@ describe('Spinner', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/spinner`);
+		await page.goto(`http://${serverAddr}/#/spinner`);
 		await page.waitForSelector('#spinner');
 		await page.focus('#spinner');
 		await page.keyboard.down('Enter');
@@ -24,7 +24,7 @@ describe('Spinner', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/spinner`);
+		await page.goto(`http://${serverAddr}/#/spinner`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#spinner');
 		await new Promise(r => setTimeout(r, 200));
@@ -67,7 +67,7 @@ describe('Spinner', () => {
 			await spinnerPage.emulateCPUThrottling(CPUThrottling);
 
 			await spinnerPage.tracing.start({path: filename, screenshots: false});
-			await spinnerPage.goto(`http://${serverAddr}/spinner`);
+			await spinnerPage.goto(`http://${serverAddr}/#/spinner`);
 			await spinnerPage.waitForSelector('#spinner');
 			await new Promise(r => setTimeout(r, 200));
 

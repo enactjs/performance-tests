@@ -10,7 +10,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 
 	const component = componentName + (dataSize ? dataSize : '');
 	TestResults.newFile(component);
-	const pageURL = dataSize ? `http://${serverAddr}/${componentName}?dataSize=${dataSize}` : `http://${serverAddr}/${componentName}`;
+	const pageURL = dataSize ? `http://${serverAddr}/#/${componentName}?dataSize=${dataSize}` : `http://${serverAddr}/#/${componentName}`;
 
 	describe('ScrollButton', () => {
 		it('scrolls down with native scrollMode', async () => {

@@ -11,7 +11,7 @@ describe('Alert', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/alert`);
+			await page.goto(`http://${serverAddr}/#/alert`);
 
 			await new Promise(r => setTimeout(r, 500));
 
@@ -39,7 +39,7 @@ describe('Alert', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/alert`);
+			await page.goto(`http://${serverAddr}/#/alert`);
 			await page.waitForSelector('#button');
 			await page.focus('#button');
 			await new Promise(r => setTimeout(r, 200));
@@ -65,7 +65,7 @@ describe('Alert', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/alert`);
+		await page.goto(`http://${serverAddr}/#/alert`);
 		await page.waitForSelector('#button');
 		await page.focus('#button');
 		await page.keyboard.down('Enter');
@@ -78,7 +78,7 @@ describe('Alert', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/alert`);
+		await page.goto(`http://${serverAddr}/#/alert`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#button');
 		await page.focus('#button');
@@ -120,7 +120,7 @@ describe('Alert', () => {
 			await alertPage.emulateCPUThrottling(CPUThrottling);
 
 			await alertPage.tracing.start({path: filename, screenshots: false});
-			await alertPage.goto(`http://${serverAddr}/alert`);
+			await alertPage.goto(`http://${serverAddr}/#/alert`);
 			await alertPage.waitForSelector('#alert');
 			await new Promise(r => setTimeout(r, 200));
 

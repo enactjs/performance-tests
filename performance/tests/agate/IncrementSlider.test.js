@@ -11,7 +11,7 @@ describe('IncrementSlider', () => {
 	describe('drag', () => {
 		it('increment', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/incrementSlider`);
+			await page.goto(`http://${serverAddr}/#/incrementSlider`);
 			await page.waitForSelector('#incrementSlider');
 			const {x: posX, y: posY} = await page.evaluate(() => {
 				const knobElement = document.querySelector('[class*="Slider_knob"]');
@@ -36,7 +36,7 @@ describe('IncrementSlider', () => {
 	describe('keyboard', () => {
 		it('increment', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/incrementSlider`);
+			await page.goto(`http://${serverAddr}/#/incrementSlider`);
 			await page.waitForSelector('#incrementSlider');
 			await page.focus('#incrementSlider');
 
@@ -55,7 +55,7 @@ describe('IncrementSlider', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/incrementSlider`);
+		await page.goto(`http://${serverAddr}/#/incrementSlider`);
 		await page.waitForSelector('#incrementSlider');
 		await page.focus('#incrementSlider');
 		await page.keyboard.down('Enter');
@@ -69,7 +69,7 @@ describe('IncrementSlider', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/incrementSlider`);
+		await page.goto(`http://${serverAddr}/#/incrementSlider`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#incrementSlider');
 		await page.focus('#incrementSlider');
@@ -118,7 +118,7 @@ describe('IncrementSlider', () => {
 			await incrementSliderPage.emulateCPUThrottling(CPUThrottling);
 
 			await incrementSliderPage.tracing.start({path: filename, screenshots: false});
-			await incrementSliderPage.goto(`http://${serverAddr}/incrementSlider`);
+			await incrementSliderPage.goto(`http://${serverAddr}/#/incrementSlider`);
 			await incrementSliderPage.waitForSelector('#incrementSlider');
 			await new Promise(r => setTimeout(r, 200));
 

@@ -11,7 +11,7 @@ describe('TabLayout', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/tabLayout`);
+			await page.goto(`http://${serverAddr}/#/tabLayout`);
 			await page.waitForSelector('#tabLayout');
 			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('ArrowRight');
@@ -26,7 +26,7 @@ describe('TabLayout', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/tabLayout`);
+		await page.goto(`http://${serverAddr}/#/tabLayout`);
 		await page.waitForSelector('#tabLayout');
 		await page.keyboard.down('ArrowRight');
 
@@ -38,7 +38,7 @@ describe('TabLayout', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/tabLayout`);
+		await page.goto(`http://${serverAddr}/#/tabLayout`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#tabLayout');
 		await new Promise(r => setTimeout(r, 200));
@@ -89,7 +89,7 @@ describe('TabLayout', () => {
 			await tabLayoutPage.emulateCPUThrottling(CPUThrottling);
 
 			await tabLayoutPage.tracing.start({path: filename, screenshots: false});
-			await tabLayoutPage.goto(`http://${serverAddr}/tabLayout`);
+			await tabLayoutPage.goto(`http://${serverAddr}/#/tabLayout`);
 			await tabLayoutPage.waitForSelector('#tabLayout');
 			await new Promise(r => setTimeout(r, 200));
 

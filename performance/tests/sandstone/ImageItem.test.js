@@ -10,7 +10,7 @@ describe('ImageItem', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/imageItem`);
+		await page.goto(`http://${serverAddr}/#/imageItem`);
 		await page.waitForSelector('#imageItem');
 		await page.focus('#imageItem');
 		await page.keyboard.down('Enter');
@@ -36,7 +36,7 @@ describe('ImageItem', () => {
 			await imageItemPage.emulateCPUThrottling(CPUThrottling);
 
 			await imageItemPage.tracing.start({path: filename, screenshots: false});
-			await imageItemPage.goto(`http://${serverAddr}/imageItem`);
+			await imageItemPage.goto(`http://${serverAddr}/#/imageItem`);
 			await imageItemPage.waitForSelector('#imageItem');
 			await new Promise(r => setTimeout(r, 200));
 			await imageItemPage.tracing.stop();

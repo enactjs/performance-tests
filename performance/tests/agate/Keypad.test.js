@@ -11,7 +11,7 @@ describe('Keypad', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/keypad`);
+			await page.goto(`http://${serverAddr}/#/keypad`);
 			await page.waitForSelector('#keypad');
 			await page.click('[aria-label$="1"]'); // to move mouse on the keypad.
 			await page.mouse.down();
@@ -38,7 +38,7 @@ describe('Keypad', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/keypad`);
+			await page.goto(`http://${serverAddr}/#/keypad`);
 			await page.waitForSelector('#keypad');
 			await page.focus('[aria-label$="1"]');
 			await new Promise(r => setTimeout(r, 200));
@@ -65,7 +65,7 @@ describe('Keypad', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/keypad`);
+		await page.goto(`http://${serverAddr}/#/keypad`);
 		await page.waitForSelector('#keypad');
 		await new Promise(r => setTimeout(r, 100));
 		await page.click('[aria-label$="1"]');
@@ -79,7 +79,7 @@ describe('Keypad', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/keypad`);
+		await page.goto(`http://${serverAddr}/#/keypad`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#keypad');
 		await new Promise(r => setTimeout(r, 100));
@@ -120,7 +120,7 @@ describe('Keypad', () => {
 			await keypadPage.emulateCPUThrottling(CPUThrottling);
 
 			await keypadPage.tracing.start({path: filename, screenshots: false});
-			await keypadPage.goto(`http://${serverAddr}/keypad`);
+			await keypadPage.goto(`http://${serverAddr}/#/keypad`);
 			await keypadPage.waitForSelector('#keypad');
 			await new Promise(r => setTimeout(r, 200));
 

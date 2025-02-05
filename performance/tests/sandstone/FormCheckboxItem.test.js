@@ -11,7 +11,7 @@ describe('FormCheckboxItem', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/formCheckboxItem`);
+			await page.goto(`http://${serverAddr}/#/formCheckboxItem`);
 			await page.waitForSelector('#formCheckboxItem');
 			await page.click('#formCheckboxItem'); // to move mouse on formCheckboxItem
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('FormCheckboxItem', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/formCheckboxItem`);
+			await page.goto(`http://${serverAddr}/#/formCheckboxItem`);
 			await page.waitForSelector('#formCheckboxItem');
 			await page.focus('#formCheckboxItem');
 			await new Promise(r => setTimeout(r, 200));
@@ -63,7 +63,7 @@ describe('FormCheckboxItem', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/formCheckboxItem`);
+		await page.goto(`http://${serverAddr}/#/formCheckboxItem`);
 		await page.waitForSelector('#formCheckboxItem');
 		await page.focus('#formCheckboxItem');
 		await page.keyboard.down('Enter');
@@ -76,7 +76,7 @@ describe('FormCheckboxItem', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/formCheckboxItem`);
+		await page.goto(`http://${serverAddr}/#/formCheckboxItem`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#formCheckboxItem');
 		await page.focus('#formCheckboxItem');
@@ -119,7 +119,7 @@ describe('FormCheckboxItem', () => {
 			await formCheckboxItemPage.emulateCPUThrottling(CPUThrottling);
 
 			await formCheckboxItemPage.tracing.start({path: filename, screenshots: false});
-			await formCheckboxItemPage.goto(`http://${serverAddr}/formCheckboxItem`);
+			await formCheckboxItemPage.goto(`http://${serverAddr}/#/formCheckboxItem`);
 			await formCheckboxItemPage.waitForSelector('#formCheckboxItem');
 			await new Promise(r => setTimeout(r, 200));
 

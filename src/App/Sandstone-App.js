@@ -1,5 +1,6 @@
 import kind from '@enact/core/kind';
 import ThemeDecorator from '@enact/sandstone/ThemeDecorator';
+import {HashRouter as Router, Route, Routes} from 'react-router-dom';
 
 import Alert from '../views/sandstone/Alert';
 import Button from '../views/sandstone/Button';
@@ -53,8 +54,6 @@ import VirtualList from '../views/sandstone/VirtualList';
 import WizardPanels from '../views/sandstone/WizardPanels';
 
 import css from './App.less';
-
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 const SandstoneApp = kind({
 	name: 'App',

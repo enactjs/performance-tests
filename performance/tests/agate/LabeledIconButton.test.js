@@ -10,7 +10,7 @@ describe('LabeledIconButton', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/labeledIconButton`);
+		await page.goto(`http://${serverAddr}/#/labeledIconButton`);
 		await page.waitForSelector('#labeledIconButton');
 		await page.focus('#labeledIconButton');
 		await page.keyboard.down('Enter');
@@ -37,7 +37,7 @@ describe('LabeledIconButton', () => {
 			await labeledIconButtonPage.emulateCPUThrottling(CPUThrottling);
 
 			await labeledIconButtonPage.tracing.start({path: filename, screenshots: false});
-			await labeledIconButtonPage.goto(`http://${serverAddr}/labeledIconButton`);
+			await labeledIconButtonPage.goto(`http://${serverAddr}/#/labeledIconButton`);
 			await labeledIconButtonPage.waitForSelector('#labeledIconButton');
 			await new Promise(r => setTimeout(r, 200));
 

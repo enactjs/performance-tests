@@ -10,7 +10,7 @@ describe('ContextualPopupDecorator', () => {
 
 	it('FPS', async () => {
 		await FPS();
-		await page.goto(`http://${serverAddr}/contextualPopupDecorator`);
+		await page.goto(`http://${serverAddr}/#/contextualPopupDecorator`);
 		await page.waitForSelector('#contextualPopupDecorator');
 		await page.click('#contextualPopupDecorator');
 		await new Promise(r => setTimeout(r, 100));
@@ -29,7 +29,7 @@ describe('ContextualPopupDecorator', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/contextualPopupDecorator`);
+		await page.goto(`http://${serverAddr}/#/contextualPopupDecorator`);
 		await new Promise(r => setTimeout(r, 200));
 		await page.waitForSelector('#contextualPopupDecorator');
 		await page.click('#contextualPopupDecorator');
@@ -42,7 +42,7 @@ describe('ContextualPopupDecorator', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/contextualPopupDecorator`);
+		await page.goto(`http://${serverAddr}/#/contextualPopupDecorator`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#contextualPopupDecorator');
 		await new Promise(r => setTimeout(r, 100));
@@ -83,7 +83,7 @@ describe('ContextualPopupDecorator', () => {
 			await contextualPopupDecoratorPage.emulateCPUThrottling(CPUThrottling);
 
 			await contextualPopupDecoratorPage.tracing.start({path: filename, screenshots: false});
-			await contextualPopupDecoratorPage.goto(`http://${serverAddr}/contextualPopupDecorator`);
+			await contextualPopupDecoratorPage.goto(`http://${serverAddr}/#/contextualPopupDecorator`);
 			await contextualPopupDecoratorPage.waitForSelector('#contextualPopupDecorator');
 			await contextualPopupDecoratorPage.click('#contextualPopupDecorator');
 			await new Promise(r => setTimeout(r, 200));

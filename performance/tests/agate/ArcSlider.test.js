@@ -11,7 +11,7 @@ describe('ArcSlider', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/arcSlider`);
+			await page.goto(`http://${serverAddr}/#/arcSlider`);
 			await page.waitForSelector('#arcSlider');
 			await page.click('#arcSlider'); // to move mouse on the button.
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('ArcSlider', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/arcSlider`);
+			await page.goto(`http://${serverAddr}/#/arcSlider`);
 			await page.waitForSelector('#arcSlider');
 			await page.focus('#arcSlider');
 			await new Promise(r => setTimeout(r, 100));
@@ -63,7 +63,7 @@ describe('ArcSlider', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/arcSlider`);
+		await page.goto(`http://${serverAddr}/#/arcSlider`);
 		await page.waitForSelector('#arcSlider');
 		await page.focus('#arcSlider');
 		await page.keyboard.down('ArrowUp');
@@ -77,7 +77,7 @@ describe('ArcSlider', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/arcSlider`);
+		await page.goto(`http://${serverAddr}/#/arcSlider`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#arcSlider');
 		await page.focus('#arcSlider');
@@ -120,7 +120,7 @@ describe('ArcSlider', () => {
 			await buttonPage.emulateCPUThrottling(CPUThrottling);
 
 			await buttonPage.tracing.start({path: filename, screenshots: false});
-			await buttonPage.goto(`http://${serverAddr}/arcSlider`);
+			await buttonPage.goto(`http://${serverAddr}/#/arcSlider`);
 			await buttonPage.waitForSelector('#arcSlider');
 			await new Promise(r => setTimeout(r, 200));
 

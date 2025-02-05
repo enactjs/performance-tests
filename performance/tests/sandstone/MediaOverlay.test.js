@@ -11,7 +11,7 @@ describe('MediaOverlay', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/mediaOverlay`);
+			await page.goto(`http://${serverAddr}/#/mediaOverlay`);
 			await page.waitForSelector('#mediaOverlay');
 			await new Promise(r => setTimeout(r, 1000));
 
@@ -25,7 +25,7 @@ describe('MediaOverlay', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/mediaOverlay`);
+			await page.goto(`http://${serverAddr}/#/mediaOverlay`);
 			await page.waitForSelector('#mediaOverlay');
 			await new Promise(r => setTimeout(r, 1000));
 
@@ -38,7 +38,7 @@ describe('MediaOverlay', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/mediaOverlay`);
+		await page.goto(`http://${serverAddr}/#/mediaOverlay`);
 		await page.waitForSelector('#mediaOverlay');
 		await page.focus('#mediaOverlay');
 		await page.keyboard.down('Enter');
@@ -52,7 +52,7 @@ describe('MediaOverlay', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/mediaoverlay`);
+		await page.goto(`http://${serverAddr}/#/mediaoverlay`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#mediaOverlay');
 		await page.focus('#mediaOverlay');
@@ -95,7 +95,7 @@ describe('MediaOverlay', () => {
 			await mediaOverlayPage.emulateCPUThrottling(CPUThrottling);
 
 			await mediaOverlayPage.tracing.start({path: filename, screenshots: false});
-			await mediaOverlayPage.goto(`http://${serverAddr}/mediaOverlay`);
+			await mediaOverlayPage.goto(`http://${serverAddr}/#/mediaOverlay`);
 			await mediaOverlayPage.waitForSelector('#mediaOverlay');
 			await new Promise(r => setTimeout(r, 500));
 

@@ -10,7 +10,7 @@ describe('Icon', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/icon`);
+		await page.goto(`http://${serverAddr}/#/icon`);
 		await page.waitForSelector('#icon');
 		await page.focus('#icon');
 		await page.keyboard.down('Enter');
@@ -37,7 +37,7 @@ describe('Icon', () => {
 			await iconPage.emulateCPUThrottling(CPUThrottling);
 
 			await iconPage.tracing.start({path: filename, screenshots: false});
-			await iconPage.goto(`http://${serverAddr}/icon`);
+			await iconPage.goto(`http://${serverAddr}/#/icon`);
 			await iconPage.waitForSelector('#icon');
 			await new Promise(r => setTimeout(r, 200));
 

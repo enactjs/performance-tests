@@ -11,7 +11,7 @@ describe('FanSpeedControl', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/fanSpeedControl`);
+			await page.goto(`http://${serverAddr}/#/fanSpeedControl`);
 			await page.waitForSelector('#fanSpeedControl');
 			await page.click('#fanSpeedControl'); // to move mouse on the button.
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('FanSpeedControl', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/fanSpeedControl`);
+			await page.goto(`http://${serverAddr}/#/fanSpeedControl`);
 			await page.waitForSelector('#fanSpeedControl');
 			await page.focus('#fanSpeedControl');
 			await new Promise(r => setTimeout(r, 100));
@@ -63,7 +63,7 @@ describe('FanSpeedControl', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/fanSpeedControl`);
+		await page.goto(`http://${serverAddr}/#/fanSpeedControl`);
 		await page.waitForSelector('#fanSpeedControl');
 		await page.focus('#fanSpeedControl');
 		await page.keyboard.down('ArrowUp');
@@ -77,7 +77,7 @@ describe('FanSpeedControl', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/fanSpeedControl`);
+		await page.goto(`http://${serverAddr}/#/fanSpeedControl`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#fanSpeedControl');
 		await page.focus('#fanSpeedControl');
@@ -120,7 +120,7 @@ describe('FanSpeedControl', () => {
 			await fanSpeedControlPage.emulateCPUThrottling(CPUThrottling);
 
 			await fanSpeedControlPage.tracing.start({path: filename, screenshots: false});
-			await fanSpeedControlPage.goto(`http://${serverAddr}/fanSpeedControl`);
+			await fanSpeedControlPage.goto(`http://${serverAddr}/#/fanSpeedControl`);
 			await fanSpeedControlPage.waitForSelector('#fanSpeedControl');
 			await new Promise(r => setTimeout(r, 200));
 

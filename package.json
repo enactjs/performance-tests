@@ -9,7 +9,7 @@
 		"serve-sandstone": "cross-env REACT_APP_ENACT_THEME=sandstone enact serve",
 		"serve-agate": "cross-env REACT_APP_ENACT_THEME=agate enact serve",
 		"pack": "enact pack",
-		"pack-p": "enact pack -p",
+		"pack-p": "cross-env REACT_APP_ENACT_THEME=sandstone enact pack -p",
 		"watch": "enact pack --watch",
 		"clean": "enact clean",
 		"lint": "enact lint .",

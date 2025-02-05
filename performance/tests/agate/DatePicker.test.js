@@ -11,7 +11,7 @@ describe('DatePicker', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/datePicker`);
+			await page.goto(`http://${serverAddr}/#/datePicker`);
 			await page.waitForSelector('[aria-label$="month decrease the value"]');
 			await page.click('[aria-label$="month decrease the value"]');
 			await new Promise(r => setTimeout(r, 200));
@@ -32,7 +32,7 @@ describe('DatePicker', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/datePicker`);
+			await page.goto(`http://${serverAddr}/#/datePicker`);
 			await page.waitForSelector('#agate-datePicker');
 			await page.focus('[aria-label$="month decrease the value"]');
 			await new Promise(r => setTimeout(r, 200));
@@ -64,7 +64,7 @@ describe('DatePicker', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/datePicker`);
+		await page.goto(`http://${serverAddr}/#/datePicker`);
 		await page.waitForSelector('#agate-datePicker');
 		await page.focus('[aria-label$="month decrease the value"]');
 		await page.keyboard.down('Enter');
@@ -77,7 +77,7 @@ describe('DatePicker', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/datePicker`);
+		await page.goto(`http://${serverAddr}/#/datePicker`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#agate-datePicker');
 		await page.focus('[aria-label$="month decrease the value"]');
@@ -123,7 +123,7 @@ describe('DatePicker', () => {
 			await datePickerPage.emulateCPUThrottling(CPUThrottling);
 
 			await datePickerPage.tracing.start({path: filename, screenshots: false});
-			await datePickerPage.goto(`http://${serverAddr}/datePicker`);
+			await datePickerPage.goto(`http://${serverAddr}/#/datePicker`);
 			await datePickerPage.waitForSelector('#agate-datePicker');
 			await new Promise(r => setTimeout(r, 200));
 

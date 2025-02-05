@@ -11,7 +11,7 @@ describe('MediaPlayer', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/mediaPlayer`);
+			await page.goto(`http://${serverAddr}/#/mediaPlayer`);
 			await page.waitForSelector('#agate-mediaPlayer');
 			await page.click('[aria-label=Play]'); // to move mouse on the checkboxItem.
 			await new Promise(r => setTimeout(r, 600));
@@ -30,7 +30,7 @@ describe('MediaPlayer', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/mediaPlayer`);
+			await page.goto(`http://${serverAddr}/#/mediaPlayer`);
 			await page.waitForSelector('#agate-mediaPlayer');
 			await page.focus('[aria-label=Play]');
 			await page.keyboard.down('Enter');
@@ -50,7 +50,7 @@ describe('MediaPlayer', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/mediaPlayer`);
+		await page.goto(`http://${serverAddr}/#/mediaPlayer`);
 		await page.waitForSelector('#agate-mediaPlayer');
 		await page.focus('#agate-mediaPlayer');
 		await page.keyboard.down('Enter');
@@ -64,7 +64,7 @@ describe('MediaPlayer', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/mediaPlayer`);
+		await page.goto(`http://${serverAddr}/#/mediaPlayer`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#agate-mediaPlayer');
 		await new Promise(r => setTimeout(r, 100));
@@ -105,7 +105,7 @@ describe('MediaPlayer', () => {
 			await mediaPlayerPage.emulateCPUThrottling(CPUThrottling);
 
 			await mediaPlayerPage.tracing.start({path: filename, screenshots: false});
-			await mediaPlayerPage.goto(`http://${serverAddr}/mediaPlayer`);
+			await mediaPlayerPage.goto(`http://${serverAddr}/#/mediaPlayer`);
 			await mediaPlayerPage.waitForSelector('#agate-mediaPlayer');
 			await new Promise(r => setTimeout(r, 200));
 

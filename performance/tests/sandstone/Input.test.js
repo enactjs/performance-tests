@@ -10,7 +10,7 @@ describe('Input', () => {
 
 	it('FPS', async () => {
 		await FPS();
-		await page.goto(`http://${serverAddr}/input`);
+		await page.goto(`http://${serverAddr}/#/input`);
 		await page.waitForSelector('.inputView');
 		await page.focus('.inputView');
 		await new Promise(r => setTimeout(r, 200));
@@ -71,7 +71,7 @@ describe('Input', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/input`);
+		await page.goto(`http://${serverAddr}/#/input`);
 		await page.waitForSelector('.inputView');
 		await new Promise(r => setTimeout(r, 100));
 		await page.click('.inputView');
@@ -97,7 +97,7 @@ describe('Input', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/input`);
+		await page.goto(`http://${serverAddr}/#/input`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('.inputView');
 		await new Promise(r => setTimeout(r, 100));
@@ -156,7 +156,7 @@ describe('Input', () => {
 			await inputPage.emulateCPUThrottling(CPUThrottling);
 
 			await inputPage.tracing.start({path: filename, screenshots: false});
-			await inputPage.goto(`http://${serverAddr}/input`);
+			await inputPage.goto(`http://${serverAddr}/#/input`);
 			await inputPage.waitForSelector('.inputView');
 			await new Promise(r => setTimeout(r, 200));
 

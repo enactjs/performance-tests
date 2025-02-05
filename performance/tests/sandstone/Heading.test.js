@@ -10,7 +10,7 @@ describe('Heading', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/heading`);
+		await page.goto(`http://${serverAddr}/#/heading`);
 		await page.waitForSelector('#heading');
 		await page.focus('#heading');
 		await page.keyboard.down('Enter');
@@ -36,7 +36,7 @@ describe('Heading', () => {
 			await headingPage.emulateCPUThrottling(CPUThrottling);
 
 			await headingPage.tracing.start({path: filename, screenshots: false});
-			await headingPage.goto(`http://${serverAddr}/heading`);
+			await headingPage.goto(`http://${serverAddr}/#/heading`);
 			await headingPage.waitForSelector('#heading');
 			await new Promise(r => setTimeout(r, 200));
 

@@ -14,8 +14,8 @@ if (!shell.which('enact')) {
 	errorExit('Sorry, this script requires the enact cli tool');
 }
 
-// Run serve command
-shell.exec(`npm run serve-${theme}`, {async: true});
+// Run pack command and serve app
+shell.exec(`npm run pack-p-${theme} && cd dist && serve -l 8080`, {async: true});
 
 // Run wait-on command
 shell.exec(`wait-on http://localhost:8080/ && npm test -- --target=${target} --theme=${theme} --throttling=${throttling}`, {async: true}, () => {

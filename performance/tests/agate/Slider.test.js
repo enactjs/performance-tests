@@ -14,7 +14,7 @@ describe('Slider', () => {
 			await page.goto(`http://${serverAddr}/#/slider`);
 			await page.waitForSelector('#slider');
 			const {x: posX, y: posY} = await page.evaluate(() => {
-				const knobElement = document.querySelector('[class*="Slider_knob"]');
+				const knobElement = document.querySelector('[role="progressbar"]');
 				const {x, y} = knobElement.getBoundingClientRect();
 				return {x, y};
 			});

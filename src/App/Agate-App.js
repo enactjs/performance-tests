@@ -1,5 +1,6 @@
 import kind from '@enact/core/kind';
 import ThemeDecorator from '@enact/agate/ThemeDecorator';
+import {HashRouter as Router, Route, Routes} from 'react-router-dom';
 
 import ArcPicker from '../views/agate/ArcPicker';
 import ArcSlider from '../views/agate/ArcSlider';
@@ -49,8 +50,6 @@ import VirtualList from '../views/agate/VirtualList';
 import WindDirectionControl from '../views/agate/WindDirectionControl';
 
 import css from './App.less';
-
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 const AgateApp = kind({
 	name: 'App',

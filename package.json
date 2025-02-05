@@ -17,7 +17,7 @@
 		"lint": "enact lint .",
 		"license": "enact license",
 		"test": "jest --detectOpenHandles",
-		"stop": "pkill -f 'enact serve'",
+		"stop": "pkill -f 'serve'",
 		"test-all": "node ./scripts/test-all.js"
 	},
 	"license": "UNLICENSED",

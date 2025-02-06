@@ -35,15 +35,15 @@ const PageLoadingMetrics = (filename) => {
 	const events = fs.readFileSync(filename, 'utf8');
 	const result = JSON.parse(events);
 
-	const baseEvent = result.traceEvents.filter(i => i.name === 'TracingStartedInBrowser')[0].ts;
+	const baseEvent = result.traceEvents.filter(i => i.name === 'TracingStartedInBrowser')[0]?.ts;
 
-	const domContentLoadedEventEnd = result.traceEvents.filter(i => i.name === 'domContentLoadedEventEnd')[0].ts;
-	const firstContentfulPaint = result.traceEvents.filter(i => i.name === 'firstContentfulPaint')[0].ts;
-	const largestContentfulPaint = result.traceEvents.filter(i => i.name === 'largestContentfulPaint::Candidate')[0].ts;
+	const domContentLoadedEventEnd = result.traceEvents.filter(i => i.name === 'domContentLoadedEventEnd')[0]?.ts;
+	const firstContentfulPaint = result.traceEvents.filter(i => i.name === 'firstContentfulPaint')[0]?.ts;
+	const largestContentfulPaint = result.traceEvents.filter(i => i.name === 'largestContentfulPaint::Candidate')[0]?.ts;
 
-	const actualDCL = (domContentLoadedEventEnd - baseEvent) / 1000;
-	const actualFCP = (firstContentfulPaint - baseEvent) / 1000;
-	const actualLCP = (largestContentfulPaint - baseEvent) / 1000;
+	const actualDCL = domContentLoadedEventEnd ? (domContentLoadedEventEnd - baseEvent) / 1000 : null;
+	const actualFCP = firstContentfulPaint ? (firstContentfulPaint - baseEvent) / 1000 : null;
+	const actualLCP = largestContentfulPaint ? (largestContentfulPaint - baseEvent) / 1000 : null;
 
 	return {actualDCL, actualFCP, actualLCP};
 };

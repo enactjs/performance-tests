@@ -5,9 +5,9 @@ const targetEnvArg = process.argv.filter(x => x.startsWith('--target'))[0];
 const themeEnvArg = process.argv.filter(x => x.startsWith('--theme'))[0];
 const throttlingEnvArg = process.argv.filter(x => x.startsWith('--throttling'))[0];
 
-// set default value --target=PC, --theme=sandstone and --throttling=1
+// set default value --target=PC, --theme=limestone and --throttling=1
 const target = targetEnvArg ? targetEnvArg.split('=')[1] : 'PC';
-const theme = themeEnvArg ? themeEnvArg.split('=')[1] : 'sandstone';
+const theme = themeEnvArg ? themeEnvArg.split('=')[1] : 'limestone';
 const throttling = throttlingEnvArg ? throttlingEnvArg.split('=')[1] : 1;
 
 if (!shell.which('enact')) {

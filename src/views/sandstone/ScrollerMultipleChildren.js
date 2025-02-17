@@ -3,7 +3,7 @@ import UiScrollerJS from '@enact/ui/Scroller';
 import qs from 'qs';
 import {useLocation} from 'react-router-dom';
 
-import MultipleComponents from '../../components/MultipleComponents';
+import SandstoneMultipleComponents from '../../components/SandstoneMultipleComponents';
 
 const types = {
 	ScrollerJS,
@@ -18,7 +18,7 @@ const ScrollerMultipleChildren = () => {
 
 	return (
 		<Scroller id="Scroller">
-			<MultipleComponents location={currentLocation} />
+			<SandstoneMultipleComponents location={currentLocation} />
 		</Scroller>
 	);
 };

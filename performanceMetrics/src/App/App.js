@@ -13,6 +13,56 @@ import Chart from '../views/Chart';
 
 import css from './App.module.less';
 
+const listOfLimestoneComponent = [
+	'Overall',
+	'Alert',
+	'BodyText',
+	'Button',
+	'Checkbox',
+	'CheckboxItem',
+	'ContextualMenuDecorator',
+	'ContextualPopupDecorator',
+	'DatePicker',
+	'DayPicker',
+	'Dropdown',
+	'FixedPopupPanels',
+	'FlexiblePopupPanels',
+	'FormCheckboxItem',
+	'Heading',
+	'Icon',
+	'IconItem',
+	'Image',
+	'ImageItem',
+	'Input',
+	'Item',
+	'KeyGuide',
+	'Marquee',
+	'MediaOverlay',
+	'Panels',
+	'Picker joined',
+	'Picker',
+	'Popup',
+	'PopupTabLayout',
+	'ProgressBar',
+	'ProgressButton',
+	'QuickGuidePanels',
+	'RadioItem',
+	'RangePicker joined',
+	'RangePicker',
+	'Scroller',
+	'Slider',
+	'Spinner',
+	'Steps',
+	'Switch',
+	'SwitchItem',
+	'TabLayout',
+	'TimePicker',
+	'TooltipDecorator',
+	'VideoPlayer',
+	'VirtualList',
+	'WizardPanels'
+];
+
 const listOfSandstoneComponent = [
 	'Overall',
 	'Alert',
@@ -110,13 +160,13 @@ const listOfAgateComponent = [
 	'WindDirectionControl'
 ];
 
-const listOfThemes = ['Sandstone', 'Agate'];
+const listOfThemes = ['Limestone', 'Sandstone', 'Agate'];
 
 const App = (props) => {
 	const [componentReleasedData, setComponentReleasedData] = useState([]);
 	const [componentDevelopData, setComponentDevelopData] = useState([]);
 	const [selectedTheme, setSelectedTheme] = useState(listOfThemes[0]);
-	const [selectedListOfComponents, setSelectedListOfComponents] = useState(listOfSandstoneComponent);
+	const [selectedListOfComponents, setSelectedListOfComponents] = useState(listOfLimestoneComponent);
 	const [selectedComponent, setSelectedComponent] = useState(selectedListOfComponents[0]);
 	const [listOfMetrics, setListOfMetrics] = useState([]);
 	const [listOfVersions, setListOfVersions] = useState([]);
@@ -248,7 +298,7 @@ const App = (props) => {
 
 	const onThemeSelect = useCallback(({data}) => {
 		setSelectedTheme(data);
-		setSelectedListOfComponents(data === 'Sandstone' ? listOfSandstoneComponent : listOfAgateComponent);
+		setSelectedListOfComponents(data === 'Limestone' ? listOfLimestoneComponent : data === 'Sandstone' ? listOfSandstoneComponent : listOfAgateComponent);
 	}, []);
 
 	const onComponentSelect = useCallback(({data}) => {
@@ -326,7 +376,7 @@ const App = (props) => {
 									key={metric}
 									inputData={componentReleasedData.filter(entry => entry.type === metric && entry.timestamp >= startDate && entry.timestamp <= endDate)}
 									title={metric}
-									xAxis={selectedTheme === "Sandstone" ? "SandstoneVersion" : "AgateVersion"}
+									xAxis={selectedTheme === "Limestone" ? "LimestoneVersion" : selectedTheme === "Sandstone" ? "SandstoneVersion" : "AgateVersion"}
 								/>
 							)}
 						</Scroller>

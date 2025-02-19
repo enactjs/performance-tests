@@ -297,8 +297,23 @@ const App = (props) => {
 	}, [listOfTestDates]);
 
 	const onThemeSelect = useCallback(({data}) => {
+		let listOfComponents;
+		switch (data) {
+			case "Limestone":
+				listOfComponents = listOfLimestoneComponent;
+				break;
+			case "Sandstone":
+				listOfComponents = listOfSandstoneComponent;
+				break;
+			case "Agate":
+				listOfComponents = listOfAgateComponent;
+				break;
+			default:
+				listOfComponents = listOfLimestoneComponent;
+		}
+
 		setSelectedTheme(data);
-		setSelectedListOfComponents(data === 'Limestone' ? listOfLimestoneComponent : data === 'Sandstone' ? listOfSandstoneComponent : listOfAgateComponent);
+		setSelectedListOfComponents(listOfComponents);
 	}, []);
 
 	const onComponentSelect = useCallback(({data}) => {
@@ -317,6 +332,21 @@ const App = (props) => {
 	const onEndDateSelect = useCallback(({value}) => {
 		setEndDate(new Date(value).getTime());
 	}, []);
+
+	let xAxisLabel;
+	switch (selectedTheme) {
+		case "Limestone":
+			xAxisLabel = "LimestoneVersion";
+			break;
+		case "Sandstone":
+			xAxisLabel = "SandstoneVersion";
+			break;
+		case "Agate":
+			xAxisLabel = "AgateVersion";
+			break;
+		default:
+			xAxisLabel = "LimestoneVersion";
+	}
 
 	return (
 		<div {...props} className={classnames(props.className, css.app)}>
@@ -376,7 +406,7 @@ const App = (props) => {
 									key={metric}
 									inputData={componentReleasedData.filter(entry => entry.type === metric && entry.timestamp >= startDate && entry.timestamp <= endDate)}
 									title={metric}
-									xAxis={selectedTheme === "Limestone" ? "LimestoneVersion" : selectedTheme === "Sandstone" ? "SandstoneVersion" : "AgateVersion"}
+									xAxis={xAxisLabel}
 								/>
 							)}
 						</Scroller>

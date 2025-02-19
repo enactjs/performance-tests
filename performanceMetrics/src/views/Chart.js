@@ -47,8 +47,7 @@ const Chart = kind({
 				} else {
 					return 50;
 				}
-			}
-			else if (title.includes('CLS')) return 0.1;
+			} else if (title.includes('CLS')) return 0.1;
 			else if (title.includes('FID')) return 100;
 			else if (title.includes('INP')) return 200;
 			else if (title.includes('FCP')) return 1800;

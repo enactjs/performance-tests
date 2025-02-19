@@ -1,5 +1,5 @@
-import qs from 'qs';
 import Item from '@enact/sandstone/Item';
+import qs from 'qs';
 import {useLocation} from 'react-router-dom';
 
 const SandstoneMultipleComponents = () => {

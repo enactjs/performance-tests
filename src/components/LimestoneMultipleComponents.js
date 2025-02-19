@@ -1,5 +1,5 @@
-import qs from 'qs';
 import Item from '@enact/limestone/Item';
+import qs from 'qs';
 import {useLocation} from 'react-router-dom';
 
 const LimestoneMultipleComponents = () => {

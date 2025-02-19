@@ -12,7 +12,7 @@ if (typeof window !== 'undefined') {
 
 	import('process').then(() => {
 		if (process.env.REACT_APP_ENACT_THEME === 'limestone') {
-			appElement = (<LimestoneApp/>);
+			appElement = (<LimestoneApp />);
 			root.render(appElement);
 		} else if (process.env.REACT_APP_ENACT_THEME === 'sandstone') {
 			appElement = (<SandstoneApp />);

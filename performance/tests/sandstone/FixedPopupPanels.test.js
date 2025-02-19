@@ -11,7 +11,7 @@ describe('FixedPopupPanels', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/fixedPopupPanels`);
+			await page.goto(`http://${serverAddr}/#/fixedPopupPanels`);
 			await new Promise(r => setTimeout(r, 500));
 
 			await page.click('#button'); // to move mouse on the button.
@@ -29,7 +29,7 @@ describe('FixedPopupPanels', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/fixedPopupPanels`);
+			await page.goto(`http://${serverAddr}/#/fixedPopupPanels`);
 			await page.waitForSelector('#button');
 
 			await page.focus('#button');
@@ -47,7 +47,7 @@ describe('FixedPopupPanels', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/fixedPopupPanels`);
+		await page.goto(`http://${serverAddr}/#/fixedPopupPanels`);
 		await page.waitForSelector('#button');
 		await page.focus('#button');
 		await page.keyboard.down('Enter');
@@ -60,7 +60,7 @@ describe('FixedPopupPanels', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/fixedPopupPanels`);
+		await page.goto(`http://${serverAddr}/#/fixedPopupPanels`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#button');
 		await page.focus('#button');
@@ -103,7 +103,7 @@ describe('FixedPopupPanels', () => {
 			await fixedPopupPanelsPage.emulateCPUThrottling(CPUThrottling);
 
 			await fixedPopupPanelsPage.tracing.start({path: filename, screenshots: false});
-			await fixedPopupPanelsPage.goto(`http://${serverAddr}/fixedPopupPanels?open=true`);
+			await fixedPopupPanelsPage.goto(`http://${serverAddr}/#/fixedPopupPanels?open=true`);
 			await fixedPopupPanelsPage.waitForSelector('#fixedPopupPanels');
 			await new Promise(r => setTimeout(r, 200));
 

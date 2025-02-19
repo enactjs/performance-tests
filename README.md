@@ -137,7 +137,7 @@ describe('Dropdown', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/dropdown`);
+			await page.goto(`http://${serverAddr}/#/dropdown`);
 			await page.waitForSelector('#dropdown');
 			await page.click('#dropdown'); // to move mouse on dropdown
 			await page.mouse.down();
@@ -163,7 +163,7 @@ describe('Dropdown', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/dropdown`);
+			await page.goto(`http://${serverAddr}/#/dropdown`);
 			await page.waitForSelector('#dropdown');
 			await page.focus('#dropdown');
 			await new Promise(r => setTimeout(r, 200));
@@ -189,7 +189,7 @@ describe('Dropdown', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/dropdown`);
+		await page.goto(`http://${serverAddr}/#/dropdown`);
 		await page.waitForSelector('#dropdown');
 		await page.focus('#dropdown');
 		await page.keyboard.down('Enter');
@@ -202,7 +202,7 @@ describe('Dropdown', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/dropdown`);
+		await page.goto(`http://${serverAddr}/#/dropdown`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#dropdown');
 		await page.focus('#dropdown');
@@ -244,7 +244,7 @@ describe('Dropdown', () => {
 			await dropdownPage.emulateCPUThrottling(CPUThrottling);
 
 			await dropdownPage.tracing.start({path: filename, screenshots: false});
-			await dropdownPage.goto(`http://${serverAddr}/dropdown`);
+			await dropdownPage.goto(`http://${serverAddr}/#/dropdown`);
 			await dropdownPage.waitForSelector('#dropdown');
 			await new Promise(r => setTimeout(r, 200));
 

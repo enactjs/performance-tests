@@ -25,7 +25,7 @@ describe('QuickGuidePanels', () => {
 			await panelsPage.emulateCPUThrottling(CPUThrottling);
 
 			await panelsPage.tracing.start({path: filename, screenshots: false});
-			await panelsPage.goto(`http://${serverAddr}/quickGuidePanels`);
+			await panelsPage.goto(`http://${serverAddr}/#/quickGuidePanels`);
 			await panelsPage.waitForSelector(panel);
 			await new Promise(r => setTimeout(r, 200));
 
@@ -70,7 +70,7 @@ describe('QuickGuidePanels', () => {
 	describe('Quick Guide Panels Transition', () => {
 		it('FPS', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/quickGuidePanels`);
+			await page.goto(`http://${serverAddr}/#/quickGuidePanels`);
 			await page.waitForSelector(nextQuickPanelButton);
 			await page.click(nextQuickPanelButton);
 			await new Promise(r => setTimeout(r, 500));
@@ -105,7 +105,7 @@ describe('QuickGuidePanels', () => {
 
 		it('should have a good CLS', async () => {
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto(`http://${serverAddr}/quickGuidePanels`);
+			await page.goto(`http://${serverAddr}/#/quickGuidePanels`);
 			await page.waitForSelector(nextQuickPanelButton);
 			await page.click(nextQuickPanelButton);
 			await new Promise(r => setTimeout(r, 500));
@@ -128,7 +128,7 @@ describe('QuickGuidePanels', () => {
 		});
 
 		it('should have a good INP', async () => {
-			await page.goto(`http://${serverAddr}/quickGuidePanels`);
+			await page.goto(`http://${serverAddr}/#/quickGuidePanels`);
 			await page.addScriptTag({url: webVitalsURL});
 			await page.waitForSelector(nextQuickPanelButton);
 			await page.click(nextQuickPanelButton);
@@ -168,7 +168,7 @@ describe('QuickGuidePanels', () => {
 	describe('Navigation inside Quick Guide Panels', () => {
 		it('FPS', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/quickGuidePanels`);
+			await page.goto(`http://${serverAddr}/#/quickGuidePanels`);
 			await page.waitForSelector(nextQuickPanelButton);
 			await new Promise(r => setTimeout(r, 500));
 			await page.keyboard.down('ArrowRight');
@@ -200,7 +200,7 @@ describe('QuickGuidePanels', () => {
 
 		it('should have a good CLS', async () => {
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto(`http://${serverAddr}/quickGuidePanels`);
+			await page.goto(`http://${serverAddr}/#/quickGuidePanels`);
 			await page.waitForSelector(nextQuickPanelButton);
 			await new Promise(r => setTimeout(r, 500));
 			await page.keyboard.down('ArrowRight');
@@ -232,7 +232,7 @@ describe('QuickGuidePanels', () => {
 		});
 
 		it('should have a good INP', async () => {
-			await page.goto(`http://${serverAddr}/quickGuidePanels`);
+			await page.goto(`http://${serverAddr}/#/quickGuidePanels`);
 			await page.addScriptTag({url: webVitalsURL});
 			await page.waitForSelector(nextQuickPanelButton);
 			await new Promise(r => setTimeout(r, 500));

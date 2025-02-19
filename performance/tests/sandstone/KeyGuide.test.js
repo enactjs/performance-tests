@@ -10,7 +10,7 @@ describe('KeyGuide', () => {
 
 	it('FPS', async () => {
 		await FPS();
-		await page.goto(`http://${serverAddr}/keyGuide`);
+		await page.goto(`http://${serverAddr}/#/keyGuide`);
 		await page.waitForSelector('#keyGuide');
 		await new Promise(r => setTimeout(r, 2000));
 
@@ -22,7 +22,7 @@ describe('KeyGuide', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/keyGuide`);
+		await page.goto(`http://${serverAddr}/#/keyGuide`);
 		await page.waitForSelector('#keyGuide');
 		await page.focus('#keyGuide');
 		await page.keyboard.down('Enter');
@@ -36,7 +36,7 @@ describe('KeyGuide', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/keyGuide`);
+		await page.goto(`http://${serverAddr}/#/keyGuide`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#keyGuide');
 		await new Promise(r => setTimeout(r, 200));
@@ -77,7 +77,7 @@ describe('KeyGuide', () => {
 			await keyGuidePage.emulateCPUThrottling(CPUThrottling);
 
 			await keyGuidePage.tracing.start({path: filename, screenshots: false});
-			await keyGuidePage.goto(`http://${serverAddr}/keyGuide`);
+			await keyGuidePage.goto(`http://${serverAddr}/#/keyGuide`);
 			await keyGuidePage.waitForSelector('#keyGuide');
 			await new Promise(r => setTimeout(r, 200));
 

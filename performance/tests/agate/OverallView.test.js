@@ -10,7 +10,7 @@ describe('OverallView', () => {
 
 	it('FPS', async () => {
 		await FPS();
-		await page.goto(`http://${serverAddr}/overallView`);
+		await page.goto(`http://${serverAddr}/#/overallView`);
 		await page.waitForSelector('#tooltipButton');
 		await page.click('[aria-label="Next Tab"]'); // to move to the next panel.
 		await page.waitForSelector('#virtualGridListSecond');
@@ -80,7 +80,7 @@ describe('OverallView', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/overallView`);
+		await page.goto(`http://${serverAddr}/#/overallView`);
 		await page.waitForSelector('#tooltipButton');
 		await page.click('[aria-label="Next Tab"]'); // to move to the next tab.
 		await page.waitForSelector('#virtualGridListSecond');
@@ -97,7 +97,7 @@ describe('OverallView', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/overallView`);
+		await page.goto(`http://${serverAddr}/#/overallView`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#tooltipButton');
 		await page.click('[aria-label="Next Tab"]'); // to move to the next tab.
@@ -141,7 +141,7 @@ describe('OverallView', () => {
 			await overallViewPage.emulateCPUThrottling(CPUThrottling);
 
 			await overallViewPage.tracing.start({path: filename, screenshots: false});
-			await overallViewPage.goto(`http://${serverAddr}/overallView`);
+			await overallViewPage.goto(`http://${serverAddr}/#/overallView`);
 			await overallViewPage.waitForSelector('#virtualGridList');
 			await new Promise(r => setTimeout(r, 200));
 

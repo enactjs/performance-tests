@@ -25,7 +25,7 @@ describe('Panels', () => {
 			await panelsPage.emulateCPUThrottling(CPUThrottling);
 
 			await panelsPage.tracing.start({path: filename, screenshots: false});
-			await panelsPage.goto(`http://${serverAddr}/panels`);
+			await panelsPage.goto(`http://${serverAddr}/#/panels`);
 			await panelsPage.waitForSelector(panel1);
 			await new Promise(r => setTimeout(r, 200));
 
@@ -70,7 +70,7 @@ describe('Panels', () => {
 	describe('Panels Transition', () => {
 		it('FPS', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/panels`);
+			await page.goto(`http://${serverAddr}/#/panels`);
 			await page.waitForSelector(nextPanelButton);
 			await page.click(nextPanelButton);
 			await new Promise(r => setTimeout(r, 500));
@@ -105,7 +105,7 @@ describe('Panels', () => {
 
 		it('should have a good CLS', async () => {
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto(`http://${serverAddr}/panels`);
+			await page.goto(`http://${serverAddr}/#/panels`);
 			await page.waitForSelector(nextPanelButton);
 			await page.click(nextPanelButton);
 			await new Promise(r => setTimeout(r, 500));
@@ -128,7 +128,7 @@ describe('Panels', () => {
 		});
 
 		it('should have a good INP', async () => {
-			await page.goto(`http://${serverAddr}/panels`);
+			await page.goto(`http://${serverAddr}/#/panels`);
 			await page.addScriptTag({url: webVitalsURL});
 			await page.waitForSelector(nextPanelButton);
 			await page.click(nextPanelButton);
@@ -168,7 +168,7 @@ describe('Panels', () => {
 	describe('Navigation inside Panel', () => {
 		it('FPS', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/panels`);
+			await page.goto(`http://${serverAddr}/#/panels`);
 			await page.waitForSelector(nextPanelButton);
 			await page.click(nextPanelButton);
 			await new Promise(r => setTimeout(r, 500));
@@ -194,7 +194,7 @@ describe('Panels', () => {
 
 		it('should have a good CLS', async () => {
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto(`http://${serverAddr}/panels`);
+			await page.goto(`http://${serverAddr}/#/panels`);
 			await page.waitForSelector(nextPanelButton);
 			await page.click(nextPanelButton);
 			await new Promise(r => setTimeout(r, 500));
@@ -220,7 +220,7 @@ describe('Panels', () => {
 		});
 
 		it('should have a good INP', async () => {
-			await page.goto(`http://${serverAddr}/panels`);
+			await page.goto(`http://${serverAddr}/#/panels`);
 			await page.addScriptTag({url: webVitalsURL});
 			await page.waitForSelector(nextPanelButton);
 			await page.click(nextPanelButton);

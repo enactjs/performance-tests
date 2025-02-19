@@ -10,7 +10,7 @@ describe('BodyText', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/bodyText`);
+		await page.goto(`http://${serverAddr}/#/bodyText`);
 		await page.waitForSelector('#bodyText');
 		await page.focus('#bodyText');
 		await page.keyboard.down('Enter');
@@ -36,7 +36,7 @@ describe('BodyText', () => {
 			await bodyTextPage.emulateCPUThrottling(CPUThrottling);
 
 			await bodyTextPage.tracing.start({path: filename, screenshots: false});
-			await bodyTextPage.goto(`http://${serverAddr}/bodyText`);
+			await bodyTextPage.goto(`http://${serverAddr}/#/bodyText`);
 			await bodyTextPage.waitForSelector('#bodyText');
 			await new Promise(r => setTimeout(r, 200));
 

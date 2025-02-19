@@ -11,7 +11,7 @@ describe('WizardPanels', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/wizardPanels`);
+			await page.goto(`http://${serverAddr}/#/wizardPanels`);
 			await new Promise(r => setTimeout(r, 200));
 			await page.click('#nextButton'); // to animate the WizardPanel.
 			await new Promise(r => setTimeout(r, 200));
@@ -26,7 +26,7 @@ describe('WizardPanels', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/wizardPanels`);
+			await page.goto(`http://${serverAddr}/#/wizardPanels`);
 			await page.waitForSelector('#wizardPanels');
 			await page.focus('#nextButton');
 			await new Promise(r => setTimeout(r, 200));
@@ -42,7 +42,7 @@ describe('WizardPanels', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/wizardPanels`);
+		await page.goto(`http://${serverAddr}/#/wizardPanels`);
 		await page.waitForSelector('#wizardPanels');
 		await page.focus('#wizardPanels');
 		await page.keyboard.down('Enter');
@@ -55,7 +55,7 @@ describe('WizardPanels', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/wizardPanels`);
+		await page.goto(`http://${serverAddr}/#/wizardPanels`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#wizardPanels');
 		await page.focus('#wizardPanels');
@@ -98,7 +98,7 @@ describe('WizardPanels', () => {
 			await wizardPanelPage.emulateCPUThrottling(CPUThrottling);
 
 			await wizardPanelPage.tracing.start({path: filename, screenshots: false});
-			await wizardPanelPage.goto(`http://${serverAddr}/wizardPanels`);
+			await wizardPanelPage.goto(`http://${serverAddr}/#/wizardPanels`);
 			await wizardPanelPage.waitForSelector('#wizardPanels');
 			await new Promise(r => setTimeout(r, 200));
 

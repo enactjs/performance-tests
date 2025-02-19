@@ -11,7 +11,7 @@ describe('ProgressButton', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/progressButton`);
+			await page.goto(`http://${serverAddr}/#/progressButton`);
 			await page.waitForSelector('#progressButton');
 			await page.click('#progressButton'); // to move mouse on ProgressButton
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('ProgressButton', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/progressButton`);
+			await page.goto(`http://${serverAddr}/#/progressButton`);
 			await page.waitForSelector('#progressButton');
 			await page.focus('#progressButton');
 			await new Promise(r => setTimeout(r, 200));
@@ -63,7 +63,7 @@ describe('ProgressButton', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/progressButton`);
+		await page.goto(`http://${serverAddr}/#/progressButton`);
 		await page.waitForSelector('#progressButton');
 		await page.focus('#progressButton');
 		await page.keyboard.down('Enter');
@@ -76,7 +76,7 @@ describe('ProgressButton', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/progressButton`);
+		await page.goto(`http://${serverAddr}/#/progressButton`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#progressButton');
 		await page.focus('#progressButton');
@@ -119,7 +119,7 @@ describe('ProgressButton', () => {
 			await progressButtonPage.emulateCPUThrottling(CPUThrottling);
 
 			await progressButtonPage.tracing.start({path: filename, screenshots: false});
-			await progressButtonPage.goto(`http://${serverAddr}/progressButton`);
+			await progressButtonPage.goto(`http://${serverAddr}/#/progressButton`);
 			await progressButtonPage.waitForSelector('#progressButton');
 			await new Promise(r => setTimeout(r, 200));
 

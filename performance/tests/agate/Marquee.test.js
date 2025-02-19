@@ -11,7 +11,7 @@ describe('Marquee', () => {
 
 	it('FPS on hover', async () => {
 		await FPS();
-		await page.goto(`http://${serverAddr}/marquee`);
+		await page.goto(`http://${serverAddr}/#/marquee`);
 		await page.waitForSelector('#marquee');
 		await page.hover('#marquee');
 		await new Promise(r => setTimeout(r, 500));
@@ -24,7 +24,7 @@ describe('Marquee', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/marquee`);
+		await page.goto(`http://${serverAddr}/#/marquee`);
 		await page.waitForSelector('#marquee');
 		await page.hover('#marquee');
 		await new Promise(r => setTimeout(r, 500));
@@ -37,7 +37,7 @@ describe('Marquee', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/marquee`);
+		await page.goto(`http://${serverAddr}/#/marquee`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#marquee');
 		await new Promise(r => setTimeout(r, 100));
@@ -78,7 +78,7 @@ describe('Marquee', () => {
 			await marqueePage.emulateCPUThrottling(CPUThrottling);
 
 			await marqueePage.tracing.start({path: filename, screenshots: false});
-			await marqueePage.goto(`http://${serverAddr}/marquee`);
+			await marqueePage.goto(`http://${serverAddr}/#/marquee`);
 			await marqueePage.waitForSelector('#marquee');
 			await new Promise(r => setTimeout(r, 200));
 

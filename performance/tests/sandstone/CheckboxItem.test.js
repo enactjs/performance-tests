@@ -11,7 +11,7 @@ describe('CheckboxItem', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/checkboxItem`);
+			await page.goto(`http://${serverAddr}/#/checkboxItem`);
 			await new Promise(r => setTimeout(r, 500));
 			await page.click('#checkboxItem'); // to move mouse on the checkboxItem.
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('CheckboxItem', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/checkboxItem`);
+			await page.goto(`http://${serverAddr}/#/checkboxItem`);
 			await page.waitForSelector('#checkboxItem');
 			await page.focus('#checkboxItem');
 			await new Promise(r => setTimeout(r, 200));
@@ -63,7 +63,7 @@ describe('CheckboxItem', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/checkboxItem`);
+		await page.goto(`http://${serverAddr}/#/checkboxItem`);
 		await page.waitForSelector('#checkboxItem');
 		await page.focus('#checkboxItem');
 		await page.keyboard.down('Enter');
@@ -76,7 +76,7 @@ describe('CheckboxItem', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/checkboxItem`);
+		await page.goto(`http://${serverAddr}/#/checkboxItem`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#checkboxItem');
 		await new Promise(r => setTimeout(r, 200));
@@ -119,7 +119,7 @@ describe('CheckboxItem', () => {
 			await checkboxItemPage.emulateCPUThrottling(CPUThrottling);
 
 			await checkboxItemPage.tracing.start({path: filename, screenshots: false});
-			await checkboxItemPage.goto(`http://${serverAddr}/checkboxItem`);
+			await checkboxItemPage.goto(`http://${serverAddr}/#/checkboxItem`);
 			await checkboxItemPage.waitForSelector('#checkboxItem');
 			await new Promise(r => setTimeout(r, 200));
 

@@ -10,7 +10,7 @@ describe('ProgressBar', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/progressBar`);
+		await page.goto(`http://${serverAddr}/#/progressBar`);
 		await page.waitForSelector('#progressBar');
 		await page.focus('#progressBar');
 		await page.keyboard.down('Enter');
@@ -37,7 +37,7 @@ describe('ProgressBar', () => {
 			await progressBarPage.emulateCPUThrottling(CPUThrottling);
 
 			await progressBarPage.tracing.start({path: filename, screenshots: false});
-			await progressBarPage.goto(`http://${serverAddr}/progressBar`);
+			await progressBarPage.goto(`http://${serverAddr}/#/progressBar`);
 			await progressBarPage.waitForSelector('#progressBar');
 			await new Promise(r => setTimeout(r, 200));
 

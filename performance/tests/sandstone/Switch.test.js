@@ -11,7 +11,7 @@ describe('Switch', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/switch`);
+			await page.goto(`http://${serverAddr}/#/switch`);
 			await page.waitForSelector('#switch');
 			await new Promise(r => setTimeout(r, 200));
 			await page.click('#switch');
@@ -38,7 +38,7 @@ describe('Switch', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/switch`);
+			await page.goto(`http://${serverAddr}/#/switch`);
 			await page.waitForSelector('#switch');
 			await new Promise(r => setTimeout(r, 100));
 			await page.focus('#switch');
@@ -65,7 +65,7 @@ describe('Switch', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/switch`);
+		await page.goto(`http://${serverAddr}/#/switch`);
 		await page.waitForSelector('#switch');
 		await new Promise(r => setTimeout(r, 100));
 		await page.click('#switch');
@@ -79,7 +79,7 @@ describe('Switch', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/switch`);
+		await page.goto(`http://${serverAddr}/#/switch`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#switch');
 		await new Promise(r => setTimeout(r, 100));
@@ -122,7 +122,7 @@ describe('Switch', () => {
 			await switchPage.emulateCPUThrottling(CPUThrottling);
 
 			await switchPage.tracing.start({path: filename, screenshots: false});
-			await switchPage.goto(`http://${serverAddr}/switch`);
+			await switchPage.goto(`http://${serverAddr}/#/switch`);
 			await switchPage.waitForSelector('#switch');
 			await new Promise(r => setTimeout(r, 200));
 

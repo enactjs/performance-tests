@@ -11,7 +11,7 @@ describe('ToggleButton', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/toggleButton`);
+			await page.goto(`http://${serverAddr}/#/toggleButton`);
 			await page.waitForSelector('#agate-togglebutton');
 			await page.click('#agate-togglebutton'); // to move mouse on the togglebutton.
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('ToggleButton', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/toggleButton`);
+			await page.goto(`http://${serverAddr}/#/toggleButton`);
 			await page.waitForSelector('#agate-togglebutton');
 			await page.focus('#agate-togglebutton');
 			await new Promise(r => setTimeout(r, 100));
@@ -63,7 +63,7 @@ describe('ToggleButton', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/toggleButton`);
+		await page.goto(`http://${serverAddr}/#/toggleButton`);
 		await page.waitForSelector('#agate-togglebutton');
 		await page.focus('#agate-togglebutton');
 		await page.keyboard.down('Enter');
@@ -77,7 +77,7 @@ describe('ToggleButton', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/toggleButton`);
+		await page.goto(`http://${serverAddr}/#/toggleButton`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#agate-togglebutton');
 		await page.focus('#agate-togglebutton');
@@ -120,7 +120,7 @@ describe('ToggleButton', () => {
 			await toggleButtonPage.emulateCPUThrottling(CPUThrottling);
 
 			await toggleButtonPage.tracing.start({path: filename, screenshots: false});
-			await toggleButtonPage.goto(`http://${serverAddr}/toggleButton`);
+			await toggleButtonPage.goto(`http://${serverAddr}/#/toggleButton`);
 			await toggleButtonPage.waitForSelector('#agate-togglebutton');
 			await new Promise(r => setTimeout(r, 200));
 

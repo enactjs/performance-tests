@@ -12,7 +12,7 @@ describe('Picker', () => {
 		describe('click', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto(`http://${serverAddr}/picker`);
+				await page.goto(`http://${serverAddr}/#/picker`);
 				await page.waitForSelector('#pickerDefault');
 				await page.click('[aria-label$="next item"]'); // to move mouse on the picker.
 				await page.mouse.down();
@@ -38,7 +38,7 @@ describe('Picker', () => {
 		describe('keypress', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto(`http://${serverAddr}/picker`);
+				await page.goto(`http://${serverAddr}/#/picker`);
 				await page.waitForSelector('#pickerDefault');
 				await page.focus('[aria-label$="next item"]');
 				await new Promise(r => setTimeout(r, 200));
@@ -64,7 +64,7 @@ describe('Picker', () => {
 
 		it('should have a good CLS', async () => {
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto(`http://${serverAddr}/picker`);
+			await page.goto(`http://${serverAddr}/#/picker`);
 			await page.waitForSelector('#pickerDefault');
 			await new Promise(r => setTimeout(r, 100));
 			await page.click('[aria-label$="next item"]');
@@ -78,7 +78,7 @@ describe('Picker', () => {
 		});
 
 		it('should have a good INP', async () => {
-			await page.goto(`http://${serverAddr}/picker`);
+			await page.goto(`http://${serverAddr}/#/picker`);
 			await page.addScriptTag({url: webVitalsURL});
 			await page.waitForSelector('#pickerDefault');
 			await new Promise(r => setTimeout(r, 300));
@@ -119,7 +119,7 @@ describe('Picker', () => {
 				await pickerPage.emulateCPUThrottling(CPUThrottling);
 
 				await pickerPage.tracing.start({path: filename, screenshots: false});
-				await pickerPage.goto(`http://${serverAddr}/picker`);
+				await pickerPage.goto(`http://${serverAddr}/#/picker`);
 				await pickerPage.waitForSelector('#pickerDefault');
 				await new Promise(r => setTimeout(r, 200));
 
@@ -168,7 +168,7 @@ describe('Picker', () => {
 		describe('click', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto(`http://${serverAddr}/pickerJoined`);
+				await page.goto(`http://${serverAddr}/#/pickerJoined`);
 				await page.waitForSelector('#pickerJoined');
 				await page.click('#pickerJoined'); // to move mouse on the picker.
 				await page.mouse.down();
@@ -192,7 +192,7 @@ describe('Picker', () => {
 		describe('keypress', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto(`http://${serverAddr}/pickerJoined`);
+				await page.goto(`http://${serverAddr}/#/pickerJoined`);
 				await page.waitForSelector('#pickerJoined');
 				await page.focus('#pickerJoined');
 				await new Promise(r => setTimeout(r, 200));
@@ -216,7 +216,7 @@ describe('Picker', () => {
 
 		it('should have a good CLS', async () => {
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto(`http://${serverAddr}/pickerJoined`);
+			await page.goto(`http://${serverAddr}/#/pickerJoined`);
 			await page.waitForSelector('#pickerJoined');
 			await new Promise(r => setTimeout(r, 100));
 			await page.click('#pickerJoined');
@@ -230,7 +230,7 @@ describe('Picker', () => {
 		});
 
 		it('should have a good INP', async () => {
-			await page.goto(`http://${serverAddr}/pickerJoined`);
+			await page.goto(`http://${serverAddr}/#/pickerJoined`);
 			await page.addScriptTag({url: webVitalsURL});
 			await page.waitForSelector('#pickerJoined');
 			await new Promise(r => setTimeout(r, 300));
@@ -271,7 +271,7 @@ describe('Picker', () => {
 				await pickerJoinedPage.emulateCPUThrottling(CPUThrottling);
 
 				await pickerJoinedPage.tracing.start({path: filename, screenshots: false});
-				await pickerJoinedPage.goto(`http://${serverAddr}/pickerJoined`);
+				await pickerJoinedPage.goto(`http://${serverAddr}/#/pickerJoined`);
 				await pickerJoinedPage.waitForSelector('#pickerJoined');
 				await new Promise(r => setTimeout(r, 200));
 

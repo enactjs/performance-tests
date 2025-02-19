@@ -11,7 +11,7 @@ describe('ColorPicker', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/colorPicker`);
+			await page.goto(`http://${serverAddr}/#/colorPicker`);
 			await page.click('#agate-colorPicker');
 			await page.mouse.down();
 			await new Promise(r => setTimeout(r, 300));
@@ -36,7 +36,7 @@ describe('ColorPicker', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/colorPicker`);
+			await page.goto(`http://${serverAddr}/#/colorPicker`);
 			await page.focus('#agate-colorPicker');
 			await new Promise(r => setTimeout(r, 300));
 			await page.keyboard.down('Enter');
@@ -61,7 +61,7 @@ describe('ColorPicker', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/colorPicker`);
+		await page.goto(`http://${serverAddr}/#/colorPicker`);
 		await page.waitForSelector('#agate-colorPicker');
 		await page.focus('#agate-colorPicker');
 		await page.keyboard.down('Enter');
@@ -74,7 +74,7 @@ describe('ColorPicker', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/colorPicker`);
+		await page.goto(`http://${serverAddr}/#/colorPicker`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#agate-colorPicker');
 		await page.focus('#agate-colorPicker');
@@ -117,7 +117,7 @@ describe('ColorPicker', () => {
 			await colorPickerPage.emulateCPUThrottling(CPUThrottling);
 
 			await colorPickerPage.tracing.start({path: filename, screenshots: false});
-			await colorPickerPage.goto(`http://${serverAddr}/colorPicker?open`);
+			await colorPickerPage.goto(`http://${serverAddr}/#/colorPicker?open`);
 			await colorPickerPage.waitForSelector('#agate-colorPicker');
 			await new Promise(r => setTimeout(r, 200));
 

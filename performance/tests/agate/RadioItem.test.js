@@ -11,7 +11,7 @@ describe('RadioItem', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/radioItem`);
+			await page.goto(`http://${serverAddr}/#/radioItem`);
 			await page.waitForSelector('#radioItem');
 			await page.click('#radioItem'); // to move mouse on the radioItem.
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('RadioItem', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/radioItem`);
+			await page.goto(`http://${serverAddr}/#/radioItem`);
 			await page.waitForSelector('#radioItem');
 			await page.focus('#radioItem');
 			await new Promise(r => setTimeout(r, 200));
@@ -63,7 +63,7 @@ describe('RadioItem', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/radioItem`);
+		await page.goto(`http://${serverAddr}/#/radioItem`);
 		await page.waitForSelector('#radioItem');
 		await new Promise(r => setTimeout(r, 100));
 		await page.click('#radioItem');
@@ -77,7 +77,7 @@ describe('RadioItem', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/radioItem`);
+		await page.goto(`http://${serverAddr}/#/radioItem`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#radioItem');
 		await new Promise(r => setTimeout(r, 100));
@@ -120,7 +120,7 @@ describe('RadioItem', () => {
 			await radioItemPage.emulateCPUThrottling(CPUThrottling);
 
 			await radioItemPage.tracing.start({path: filename, screenshots: false});
-			await radioItemPage.goto(`http://${serverAddr}/radioItem`);
+			await radioItemPage.goto(`http://${serverAddr}/#/radioItem`);
 			await radioItemPage.waitForSelector('#radioItem');
 			await new Promise(r => setTimeout(r, 200));
 

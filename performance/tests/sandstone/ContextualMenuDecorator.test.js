@@ -11,7 +11,7 @@ describe('ContextualMenuDecorator', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/contextualMenuDecorator`);
+			await page.goto(`http://${serverAddr}/#/contextualMenuDecorator`);
 			await new Promise(r => setTimeout(r, 500));
 			await page.click('[data-index="0"]'); // to move mouse on the first element of the menu.
 			await page.mouse.down();
@@ -40,7 +40,7 @@ describe('ContextualMenuDecorator', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/contextualMenuDecorator`);
+			await page.goto(`http://${serverAddr}/#/contextualMenuDecorator`);
 			await new Promise(r => setTimeout(r, 500));
 			await page.focus('[data-index="0"]');
 			await new Promise(r => setTimeout(r, 200));
@@ -72,7 +72,7 @@ describe('ContextualMenuDecorator', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/contextualMenuDecorator`);
+		await page.goto(`http://${serverAddr}/#/contextualMenuDecorator`);
 		await page.waitForSelector('[data-index="0"]');
 		await page.focus('[data-index="0"]');
 		await page.keyboard.down('Enter');
@@ -85,7 +85,7 @@ describe('ContextualMenuDecorator', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/contextualMenuDecorator`);
+		await page.goto(`http://${serverAddr}/#/contextualMenuDecorator`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('[data-index="0"]');
 		await page.focus('[data-index="0"]');
@@ -128,7 +128,7 @@ describe('ContextualMenuDecorator', () => {
 			await contextualMenuDecoratorPage.emulateCPUThrottling(CPUThrottling);
 
 			await contextualMenuDecoratorPage.tracing.start({path: filename, screenshots: false});
-			await contextualMenuDecoratorPage.goto(`http://${serverAddr}/contextualMenuDecorator`);
+			await contextualMenuDecoratorPage.goto(`http://${serverAddr}/#/contextualMenuDecorator`);
 			await contextualMenuDecoratorPage.waitForSelector('[data-index="0"]');
 			await new Promise(r => setTimeout(r, 200));
 

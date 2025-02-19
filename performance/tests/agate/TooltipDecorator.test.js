@@ -11,7 +11,7 @@ describe('TooltipDecorator', () => {
 	describe('focus', () => {
 		it('should have a good FPS', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/tooltipDecorator`);
+			await page.goto(`http://${serverAddr}/#/tooltipDecorator`);
 			await page.waitForSelector('#tooltipDecorator');
 			await page.focus('#tooltipDecorator');
 			await new Promise(r => setTimeout(r, 200));
@@ -25,7 +25,7 @@ describe('TooltipDecorator', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/tooltipDecorator`);
+		await page.goto(`http://${serverAddr}/#/tooltipDecorator`);
 		await page.waitForSelector('#tooltipDecorator');
 		await page.focus('#tooltipDecorator');
 		await page.keyboard.down('Enter');
@@ -38,7 +38,7 @@ describe('TooltipDecorator', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/tooltipDecorator`);
+		await page.goto(`http://${serverAddr}/#/tooltipDecorator`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#tooltipDecorator');
 		await page.focus('#tooltipDecorator');
@@ -81,7 +81,7 @@ describe('TooltipDecorator', () => {
 			await tooltipDecoratorPage.emulateCPUThrottling(CPUThrottling);
 
 			await tooltipDecoratorPage.tracing.start({path: filename, screenshots: false});
-			await tooltipDecoratorPage.goto(`http://${serverAddr}/tooltipDecorator`);
+			await tooltipDecoratorPage.goto(`http://${serverAddr}/#/tooltipDecorator`);
 			await tooltipDecoratorPage.waitForSelector('#tooltipDecorator');
 			await new Promise(r => setTimeout(r, 200));
 

@@ -11,7 +11,7 @@ describe( 'Scroller', () => {
 	describe('keypress', () => {
 		it('scrolls down', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/scroller`);
+			await page.goto(`http://${serverAddr}/#/scroller`);
 			await page.focus('[aria-label="scroll up or down with up down button"]');
 			await page.keyboard.down('Enter');
 			await page.keyboard.down('Enter');
@@ -27,7 +27,7 @@ describe( 'Scroller', () => {
 	describe('mouse wheel', () => {
 		it('scrolls down', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/scroller`);
+			await page.goto(`http://${serverAddr}/#/scroller`);
 			const scroller = '#scroller';
 
 			await scrollAtPoint(page, scroller, 1000);
@@ -48,7 +48,7 @@ describe( 'Scroller', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/scroller`);
+		await page.goto(`http://${serverAddr}/#/scroller`);
 		await page.waitForSelector('#scroller');
 		await page.focus('[aria-label="scroll up or down with up down button"]');
 		await page.keyboard.down('Enter');
@@ -63,7 +63,7 @@ describe( 'Scroller', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/scroller`);
+		await page.goto(`http://${serverAddr}/#/scroller`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#scroller');
 		await page.focus('[aria-label="scroll up or down with up down button"]');
@@ -106,7 +106,7 @@ describe( 'Scroller', () => {
 			await scrollerPage.emulateCPUThrottling(CPUThrottling);
 
 			await scrollerPage.tracing.start({path: filename, screenshots: false});
-			await scrollerPage.goto(`http://${serverAddr}/scroller`);
+			await scrollerPage.goto(`http://${serverAddr}/#/scroller`);
 			await scrollerPage.waitForSelector('#scroller');
 			await new Promise(r => setTimeout(r, 200));
 
@@ -151,7 +151,7 @@ describe( 'Scroller', () => {
 	it('scroll down with 5-way with Scroller Native', async () => {
 		await FPS();
 
-		await page.goto(`http://${serverAddr}/scrollerMultipleChildren?count=100&type=ScrollerNative`);
+		await page.goto(`http://${serverAddr}/#/scrollerMultipleChildren?count=100&type=ScrollerNative`);
 		await page.waitForSelector('#Scroller');
 		await page.focus('#Scroller > div:first-child > div:first-child');
 

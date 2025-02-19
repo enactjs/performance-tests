@@ -13,7 +13,7 @@ describe('Drawer', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/drawer`);
+			await page.goto(`http://${serverAddr}/#/drawer`);
 			await page.waitForSelector('#agate-drawer');
 			await page.click(closeButton);
 			await new Promise(r => setTimeout(r, 500));
@@ -40,7 +40,7 @@ describe('Drawer', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/drawer`);
+			await page.goto(`http://${serverAddr}/#/drawer`);
 			await page.waitForSelector('#agate-drawer');
 			await page.focus('#button-close');
 			await page.keyboard.down('Enter');
@@ -67,7 +67,7 @@ describe('Drawer', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/drawer`);
+		await page.goto(`http://${serverAddr}/#/drawer`);
 		await page.waitForSelector('#agate-drawer');
 		await page.click(closeButton);
 		await new Promise(r => setTimeout(r, 500));
@@ -84,7 +84,7 @@ describe('Drawer', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/drawer`);
+		await page.goto(`http://${serverAddr}/#/drawer`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#agate-drawer');
 		await page.click(closeButton);
@@ -128,7 +128,7 @@ describe('Drawer', () => {
 			await DrawerPage.emulateCPUThrottling(CPUThrottling);
 
 			await DrawerPage.tracing.start({path: filename, screenshots: false});
-			await DrawerPage.goto(`http://${serverAddr}/drawer`);
+			await DrawerPage.goto(`http://${serverAddr}/#/drawer`);
 			await DrawerPage.waitForSelector('#agate-drawer');
 			await new Promise(r => setTimeout(r, 200));
 

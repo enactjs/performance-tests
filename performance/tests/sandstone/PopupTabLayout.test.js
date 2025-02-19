@@ -10,7 +10,7 @@ describe('PopupTabLayout', () => {
 
 	it('FPS', async () => {
 		await FPS();
-		await page.goto(`http://${serverAddr}/popupTabLayout`);
+		await page.goto(`http://${serverAddr}/#/popupTabLayout`);
 		await page.waitForSelector('#popupTabLayout');
 		await page.keyboard.down('ArrowRight');
 		await page.keyboard.up('ArrowRight');
@@ -55,7 +55,7 @@ describe('PopupTabLayout', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/popupTabLayout`);
+		await page.goto(`http://${serverAddr}/#/popupTabLayout`);
 		await page.waitForSelector('#popupTabLayout');
 		await page.keyboard.down('ArrowRight');
 		await page.keyboard.up('ArrowRight');
@@ -84,7 +84,7 @@ describe('PopupTabLayout', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/popupTabLayout`);
+		await page.goto(`http://${serverAddr}/#/popupTabLayout`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#popupTabLayout');
 		await new Promise(r => setTimeout(r, 200));
@@ -131,7 +131,7 @@ describe('PopupTabLayout', () => {
 			await popupTabLayoutPage.emulateCPUThrottling(CPUThrottling);
 
 			await popupTabLayoutPage.tracing.start({path: filename, screenshots: false});
-			await popupTabLayoutPage.goto(`http://${serverAddr}/popupTabLayout`);
+			await popupTabLayoutPage.goto(`http://${serverAddr}/#/popupTabLayout`);
 			await popupTabLayoutPage.waitForSelector('#popupTabLayout');
 			await new Promise(r => setTimeout(r, 200));
 

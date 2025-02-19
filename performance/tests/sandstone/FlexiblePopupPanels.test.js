@@ -11,7 +11,7 @@ describe('FlexiblePopupPanels', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/flexiblePopupPanels`);
+			await page.goto(`http://${serverAddr}/#/flexiblePopupPanels`);
 			await new Promise(r => setTimeout(r, 200));
 			await page.click('#button'); // to move mouse on the button.
 			await new Promise(r => setTimeout(r, 200));
@@ -28,7 +28,7 @@ describe('FlexiblePopupPanels', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/flexiblePopupPanels`);
+			await page.goto(`http://${serverAddr}/#/flexiblePopupPanels`);
 			await page.waitForSelector('#button');
 
 			await page.focus('#button');
@@ -52,7 +52,7 @@ describe('FlexiblePopupPanels', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/flexiblePopupPanels`);
+		await page.goto(`http://${serverAddr}/#/flexiblePopupPanels`);
 		await page.waitForSelector('#button');
 		await page.focus('#button');
 		await page.keyboard.down('Enter');
@@ -65,7 +65,7 @@ describe('FlexiblePopupPanels', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/flexiblePopupPanels`);
+		await page.goto(`http://${serverAddr}/#/flexiblePopupPanels`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#button');
 		await page.focus('#button');
@@ -108,7 +108,7 @@ describe('FlexiblePopupPanels', () => {
 			await flexiblePopupPanelsPage.emulateCPUThrottling(CPUThrottling);
 
 			await flexiblePopupPanelsPage.tracing.start({path: filename, screenshots: false});
-			await flexiblePopupPanelsPage.goto(`http://${serverAddr}/flexiblePopupPanels?open=true`);
+			await flexiblePopupPanelsPage.goto(`http://${serverAddr}/#/flexiblePopupPanels?open=true`);
 			await flexiblePopupPanelsPage.waitForSelector('#flexiblePopupPanels');
 			await new Promise(r => setTimeout(r, 200));
 

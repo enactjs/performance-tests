@@ -12,7 +12,7 @@ describe('RangePicker', () => {
 		describe('click', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto(`http://${serverAddr}/rangePicker`);
+				await page.goto(`http://${serverAddr}/#/rangePicker`);
 				await page.waitForSelector('#rangePickerDefault');
 				await page.click('[aria-label$="press ok button to increase the value"]'); // to move mouse on the rangePicker.
 				await page.mouse.down();
@@ -38,7 +38,7 @@ describe('RangePicker', () => {
 		describe('keypress', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto(`http://${serverAddr}/rangePicker`);
+				await page.goto(`http://${serverAddr}/#/rangePicker`);
 				await page.waitForSelector('#rangePickerDefault');
 				await page.focus('[aria-label$="press ok button to increase the value"]');
 				await new Promise(r => setTimeout(r, 200));
@@ -64,7 +64,7 @@ describe('RangePicker', () => {
 
 		it('should have a good CLS', async () => {
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto(`http://${serverAddr}/rangePicker`);
+			await page.goto(`http://${serverAddr}/#/rangePicker`);
 			await page.waitForSelector('#rangePickerDefault');
 			await new Promise(r => setTimeout(r, 100));
 			await page.click('[aria-label$="press ok button to increase the value"]');
@@ -78,7 +78,7 @@ describe('RangePicker', () => {
 		});
 
 		it('should have a good INP', async () => {
-			await page.goto(`http://${serverAddr}/rangePicker`);
+			await page.goto(`http://${serverAddr}/#/rangePicker`);
 			await page.addScriptTag({url: webVitalsURL});
 			await page.waitForSelector('#rangePickerDefault');
 			await new Promise(r => setTimeout(r, 300));
@@ -119,7 +119,7 @@ describe('RangePicker', () => {
 				await rangePickerPage.emulateCPUThrottling(CPUThrottling);
 
 				await rangePickerPage.tracing.start({path: filename, screenshots: false});
-				await rangePickerPage.goto(`http://${serverAddr}/rangePicker`);
+				await rangePickerPage.goto(`http://${serverAddr}/#/rangePicker`);
 				await rangePickerPage.waitForSelector('#rangePickerDefault');
 				await new Promise(r => setTimeout(r, 200));
 
@@ -166,7 +166,7 @@ describe('RangePicker', () => {
 		describe('click', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto(`http://${serverAddr}/rangePickerJoined`);
+				await page.goto(`http://${serverAddr}/#/rangePickerJoined`);
 				await page.waitForSelector('#rangePickerJoined');
 				await page.click('#rangePickerJoined'); // to move mouse on the rangePicker.
 				await page.mouse.down();
@@ -190,7 +190,7 @@ describe('RangePicker', () => {
 		describe('keypress', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto(`http://${serverAddr}/rangePickerJoined`);
+				await page.goto(`http://${serverAddr}/#/rangePickerJoined`);
 				await page.waitForSelector('#rangePickerJoined');
 				await page.focus('#rangePickerJoined');
 				await new Promise(r => setTimeout(r, 200));
@@ -214,7 +214,7 @@ describe('RangePicker', () => {
 
 		it('should have a good CLS', async () => {
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto(`http://${serverAddr}/rangePickerJoined`);
+			await page.goto(`http://${serverAddr}/#/rangePickerJoined`);
 			await page.waitForSelector('#rangePickerJoined');
 			await new Promise(r => setTimeout(r, 100));
 			await page.click('#rangePickerJoined');
@@ -228,7 +228,7 @@ describe('RangePicker', () => {
 		});
 
 		it('should have a good INP', async () => {
-			await page.goto(`http://${serverAddr}/rangePickerJoined`);
+			await page.goto(`http://${serverAddr}/#/rangePickerJoined`);
 			await page.addScriptTag({url: webVitalsURL});
 			await page.waitForSelector('#rangePickerJoined');
 			await new Promise(r => setTimeout(r, 300));
@@ -271,7 +271,7 @@ describe('RangePicker', () => {
 				await rangePickerJoinedPage.emulateCPUThrottling(CPUThrottling);
 
 				await rangePickerJoinedPage.tracing.start({path: filename, screenshots: false});
-				await rangePickerJoinedPage.goto(`http://${serverAddr}/rangePickerJoined`);
+				await rangePickerJoinedPage.goto(`http://${serverAddr}/#/rangePickerJoined`);
 				await rangePickerJoinedPage.waitForSelector('#rangePickerJoined');
 				await new Promise(r => setTimeout(r, 200));
 

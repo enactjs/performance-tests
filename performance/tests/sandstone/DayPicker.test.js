@@ -11,7 +11,7 @@ describe('DayPicker', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/dayPicker`);
+			await page.goto(`http://${serverAddr}/#/dayPicker`);
 			await new Promise(r => setTimeout(r, 500));
 			await page.click('#dayPicker'); // to move mouse on the dayPicker.
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('DayPicker', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/dayPicker`);
+			await page.goto(`http://${serverAddr}/#/dayPicker`);
 			await page.waitForSelector('#dayPicker');
 			await page.focus('#dayPicker');
 			await page.keyboard.down('ArrowDown');
@@ -64,7 +64,7 @@ describe('DayPicker', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/dayPicker`);
+		await page.goto(`http://${serverAddr}/#/dayPicker`);
 		await page.waitForSelector('#dayPicker');
 		await page.keyboard.down('ArrowDown');
 		await page.keyboard.down('Enter');
@@ -77,7 +77,7 @@ describe('DayPicker', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/dayPicker`);
+		await page.goto(`http://${serverAddr}/#/dayPicker`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#dayPicker');
 		await new Promise(r => setTimeout(r, 200));
@@ -128,7 +128,7 @@ describe('DayPicker', () => {
 			await dayPickerPage.emulateCPUThrottling(CPUThrottling);
 
 			await dayPickerPage.tracing.start({path: filename, screenshots: false});
-			await dayPickerPage.goto(`http://${serverAddr}/dayPicker`);
+			await dayPickerPage.goto(`http://${serverAddr}/#/dayPicker`);
 			await dayPickerPage.waitForSelector('#dayPicker');
 			await new Promise(r => setTimeout(r, 200));
 

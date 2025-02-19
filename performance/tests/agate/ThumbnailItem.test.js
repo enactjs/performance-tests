@@ -10,7 +10,7 @@ describe('ThumbnailItem', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/thumbnailItem`);
+		await page.goto(`http://${serverAddr}/#/thumbnailItem`);
 		await page.waitForSelector('#thumbnailItem');
 		await page.focus('#thumbnailItem');
 		await page.keyboard.down('Enter');
@@ -36,7 +36,7 @@ describe('ThumbnailItem', () => {
 			await thumbnailItemPage.emulateCPUThrottling(CPUThrottling);
 
 			await thumbnailItemPage.tracing.start({path: filename, screenshots: false});
-			await thumbnailItemPage.goto(`http://${serverAddr}/thumbnailItem`);
+			await thumbnailItemPage.goto(`http://${serverAddr}/#/thumbnailItem`);
 			await thumbnailItemPage.waitForSelector('#thumbnailItem');
 			await new Promise(r => setTimeout(r, 200));
 			await thumbnailItemPage.tracing.stop();

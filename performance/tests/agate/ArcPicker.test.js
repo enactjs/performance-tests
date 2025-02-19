@@ -11,7 +11,7 @@ describe('ArcPicker', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/arcPicker`);
+			await page.goto(`http://${serverAddr}/#/arcPicker`);
 			await page.waitForSelector('#arcPicker');
 			await page.click('#arcPicker'); // to move mouse on the button.
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('ArcPicker', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/arcPicker`);
+			await page.goto(`http://${serverAddr}/#/arcPicker`);
 			await page.waitForSelector('#arcPicker');
 			await page.focus('#arcPicker');
 			await new Promise(r => setTimeout(r, 100));
@@ -63,7 +63,7 @@ describe('ArcPicker', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/arcPicker`);
+		await page.goto(`http://${serverAddr}/#/arcPicker`);
 		await page.waitForSelector('#arcPicker');
 		await page.focus('#arcPicker');
 		await page.keyboard.down('ArrowUp');
@@ -77,7 +77,7 @@ describe('ArcPicker', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/arcPicker`);
+		await page.goto(`http://${serverAddr}/#/arcPicker`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#arcPicker');
 		await page.focus('#arcPicker');
@@ -120,7 +120,7 @@ describe('ArcPicker', () => {
 			await arcPickerPage.emulateCPUThrottling(CPUThrottling);
 
 			await arcPickerPage.tracing.start({path: filename, screenshots: false});
-			await arcPickerPage.goto(`http://${serverAddr}/arcPicker`);
+			await arcPickerPage.goto(`http://${serverAddr}/#/arcPicker`);
 			await arcPickerPage.waitForSelector('#arcPicker');
 			await new Promise(r => setTimeout(r, 200));
 

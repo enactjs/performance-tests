@@ -13,6 +13,56 @@ import Chart from '../views/Chart';
 
 import css from './App.module.less';
 
+const listOfLimestoneComponent = [
+	'Overall',
+	'Alert',
+	'BodyText',
+	'Button',
+	'Checkbox',
+	'CheckboxItem',
+	'ContextualMenuDecorator',
+	'ContextualPopupDecorator',
+	'DatePicker',
+	'DayPicker',
+	'Dropdown',
+	'FixedPopupPanels',
+	'FlexiblePopupPanels',
+	'FormCheckboxItem',
+	'Heading',
+	'Icon',
+	'IconItem',
+	'Image',
+	'ImageItem',
+	'Input',
+	'Item',
+	'KeyGuide',
+	'Marquee',
+	'MediaOverlay',
+	'Panels',
+	'Picker joined',
+	'Picker',
+	'Popup',
+	'PopupTabLayout',
+	'ProgressBar',
+	'ProgressButton',
+	'QuickGuidePanels',
+	'RadioItem',
+	'RangePicker joined',
+	'RangePicker',
+	'Scroller',
+	'Slider',
+	'Spinner',
+	'Steps',
+	'Switch',
+	'SwitchItem',
+	'TabLayout',
+	'TimePicker',
+	'TooltipDecorator',
+	'VideoPlayer',
+	'VirtualList',
+	'WizardPanels'
+];
+
 const listOfSandstoneComponent = [
 	'Overall',
 	'Alert',
@@ -110,13 +160,13 @@ const listOfAgateComponent = [
 	'WindDirectionControl'
 ];
 
-const listOfThemes = ['Sandstone', 'Agate'];
+const listOfThemes = ['Limestone', 'Sandstone', 'Agate'];
 
 const App = (props) => {
 	const [componentReleasedData, setComponentReleasedData] = useState([]);
 	const [componentDevelopData, setComponentDevelopData] = useState([]);
 	const [selectedTheme, setSelectedTheme] = useState(listOfThemes[0]);
-	const [selectedListOfComponents, setSelectedListOfComponents] = useState(listOfSandstoneComponent);
+	const [selectedListOfComponents, setSelectedListOfComponents] = useState(listOfLimestoneComponent);
 	const [selectedComponent, setSelectedComponent] = useState(selectedListOfComponents[0]);
 	const [listOfMetrics, setListOfMetrics] = useState([]);
 	const [listOfVersions, setListOfVersions] = useState([]);
@@ -247,8 +297,23 @@ const App = (props) => {
 	}, [listOfTestDates]);
 
 	const onThemeSelect = useCallback(({data}) => {
+		let listOfComponents;
+		switch (data) {
+			case "Limestone":
+				listOfComponents = listOfLimestoneComponent;
+				break;
+			case "Sandstone":
+				listOfComponents = listOfSandstoneComponent;
+				break;
+			case "Agate":
+				listOfComponents = listOfAgateComponent;
+				break;
+			default:
+				listOfComponents = listOfLimestoneComponent;
+		}
+
 		setSelectedTheme(data);
-		setSelectedListOfComponents(data === 'Sandstone' ? listOfSandstoneComponent : listOfAgateComponent);
+		setSelectedListOfComponents(listOfComponents);
 	}, []);
 
 	const onComponentSelect = useCallback(({data}) => {
@@ -267,6 +332,21 @@ const App = (props) => {
 	const onEndDateSelect = useCallback(({value}) => {
 		setEndDate(new Date(value).getTime());
 	}, []);
+
+	let xAxisLabel;
+	switch (selectedTheme) {
+		case "Limestone":
+			xAxisLabel = "LimestoneVersion";
+			break;
+		case "Sandstone":
+			xAxisLabel = "SandstoneVersion";
+			break;
+		case "Agate":
+			xAxisLabel = "AgateVersion";
+			break;
+		default:
+			xAxisLabel = "LimestoneVersion";
+	}
 
 	return (
 		<div {...props} className={classnames(props.className, css.app)}>
@@ -326,7 +406,7 @@ const App = (props) => {
 									key={metric}
 									inputData={componentReleasedData.filter(entry => entry.type === metric && entry.timestamp >= startDate && entry.timestamp <= endDate)}
 									title={metric}
-									xAxis={selectedTheme === "Sandstone" ? "SandstoneVersion" : "AgateVersion"}
+									xAxis={xAxisLabel}
 								/>
 							)}
 						</Scroller>

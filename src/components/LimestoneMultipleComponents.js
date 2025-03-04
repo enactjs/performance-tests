@@ -1,8 +1,8 @@
+import Item from '@enact/limestone/Item';
 import qs from 'qs';
-import Item from '@enact/sandstone/Item';
 import {useLocation} from 'react-router-dom';
 
-const MultipleComponents = () => {
+const LimestoneMultipleComponents = () => {
 	const arr = [];
 	const currentLocation = useLocation();
 	const search = qs.parse(currentLocation.search, {ignoreQueryPrefix: true});
@@ -15,4 +15,4 @@ const MultipleComponents = () => {
 	return arr;
 };
 
-export default MultipleComponents;
+export default LimestoneMultipleComponents;

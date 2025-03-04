@@ -10,6 +10,7 @@ const CustomTooltip = ({active, payload}) => {
 		return (
 			<div className={css.customTooltip}>
 				<div>{`Value: ${payload[0].value}`}</div>
+				{payload[0].payload.LimestoneVersion ? <div>{`Limestone Version: ${payload[0].payload.LimestoneVersion}`}</div> : <></>}
 				{payload[0].payload.SandstoneVersion ? <div>{`Sandstone Version: ${payload[0].payload.SandstoneVersion}`}</div> : <></>}
 				{payload[0].payload.AgateVersion ? <div>{`Agate Version: ${payload[0].payload.AgateVersion}`}</div> : <></>}
 				<div>{`Date: ${payload[0].payload.date}`}</div>
@@ -46,8 +47,7 @@ const Chart = kind({
 				} else {
 					return 50;
 				}
-			}
-			else if (title.includes('CLS')) return 0.1;
+			} else if (title.includes('CLS')) return 0.1;
 			else if (title.includes('FID')) return 100;
 			else if (title.includes('INP')) return 200;
 			else if (title.includes('FCP')) return 1800;
@@ -68,7 +68,8 @@ const Chart = kind({
 			else if (title.includes('CLS') || title.includes('FID') | title.includes('INP') || title.includes('FCP') || title.includes('LCP') || title.includes('DCL')) return 'Max Value';
 		},
 		xLabel: ({xAxis}) => {
-			if (xAxis.includes('SandstoneVersion')) return 'Sandstone Version';
+			if (xAxis.includes('LimestoneVersion')) return 'Limestone Version';
+			else if (xAxis.includes('SandstoneVersion')) return 'Sandstone Version';
 			else if (xAxis.includes('AgateVersion')) return 'Agate Version';
 			else if (xAxis.includes('date'))  return 'Date';
 		},

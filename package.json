@@ -4,6 +4,9 @@
 	"description": "A general template for an Enact Limestone, Sandstone and Agate application.",
 	"author": "",
 	"main": "src/index.js",
+	"engines": {
+		"node": ">=20.0.0"
+	},
 	"scripts": {
 		"serve": "cross-env REACT_APP_ENACT_THEME=limestone enact serve",
 		"serve-limestone": "cross-env REACT_APP_ENACT_THEME=limestone enact serve",

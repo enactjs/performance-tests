@@ -41,9 +41,9 @@ for (let i = 0; i < 100; i++) {
 		color = Math.floor((Math.random() * (0x1000000 - 0x101010)) + 0x101010).toString(16),
 		label = `SubItem ${count}`,
 		src = {
-			'hd': `https://placehold.co/200x200/${color}/ffffff/png?text=Image+${i}`,
-			'fhd': `https://placehold.co/300x300/${color}/ffffff/png?text=Image+${i}`,
-			'uhd': `https://placehold.co/600x600/${color}/ffffff/png?text=Image+${i}`
+			'hd': `https://place-hold.it/200x200/${color}/ffffff/png?text=Image+${i}&fontsize=16`,
+			'fhd': `https://place-hold.it/300x300/${color}/ffffff/png?text=Image+${i}&fontsize=24`,
+			'uhd': `https://place-hold.it/600x600/${color}/ffffff/png?text=Image+${i}&fontsize=48`
 		};
 
 	items.push({caption, label, src});

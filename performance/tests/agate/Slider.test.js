@@ -11,10 +11,10 @@ describe('Slider', () => {
 	describe('drag', () => {
 		it('increment', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/slider`);
+			await page.goto(`http://${serverAddr}/#/slider`);
 			await page.waitForSelector('#slider');
 			const {x: posX, y: posY} = await page.evaluate(() => {
-				const knobElement = document.querySelector('[class*="Slider_knob"]');
+				const knobElement = document.querySelector('[role="progressbar"]');
 				const {x, y} = knobElement.getBoundingClientRect();
 				return {x, y};
 			});
@@ -36,7 +36,7 @@ describe('Slider', () => {
 	describe('keyboard', () => {
 		it('increment', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/slider`);
+			await page.goto(`http://${serverAddr}/#/slider`);
 			await page.waitForSelector('#slider');
 			await page.focus('#slider');
 
@@ -55,7 +55,7 @@ describe('Slider', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/slider`);
+		await page.goto(`http://${serverAddr}/#/slider`);
 		await page.waitForSelector('#slider');
 		await page.focus('#slider');
 		await page.keyboard.down('Enter');
@@ -69,7 +69,7 @@ describe('Slider', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/slider`);
+		await page.goto(`http://${serverAddr}/#/slider`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#slider');
 		await page.focus('#slider');
@@ -118,7 +118,7 @@ describe('Slider', () => {
 			await sliderPage.emulateCPUThrottling(CPUThrottling);
 
 			await sliderPage.tracing.start({path: filename, screenshots: false});
-			await sliderPage.goto(`http://${serverAddr}/slider`);
+			await sliderPage.goto(`http://${serverAddr}/#/slider`);
 			await sliderPage.waitForSelector('#slider');
 			await new Promise(r => setTimeout(r, 200));
 

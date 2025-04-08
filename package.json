@@ -1,21 +1,28 @@
 {
 	"name": "perf-puppeteer",
 	"version": "1.0.0",
-	"description": "A general template for an Enact Sandstone and Agate application.",
+	"description": "A general template for an Enact Limestone, Sandstone and Agate application.",
 	"author": "",
 	"main": "src/index.js",
+	"engines": {
+		"node": ">=20.0.0"
+	},
 	"scripts": {
-		"serve": "cross-env REACT_APP_ENACT_THEME=sandstone enact serve",
+		"serve": "cross-env REACT_APP_ENACT_THEME=limestone enact serve",
+		"serve-limestone": "cross-env REACT_APP_ENACT_THEME=limestone enact serve",
 		"serve-sandstone": "cross-env REACT_APP_ENACT_THEME=sandstone enact serve",
 		"serve-agate": "cross-env REACT_APP_ENACT_THEME=agate enact serve",
 		"pack": "enact pack",
-		"pack-p": "enact pack -p",
+		"pack-p": "cross-env REACT_APP_ENACT_THEME=limestone enact pack -p",
+		"pack-p-limestone": "cross-env REACT_APP_ENACT_THEME=limestone enact pack -p",
+		"pack-p-sandstone": "cross-env REACT_APP_ENACT_THEME=sandstone enact pack -p",
+		"pack-p-agate": "cross-env REACT_APP_ENACT_THEME=agate enact pack -p",
 		"watch": "enact pack --watch",
 		"clean": "enact clean",
 		"lint": "enact lint .",
 		"license": "enact license",
 		"test": "jest --detectOpenHandles",
-		"stop": "pkill -f 'enact serve'",
+		"stop": "pkill -f 'serve'",
 		"test-all": "node ./scripts/test-all.js"
 	},
 	"license": "UNLICENSED",
@@ -30,30 +37,32 @@
 		"dist/*"
 	],
 	"dependencies": {
-		"@enact/agate": "^2.0.11",
-		"@enact/core": "^4.9.0",
-		"@enact/i18n": "^4.9.0",
-		"@enact/sandstone": "^2.9.0",
-		"@enact/spotlight": "^4.9.0",
-		"@enact/ui": "^4.9.0",
-		"@enact/webos": "^4.9.0",
-		"dotenv": "^16.4.5",
+		"@enact/agate": "^3.0.0-alpha.3",
+		"@enact/core": "^5.0.0-alpha.4",
+		"@enact/i18n": "^5.0.0-alpha.4",
+		"@enact/limestone": "enactjs/limestone#develop",
+		"@enact/sandstone": "^3.0.0-alpha.4",
+		"@enact/spotlight": "^5.0.0-alpha.4",
+		"@enact/ui": "^5.0.0-alpha.4",
+		"@enact/webos": "^5.0.0-alpha.4",
+		"dotenv": "^16.4.7",
 		"node-fetch": "^3.3.2",
 		"prop-types": "^15.8.1",
-		"qs": "^6.13.0",
-		"react": "^18.3.1",
-		"react-dom": "^18.3.1",
-		"react-router-dom": "^6.26.2",
-		"shelljs": "^0.8.5"
+		"qs": "^6.14.0",
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0",
+		"react-router-dom": "^7.4.1",
+		"shelljs": "^0.9.2"
 	},
 	"devDependencies": {
 		"cross-env": "^7.0.3",
 		"jest": "^29.7.0",
 		"jest-environment-jsdom": "^29.7.0",
 		"npm-run-all": "^4.1.5",
-		"puppeteer": "^23.5.3",
-		"puppeteer-core": "^23.5.3",
-		"wait-on": "^8.0.1"
+		"puppeteer": "^24.4.0",
+		"puppeteer-core": "^24.4.0",
+		"serve": "^14.2.4",
+		"wait-on": "^8.0.3"
 	},
 	"overrides": {
 		"ws": "7.5.10"

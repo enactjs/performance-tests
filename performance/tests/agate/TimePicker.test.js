@@ -11,7 +11,7 @@ describe('TimePicker', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/timePicker`);
+			await page.goto(`http://${serverAddr}/#/timePicker`);
 			await page.waitForSelector('#timePicker');
 			await new Promise(r => setTimeout(r, 200));
 			await page.click('[aria-label$="hour next item"]');
@@ -27,7 +27,7 @@ describe('TimePicker', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/timePicker`);
+			await page.goto(`http://${serverAddr}/#/timePicker`);
 			await page.waitForSelector('#timePicker');
 			await page.focus('[aria-label$="hour next item"]');
 			await new Promise(r => setTimeout(r, 200));
@@ -43,7 +43,7 @@ describe('TimePicker', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/timePicker`);
+		await page.goto(`http://${serverAddr}/#/timePicker`);
 		await page.waitForSelector('#timePicker');
 		await page.focus('[aria-label$="hour next item"]');
 		await page.keyboard.down('ArrowDown');
@@ -56,7 +56,7 @@ describe('TimePicker', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/timePicker`);
+		await page.goto(`http://${serverAddr}/#/timePicker`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#timePicker');
 		await page.focus('[aria-label$="hour next item"]');
@@ -99,7 +99,7 @@ describe('TimePicker', () => {
 			await timePickerPage.emulateCPUThrottling(CPUThrottling);
 
 			await timePickerPage.tracing.start({path: filename, screenshots: false});
-			await timePickerPage.goto(`http://${serverAddr}/timePicker`);
+			await timePickerPage.goto(`http://${serverAddr}/#/timePicker`);
 			await timePickerPage.waitForSelector('#timePicker');
 			await new Promise(r => setTimeout(r, 200));
 

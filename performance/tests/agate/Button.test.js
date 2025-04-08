@@ -11,7 +11,7 @@ describe('Button', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/button`);
+			await page.goto(`http://${serverAddr}/#/button`);
 			await page.waitForSelector('#agate-button');
 			await page.click('#agate-button'); // to move mouse on the button.
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('Button', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/button`);
+			await page.goto(`http://${serverAddr}/#/button`);
 			await page.waitForSelector('#agate-button');
 			await page.focus('#agate-button');
 			await new Promise(r => setTimeout(r, 100));
@@ -63,7 +63,7 @@ describe('Button', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/button`);
+		await page.goto(`http://${serverAddr}/#/button`);
 		await page.waitForSelector('#agate-button');
 		await page.focus('#agate-button');
 		await page.keyboard.down('Enter');
@@ -77,7 +77,7 @@ describe('Button', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/button`);
+		await page.goto(`http://${serverAddr}/#/button`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#agate-button');
 		await page.focus('#agate-button');
@@ -120,7 +120,7 @@ describe('Button', () => {
 			await buttonPage.emulateCPUThrottling(CPUThrottling);
 
 			await buttonPage.tracing.start({path: filename, screenshots: false});
-			await buttonPage.goto(`http://${serverAddr}/button`);
+			await buttonPage.goto(`http://${serverAddr}/#/button`);
 			await buttonPage.waitForSelector('#agate-button');
 			await new Promise(r => setTimeout(r, 200));
 

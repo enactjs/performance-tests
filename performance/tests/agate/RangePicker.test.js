@@ -12,7 +12,7 @@ describe('RangePicker', () => {
 		describe('click', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto(`http://${serverAddr}/rangePicker`);
+				await page.goto(`http://${serverAddr}/#/rangePicker`);
 				await page.waitForSelector('#rangePicker');
 				await page.click('[aria-label$="increase the value"]'); // to move mouse on the rangePicker.
 				await page.mouse.down();
@@ -38,7 +38,7 @@ describe('RangePicker', () => {
 		describe('keypress', () => {
 			it('animates', async () => {
 				await FPS();
-				await page.goto(`http://${serverAddr}/rangePicker`);
+				await page.goto(`http://${serverAddr}/#/rangePicker`);
 				await page.waitForSelector('#rangePicker');
 				await page.focus('[aria-label$="increase the value"]');
 				await new Promise(r => setTimeout(r, 200));
@@ -64,7 +64,7 @@ describe('RangePicker', () => {
 
 		it('should have a good CLS', async () => {
 			await page.evaluateOnNewDocument(CLS);
-			await page.goto(`http://${serverAddr}/rangePicker`);
+			await page.goto(`http://${serverAddr}/#/rangePicker`);
 			await page.waitForSelector('#rangePicker');
 			await new Promise(r => setTimeout(r, 100));
 			await page.click('[aria-label$="increase the value"]');
@@ -78,7 +78,7 @@ describe('RangePicker', () => {
 		});
 
 		it('should have a good INP', async () => {
-			await page.goto(`http://${serverAddr}/rangePicker`);
+			await page.goto(`http://${serverAddr}/#/rangePicker`);
 			await page.addScriptTag({url: webVitalsURL});
 			await page.waitForSelector('#rangePicker');
 			await new Promise(r => setTimeout(r, 200));
@@ -123,7 +123,7 @@ describe('RangePicker', () => {
 				await rangePickerPage.emulateCPUThrottling(CPUThrottling);
 
 				await rangePickerPage.tracing.start({path: filename, screenshots: false});
-				await rangePickerPage.goto(`http://${serverAddr}/rangePicker`);
+				await rangePickerPage.goto(`http://${serverAddr}/#/rangePicker`);
 				await rangePickerPage.waitForSelector('#rangePicker');
 				await new Promise(r => setTimeout(r, 200));
 

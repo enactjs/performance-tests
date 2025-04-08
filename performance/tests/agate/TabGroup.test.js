@@ -11,7 +11,7 @@ describe('TabGroup', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/tabGroup`);
+			await page.goto(`http://${serverAddr}/#/tabGroup`);
 			await page.waitForSelector('#tabGroup');
 			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('ArrowRight');
@@ -30,7 +30,7 @@ describe('TabGroup', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/tabGroup`);
+		await page.goto(`http://${serverAddr}/#/tabGroup`);
 		await page.waitForSelector('#tabGroup');
 		await page.keyboard.down('ArrowRight');
 
@@ -42,7 +42,7 @@ describe('TabGroup', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/tabGroup`);
+		await page.goto(`http://${serverAddr}/#/tabGroup`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#tabGroup');
 		await new Promise(r => setTimeout(r, 100));
@@ -84,7 +84,7 @@ describe('TabGroup', () => {
 			await tabGroupPage.emulateCPUThrottling(CPUThrottling);
 
 			await tabGroupPage.tracing.start({path: filename, screenshots: false});
-			await tabGroupPage.goto(`http://${serverAddr}/tabGroup`);
+			await tabGroupPage.goto(`http://${serverAddr}/#/tabGroup`);
 			await tabGroupPage.waitForSelector('#tabGroup');
 			await new Promise(r => setTimeout(r, 200));
 

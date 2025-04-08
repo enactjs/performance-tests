@@ -5,6 +5,7 @@ const fetchAPI = (...args) => import('node-fetch').then(({default: fetchData}) =
 
 const {version: ReactVersion} = require('react/package.json');
 const {version: EnactVersion} = require('@enact/core/package.json');
+const {version: LimestoneVersion} = require('@enact/limestone/package.json');
 const {version: SandstoneVersion} = require('@enact/sandstone/package.json');
 const {version: AgateVersion} = require('@enact/agate/package.json');
 
@@ -19,7 +20,9 @@ const TestResult = module.exports = {
 	addResult: ({component, type, actualValue}) => {
 		const timestamp = Date.now();
 		let result;
-		if (theme === 'sandstone') {
+		if (theme === 'limestone') {
+			result = {ReactVersion, EnactVersion, LimestoneVersion, timestamp, component, type, actualValue};
+		} else if (theme === 'sandstone') {
 			result = {ReactVersion, EnactVersion, SandstoneVersion, timestamp, component, type, actualValue};
 		} else if (theme === 'agate') {
 			result = {ReactVersion, EnactVersion, AgateVersion, timestamp, component, type, actualValue};

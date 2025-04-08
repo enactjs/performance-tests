@@ -11,7 +11,7 @@ describe('DateTimePicker', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/dateTimePicker`);
+			await page.goto(`http://${serverAddr}/#/dateTimePicker`);
 			await page.waitForSelector('#agate-dateTimePicker');
 			await page.click('[aria-label$="hour previous item"]');
 			await new Promise(r => setTimeout(r, 200));
@@ -34,7 +34,7 @@ describe('DateTimePicker', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/dateTimePicker`);
+			await page.goto(`http://${serverAddr}/#/dateTimePicker`);
 			await page.waitForSelector('#agate-dateTimePicker');
 			await page.focus('[aria-label$="hour previous item"]');
 			await new Promise(r => setTimeout(r, 200));
@@ -71,7 +71,7 @@ describe('DateTimePicker', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/dateTimePicker`);
+		await page.goto(`http://${serverAddr}/#/dateTimePicker`);
 		await page.waitForSelector('#agate-dateTimePicker');
 		await page.focus('[aria-label$="hour previous item"]');
 		await page.keyboard.down('Enter');
@@ -84,7 +84,7 @@ describe('DateTimePicker', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/dateTimePicker`);
+		await page.goto(`http://${serverAddr}/#/dateTimePicker`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#agate-dateTimePicker');
 		await page.focus('[aria-label$="hour previous item"]');
@@ -130,7 +130,7 @@ describe('DateTimePicker', () => {
 			await dateTimePickerPage.emulateCPUThrottling(CPUThrottling);
 
 			await dateTimePickerPage.tracing.start({path: filename, screenshots: false});
-			await dateTimePickerPage.goto(`http://${serverAddr}/dateTimePicker`);
+			await dateTimePickerPage.goto(`http://${serverAddr}/#/dateTimePicker`);
 			await dateTimePickerPage.waitForSelector('#agate-dateTimePicker');
 			await new Promise(r => setTimeout(r, 200));
 

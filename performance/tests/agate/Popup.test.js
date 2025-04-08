@@ -12,7 +12,7 @@ describe('Popup', () => {
 
 	it('FPS', async () => {
 		await FPS();
-		await page.goto(`http://${serverAddr}/popup`);
+		await page.goto(`http://${serverAddr}/#/popup`);
 		await page.waitForSelector('#popup');
 		await page.click(closeButton);
 		await new Promise(r => setTimeout(r, 500));
@@ -37,7 +37,7 @@ describe('Popup', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/popup`);
+		await page.goto(`http://${serverAddr}/#/popup`);
 		await page.waitForSelector('#popup');
 		await page.click(closeButton);
 		await new Promise(r => setTimeout(r, 500));
@@ -62,7 +62,7 @@ describe('Popup', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/popup`);
+		await page.goto(`http://${serverAddr}/#/popup`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#popup');
 		await page.click(closeButton);
@@ -114,7 +114,7 @@ describe('Popup', () => {
 			await popupPage.emulateCPUThrottling(CPUThrottling);
 
 			await popupPage.tracing.start({path: filename, screenshots: false});
-			await popupPage.goto(`http://${serverAddr}/popup`);
+			await popupPage.goto(`http://${serverAddr}/#/popup`);
 			await popupPage.waitForSelector('#popup');
 			await new Promise(r => setTimeout(r, 200));
 

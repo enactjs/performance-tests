@@ -11,7 +11,7 @@ describe('TemperatureControl', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/temperatureControl`);
+			await page.goto(`http://${serverAddr}/#/temperatureControl`);
 			await page.waitForSelector('#agate-temperatureControl');
 			await page.click('#agate-temperatureControl'); // to move mouse on the button.
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('TemperatureControl', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/temperatureControl`);
+			await page.goto(`http://${serverAddr}/#/temperatureControl`);
 			await page.waitForSelector('#agate-temperatureControl');
 			await page.focus('#agate-temperatureControl');
 			await new Promise(r => setTimeout(r, 100));
@@ -63,7 +63,7 @@ describe('TemperatureControl', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/temperatureControl`);
+		await page.goto(`http://${serverAddr}/#/temperatureControl`);
 		await page.waitForSelector('#agate-temperatureControl');
 		await page.focus('#agate-temperatureControl');
 		await page.keyboard.down('ArrowUp');
@@ -77,7 +77,7 @@ describe('TemperatureControl', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/temperatureControl`);
+		await page.goto(`http://${serverAddr}/#/temperatureControl`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#agate-temperatureControl');
 		await page.focus('#agate-temperatureControl');
@@ -120,7 +120,7 @@ describe('TemperatureControl', () => {
 			await buttonPage.emulateCPUThrottling(CPUThrottling);
 
 			await buttonPage.tracing.start({path: filename, screenshots: false});
-			await buttonPage.goto(`http://${serverAddr}/temperatureControl`);
+			await buttonPage.goto(`http://${serverAddr}/#/temperatureControl`);
 			await buttonPage.waitForSelector('#agate-temperatureControl');
 			await new Promise(r => setTimeout(r, 200));
 

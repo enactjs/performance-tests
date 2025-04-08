@@ -11,7 +11,7 @@ describe('WindDirectionControl', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/windDirectionControl`);
+			await page.goto(`http://${serverAddr}/#/windDirectionControl`);
 			await page.waitForSelector('#agate-windDirectionControl');
 			await page.click('#agate-windDirectionControl'); // to move mouse on the button.
 			await page.mouse.down();
@@ -37,7 +37,7 @@ describe('WindDirectionControl', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/windDirectionControl`);
+			await page.goto(`http://${serverAddr}/#/windDirectionControl`);
 			await page.waitForSelector('#agate-windDirectionControl');
 			await page.focus('#agate-windDirectionControl');
 			await new Promise(r => setTimeout(r, 100));
@@ -63,7 +63,7 @@ describe('WindDirectionControl', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/windDirectionControl`);
+		await page.goto(`http://${serverAddr}/#/windDirectionControl`);
 		await page.waitForSelector('#agate-windDirectionControl');
 		await page.focus('#agate-windDirectionControl');
 		await page.keyboard.down('ArrowUp');
@@ -77,7 +77,7 @@ describe('WindDirectionControl', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/windDirectionControl`);
+		await page.goto(`http://${serverAddr}/#/windDirectionControl`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#agate-windDirectionControl');
 		await page.focus('#agate-windDirectionControl');
@@ -120,7 +120,7 @@ describe('WindDirectionControl', () => {
 			await windDirectionControlPage.emulateCPUThrottling(CPUThrottling);
 
 			await windDirectionControlPage.tracing.start({path: filename, screenshots: false});
-			await windDirectionControlPage.goto(`http://${serverAddr}/windDirectionControl`);
+			await windDirectionControlPage.goto(`http://${serverAddr}/#/windDirectionControl`);
 			await windDirectionControlPage.waitForSelector('#agate-windDirectionControl');
 			await new Promise(r => setTimeout(r, 200));
 

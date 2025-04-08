@@ -11,11 +11,10 @@ describe('CheckboxItem', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/checkboxItem`);
+			await page.goto(`http://${serverAddr}/#/checkboxItem`);
 			await new Promise(r => setTimeout(r, 500));
 			await page.click('#agate-checkboxItem'); // to move mouse on the checkboxItem.
 			await new Promise(r => setTimeout(r, 200));
-			await page.mouse.up();
 			await page.mouse.down();
 			await new Promise(r => setTimeout(r, 200));
 			await page.mouse.up();
@@ -36,7 +35,7 @@ describe('CheckboxItem', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/checkboxItem`);
+			await page.goto(`http://${serverAddr}/#/checkboxItem`);
 			await page.focus('#agate-checkboxItem');
 			await page.keyboard.down('Enter');
 			await new Promise(r => setTimeout(r, 200));
@@ -60,7 +59,7 @@ describe('CheckboxItem', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/checkboxItem`);
+		await page.goto(`http://${serverAddr}/#/checkboxItem`);
 		await page.waitForSelector('#agate-checkboxItem');
 		await page.focus('#agate-checkboxItem');
 		await page.keyboard.down('Enter');
@@ -73,7 +72,7 @@ describe('CheckboxItem', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/checkboxItem`);
+		await page.goto(`http://${serverAddr}/#/checkboxItem`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#agate-checkboxItem');
 		await page.focus('#agate-checkboxItem');
@@ -119,7 +118,7 @@ describe('CheckboxItem', () => {
 			await checkboxItemPage.emulateCPUThrottling(CPUThrottling);
 
 			await checkboxItemPage.tracing.start({path: filename, screenshots: false});
-			await checkboxItemPage.goto(`http://${serverAddr}/checkboxItem`);
+			await checkboxItemPage.goto(`http://${serverAddr}/#/checkboxItem`);
 			await checkboxItemPage.waitForSelector('#agate-checkboxItem');
 			await new Promise(r => setTimeout(r, 200));
 

@@ -12,7 +12,7 @@ describe('PopupMenu', () => {
 
 	it('FPS', async () => {
 		await FPS();
-		await page.goto(`http://${serverAddr}/popupMenu`);
+		await page.goto(`http://${serverAddr}/#/popupMenu`);
 		await page.waitForSelector('#popupMenu');
 		await page.click(closeButton);
 		await new Promise(r => setTimeout(r, 500));
@@ -37,7 +37,7 @@ describe('PopupMenu', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/popupMenu`);
+		await page.goto(`http://${serverAddr}/#/popupMenu`);
 		await page.waitForSelector('#popupMenu');
 		await page.click(closeButton);
 		await new Promise(r => setTimeout(r, 500));
@@ -62,7 +62,7 @@ describe('PopupMenu', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/popupMenu`);
+		await page.goto(`http://${serverAddr}/#/popupMenu`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#popupMenu');
 		await page.click(closeButton);
@@ -114,7 +114,7 @@ describe('PopupMenu', () => {
 			await popupMenuPage.emulateCPUThrottling(CPUThrottling);
 
 			await popupMenuPage.tracing.start({path: filename, screenshots: false});
-			await popupMenuPage.goto(`http://${serverAddr}/popupMenu`);
+			await popupMenuPage.goto(`http://${serverAddr}/#/popupMenu`);
 			await popupMenuPage.waitForSelector('#popupMenu');
 			await new Promise(r => setTimeout(r, 200));
 

@@ -11,7 +11,7 @@ describe('SliderButton', () => {
 	describe('click', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/sliderButton`);
+			await page.goto(`http://${serverAddr}/#/sliderButton`);
 			await page.waitForSelector('#sliderButton');
 			await page.click('#sliderButton'); // to move mouse on the button.
 			await page.mouse.down();
@@ -28,7 +28,7 @@ describe('SliderButton', () => {
 	describe('keypress', () => {
 		it('animates', async () => {
 			await FPS();
-			await page.goto(`http://${serverAddr}/sliderButton`);
+			await page.goto(`http://${serverAddr}/#/sliderButton`);
 			await page.waitForSelector('#sliderButton');
 			await new Promise(r => setTimeout(r, 200));
 			await page.keyboard.down('ArrowRight');
@@ -47,7 +47,7 @@ describe('SliderButton', () => {
 
 	it('should have a good CLS', async () => {
 		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/sliderButton`);
+		await page.goto(`http://${serverAddr}/#/sliderButton`);
 		await page.waitForSelector('#sliderButton');
 		await page.keyboard.down('ArrowRight');
 
@@ -59,7 +59,7 @@ describe('SliderButton', () => {
 	});
 
 	it('should have a good INP', async () => {
-		await page.goto(`http://${serverAddr}/sliderButton`);
+		await page.goto(`http://${serverAddr}/#/sliderButton`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#sliderButton');
 		await new Promise(r => setTimeout(r, 200));
@@ -101,7 +101,7 @@ describe('SliderButton', () => {
 			await sliderButtonPage.emulateCPUThrottling(CPUThrottling);
 
 			await sliderButtonPage.tracing.start({path: filename, screenshots: false});
-			await sliderButtonPage.goto(`http://${serverAddr}/sliderButton`);
+			await sliderButtonPage.goto(`http://${serverAddr}/#/sliderButton`);
 			await sliderButtonPage.waitForSelector('#sliderButton');
 			await new Promise(r => setTimeout(r, 200));
 

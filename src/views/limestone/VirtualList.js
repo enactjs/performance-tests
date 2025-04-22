@@ -13,7 +13,6 @@ const populateItemsArray = (dataSize) => {
 	}
 };
 
-// eslint-disable-next-line enact/prop-types
 const renderItem = ({index, ...rest}) => {
 	return (
 		<Item {...rest}>

@@ -89,6 +89,9 @@ describe('RangePicker', () => {
 
 			page.on("console", (msg) => {
 				inpValue = Number(msg.text());
+				if (!inpValue) {
+					return;
+				}
 				TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
 				expect(inpValue).toBeLessThan(maxINP);
 			});
@@ -241,6 +244,9 @@ describe('RangePicker', () => {
 
 			page.on("console", (msg) => {
 				inpValue = Number(msg.text());
+				if (!inpValue) {
+					return;
+				}
 				TestResults.addResult({component: component + ' joined', type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
 				expect(inpValue).toBeLessThan(maxINP);
 			});

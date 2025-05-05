@@ -76,7 +76,7 @@ const Chart = kind({
 		yLabel: ({title}) => {
 			if (title.includes('FPS') || title.includes('Frames Per Second')) return 'fps';
 			else if (title.includes('FID') || title.includes('INP') || title.includes('FCP') || title.includes('LCP') || title.includes('DCL')) return 'ms';
-			else return null;
+			else return '';
 		}
 	},
 
@@ -116,6 +116,7 @@ const Chart = kind({
 						stroke="red"
 						strokeWidth={3}
 						y={referenceValue}
+						yAxisId={0}
 					>
 						<Label
 							style={{fill: '#e6e6e6', textAnchor: 'middle'}}

@@ -148,6 +148,9 @@ describe('Panels', () => {
 
 			page.on("console", (msg) => {
 				inpValue = Number(msg.text());
+				if (!inpValue) {
+					return;
+				}
 				TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
 				expect(inpValue).toBeLessThan(maxINP);
 			});
@@ -244,7 +247,10 @@ describe('Panels', () => {
 
 			page.on("console", (msg) => {
 				inpValue = Number(msg.text());
-				TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
+				if (!inpValue) {
+					return;
+				}
+				TestResults.addResult({component: component, type: 'INP on panel content focus', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
 				expect(inpValue).toBeLessThan(maxINP);
 			});
 

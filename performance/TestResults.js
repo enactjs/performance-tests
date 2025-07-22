@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({quiet: true});
 const  fs = require('fs');
 const path = require('path');
 const fetchAPI = (...args) => import('node-fetch').then(({default: fetchData}) => fetchData(...args));
@@ -12,8 +12,8 @@ const {version: AgateVersion} = require('@enact/agate/package.json');
 const API_URL = process.env.API_URL;
 const themeEnvArg = process.argv.filter((x) => x.startsWith('--theme='))[0];
 
-// set default theme to sandstone
-const theme = themeEnvArg ? themeEnvArg.split('=')[1] : 'sandstone';
+// set default theme to limestone
+const theme = themeEnvArg ? themeEnvArg.split('=')[1] : 'limestone';
 
 const TestResult = module.exports = {
 	results: [],

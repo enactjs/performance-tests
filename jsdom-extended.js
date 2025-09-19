@@ -1,22 +1,27 @@
-const JSDOMEnvironment = require("jest-environment-jsdom").default; // or import JSDOMEnvironment from 'jest-environment-jsdom' if you are using ESM modules
+const { TestEnvironment: JSDOMEnvironment } = require('jest-environment-jsdom');
 
 class JSDOMEnvironmentExtended extends JSDOMEnvironment {
 	constructor (...args) {
 		super(...args);
 
-		this.global.ReadableStream = ReadableStream;
-		this.global.TextDecoder = TextDecoder;
-		this.global.TextEncoder = TextEncoder;
+		this.global.ReadableStream = global.ReadableStream || ReadableStream;
+		this.global.TextDecoder = global.TextDecoder || TextDecoder;
+		this.global.TextEncoder = global.TextEncoder || TextEncoder;
 
-		this.global.Blob = Blob;
-		this.global.Headers = Headers;
-		this.global.FormData = FormData;
-		this.global.Request = Request;
-		this.global.Response = Response;
-		this.global.Request = Request;
-		this.global.Response = Response;
-		this.global.fetch = fetch;
-		this.global.structuredClone = structuredClone;
+		this.global.Blob = global.Blob || Blob;
+		this.global.Headers = global.Headers || Headers;
+		this.global.FormData = global.FormData || FormData;
+		this.global.Request = global.Request || Request;
+		this.global.Response = global.Response || Response;
+
+		// optional fetch polyfill if not defined
+		if (typeof this.global.fetch === 'undefined') {
+			this.global.fetch = fetch;
+		}
+
+		if (typeof this.global.structuredClone === 'undefined') {
+			this.global.structuredClone = structuredClone;
+		}
 	}
 }
 

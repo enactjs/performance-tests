@@ -5,7 +5,7 @@ const themeEnvArg = process.argv.filter((x) => x.startsWith('--theme='))[0];
 const base = themeEnvArg ? themeEnvArg.split('=')[1] : 'limestone';
 
 module.exports = {
-	setupFilesAfterEnv: ['./jest.setup.js', './puppeteer.setup.js'],
+	setupFilesAfterEnv: ['<rootDir>/jest.setup.js', '<rootDir>/puppeteer.setup.js'],
 	testEnvironment: '<rootDir>/jsdom-extended.js',
 	testMatch: [
 		'<rootDir>/performance/tests/' + base + '/*.test.js'

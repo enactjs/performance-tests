@@ -8,7 +8,7 @@ const base = themeEnvArg ? themeEnvArg.split('=')[1] : 'limestone';
 
 module.exports = {
 	setupFilesAfterEnv: [
-		'./jest.setup.js',
+		'./jest.setup.jsx',
 		path.resolve(__dirname, 'puppeteer.setup.js'),
 	],
 	testEnvironment: path.resolve(__dirname, 'jsdom-extended.js'),

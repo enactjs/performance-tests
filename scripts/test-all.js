@@ -18,10 +18,16 @@ if (!shell.which('enact')) {
 shell.exec(`npm run pack-p-${theme} && cd dist && serve -l 8080 --no-request-logging`, {async: true});
 
 // Run wait-on command
-shell.exec(`wait-on http://localhost:8080/ && npm test -- --target=${target} --theme=${theme} --throttling=${throttling}`, {async: true}, () => {
-	// Run stop command after running tests
-	shell.exec('npm stop');
-});
+shell.exec(
+	`wait-on http://localhost:8080/ && npm test -- --target=${target} --theme=${theme} --throttling=${throttling}`,
+	{async: true},
+	(code) => {
+		shell.exec('npm stop');
+
+		// Propagate test exit code to parent process
+		process.exit(code);
+	}
+);
 
 function errorExit (message, code = 1) {
 	console.error(message); // eslint-disable-line no-console

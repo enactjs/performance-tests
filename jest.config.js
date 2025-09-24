@@ -8,11 +8,11 @@ const base = themeEnvArg ? themeEnvArg.split('=')[1] : 'limestone';
 
 module.exports = {
 	setupFilesAfterEnv: [
-		path.resolve(__dirname, 'jest.setup.js'),
-		path.resolve(__dirname, 'puppeteer.setup.js'),
+		path.resolve(__dirname, 'jest.setup.js'), // eslint-disable-line no-undef
+		path.resolve(__dirname, 'puppeteer.setup.js') // eslint-disable-line no-undef
 	],
-	testEnvironment: path.resolve(__dirname, 'jsdom-extended.js'),
+	testEnvironment: path.resolve(__dirname, 'jsdom-extended.js'), // eslint-disable-line no-undef
 	testMatch: [
-		path.resolve(__dirname, 'performance/tests/', base, '*.test.js')
-	],
+		path.resolve(__dirname, 'performance/tests/', base, '*.test.js') // eslint-disable-line no-undef
+	]
 };

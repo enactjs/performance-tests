@@ -20,7 +20,7 @@ shell.exec(`npm run pack-p-${theme} && cd dist && serve -l 8080 --no-request-log
 // Run wait-on command
 shell.exec(
 	`wait-on http://localhost:8080/ && npm test -- --target=${target} --theme=${theme} --throttling=${throttling}`,
-	{ async: true },
+	{async: true},
 	(code) => {
 		shell.exec('npm stop');
 

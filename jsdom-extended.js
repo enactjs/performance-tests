@@ -1,4 +1,4 @@
-const { TestEnvironment: JSDOMEnvironment } = require('jest-environment-jsdom');
+const {TestEnvironment: JSDOMEnvironment} = require('jest-environment-jsdom');
 
 class JSDOMEnvironmentExtended extends JSDOMEnvironment {
 	constructor (...args) {

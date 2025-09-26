@@ -28,7 +28,7 @@ if (targetEnv === 'PC') {
 		browser = await puppeteer.launch({
 			args: ['--window-size=1920,1080'],
 			executablePath: require('puppeteer').executablePath(),
-			headless: true
+			headless: 'chrome'
 		});
 		global.testMultiple = browser;
 	});

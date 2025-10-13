@@ -76,7 +76,7 @@ describe('Button', () => {
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
-	it('should have a good INP', async () => {
+	it('should have a good CLS, FCP, INP and LCP', async () => {
 		await page.goto(`http://${serverAddr}/#/button`);
 		await page.addScriptTag({url: webVitalsURL});
 		await new Promise(r => setTimeout(r, 200));

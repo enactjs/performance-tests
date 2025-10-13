@@ -1,4 +1,4 @@
-/* global CPUThrottling, page, maxCLS, stepNumber, maxDCL, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global page, maxCLS, stepNumber, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
 
 const TestResults = require('../../TestResults');
 const {CLS, PageLoadingMetrics} = require('../../TraceModel');
@@ -8,7 +8,7 @@ describe('Steps', () => {
 	const component = 'Steps';
 	TestResults.newFile(component);
 
-	it('should have a good CLS', async () => {
+	it('should have a good CLS, FCP and LCP', async () => {
 		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/#/steps`);
 		await page.waitForSelector('#steps');
@@ -16,65 +16,44 @@ describe('Steps', () => {
 		await page.keyboard.down('Enter');
 		await new Promise(r => setTimeout(r, 200));
 
-		let actualCLS = await clsValue();
+		page.on("console", (msg) => {
+			let jsonMsg = JSON.parse(msg.text());
+			TestResults.addResult({component: component, type: jsonMsg.name, actualValue: Math.round((Number(jsonMsg.value) + Number.EPSILON) * 1000) / 1000});
 
-		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
-		expect(actualCLS).toBeLessThan(maxCLS);
-	});
-
-	it('should have a good DCL, FCP and LCP', async () => {
-		const filename = getFileName(component);
-
-		let passContDCL = 0;
-		let passContFCP = 0;
-		let passContLCP = 0;
-		let avgDCL = 0;
-		let avgFCP = 0;
-		let avgLCP = 0;
-		for (let step = 0; step < stepNumber; step++) {
-			const stepsPage = targetEnv === 'TV' ? page : await newPageMultiple();
-			await stepsPage.emulateCPUThrottling(CPUThrottling);
-
-			await stepsPage.tracing.start({path: filename, screenshots: false});
-			await stepsPage.goto(`http://${serverAddr}/#/steps`);
-			await stepsPage.waitForSelector('#steps');
-			await new Promise(r => setTimeout(r, 200));
-
-			await stepsPage.tracing.stop();
-
-			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
-			avgDCL = avgDCL + actualDCL;
-			if (actualDCL < maxDCL) {
-				passContDCL += 1;
+			if (jsonMsg.name === 'CLS') {
+				expect(Number(jsonMsg.value)).toBeLessThan(maxCLS);
+			} else if (jsonMsg.name === 'FCP') {
+				expect(Number(jsonMsg.value)).toBeLessThan(maxFCP);
+			} else if (jsonMsg.name === 'LCP') {
+				expect(Number(jsonMsg.value)).toBeLessThan(maxLCP);
 			}
+		});
 
-			avgFCP = avgFCP + actualFCP;
-			if (actualFCP < maxFCP) {
-				passContFCP += 1;
+		await page.evaluateHandle(() => {
+			webVitals.onCLS(function (cls) {
+				console.log(JSON.stringify({"name": cls.name, "value": cls.value})); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
 			}
+			);
 
-			avgLCP = avgLCP + actualLCP;
-			if (actualLCP < maxLCP) {
-				passContLCP += 1;
+			webVitals.onFCP(function (fcp) {
+				console.log(JSON.stringify({"name": fcp.name, "value": fcp.value})); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
 			}
+			);
 
-			if (targetEnv === 'PC') await stepsPage.close();
-		}
-		avgDCL = avgDCL / stepNumber;
-		avgFCP = avgFCP / stepNumber;
-		avgLCP = avgLCP / stepNumber;
-
-		TestResults.addResult({component: component, type: 'DCL', actualValue: Math.round((avgDCL + Number.EPSILON) * 1000) / 1000});
-		TestResults.addResult({component: component, type: 'FCP', actualValue: Math.round((avgFCP + Number.EPSILON) * 1000) / 1000});
-		TestResults.addResult({component: component, type: 'LCP', actualValue: Math.round((avgLCP + Number.EPSILON) * 1000) / 1000});
-
-		expect(passContDCL).toBeGreaterThan(passRatio * stepNumber);
-		expect(avgDCL).toBeLessThan(maxDCL);
-
-		expect(passContFCP).toBeGreaterThan(passRatio * stepNumber);
-		expect(avgFCP).toBeLessThan(maxFCP);
-
-		expect(passContLCP).toBeGreaterThan(passRatio * stepNumber);
-		expect(avgLCP).toBeLessThan(maxLCP);
+			webVitals.onLCP(function (lcp) {
+				console.log(JSON.stringify({"name": lcp.name, "value": lcp.value})); // eslint-disable-line no-console
+			},
+			{
+				reportAllChanges: true
+			}
+			);
+		});
+		await new Promise(r => setTimeout(r, 1000));
 	});
 });

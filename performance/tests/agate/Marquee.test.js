@@ -36,7 +36,7 @@ describe('Marquee', () => {
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
-	it('should have a good INP', async () => {
+	it('should have a good CLS, FCP, INP and LCP', async () => {
 		await page.goto(`http://${serverAddr}/#/marquee`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#marquee');

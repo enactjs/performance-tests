@@ -76,7 +76,7 @@ describe('ArcPicker', () => {
 		expect(actualCLS).toBeLessThan(maxCLS);
 	});
 
-	it('should have a good INP', async () => {
+	it('should have a good CLS, FCP, INP and LCP', async () => {
 		await page.goto(`http://${serverAddr}/#/arcPicker`);
 		await page.addScriptTag({url: webVitalsURL});
 		await page.waitForSelector('#arcPicker');

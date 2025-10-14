@@ -9,7 +9,6 @@ describe('ProgressBar', () => {
 	TestResults.newFile(component);
 
 	it('should have a good CLS, FCP and LCP', async () => {
-		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/#/progressBar`);
 		await page.waitForSelector('#progressBar');
 		await page.focus('#progressBar');

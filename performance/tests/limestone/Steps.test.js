@@ -9,7 +9,6 @@ describe('Steps', () => {
 	TestResults.newFile(component);
 
 	it('should have a good CLS, FCP and LCP', async () => {
-		await page.evaluateOnNewDocument(CLS);
 		await page.goto(`http://${serverAddr}/#/steps`);
 		await page.waitForSelector('#steps');
 		await page.focus('#steps');

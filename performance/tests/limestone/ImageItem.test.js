@@ -1,4 +1,4 @@
-/* global page, maxCLS, stepNumber, maxFCP, maxLCP, passRatio, serverAddr, targetEnv */
+/* global CPUThrottling, page, maxCLS, stepNumber, maxFCP, maxLCP, passRatio, serverAddr, targetEnv, webVitals */
 
 const TestResults = require('../../TestResults');
 const {newPageMultiple} = require('../../utils');

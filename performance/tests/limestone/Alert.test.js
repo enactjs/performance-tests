@@ -1,4 +1,4 @@
-/* global CPUThrottling, page, minFPS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, maxCLS, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
+/* global CPUThrottling, page, minFPS, stepNumber, maxFCP, maxINP, maxLCP, maxCLS, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');

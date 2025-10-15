@@ -6,13 +6,6 @@ function pad2 (n) {
 	return n < 10 ? '0' + n : n;
 }
 
-function getFileName (testName) {
-	const date = new Date();
-	const formattedDate = date.getFullYear().toString() + pad2(date.getMonth() + 1) + pad2( date.getDate()) + pad2( date.getHours() ) + pad2( date.getMinutes() ) + pad2( date.getSeconds());
-
-	return `./performance/traces/${testName}_${formattedDate}.json`;
-}
-
 async function scrollAtPoint (utilsPage, selector, amount) {
 	await utilsPage.evaluate((scrollerSelector, scrollAmount) => {
 		let evt = document.createEvent('MouseEvents');
@@ -22,10 +15,6 @@ async function scrollAtPoint (utilsPage, selector, amount) {
 		node.dispatchEvent(evt);
 	}, selector, amount);
 }
-
-const clsValue = () => {
-	return page.evaluate(() => window.cls);
-};
 
 const newPageMultiple = async () => {
 	const newPage = await testMultiple.newPage();
@@ -51,8 +40,6 @@ const ipAddress = () => {
 };
 
 module.exports = {
-	clsValue,
-	getFileName,
 	ipAddress,
 	newPageMultiple,
 	scrollAtPoint

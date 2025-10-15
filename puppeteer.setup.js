@@ -4,7 +4,6 @@ const puppeteer = require('puppeteer-core');
 const {ipAddress} = require('./performance/utils');
 
 global.maxCLS = 0.1;
-global.maxDCL = 2000;
 global.maxFCP = 1800;
 global.maxINP = 200;
 global.maxLCP = 2500;

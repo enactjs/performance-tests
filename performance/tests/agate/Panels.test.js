@@ -1,12 +1,11 @@
-/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxDCL, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
+/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {CLS, FPS, getAverageFPS, PageLoadingMetrics} = require('../../TraceModel');
-const {clsValue, getFileName, newPageMultiple} = require('../../utils');
+const {FPS, getAverageFPS} = require('../../TraceModel');
+const {newPageMultiple} = require('../../utils');
 
 describe('Panels', () => {
 	const component = 'Panels';
-	const panel1 = '#panel-1';
 	const nextPanelButton = '#goToNextPanel';
 	const previousPanelButton = '#goToPreviousPanel';
 	TestResults.newFile(component);
@@ -46,123 +45,116 @@ describe('Panels', () => {
 		expect(averageFPS).toBeGreaterThan(minFPS);
 	});
 
-	it('should have a good CLS', async () => {
-		await page.evaluateOnNewDocument(CLS);
-		await page.goto(`http://${serverAddr}/#/panels`);
-		await page.waitForSelector(nextPanelButton);
-		await page.click(nextPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(previousPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(nextPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(previousPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(nextPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(previousPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-
-		let actualCLS = await clsValue();
-
-		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((actualCLS + Number.EPSILON) * 1000) / 1000});
-
-		expect(actualCLS).toBeLessThan(maxCLS);
-	});
-
 	it('should have a good CLS, FCP, INP and LCP', async () => {
-		await page.goto(`http://${serverAddr}/#/panels`);
-		await page.addScriptTag({url: webVitalsURL});
-		await page.waitForSelector(nextPanelButton);
-		await page.click(nextPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(previousPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(nextPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(previousPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(nextPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-		await page.click(previousPanelButton);
-		await new Promise(r => setTimeout(r, 1000));
-
-		let inpValue;
-
-		page.on("console", (msg) => {
-			inpValue = Number(msg.text());
-			if (!inpValue) {
-				return;
-			}
-			TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((inpValue + Number.EPSILON) * 1000) / 1000});
-			expect(inpValue).toBeLessThan(maxINP);
-		});
-
-		await page.evaluateHandle(() => {
-			webVitals.onINP(function (inp) {
-				console.log(inp.value); // eslint-disable-line no-console
-			},
-			{
-				reportAllChanges: true
-			}
-			);
-		});
-		await new Promise(r => setTimeout(r, 1000));
-	});
-
-	it('should have a good DCL, FCP and LCP', async () => {
-		const filename = getFileName(component);
-
-		let passContDCL = 0;
+		let passContCLS = 0;
+		let passContINP = 0;
 		let passContFCP = 0;
 		let passContLCP = 0;
-		let avgDCL = 0;
+		let avgCLS = 0;
+		let avgINP = 0;
 		let avgFCP = 0;
 		let avgLCP = 0;
 		for (let step = 0; step < stepNumber; step++) {
 			const panelsPage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await panelsPage.emulateCPUThrottling(CPUThrottling);
-
-			await panelsPage.tracing.start({path: filename, screenshots: false});
 			await panelsPage.goto(`http://${serverAddr}/#/panels`);
-			await panelsPage.waitForSelector(panel1);
-			await new Promise(r => setTimeout(r, 200));
+			await panelsPage.addScriptTag({url: webVitalsURL});
+			await panelsPage.waitForSelector(nextPanelButton);
+			await panelsPage.click(nextPanelButton);
+			await new Promise(r => setTimeout(r, 1000));
+			await panelsPage.click(previousPanelButton);
+			await new Promise(r => setTimeout(r, 1000));
+			await panelsPage.click(nextPanelButton);
+			await new Promise(r => setTimeout(r, 1000));
+			await panelsPage.click(previousPanelButton);
+			await new Promise(r => setTimeout(r, 1000));
+			await panelsPage.click(nextPanelButton);
+			await new Promise(r => setTimeout(r, 1000));
+			await panelsPage.click(previousPanelButton);
+			await new Promise(r => setTimeout(r, 1000));
 
-			await panelsPage.tracing.stop();
+			panelsPage.on("console", (msg) => {
+				let jsonMsg = JSON.parse(msg.text());
 
-			const {actualDCL, actualFCP, actualLCP} = PageLoadingMetrics(filename);
-			avgDCL = avgDCL + actualDCL;
-			if (actualDCL < maxDCL) {
-				passContDCL += 1;
-			}
+				if (jsonMsg.name === 'CLS') {
+					avgCLS = avgCLS + jsonMsg.value;
+					if (jsonMsg.value < maxCLS) {
+						passContCLS += 1;
+					}
+				} else if (jsonMsg.name === 'INP') {
+					avgINP = avgINP + jsonMsg.value;
+					if (jsonMsg.value < maxINP) {
+						passContINP += 1;
+					}
+				} else if (jsonMsg.name === 'FCP') {
+					avgFCP = avgFCP + jsonMsg.value;
+					if (jsonMsg.value < maxFCP) {
+						passContFCP += 1;
+					}
+				} else if (jsonMsg.name === 'LCP') {
+					avgLCP = avgLCP + jsonMsg.value;
+					if (jsonMsg.value < maxLCP) {
+						passContLCP += 1;
+					}
+				}
+			});
 
-			avgFCP = avgFCP + actualFCP;
-			if (actualFCP < maxFCP) {
-				passContFCP += 1;
-			}
+			await panelsPage.evaluateHandle(() => {
+				webVitals.onINP(function (inp) {
+					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+				);
 
-			avgLCP = avgLCP + actualLCP;
-			if (actualLCP < maxLCP) {
-				passContLCP += 1;
-			}
+				webVitals.onCLS(function (cls) {
+					console.log(JSON.stringify({"name": cls.name, "value": cls.value})); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+				);
+
+				webVitals.onFCP(function (fcp) {
+					console.log(JSON.stringify({"name": fcp.name, "value": fcp.value})); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+				);
+
+				webVitals.onLCP(function (lcp) {
+					console.log(JSON.stringify({"name": lcp.name, "value": lcp.value})); // eslint-disable-line no-console
+				},
+				{
+					reportAllChanges: true
+				}
+				);
+			});
+			await new Promise(r => setTimeout(r, 1000));
 
 			if (targetEnv === 'PC') await panelsPage.close();
 		}
-		avgDCL = avgDCL / stepNumber;
+
+		avgCLS = avgCLS / stepNumber;
+		avgINP = avgINP / stepNumber;
 		avgFCP = avgFCP / stepNumber;
 		avgLCP = avgLCP / stepNumber;
 
-		TestResults.addResult({component: component, type: 'DCL', actualValue: Math.round((avgDCL + Number.EPSILON) * 1000) / 1000});
+		TestResults.addResult({component: component, type: 'CLS', actualValue: Math.round((avgCLS + Number.EPSILON) * 1000) / 1000});
+		TestResults.addResult({component: component, type: 'INP', actualValue: Math.round((avgINP + Number.EPSILON) * 1000) / 1000});
 		TestResults.addResult({component: component, type: 'FCP', actualValue: Math.round((avgFCP + Number.EPSILON) * 1000) / 1000});
 		TestResults.addResult({component: component, type: 'LCP', actualValue: Math.round((avgLCP + Number.EPSILON) * 1000) / 1000});
 
-		expect(passContDCL).toBeGreaterThan(passRatio * stepNumber);
-		expect(avgDCL).toBeLessThan(maxDCL);
-
-		expect(passContFCP).toBeGreaterThan(passRatio * stepNumber);
+		expect(avgCLS).toBeLessThan(maxCLS);
+		expect(avgINP).toBeLessThan(maxINP);
 		expect(avgFCP).toBeLessThan(maxFCP);
-
-		expect(passContLCP).toBeGreaterThan(passRatio * stepNumber);
 		expect(avgLCP).toBeLessThan(maxLCP);
+
+		expect(passContCLS).toBeGreaterThan(passRatio * stepNumber);
+		expect(passContINP).toBeGreaterThan(passRatio * stepNumber);
+		expect(passContFCP).toBeGreaterThan(passRatio * stepNumber);
+		expect(passContLCP).toBeGreaterThan(passRatio * stepNumber);
 	});
 });

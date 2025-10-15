@@ -1,10 +1,6 @@
-/* global page, testMultiple */
+/* global testMultiple */
 
 const os = require('os');
-
-function pad2 (n) {
-	return n < 10 ? '0' + n : n;
-}
 
 async function scrollAtPoint (utilsPage, selector, amount) {
 	await utilsPage.evaluate((scrollerSelector, scrollAmount) => {

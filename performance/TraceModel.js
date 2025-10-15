@@ -1,7 +1,5 @@
 /* global requestAnimationFrame */
 
-const fs = require('fs');
-
 const FPS = async () =>  {
 	window.FPSValues = [];
 	let previousFrame, currentFrame;

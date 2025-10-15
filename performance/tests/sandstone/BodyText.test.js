@@ -19,10 +19,9 @@ describe('BodyText', () => {
 			await bodyTextPage.emulateCPUThrottling(CPUThrottling);
 			await bodyTextPage.goto(`http://${serverAddr}/#/bodyText`);
 			await bodyTextPage.addScriptTag({url: webVitalsURL});
-			await bodyTextPage.waitForSelector('#button');
-			await bodyTextPage.focus('#button');
-			await bodyTextPage.keyboard.down('Enter');
-			await bodyTextPage.keyboard.up('Enter');
+			await page.waitForSelector('#bodyText');
+			await page.focus('#bodyText');
+			await page.keyboard.down('Enter');
 			await new Promise(r => setTimeout(r, 200));
 
 			bodyTextPage.on("console", (msg) => {

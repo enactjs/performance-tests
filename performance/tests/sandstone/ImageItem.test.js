@@ -18,6 +18,7 @@ describe('ImageItem', () => {
 			const imageItemPage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await imageItemPage.emulateCPUThrottling(CPUThrottling);
 			await imageItemPage.goto(`http://${serverAddr}/#/imageItem`);
+			await imageItemPage.addScriptTag({url: webVitalsURL});
 			await imageItemPage.waitForSelector('#imageItem');
 			await imageItemPage.focus('#imageItem');
 			await imageItemPage.keyboard.down('Enter');

@@ -18,6 +18,7 @@ describe('ProgressBar', () => {
 			const progressBarPage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await progressBarPage.emulateCPUThrottling(CPUThrottling);
 			await progressBarPage.goto(`http://${serverAddr}/#/progressBar`);
+			await progressBarPage.addScriptTag({url: webVitalsURL});
 			await progressBarPage.waitForSelector('#progressBar');
 			await progressBarPage.focus('#progressBar');
 			await progressBarPage.keyboard.down('Enter');

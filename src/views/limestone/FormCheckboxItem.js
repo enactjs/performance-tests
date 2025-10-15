@@ -5,7 +5,7 @@ const FormCheckboxItemView = kind({
 	name: 'FormCheckboxItemView',
 
 	render: () => (
-		<FormCheckboxItem id="formCheckboxItem">
+		<FormCheckboxItem id="formCheckboxItem" selected>
 			A Checkbox for a form
 		</FormCheckboxItem>
 	)

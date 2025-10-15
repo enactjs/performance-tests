@@ -18,6 +18,7 @@ describe('Item', () => {
 			const itemPage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await itemPage.emulateCPUThrottling(CPUThrottling);
 			await itemPage.goto(`http://${serverAddr}/#/item`);
+			await itemPage.addScriptTag({url: webVitalsURL});
 			await itemPage.waitForSelector('#item');
 			await itemPage.focus('#item');
 			await itemPage.keyboard.down('Enter');

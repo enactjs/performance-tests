@@ -18,6 +18,7 @@ describe('Steps', () => {
 			const stepsPage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await stepsPage.emulateCPUThrottling(CPUThrottling);
 			await stepsPage.goto(`http://${serverAddr}/#/steps`);
+			await stepsPage.addScriptTag({url: webVitalsURL});
 			await stepsPage.waitForSelector('#steps');
 			await stepsPage.focus('#steps');
 			await stepsPage.keyboard.down('Enter');

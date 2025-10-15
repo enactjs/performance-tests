@@ -18,6 +18,7 @@ describe('Heading', () => {
 			const headingPage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await headingPage.emulateCPUThrottling(CPUThrottling);
 			await headingPage.goto(`http://${serverAddr}/#/heading`);
+			await headingPage.addScriptTag({url: webVitalsURL});
 			await headingPage.waitForSelector('#heading');
 			await headingPage.focus('#heading');
 			await headingPage.keyboard.down('Enter');

@@ -102,6 +102,7 @@ describe('Checkbox', () => {
 					}
 				} else if (jsonMsg.name === 'LCP') {
 					avgLCP = avgLCP + jsonMsg.value;
+					console.log(jsonMsg.value);
 					if (jsonMsg.value < maxLCP) {
 						passContLCP += 1;
 					}

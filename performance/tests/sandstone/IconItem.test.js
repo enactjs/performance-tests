@@ -18,6 +18,7 @@ describe('IconItem', () => {
 			const iconItemPage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await iconItemPage.emulateCPUThrottling(CPUThrottling);
 			await iconItemPage.goto(`http://${serverAddr}/#/iconItem`);
+			await iconItemPage.addScriptTag({url: webVitalsURL});
 			await iconItemPage.waitForSelector('#iconItem');
 			await iconItemPage.focus('#iconItem');
 			await iconItemPage.keyboard.down('Enter');

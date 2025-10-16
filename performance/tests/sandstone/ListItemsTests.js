@@ -3,7 +3,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple, scrollAtPoint} = require('../../utils');
+const {isValidJSON, newPageMultiple, scrollAtPoint} = require('../../utils');
 
 const listItemTests = (componentName, dataSize) => describe(componentName, () => {
 	jest.setTimeout(100000);

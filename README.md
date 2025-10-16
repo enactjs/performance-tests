@@ -135,7 +135,7 @@ Test results are compared to the optimum values which are stored in global varia
 ```javascript
 const TestResults = require('../TestResults');
 const {FPS, getAverageFPS} = require('../TraceModel');
-const {newPageMultiple} = require('../utils');
+const {isValidJSON, newPageMultiple} = require('../utils');
 
 describe('Dropdown', () => {
 	const component = 'Dropdown';

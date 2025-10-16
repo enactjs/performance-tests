@@ -17,7 +17,7 @@ describe('BodyText', () => {
 		for (let step = 0; step < stepNumber; step++) {
 			const bodyTextPage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await bodyTextPage.emulateCPUThrottling(CPUThrottling);
-			await bodyTextPage.goto(`http://${serverAddr}/#/alert`);
+			await bodyTextPage.goto(`http://${serverAddr}/#/bodyText`);
 			await bodyTextPage.addScriptTag({url: webVitalsURL});
 			await new Promise(r => setTimeout(r, 100));
 			await bodyTextPage.waitForSelector('#bodyText');

@@ -20,7 +20,7 @@ global.CPUThrottling = targetCPUThrottling ? parseInt(targetCPUThrottling.split(
 global.targetEnv = targetEnvArg ? targetEnvArg.split('=')[1] : 'PC';
 
 global.serverAddr = `${ipAddress()}:8080`;
-global.webVitalsURL = 'https://unpkg.com/web-vitals@4.2.4/dist/web-vitals.iife.js';
+global.webVitalsURL = 'https://unpkg.com/web-vitals@5.1.0/dist/web-vitals.iife.js';
 
 if (targetEnv === 'PC') {
 	global.beforeAll(async () => {

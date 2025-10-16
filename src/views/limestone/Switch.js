@@ -5,7 +5,11 @@ const SwitchView = kind({
 	name: 'SwitchView',
 
 	render: () => (
-		<Switch id="switch" selected />
+		<>
+			<Switch id="switch" selected />
+			.
+		</>
+
 	)
 });
 

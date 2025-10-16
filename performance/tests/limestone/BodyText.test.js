@@ -20,9 +20,9 @@ describe('BodyText', () => {
 			await bodyTextPage.goto(`http://${serverAddr}/#/alert`);
 			await bodyTextPage.addScriptTag({url: webVitalsURL});
 			await new Promise(r => setTimeout(r, 100));
-			await page.waitForSelector('#bodyText');
-			await page.focus('#bodyText');
-			await page.keyboard.down('Enter');
+			await bodyTextPage.waitForSelector('#bodyText');
+			await bodyTextPage.focus('#bodyText');
+			await bodyTextPage.keyboard.down('Enter');
 			await new Promise(r => setTimeout(r, 200));
 
 			bodyTextPage.on("console", (msg) => {

@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('MediaOverlay', () => {
 	const component = 'MediaOverlay';

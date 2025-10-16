@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('ArcPicker', () => {
 	const component = 'ArcPicker';
@@ -75,6 +75,7 @@ describe('ArcPicker', () => {
 			await arcPickerPage.emulateCPUThrottling(CPUThrottling);
 			await arcPickerPage.goto(`http://${serverAddr}/#/arcPicker`);
 			await arcPickerPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await arcPickerPage.waitForSelector('#arcPicker');
 			await arcPickerPage.focus('#arcPicker');
 			await new Promise(r => setTimeout(r, 200));

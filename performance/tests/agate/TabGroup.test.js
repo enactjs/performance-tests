@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('TabGroup', () => {
 	const component = 'TabGroup';
@@ -42,6 +42,7 @@ describe('TabGroup', () => {
 			await tabGroupPage.emulateCPUThrottling(CPUThrottling);
 			await tabGroupPage.goto(`http://${serverAddr}/#/tabGroup`);
 			await tabGroupPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await tabGroupPage.waitForSelector('#tabGroup');
 			await new Promise(r => setTimeout(r, 100));
 			await tabGroupPage.keyboard.down('ArrowRight');

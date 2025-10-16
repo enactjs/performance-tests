@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('Dropdown', () => {
 	const component = 'Dropdown';
@@ -75,6 +75,7 @@ describe('Dropdown', () => {
 			await dropdownPage.emulateCPUThrottling(CPUThrottling);
 			await dropdownPage.goto(`http://${serverAddr}/#/dropdown`);
 			await dropdownPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await dropdownPage.waitForSelector('#agate-dropdown');
 			await new Promise(r => setTimeout(r, 200));
 			await dropdownPage.focus('#agate-dropdown');

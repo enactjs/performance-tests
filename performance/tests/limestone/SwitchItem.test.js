@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('SwitchItem', () => {
 	const component = 'SwitchItem';
@@ -77,6 +77,7 @@ describe('SwitchItem', () => {
 			await switchItemPage.emulateCPUThrottling(CPUThrottling);
 			await switchItemPage.goto(`http://${serverAddr}/#/switchItem`);
 			await switchItemPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await switchItemPage.waitForSelector('#switchItem');
 			await new Promise(r => setTimeout(r, 200));
 			await switchItemPage.click('#switchItem');

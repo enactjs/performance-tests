@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, maxCLS, stepNumber, maxFCP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('LabeledIconButton', () => {
 	const component = 'LabeledIconButton';
@@ -19,6 +19,7 @@ describe('LabeledIconButton', () => {
 			await labeledIconButtonPage.emulateCPUThrottling(CPUThrottling);
 			await labeledIconButtonPage.goto(`http://${serverAddr}/#/labeledIconButton`);
 			await labeledIconButtonPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await labeledIconButtonPage.waitForSelector('#labeledIconButton');
 			await labeledIconButtonPage.focus('#labeledIconButton');
 			await labeledIconButtonPage.keyboard.down('Enter');

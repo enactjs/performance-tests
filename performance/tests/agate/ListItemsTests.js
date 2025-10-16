@@ -120,6 +120,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 			await listItemsPage.emulateCPUThrottling(CPUThrottling);
 			await listItemsPage.goto(pageURL);
 			await listItemsPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await listItemsPage.waitForSelector(`#${componentName}`);
 			await listItemsPage.focus(`#${componentName}`);
 			await new Promise(r => setTimeout(r, 200));
@@ -152,7 +153,6 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 					}
 				} else if (jsonMsg.name === 'LCP') {
 					avgLCP = avgLCP + jsonMsg.value;
-					console.log("lcp" + jsonMsg.value);
 					if (jsonMsg.value < maxLCP) {
 						passContLCP += 1;
 					}

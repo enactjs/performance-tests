@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('ColorPicker', () => {
 	const component = 'ColorPicker';
@@ -73,6 +73,7 @@ describe('ColorPicker', () => {
 			await colorPickerPage.emulateCPUThrottling(CPUThrottling);
 			await colorPickerPage.goto(`http://${serverAddr}/#/colorPicker`);
 			await colorPickerPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await colorPickerPage.waitForSelector('#agate-colorPicker');
 			await colorPickerPage.focus('#agate-colorPicker');
 			await new Promise(r => setTimeout(r, 200));

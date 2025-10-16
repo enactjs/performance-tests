@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 const TestResults = require('../../TestResults');
 
 describe('IncrementSlider', () => {
@@ -67,6 +67,7 @@ describe('IncrementSlider', () => {
 			await incrementSliderPage.emulateCPUThrottling(CPUThrottling);
 			await incrementSliderPage.goto(`http://${serverAddr}/#/incrementSlider`);
 			await incrementSliderPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await incrementSliderPage.waitForSelector('#incrementSlider');
 			await incrementSliderPage.focus('#incrementSlider');
 			await new Promise(r => setTimeout(r, 300));

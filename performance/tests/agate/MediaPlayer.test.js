@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('MediaPlayer', () => {
 	const component = 'MediaPlayer';
@@ -62,6 +62,7 @@ describe('MediaPlayer', () => {
 			await mediaPlayerPage.emulateCPUThrottling(CPUThrottling);
 			await mediaPlayerPage.goto(`http://${serverAddr}/#/mediaPlayer`);
 			await mediaPlayerPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await mediaPlayerPage.waitForSelector('#agate-mediaPlayer');
 			await new Promise(r => setTimeout(r, 100));
 			await mediaPlayerPage.click('[aria-label="Play"]'); // play the audio.

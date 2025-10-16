@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('Drawer', () => {
 	const component = 'Drawer';
@@ -79,6 +79,7 @@ describe('Drawer', () => {
 			await drawerPage.emulateCPUThrottling(CPUThrottling);
 			await drawerPage.goto(`http://${serverAddr}/#/drawer`);
 			await drawerPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await drawerPage.waitForSelector('#agate-drawer');
 			await drawerPage.click(closeButton);
 			await new Promise(r => setTimeout(r, 500));

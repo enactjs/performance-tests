@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('Alert', () => {
 	const component = 'Alert';
@@ -77,6 +77,8 @@ describe('Alert', () => {
 			await alertPage.emulateCPUThrottling(CPUThrottling);
 			await alertPage.goto(`http://${serverAddr}/#/alert`);
 			await alertPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
+			await new Promise(r => setTimeout(r, 100));
 			await alertPage.waitForSelector('#button');
 			await alertPage.focus('#button');
 			await alertPage.keyboard.down('Enter');
@@ -102,6 +104,7 @@ describe('Alert', () => {
 						passContFCP += 1;
 					}
 				} else if (jsonMsg.name === 'LCP') {
+					console.log(jsonMsg.value);
 					avgLCP = avgLCP + jsonMsg.value;
 					if (jsonMsg.value < maxLCP) {
 						passContLCP += 1;

@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('ArcSlider', () => {
 	const component = 'ArcSlider';
@@ -75,6 +75,7 @@ describe('ArcSlider', () => {
 			await arcSliderPage.emulateCPUThrottling(CPUThrottling);
 			await arcSliderPage.goto(`http://${serverAddr}/#/arcSlider`);
 			await arcSliderPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await arcSliderPage.waitForSelector('#arcSlider');
 			await arcSliderPage.focus('#arcSlider');
 			await new Promise(r => setTimeout(r, 200));

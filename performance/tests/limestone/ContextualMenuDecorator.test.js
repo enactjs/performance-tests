@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('ContextualMenuDecorator', () => {
 	const component = 'ContextualMenuDecorator';
@@ -84,6 +84,7 @@ describe('ContextualMenuDecorator', () => {
 			await contextualMenuDecoratorPage.emulateCPUThrottling(CPUThrottling);
 			await contextualMenuDecoratorPage.goto(`http://${serverAddr}/#/contextualMenuDecorator`);
 			await contextualMenuDecoratorPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await contextualMenuDecoratorPage.waitForSelector('[data-index="0"]');
 			await contextualMenuDecoratorPage.focus('[data-index="0"]');
 			await new Promise(r => setTimeout(r, 200));

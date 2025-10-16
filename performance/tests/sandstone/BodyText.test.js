@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, maxCLS, stepNumber, maxFCP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {newPageMultiple} = require("../../utils");
+const {isValidJSON, newPageMultiple} = require("../../utils");
 
 describe('BodyText', () => {
 	const component = 'BodyText';
@@ -19,6 +19,7 @@ describe('BodyText', () => {
 			await bodyTextPage.emulateCPUThrottling(CPUThrottling);
 			await bodyTextPage.goto(`http://${serverAddr}/#/bodyText`);
 			await bodyTextPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await page.waitForSelector('#bodyText');
 			await page.focus('#bodyText');
 			await page.keyboard.down('Enter');

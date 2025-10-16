@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('FanSpeedControl', () => {
 	const component = 'FanSpeedControl';
@@ -75,6 +75,7 @@ describe('FanSpeedControl', () => {
 			await fanSpeedControlPage.emulateCPUThrottling(CPUThrottling);
 			await fanSpeedControlPage.goto(`http://${serverAddr}/#/fanSpeedControl`);
 			await fanSpeedControlPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await fanSpeedControlPage.waitForSelector('#fanSpeedControl');
 			await fanSpeedControlPage.focus('#fanSpeedControl');
 			await new Promise(r => setTimeout(r, 200));

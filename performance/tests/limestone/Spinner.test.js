@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, maxCLS, stepNumber, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('Spinner', () => {
 	const component = 'Spinner';
@@ -21,6 +21,7 @@ describe('Spinner', () => {
 			await spinnerPage.emulateCPUThrottling(CPUThrottling);
 			await spinnerPage.goto(`http://${serverAddr}/#/spinner`);
 			await spinnerPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await spinnerPage.waitForSelector('#spinner');
 			await new Promise(r => setTimeout(r, 200));
 			await spinnerPage.click('#spinner');

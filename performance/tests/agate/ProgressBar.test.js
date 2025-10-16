@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, maxCLS, stepNumber, maxFCP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('ProgressBar', () => {
 	const component = 'ProgressBar';
@@ -19,6 +19,7 @@ describe('ProgressBar', () => {
 			await progressBarPage.emulateCPUThrottling(CPUThrottling);
 			await progressBarPage.goto(`http://${serverAddr}/#/progressBar`);
 			await progressBarPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await progressBarPage.waitForSelector('#progressBar');
 			await progressBarPage.focus('#progressBar');
 			await progressBarPage.keyboard.down('Enter');

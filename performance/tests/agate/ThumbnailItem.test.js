@@ -1,7 +1,7 @@
 /* global CPUThrottling, page, maxCLS, stepNumber, maxFCP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
 
 const TestResults = require('../../TestResults');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('ThumbnailItem', () => {
 	const component = 'ThumbnailItem';
@@ -19,6 +19,7 @@ describe('ThumbnailItem', () => {
 			await thumbnailItemPage.emulateCPUThrottling(CPUThrottling);
 			await thumbnailItemPage.goto(`http://${serverAddr}/#/thumbnailItem`);
 			await thumbnailItemPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await thumbnailItemPage.waitForSelector('#thumbnailItem');
 			await thumbnailItemPage.focus('#thumbnailItem');
 			await thumbnailItemPage.keyboard.down('Enter');

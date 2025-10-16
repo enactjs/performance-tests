@@ -60,6 +60,7 @@ describe( 'Scroller', () => {
 			await scrollerPage.emulateCPUThrottling(CPUThrottling);
 			await scrollerPage.goto(`http://${serverAddr}/#/scroller`);
 			await scrollerPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await scrollerPage.waitForSelector('#scroller');
 			await scrollerPage.focus('[aria-label="scroll up or down with up down button"]');
 			await new Promise(r => setTimeout(r, 200));

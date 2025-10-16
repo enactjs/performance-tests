@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('Keypad', () => {
 	const component = 'Keypad';
@@ -77,6 +77,7 @@ describe('Keypad', () => {
 			await keypadPage.emulateCPUThrottling(CPUThrottling);
 			await keypadPage.goto(`http://${serverAddr}/#/keypad`);
 			await keypadPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await keypadPage.waitForSelector('#keypad');
 			await new Promise(r => setTimeout(r, 100));
 			await keypadPage.click('[aria-label$="1"]');

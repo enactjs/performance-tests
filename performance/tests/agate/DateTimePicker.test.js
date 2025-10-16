@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('DateTimePicker', () => {
 	const component = 'DateTimePicker';
@@ -83,6 +83,7 @@ describe('DateTimePicker', () => {
 			await dateTimePickerPage.emulateCPUThrottling(CPUThrottling);
 			await dateTimePickerPage.goto(`http://${serverAddr}/#/dateTimePicker`);
 			await dateTimePickerPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await dateTimePickerPage.waitForSelector('#agate-dateTimePicker');
 			await dateTimePickerPage.focus('[aria-label$="hour previous item"]');
 			await new Promise(r => setTimeout(r, 300));

@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('Picker', () => {
 	const component = 'Picker';
@@ -75,6 +75,7 @@ describe('Picker', () => {
 			await pickerPage.emulateCPUThrottling(CPUThrottling);
 			await pickerPage.goto(`http://${serverAddr}/#/picker`);
 			await pickerPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await pickerPage.waitForSelector('#picker');
 			await new Promise(r => setTimeout(r, 200));
 			await pickerPage.click('[aria-label$="next item"]');

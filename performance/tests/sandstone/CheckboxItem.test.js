@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('CheckboxItem', () => {
 	const component = 'CheckboxItem';
@@ -75,6 +75,7 @@ describe('CheckboxItem', () => {
 			await checkboxItemPage.emulateCPUThrottling(CPUThrottling);
 			await checkboxItemPage.goto(`http://${serverAddr}/#/checkboxItem`);
 			await checkboxItemPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await checkboxItemPage.waitForSelector('#checkboxItem');
 			await new Promise(r => setTimeout(r, 200));
 			await checkboxItemPage.click('#checkboxItem');

@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('ContextualPopupDecorator', () => {
 	const component = 'ContextualPopupDecorator';
@@ -41,6 +41,7 @@ describe('ContextualPopupDecorator', () => {
 			await contextualPopupDecoratorPage.emulateCPUThrottling(CPUThrottling);
 			await contextualPopupDecoratorPage.goto(`http://${serverAddr}/#/contextualPopupDecorator`);
 			await contextualPopupDecoratorPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await contextualPopupDecoratorPage.waitForSelector('#contextualPopupDecorator');
 			await new Promise(r => setTimeout(r, 100));
 			await contextualPopupDecoratorPage.click('#contextualPopupDecorator');

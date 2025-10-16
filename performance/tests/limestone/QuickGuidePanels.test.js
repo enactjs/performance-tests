@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('QuickGuidePanels', () => {
 	const component = 'QuickGuidePanels';
@@ -60,6 +60,7 @@ describe('QuickGuidePanels', () => {
 				await quickGuidePanelsPage.emulateCPUThrottling(CPUThrottling);
 				await quickGuidePanelsPage.goto(`http://${serverAddr}/#/quickGuidePanels`);
 				await quickGuidePanelsPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 				await quickGuidePanelsPage.waitForSelector(nextQuickPanelButton);
 				await quickGuidePanelsPage.click(nextQuickPanelButton);
 				await new Promise(r => setTimeout(r, 500));

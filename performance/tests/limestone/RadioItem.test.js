@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('RadioItem', () => {
 	const component = 'RadioItem';
@@ -75,6 +75,7 @@ describe('RadioItem', () => {
 			await radioItemPage.emulateCPUThrottling(CPUThrottling);
 			await radioItemPage.goto(`http://${serverAddr}/#/radioItem`);
 			await radioItemPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await radioItemPage.waitForSelector('#radioItem');
 			await new Promise(r => setTimeout(r, 200));
 			await radioItemPage.click('#radioItem');

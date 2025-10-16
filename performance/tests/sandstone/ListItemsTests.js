@@ -120,6 +120,7 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 			await listItemsPage.emulateCPUThrottling(CPUThrottling);
 			await listItemsPage.goto(pageURL);
 			await listItemsPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await listItemsPage.waitForSelector(`#${componentName}`);
 			await listItemsPage.focus(`#${componentName}`);
 			await new Promise(r => setTimeout(r, 200));

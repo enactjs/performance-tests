@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('ToggleButton', () => {
 	const component = 'ToggleButton';
@@ -75,6 +75,7 @@ describe('ToggleButton', () => {
 			await toggleButtonPage.emulateCPUThrottling(CPUThrottling);
 			await toggleButtonPage.goto(`http://${serverAddr}/#/toggleButton`);
 			await toggleButtonPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await toggleButtonPage.waitForSelector('#agate-togglebutton');
 			await toggleButtonPage.focus('#agate-togglebutton');
 			await new Promise(r => setTimeout(r, 200));

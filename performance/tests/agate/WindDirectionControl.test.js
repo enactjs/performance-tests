@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('WindDirectionControl', () => {
 	const component = 'WindDirectionControl';
@@ -75,6 +75,7 @@ describe('WindDirectionControl', () => {
 			await windDirectionControlPage.emulateCPUThrottling(CPUThrottling);
 			await windDirectionControlPage.goto(`http://${serverAddr}/#/windDirectionControl`);
 			await windDirectionControlPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await windDirectionControlPage.waitForSelector('#agate-windDirectionControl');
 			await windDirectionControlPage.focus('#agate-windDirectionControl');
 			await new Promise(r => setTimeout(r, 200));

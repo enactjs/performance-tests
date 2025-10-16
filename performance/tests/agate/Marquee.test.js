@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 const component = 'Marquee';
 
@@ -36,6 +36,7 @@ describe('Marquee', () => {
 			await marqueePage.emulateCPUThrottling(CPUThrottling);
 			await marqueePage.goto(`http://${serverAddr}/#/marquee`);
 			await marqueePage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await marqueePage.waitForSelector('#marquee');
 			await new Promise(r => setTimeout(r, 100));
 			await marqueePage.click('#marquee');

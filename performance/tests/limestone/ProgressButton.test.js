@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('ProgressButton', () => {
 	const component = 'ProgressButton';
@@ -75,6 +75,7 @@ describe('ProgressButton', () => {
 			await progressButtonPage.emulateCPUThrottling(CPUThrottling);
 			await progressButtonPage.goto(`http://${serverAddr}/#/progressButton`);
 			await progressButtonPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await progressButtonPage.waitForSelector('#progressButton');
 			await progressButtonPage.focus('#progressButton');
 			await new Promise(r => setTimeout(r, 200));

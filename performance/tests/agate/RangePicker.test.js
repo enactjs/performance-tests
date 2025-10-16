@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('RangePicker', () => {
 	const component = 'RangePicker';
@@ -76,6 +76,7 @@ describe('RangePicker', () => {
 				await alertPage.emulateCPUThrottling(CPUThrottling);
 				await alertPage.goto(`http://${serverAddr}/#/rangePicker`);
 				await alertPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 				await alertPage.waitForSelector('#rangePicker');
 				await new Promise(r => setTimeout(r, 200));
 				await alertPage.click('[aria-label$="increase the value"]');

@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('Popup', () => {
 	const component = 'Popup';
@@ -49,6 +49,7 @@ describe('Popup', () => {
 			await popupPage.emulateCPUThrottling(CPUThrottling);
 			await popupPage.goto(`http://${serverAddr}/#/popup`);
 			await popupPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await popupPage.waitForSelector('#popup');
 			await popupPage.click(closeButton);
 			await new Promise(r => setTimeout(r, 500));

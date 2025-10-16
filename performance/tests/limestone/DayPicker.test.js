@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('DayPicker', () => {
 	const component = 'DayPicker';
@@ -76,6 +76,7 @@ describe('DayPicker', () => {
 			await dayPickerPage.emulateCPUThrottling(CPUThrottling);
 			await dayPickerPage.goto(`http://${serverAddr}/#/dayPicker`);
 			await dayPickerPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await dayPickerPage.waitForSelector('#dayPicker');
 			await new Promise(r => setTimeout(r, 200));
 			await dayPickerPage.keyboard.down('ArrowDown');

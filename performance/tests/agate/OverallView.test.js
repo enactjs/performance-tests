@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('OverallView', () => {
 	const component = 'Overall';
@@ -92,6 +92,7 @@ describe('OverallView', () => {
 			await overallPage.emulateCPUThrottling(CPUThrottling);
 			await overallPage.goto(`http://${serverAddr}/#/overallView`);
 			await overallPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await overallPage.waitForSelector('#tooltipButton');
 			await overallPage.click('[aria-label="Next Tab"]'); // to move to the next tab.
 			await overallPage.waitForSelector('#virtualGridListSecond');

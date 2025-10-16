@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('PopupTabLayout', () => {
 	const component = 'PopupTabLayout';
@@ -67,6 +67,7 @@ describe('PopupTabLayout', () => {
 			await popupTabLayoutPage.emulateCPUThrottling(CPUThrottling);
 			await popupTabLayoutPage.goto(`http://${serverAddr}/#/popupTabLayout`);
 			await popupTabLayoutPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await popupTabLayoutPage.waitForSelector('#popupTabLayout');
 			await new Promise(r => setTimeout(r, 200));
 			await popupTabLayoutPage.keyboard.down('ArrowDown');

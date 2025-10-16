@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require("../../utils");
+const {isValidJSON, newPageMultiple} = require("../../utils");
 
 describe('Button', () => {
 	const component = 'Button';
@@ -75,6 +75,7 @@ describe('Button', () => {
 			await buttonPage.emulateCPUThrottling(CPUThrottling);
 			await buttonPage.goto(`http://${serverAddr}/#/button`);
 			await buttonPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await buttonPage.waitForSelector('#button');
 			await buttonPage.focus('#button');
 			await buttonPage.keyboard.down('Enter');

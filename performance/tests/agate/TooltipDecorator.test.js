@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('TooltipDecorator', () => {
 	const component = 'TooltipDecorator';
@@ -37,6 +37,7 @@ describe('TooltipDecorator', () => {
 			await tooltipDecoratorPage.emulateCPUThrottling(CPUThrottling);
 			await tooltipDecoratorPage.goto(`http://${serverAddr}/#/tooltipDecorator`);
 			await tooltipDecoratorPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await tooltipDecoratorPage.waitForSelector('#tooltipDecorator');
 			await tooltipDecoratorPage.focus('#tooltipDecorator');
 			await new Promise(r => setTimeout(r, 200));

@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('TimePicker', () => {
 	const component = 'TimePicker';
@@ -55,6 +55,7 @@ describe('TimePicker', () => {
 			await timePickerPage.emulateCPUThrottling(CPUThrottling);
 			await timePickerPage.goto(`http://${serverAddr}/#/timePicker`);
 			await timePickerPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await timePickerPage.waitForSelector('#timePicker');
 			await timePickerPage.focus('[aria-label$="hour next item"]');
 			await new Promise(r => setTimeout(r, 200));

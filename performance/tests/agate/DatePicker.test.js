@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('DatePicker', () => {
 	const component = 'DatePicker';
@@ -76,6 +76,7 @@ describe('DatePicker', () => {
 			await datePickerPage.emulateCPUThrottling(CPUThrottling);
 			await datePickerPage.goto(`http://${serverAddr}/#/datePicker`);
 			await datePickerPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await datePickerPage.waitForSelector('#agate-datePicker');
 			await datePickerPage.focus('[aria-label$="month decrease the value"]');
 			await new Promise(r => setTimeout(r, 300));

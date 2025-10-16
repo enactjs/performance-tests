@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('TemperatureControl', () => {
 	const component = 'TemperatureControl';
@@ -75,6 +75,7 @@ describe('TemperatureControl', () => {
 			await temperatureControlPage.emulateCPUThrottling(CPUThrottling);
 			await temperatureControlPage.goto(`http://${serverAddr}/#/temperatureControl`);
 			await temperatureControlPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await temperatureControlPage.waitForSelector('#agate-temperatureControl');
 			await temperatureControlPage.focus('#agate-temperatureControl');
 			await new Promise(r => setTimeout(r, 200));

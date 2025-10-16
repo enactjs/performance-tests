@@ -35,8 +35,18 @@ const ipAddress = () => {
 	return address;
 };
 
+const isValidJSON = str => {
+	try {
+		JSON.parse(str);
+		return true;
+	} catch (e) {
+		return false;
+	}
+};
+
 module.exports = {
 	ipAddress,
 	newPageMultiple,
-	scrollAtPoint
+	scrollAtPoint,
+	isValidJSON
 };

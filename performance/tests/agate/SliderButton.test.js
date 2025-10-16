@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('SliderButton', () => {
 	const component = 'SliderButton';
@@ -59,6 +59,7 @@ describe('SliderButton', () => {
 			await sliderButtonPage.emulateCPUThrottling(CPUThrottling);
 			await sliderButtonPage.goto(`http://${serverAddr}/#/sliderButton`);
 			await sliderButtonPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await sliderButtonPage.waitForSelector('#sliderButton');
 			await new Promise(r => setTimeout(r, 200));
 			await sliderButtonPage.keyboard.down('ArrowRight');

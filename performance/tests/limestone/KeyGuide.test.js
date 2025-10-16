@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('KeyGuide', () => {
 	const component = 'KeyGuide';
@@ -34,6 +34,7 @@ describe('KeyGuide', () => {
 			await keyGuidePage.emulateCPUThrottling(CPUThrottling);
 			await keyGuidePage.goto(`http://${serverAddr}/#/keyGuide`);
 			await keyGuidePage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await keyGuidePage.waitForSelector('#keyGuide');
 			await new Promise(r => setTimeout(r, 200));
 			await keyGuidePage.click('#keyGuide');

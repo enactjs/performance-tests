@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('VideoPlayer', () => {
 	const component = 'VideoPlayer';
@@ -56,6 +56,7 @@ describe('VideoPlayer', () => {
 			await videoPlayerPage.emulateCPUThrottling(CPUThrottling);
 			await videoPlayerPage.goto(`http://${serverAddr}/#/videoPlayer`);
 			await videoPlayerPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await videoPlayerPage.waitForSelector('#videoPlayer');
 			await videoPlayerPage.focus('[aria-label="Next"]');
 			await new Promise(r => setTimeout(r, 200));

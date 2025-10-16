@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('TabLayout', () => {
 	const component = 'TabLayout';
@@ -38,6 +38,7 @@ describe('TabLayout', () => {
 			await tabLayoutPage.emulateCPUThrottling(CPUThrottling);
 			await tabLayoutPage.goto(`http://${serverAddr}/#/tabLayout`);
 			await tabLayoutPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await tabLayoutPage.waitForSelector('#tabLayout');
 			await new Promise(r => setTimeout(r, 200));
 			await tabLayoutPage.keyboard.down('ArrowDown');

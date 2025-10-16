@@ -2,7 +2,7 @@
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {newPageMultiple} = require('../../utils');
+const {isValidJSON, newPageMultiple} = require('../../utils');
 
 describe('MediaOverlay', () => {
 	const component = 'MediaOverlay';
@@ -50,6 +50,7 @@ describe('MediaOverlay', () => {
 			await mediaOverlayPage.emulateCPUThrottling(CPUThrottling);
 			await mediaOverlayPage.goto(`http://${serverAddr}/#/mediaoverlay`);
 			await mediaOverlayPage.addScriptTag({url: webVitalsURL});
+			await new Promise(r => setTimeout(r, 100));
 			await mediaOverlayPage.waitForSelector('#mediaOverlay');
 			await mediaOverlayPage.focus('#mediaOverlay');
 			await new Promise(r => setTimeout(r, 200));

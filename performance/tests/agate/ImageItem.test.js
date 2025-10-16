@@ -19,9 +19,9 @@ describe('ImageItem', () => {
 			await imagePage.emulateCPUThrottling(CPUThrottling);
 			await imagePage.goto(`http://${serverAddr}/#/imageItem`);
 			await imagePage.addScriptTag({url: webVitalsURL});
-			await page.waitForSelector('#imageItem');
-			await page.focus('#imageItem');
-			await page.keyboard.down('Enter');
+			await imagePage.waitForSelector('#imageItem');
+			await imagePage.focus('#imageItem');
+			await imagePage.keyboard.down('Enter');
 			await new Promise(r => setTimeout(r, 200));
 
 			imagePage.on("console", (msg) => {

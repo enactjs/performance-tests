@@ -6,9 +6,9 @@ We utilize puppeteer to get chrome performance traces.
 
 ## Testing on PC
 
-### Testing Sandstone components
+### Testing Limestone components
 
-You can start the server and run the test suite on it separately. Sandstone is the default theme, so you can simply use:
+You can start the server and run the test suite on it separately. Limestone is the default theme, so you can simply use:
 
 ```
 npm run serve
@@ -19,6 +19,19 @@ Alternatively, you can use the test-all command to start the server and run the 
 
 ```
 npm run test-all
+```
+
+### Testing Sandstone components
+
+Start the server with Sandstone components and run the test suite on it. You can specify the theme by adding --theme=sandstone at the end of the command:
+
+```
+npm run serve-sandstone
+npm run test -- --theme=sandstone
+```
+
+```
+npm run test-all -- --theme=sandstone
 ```
 
 ### Testing Agate components

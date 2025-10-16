@@ -60,7 +60,7 @@ describe('QuickGuidePanels', () => {
 				await quickGuidePanelsPage.emulateCPUThrottling(CPUThrottling);
 				await quickGuidePanelsPage.goto(`http://${serverAddr}/#/quickGuidePanels`);
 				await quickGuidePanelsPage.addScriptTag({url: webVitalsURL});
-			await new Promise(r => setTimeout(r, 100));
+				await new Promise(r => setTimeout(r, 100));
 				await quickGuidePanelsPage.waitForSelector(nextQuickPanelButton);
 				await quickGuidePanelsPage.click(nextQuickPanelButton);
 				await new Promise(r => setTimeout(r, 500));
@@ -76,7 +76,11 @@ describe('QuickGuidePanels', () => {
 				await new Promise(r => setTimeout(r, 200));
 
 				quickGuidePanelsPage.on("console", (msg) => {
-					let jsonMsg = JSON.parse(msg.text());
+					let jsonMsg = {};
+
+					if (isValidJSON(msg.text())) {
+						jsonMsg = JSON.parse(msg.text());
+					}
 
 					if (jsonMsg.name === 'CLS') {
 						avgCLS = avgCLS + jsonMsg.value;
@@ -232,7 +236,11 @@ describe('QuickGuidePanels', () => {
 				await new Promise(r => setTimeout(r, 100));
 
 				quickGuidePanelsPage.on("console", (msg) => {
-					let jsonMsg = JSON.parse(msg.text());
+					let jsonMsg = {};
+
+					if (isValidJSON(msg.text())) {
+						jsonMsg = JSON.parse(msg.text());
+					}
 
 					if (jsonMsg.name === 'CLS') {
 						avgCLS = avgCLS + jsonMsg.value;

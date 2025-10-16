@@ -86,7 +86,11 @@ describe('Alert', () => {
 			await new Promise(r => setTimeout(r, 200));
 
 			alertPage.on("console", (msg) => {
-				let jsonMsg = JSON.parse(msg.text());
+				let jsonMsg = {};
+
+				if (isValidJSON(msg.text())) {
+					jsonMsg = JSON.parse(msg.text());
+				}
 
 				if (jsonMsg.name === 'CLS') {
 					avgCLS = avgCLS + jsonMsg.value;
@@ -104,7 +108,6 @@ describe('Alert', () => {
 						passContFCP += 1;
 					}
 				} else if (jsonMsg.name === 'LCP') {
-					console.log(jsonMsg.value);
 					avgLCP = avgLCP + jsonMsg.value;
 					if (jsonMsg.value < maxLCP) {
 						passContLCP += 1;

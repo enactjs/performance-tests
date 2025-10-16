@@ -50,7 +50,11 @@ describe('TabGroup', () => {
 			await new Promise(r => setTimeout(r, 200));
 
 			tabGroupPage.on("console", (msg) => {
-				let jsonMsg = JSON.parse(msg.text());
+				let jsonMsg = {};
+
+				if (isValidJSON(msg.text())) {
+					jsonMsg = JSON.parse(msg.text());
+				}
 
 				if (jsonMsg.name === 'CLS') {
 					avgCLS = avgCLS + jsonMsg.value;

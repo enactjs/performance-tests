@@ -217,7 +217,11 @@ describe('Dropdown', () => {
 
 
 			dropdownPage.on("console", (msg) => {
-				let jsonMsg = JSON.parse(msg.text());
+				let jsonMsg = {};
+				
+				if (isValidJSON(msg.text())) {
+					jsonMsg = JSON.parse(msg.text());
+				}
 
 				if (jsonMsg.name === 'CLS') {
 					avgCLS = avgCLS + jsonMsg.value;

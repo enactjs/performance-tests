@@ -76,14 +76,18 @@ describe('Picker', () => {
 				await pickerPage.emulateCPUThrottling(CPUThrottling);
 				await pickerPage.goto(`http://${serverAddr}/#/picker`);
 				await pickerPage.addScriptTag({url: webVitalsURL});
-			await new Promise(r => setTimeout(r, 100));
+				await new Promise(r => setTimeout(r, 100));
 				await pickerPage.waitForSelector('#pickerDefault');
 				await new Promise(r => setTimeout(r, 300));
 				await pickerPage.click('[aria-label$="next item"]');
 				await new Promise(r => setTimeout(r, 300));
 
 				pickerPage.on("console", (msg) => {
-					let jsonMsg = JSON.parse(msg.text());
+					let jsonMsg = {};
+
+					if (isValidJSON(msg.text())) {
+						jsonMsg = JSON.parse(msg.text());
+					}
 
 					if (jsonMsg.name === 'CLS') {
 						avgCLS = avgCLS + jsonMsg.value;
@@ -231,14 +235,18 @@ describe('Picker', () => {
 				await pickerPage.emulateCPUThrottling(CPUThrottling);
 				await pickerPage.goto(`http://${serverAddr}/#/pickerJoined`);
 				await pickerPage.addScriptTag({url: webVitalsURL});
-			await new Promise(r => setTimeout(r, 100));
+				await new Promise(r => setTimeout(r, 100));
 				await pickerPage.waitForSelector('#pickerJoined');
 				await new Promise(r => setTimeout(r, 300));
 				await pickerPage.click('#pickerJoined');
 				await new Promise(r => setTimeout(r, 300));
 
 				pickerPage.on("console", (msg) => {
-					let jsonMsg = JSON.parse(msg.text());
+					let jsonMsg = {};
+
+					if (isValidJSON(msg.text())) {
+						jsonMsg = JSON.parse(msg.text());
+					}
 
 					if (jsonMsg.name === 'CLS') {
 						avgCLS = avgCLS + jsonMsg.value;

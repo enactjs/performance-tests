@@ -67,7 +67,11 @@ describe('Popup', () => {
 			await new Promise(r => setTimeout(r, 200));
 
 			popupPage.on("console", (msg) => {
-				let jsonMsg = JSON.parse(msg.text());
+				let jsonMsg = {};
+
+				if (isValidJSON(msg.text())) {
+					jsonMsg = JSON.parse(msg.text());
+				}
 
 				if (jsonMsg.name === 'CLS') {
 					avgCLS = avgCLS + jsonMsg.value;

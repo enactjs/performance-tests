@@ -60,7 +60,7 @@ describe('Panels', () => {
 				await panelsPage.emulateCPUThrottling(CPUThrottling);
 				await panelsPage.goto(`http://${serverAddr}/#/panels`);
 				await panelsPage.addScriptTag({url: webVitalsURL});
-			await new Promise(r => setTimeout(r, 100));
+				await new Promise(r => setTimeout(r, 100));
 				await panelsPage.waitForSelector(nextPanelButton);
 				await panelsPage.click(nextPanelButton);
 				await new Promise(r => setTimeout(r, 500));
@@ -76,7 +76,11 @@ describe('Panels', () => {
 				await new Promise(r => setTimeout(r, 500));
 
 				panelsPage.on("console", (msg) => {
-					let jsonMsg = JSON.parse(msg.text());
+					let jsonMsg = {};
+
+					if (isValidJSON(msg.text())) {
+						jsonMsg = JSON.parse(msg.text());
+					}
 
 					if (jsonMsg.name === 'CLS') {
 						avgCLS = avgCLS + jsonMsg.value;
@@ -201,7 +205,7 @@ describe('Panels', () => {
 				await panelsPage.emulateCPUThrottling(CPUThrottling);
 				await panelsPage.goto(`http://${serverAddr}/#/panels`);
 				await panelsPage.addScriptTag({url: webVitalsURL});
-			await new Promise(r => setTimeout(r, 100));
+				await new Promise(r => setTimeout(r, 100));
 				await panelsPage.waitForSelector(nextPanelButton);
 				await panelsPage.click(nextPanelButton);
 				await new Promise(r => setTimeout(r, 500));
@@ -221,7 +225,11 @@ describe('Panels', () => {
 				await new Promise(r => setTimeout(r, 1000));
 
 				panelsPage.on("console", (msg) => {
-					let jsonMsg = JSON.parse(msg.text());
+					let jsonMsg = {};
+
+					if (isValidJSON(msg.text())) {
+						jsonMsg = JSON.parse(msg.text());
+					}
 
 					if (jsonMsg.name === 'CLS') {
 						avgCLS = avgCLS + jsonMsg.value;

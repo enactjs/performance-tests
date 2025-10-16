@@ -76,7 +76,7 @@ describe('RangePicker', () => {
 				await alertPage.emulateCPUThrottling(CPUThrottling);
 				await alertPage.goto(`http://${serverAddr}/#/rangePicker`);
 				await alertPage.addScriptTag({url: webVitalsURL});
-			await new Promise(r => setTimeout(r, 100));
+				await new Promise(r => setTimeout(r, 100));
 				await alertPage.waitForSelector('#rangePicker');
 				await new Promise(r => setTimeout(r, 200));
 				await alertPage.click('[aria-label$="increase the value"]');
@@ -87,7 +87,11 @@ describe('RangePicker', () => {
 				await new Promise(r => setTimeout(r, 200));
 
 				alertPage.on("console", (msg) => {
-					let jsonMsg = JSON.parse(msg.text());
+					let jsonMsg = {};
+
+					if (isValidJSON(msg.text())) {
+						jsonMsg = JSON.parse(msg.text());
+					}
 
 					if (jsonMsg.name === 'CLS') {
 						avgCLS = avgCLS + jsonMsg.value;

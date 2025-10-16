@@ -76,14 +76,18 @@ describe('RangePicker', () => {
 				await rangePickerPage.emulateCPUThrottling(CPUThrottling);
 				await rangePickerPage.goto(`http://${serverAddr}/#/rangePicker`);
 				await rangePickerPage.addScriptTag({url: webVitalsURL});
-			await new Promise(r => setTimeout(r, 100));
+				await new Promise(r => setTimeout(r, 100));
 				await rangePickerPage.waitForSelector('#rangePickerDefault');
 				await new Promise(r => setTimeout(r, 300));
 				await rangePickerPage.click('[aria-label$="press ok button to increase the value"]');
 				await new Promise(r => setTimeout(r, 300));
 
 				rangePickerPage.on("console", (msg) => {
-					let jsonMsg = JSON.parse(msg.text());
+					let jsonMsg = {};
+
+					if (isValidJSON(msg.text())) {
+						jsonMsg = JSON.parse(msg.text());
+					}
 
 					if (jsonMsg.name === 'CLS') {
 						avgCLS = avgCLS + jsonMsg.value;
@@ -231,7 +235,7 @@ describe('RangePicker', () => {
 				await rangePickerPage.emulateCPUThrottling(CPUThrottling);
 				await rangePickerPage.goto(`http://${serverAddr}/#/rangePickerJoined`);
 				await rangePickerPage.addScriptTag({url: webVitalsURL});
-			await new Promise(r => setTimeout(r, 100));
+				await new Promise(r => setTimeout(r, 100));
 				await rangePickerPage.waitForSelector('#rangePickerJoined');
 				await new Promise(r => setTimeout(r, 300));
 				await rangePickerPage.click('#rangePickerJoined');
@@ -240,7 +244,11 @@ describe('RangePicker', () => {
 				await new Promise(r => setTimeout(r, 300));
 
 				rangePickerPage.on("console", (msg) => {
-					let jsonMsg = JSON.parse(msg.text());
+					let jsonMsg = {};
+
+					if (isValidJSON(msg.text())) {
+						jsonMsg = JSON.parse(msg.text());
+					}
 
 					if (jsonMsg.name === 'CLS') {
 						avgCLS = avgCLS + jsonMsg.value;

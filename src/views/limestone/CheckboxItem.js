@@ -5,7 +5,7 @@ const CheckboxItemView = kind({
 	name: 'CheckboxItemView',
 
 	render: () => (
-		<CheckboxItem id="checkboxItem">This is a checkbox item</CheckboxItem>
+		<CheckboxItem id="checkboxItem" selected>This is a checkbox item</CheckboxItem>
 	)
 });
 

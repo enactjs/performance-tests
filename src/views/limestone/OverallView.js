@@ -13,6 +13,8 @@ import ri from '@enact/ui/resolution';
 import PropTypes from 'prop-types';
 import {useCallback, useState} from 'react';
 
+import {svgGenerator} from '../../utils';
+
 const items = [];
 
 const renderItem = ({index, ...rest}) => {
@@ -40,9 +42,9 @@ for (let i = 0; i < 100; i++) {
 		color = Math.floor((Math.random() * (0x1000000 - 0x101010)) + 0x101010).toString(16),
 		label = `SubItem ${count}`,
 		src = {
-			'hd': `https://place-hold.it/200x200/${color}/ffffff/png?text=Image+${i}&fontsize=16`,
-			'fhd': `https://place-hold.it/300x300/${color}/ffffff/png?text=Image+${i}&fontsize=24`,
-			'uhd': `https://place-hold.it/600x600/${color}/ffffff/png?text=Image+${i}&fontsize=48`
+			'hd': svgGenerator(200, 200, color, 'ffffff', `Image ${i}`),
+			'fhd': svgGenerator(300, 300, color, 'ffffff', `Image ${i}`),
+			'uhd': svgGenerator(600, 600, color, 'ffffff', `Image ${i}`)
 		};
 
 	items.push({caption, label, src});

@@ -4,7 +4,6 @@ const puppeteer = require('puppeteer-core');
 const {ipAddress} = require('./performance/utils');
 
 global.maxCLS = 0.1;
-global.maxDCL = 2000;
 global.maxFCP = 1800;
 global.maxINP = 200;
 global.maxLCP = 2500;
@@ -21,14 +20,14 @@ global.CPUThrottling = targetCPUThrottling ? parseInt(targetCPUThrottling.split(
 global.targetEnv = targetEnvArg ? targetEnvArg.split('=')[1] : 'PC';
 
 global.serverAddr = `${ipAddress()}:8080`;
-global.webVitalsURL = 'https://unpkg.com/web-vitals@4.2.4/dist/web-vitals.iife.js';
+global.webVitalsURL = 'https://unpkg.com/web-vitals@5.1.0/dist/web-vitals.iife.js';
 
 if (targetEnv === 'PC') {
 	global.beforeAll(async () => {
 		browser = await puppeteer.launch({
 			args: ['--window-size=1920,1080'],
 			executablePath: require('puppeteer').executablePath(),
-			headless: true
+			headless: 'chrome'
 		});
 		global.testMultiple = browser;
 	});

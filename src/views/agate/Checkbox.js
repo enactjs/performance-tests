@@ -5,7 +5,7 @@ const CheckboxView = kind({
 	name: 'CheckboxView',
 
 	render: () => (
-		<Checkbox id="agate-checkbox" />
+		<Checkbox id="agate-checkbox" selected />
 	)
 });
 

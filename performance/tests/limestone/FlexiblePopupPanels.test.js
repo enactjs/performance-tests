@@ -14,7 +14,7 @@ describe('FlexiblePopupPanels', () => {
 			await page.goto(`http://${serverAddr}/#/flexiblePopupPanels`);
 			await new Promise(r => setTimeout(r, 200));
 			await page.click('#button'); // to move mouse on the button.
-			await new Promise(r => setTimeout(r, 200));
+			await new Promise(r => setTimeout(r, 500));
 			await page.click('[aria-label="Exit app"]'); // to close the popup.
 			await new Promise(r => setTimeout(r, 200));
 

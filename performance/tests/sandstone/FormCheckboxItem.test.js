@@ -1,8 +1,8 @@
-/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
+/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsPath */
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {isValidJSON, newPageMultiple} = require('../../utils');
+const {collectWebVitals, newPageMultiple} = require('../../utils');
 
 describe('FormCheckboxItem', () => {
 	const component = 'FormCheckboxItem';
@@ -74,7 +74,7 @@ describe('FormCheckboxItem', () => {
 			const formCheckboxItemPage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await formCheckboxItemPage.emulateCPUThrottling(CPUThrottling);
 			await formCheckboxItemPage.goto(`http://${serverAddr}/#/formCheckboxItem`);
-			await formCheckboxItemPage.addScriptTag({url: webVitalsURL});
+			await formCheckboxItemPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
 			await formCheckboxItemPage.waitForSelector('#formCheckboxItem');
 			await formCheckboxItemPage.focus('#formCheckboxItem');
@@ -84,35 +84,7 @@ describe('FormCheckboxItem', () => {
 			await new Promise(r => setTimeout(r, 200));
 
 
-			formCheckboxItemPage.on("console", (msg) => {
-				let jsonMsg = {};
-
-				if (isValidJSON(msg.text())) {
-					jsonMsg = JSON.parse(msg.text());
-				}
-
-				if (jsonMsg.name === 'CLS') {
-					avgCLS = avgCLS + jsonMsg.value;
-					if (jsonMsg.value < maxCLS) {
-						passContCLS += 1;
-					}
-				} else if (jsonMsg.name === 'INP') {
-					avgINP = avgINP + jsonMsg.value;
-					if (jsonMsg.value < maxINP) {
-						passContINP += 1;
-					}
-				} else if (jsonMsg.name === 'FCP') {
-					avgFCP = avgFCP + jsonMsg.value;
-					if (jsonMsg.value < maxFCP) {
-						passContFCP += 1;
-					}
-				} else if (jsonMsg.name === 'LCP') {
-					avgLCP = avgLCP + jsonMsg.value;
-					if (jsonMsg.value < maxLCP) {
-						passContLCP += 1;
-					}
-				}
-			});
+			const stepVitals = collectWebVitals(formCheckboxItemPage);
 
 			await formCheckboxItemPage.evaluateHandle(() => {
 				webVitals.onINP(function (inp) {
@@ -148,6 +120,16 @@ describe('FormCheckboxItem', () => {
 				);
 			});
 			await new Promise(r => setTimeout(r, 1000));
+
+			avgCLS = avgCLS + (stepVitals.CLS || 0);
+			avgINP = avgINP + (stepVitals.INP || 0);
+			avgFCP = avgFCP + (stepVitals.FCP || 0);
+			avgLCP = avgLCP + (stepVitals.LCP || 0);
+
+			if (stepVitals.CLS < maxCLS) passContCLS += 1;
+			if (stepVitals.INP < maxINP) passContINP += 1;
+			if (stepVitals.FCP < maxFCP) passContFCP += 1;
+			if (stepVitals.LCP < maxLCP) passContLCP += 1;
 
 			if (targetEnv === 'PC') await formCheckboxItemPage.close();
 		}

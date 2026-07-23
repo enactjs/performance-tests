@@ -44,7 +44,26 @@ const isValidJSON = str => {
 	}
 };
 
+// Collects web-vitals metrics reported via console messages. With `reportAllChanges: true`
+// each metric can report several times per page, so only the latest value is kept.
+const collectWebVitals = (vitalsPage) => {
+	const vitals = {};
+
+	vitalsPage.on('console', (msg) => {
+		if (!isValidJSON(msg.text())) return;
+
+		const jsonMsg = JSON.parse(msg.text());
+
+		if (jsonMsg.name === 'CLS' || jsonMsg.name === 'INP' || jsonMsg.name === 'FCP' || jsonMsg.name === 'LCP') {
+			vitals[jsonMsg.name] = jsonMsg.value;
+		}
+	});
+
+	return vitals;
+};
+
 module.exports = {
+	collectWebVitals,
 	ipAddress,
 	newPageMultiple,
 	scrollAtPoint,

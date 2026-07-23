@@ -1,8 +1,8 @@
-/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
+/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsPath */
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {isValidJSON, newPageMultiple} = require("../../utils");
+const {collectWebVitals, newPageMultiple} = require("../../utils");
 
 describe('Picker', () => {
 	const component = 'Picker';
@@ -75,42 +75,14 @@ describe('Picker', () => {
 				const pickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
 				await pickerPage.emulateCPUThrottling(CPUThrottling);
 				await pickerPage.goto(`http://${serverAddr}/#/picker`);
-				await pickerPage.addScriptTag({url: webVitalsURL});
+				await pickerPage.addScriptTag({path: webVitalsPath});
 				await new Promise(r => setTimeout(r, 100));
 				await pickerPage.waitForSelector('#pickerDefault');
 				await new Promise(r => setTimeout(r, 300));
 				await pickerPage.click('[aria-label$="next item"]');
 				await new Promise(r => setTimeout(r, 300));
 
-				pickerPage.on("console", (msg) => {
-					let jsonMsg = {};
-
-					if (isValidJSON(msg.text())) {
-						jsonMsg = JSON.parse(msg.text());
-					}
-
-					if (jsonMsg.name === 'CLS') {
-						avgCLS = avgCLS + jsonMsg.value;
-						if (jsonMsg.value < maxCLS) {
-							passContCLS += 1;
-						}
-					} else if (jsonMsg.name === 'INP') {
-						avgINP = avgINP + jsonMsg.value;
-						if (jsonMsg.value < maxINP) {
-							passContINP += 1;
-						}
-					} else if (jsonMsg.name === 'FCP') {
-						avgFCP = avgFCP + jsonMsg.value;
-						if (jsonMsg.value < maxFCP) {
-							passContFCP += 1;
-						}
-					} else if (jsonMsg.name === 'LCP') {
-						avgLCP = avgLCP + jsonMsg.value;
-						if (jsonMsg.value < maxLCP) {
-							passContLCP += 1;
-						}
-					}
-				});
+				const stepVitals = collectWebVitals(pickerPage);
 
 				await pickerPage.evaluateHandle(() => {
 					webVitals.onINP(function (inp) {
@@ -146,6 +118,16 @@ describe('Picker', () => {
 					);
 				});
 				await new Promise(r => setTimeout(r, 1000));
+				avgCLS = avgCLS + (stepVitals.CLS || 0);
+				avgINP = avgINP + (stepVitals.INP || 0);
+				avgFCP = avgFCP + (stepVitals.FCP || 0);
+				avgLCP = avgLCP + (stepVitals.LCP || 0);
+
+				if (stepVitals.CLS < maxCLS) passContCLS += 1;
+				if (stepVitals.INP < maxINP) passContINP += 1;
+				if (stepVitals.FCP < maxFCP) passContFCP += 1;
+				if (stepVitals.LCP < maxLCP) passContLCP += 1;
+
 				if (targetEnv === 'PC') await pickerPage.close();
 			}
 
@@ -234,42 +216,14 @@ describe('Picker', () => {
 				const pickerPage = targetEnv === 'TV' ? page : await newPageMultiple();
 				await pickerPage.emulateCPUThrottling(CPUThrottling);
 				await pickerPage.goto(`http://${serverAddr}/#/pickerJoined`);
-				await pickerPage.addScriptTag({url: webVitalsURL});
+				await pickerPage.addScriptTag({path: webVitalsPath});
 				await new Promise(r => setTimeout(r, 100));
 				await pickerPage.waitForSelector('#pickerJoined');
 				await new Promise(r => setTimeout(r, 300));
 				await pickerPage.click('#pickerJoined');
 				await new Promise(r => setTimeout(r, 300));
 
-				pickerPage.on("console", (msg) => {
-					let jsonMsg = {};
-
-					if (isValidJSON(msg.text())) {
-						jsonMsg = JSON.parse(msg.text());
-					}
-
-					if (jsonMsg.name === 'CLS') {
-						avgCLS = avgCLS + jsonMsg.value;
-						if (jsonMsg.value < maxCLS) {
-							passContCLS += 1;
-						}
-					} else if (jsonMsg.name === 'INP') {
-						avgINP = avgINP + jsonMsg.value;
-						if (jsonMsg.value < maxINP) {
-							passContINP += 1;
-						}
-					} else if (jsonMsg.name === 'FCP') {
-						avgFCP = avgFCP + jsonMsg.value;
-						if (jsonMsg.value < maxFCP) {
-							passContFCP += 1;
-						}
-					} else if (jsonMsg.name === 'LCP') {
-						avgLCP = avgLCP + jsonMsg.value;
-						if (jsonMsg.value < maxLCP) {
-							passContLCP += 1;
-						}
-					}
-				});
+				const stepVitals = collectWebVitals(pickerPage);
 
 				await pickerPage.evaluateHandle(() => {
 					webVitals.onINP(function (inp) {
@@ -305,6 +259,16 @@ describe('Picker', () => {
 					);
 				});
 				await new Promise(r => setTimeout(r, 1000));
+				avgCLS = avgCLS + (stepVitals.CLS || 0);
+				avgINP = avgINP + (stepVitals.INP || 0);
+				avgFCP = avgFCP + (stepVitals.FCP || 0);
+				avgLCP = avgLCP + (stepVitals.LCP || 0);
+
+				if (stepVitals.CLS < maxCLS) passContCLS += 1;
+				if (stepVitals.INP < maxINP) passContINP += 1;
+				if (stepVitals.FCP < maxFCP) passContFCP += 1;
+				if (stepVitals.LCP < maxLCP) passContLCP += 1;
+
 				if (targetEnv === 'PC') await pickerPage.close();
 			}
 

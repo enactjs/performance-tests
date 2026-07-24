@@ -76,12 +76,6 @@ describe('ProgressButton', () => {
 			await progressButtonPage.goto(`http://${serverAddr}/#/progressButton`);
 			await progressButtonPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await progressButtonPage.waitForSelector('#progressButton');
-			await progressButtonPage.focus('#progressButton');
-			await new Promise(r => setTimeout(r, 200));
-			await progressButtonPage.keyboard.down('Enter');
-			await progressButtonPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(progressButtonPage);
 
@@ -90,7 +84,8 @@ describe('ProgressButton', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -118,6 +113,13 @@ describe('ProgressButton', () => {
 				}
 				);
 			});
+
+			await progressButtonPage.waitForSelector('#progressButton');
+			await progressButtonPage.focus('#progressButton');
+			await new Promise(r => setTimeout(r, 200));
+			await progressButtonPage.keyboard.down('Enter');
+			await progressButtonPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 			avgCLS = avgCLS + (stepVitals.CLS || 0);
 			avgINP = avgINP + (stepVitals.INP || 0);

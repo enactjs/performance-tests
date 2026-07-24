@@ -78,12 +78,6 @@ describe('Switch', () => {
 			await switchPage.goto(`http://${serverAddr}/#/switch`);
 			await switchPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await switchPage.waitForSelector('#switch');
-			await new Promise(r => setTimeout(r, 100));
-			await switchPage.click('#switch');
-			await new Promise(r => setTimeout(r, 200));
-			await switchPage.click('#switch');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(switchPage);
 
@@ -92,7 +86,8 @@ describe('Switch', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -120,6 +115,13 @@ describe('Switch', () => {
 				}
 				);
 			});
+
+			await switchPage.waitForSelector('#switch');
+			await new Promise(r => setTimeout(r, 100));
+			await switchPage.click('#switch');
+			await new Promise(r => setTimeout(r, 200));
+			await switchPage.click('#switch');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 			avgCLS = avgCLS + (stepVitals.CLS || 0);
 			avgINP = avgINP + (stepVitals.INP || 0);

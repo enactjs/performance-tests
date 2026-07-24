@@ -68,18 +68,6 @@ describe('Slider', () => {
 			await sliderPage.goto(`http://${serverAddr}/#/slider`);
 			await sliderPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await sliderPage.waitForSelector('#slider');
-			await sliderPage.focus('#slider');
-			await new Promise(r => setTimeout(r, 200));
-			await sliderPage.keyboard.down('Enter');
-			await sliderPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
-			await sliderPage.keyboard.down('ArrowRight');
-			await sliderPage.keyboard.up('ArrowRight');
-			await new Promise(r => setTimeout(r, 200));
-			await sliderPage.keyboard.down('ArrowRight');
-			await sliderPage.keyboard.up('ArrowRight');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(sliderPage);
 
@@ -88,7 +76,8 @@ describe('Slider', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -116,6 +105,19 @@ describe('Slider', () => {
 				}
 				);
 			});
+
+			await sliderPage.waitForSelector('#slider');
+			await sliderPage.focus('#slider');
+			await new Promise(r => setTimeout(r, 200));
+			await sliderPage.keyboard.down('Enter');
+			await sliderPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
+			await sliderPage.keyboard.down('ArrowRight');
+			await sliderPage.keyboard.up('ArrowRight');
+			await new Promise(r => setTimeout(r, 200));
+			await sliderPage.keyboard.down('ArrowRight');
+			await sliderPage.keyboard.up('ArrowRight');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

@@ -56,12 +56,6 @@ describe('TimePicker', () => {
 			await timePickerPage.goto(`http://${serverAddr}/#/timePicker`);
 			await timePickerPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await timePickerPage.waitForSelector('#timePicker');
-			await timePickerPage.focus('[aria-label$="hour next item"]');
-			await new Promise(r => setTimeout(r, 200));
-			await timePickerPage.keyboard.down('ArrowDown');
-			await timePickerPage.keyboard.up('ArrowDown');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(timePickerPage);
 
@@ -70,7 +64,8 @@ describe('TimePicker', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -98,6 +93,13 @@ describe('TimePicker', () => {
 				}
 				);
 			});
+
+			await timePickerPage.waitForSelector('#timePicker');
+			await timePickerPage.focus('[aria-label$="hour next item"]');
+			await new Promise(r => setTimeout(r, 200));
+			await timePickerPage.keyboard.down('ArrowDown');
+			await timePickerPage.keyboard.up('ArrowDown');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

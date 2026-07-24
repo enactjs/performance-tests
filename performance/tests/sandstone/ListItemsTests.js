@@ -121,17 +121,6 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 			await listItemsPage.goto(pageURL);
 			await listItemsPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await listItemsPage.waitForSelector(`#${componentName}`);
-			await listItemsPage.focus(`#${componentName}`);
-			await new Promise(r => setTimeout(r, 200));
-			await listItemsPage.keyboard.down('ArrowDown');
-			await listItemsPage.keyboard.up('ArrowDown');
-			await new Promise(r => setTimeout(r, 200));
-			await listItemsPage.keyboard.down('ArrowDown');
-			await listItemsPage.keyboard.up('ArrowDown');
-			await new Promise(r => setTimeout(r, 200));
-			await listItemsPage.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(listItemsPage);
 
@@ -140,7 +129,8 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 						console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 					},
 					{
-						reportAllChanges: true
+						reportAllChanges: true,
+						durationThreshold: 0
 					}
 				);
 
@@ -168,6 +158,18 @@ const listItemTests = (componentName, dataSize) => describe(componentName, () =>
 					}
 				);
 			});
+
+			await listItemsPage.waitForSelector(`#${componentName}`);
+			await listItemsPage.focus(`#${componentName}`);
+			await new Promise(r => setTimeout(r, 200));
+			await listItemsPage.keyboard.down('ArrowDown');
+			await listItemsPage.keyboard.up('ArrowDown');
+			await new Promise(r => setTimeout(r, 200));
+			await listItemsPage.keyboard.down('ArrowDown');
+			await listItemsPage.keyboard.up('ArrowDown');
+			await new Promise(r => setTimeout(r, 200));
+			await listItemsPage.keyboard.down('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 			avgCLS = avgCLS + (stepVitals.CLS || 0);
 			avgINP = avgINP + (stepVitals.INP || 0);

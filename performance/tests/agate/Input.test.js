@@ -84,28 +84,6 @@ describe('Input', () => {
 			await alertPage.goto(`http://${serverAddr}/#/input`);
 			await alertPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await alertPage.waitForSelector('#input');
-			await new Promise(r => setTimeout(r, 100));
-			await alertPage.click('#input');
-			await new Promise(r => setTimeout(r, 100));
-			await alertPage.keyboard.down('A');
-			await alertPage.keyboard.up('A');
-			await new Promise(r => setTimeout(r, 100));
-			await alertPage.keyboard.down('B');
-			await alertPage.keyboard.up('B');
-			await new Promise(r => setTimeout(r, 100));
-			await alertPage.keyboard.down('B');
-			await alertPage.keyboard.up('B');
-			await new Promise(r => setTimeout(r, 100));
-			await alertPage.keyboard.down('A');
-			await alertPage.keyboard.up('A');
-			await new Promise(r => setTimeout(r, 100));
-			await alertPage.keyboard.down('Backspace');
-			await alertPage.keyboard.up('Backspace');
-			await new Promise(r => setTimeout(r, 100));
-			await alertPage.keyboard.down('Backspace');
-			await alertPage.keyboard.up('Backspace');
-			await new Promise(r => setTimeout(r, 100));
 
 			const stepVitals = collectWebVitals(alertPage);
 
@@ -114,7 +92,8 @@ describe('Input', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -142,6 +121,29 @@ describe('Input', () => {
 				}
 				);
 			});
+
+			await alertPage.waitForSelector('#input');
+			await new Promise(r => setTimeout(r, 100));
+			await alertPage.click('#input');
+			await new Promise(r => setTimeout(r, 100));
+			await alertPage.keyboard.down('A');
+			await alertPage.keyboard.up('A');
+			await new Promise(r => setTimeout(r, 100));
+			await alertPage.keyboard.down('B');
+			await alertPage.keyboard.up('B');
+			await new Promise(r => setTimeout(r, 100));
+			await alertPage.keyboard.down('B');
+			await alertPage.keyboard.up('B');
+			await new Promise(r => setTimeout(r, 100));
+			await alertPage.keyboard.down('A');
+			await alertPage.keyboard.up('A');
+			await new Promise(r => setTimeout(r, 100));
+			await alertPage.keyboard.down('Backspace');
+			await alertPage.keyboard.up('Backspace');
+			await new Promise(r => setTimeout(r, 100));
+			await alertPage.keyboard.down('Backspace');
+			await alertPage.keyboard.up('Backspace');
+			await new Promise(r => setTimeout(r, 100));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

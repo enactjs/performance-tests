@@ -68,18 +68,6 @@ describe('IncrementSlider', () => {
 			await incrementSliderPage.goto(`http://${serverAddr}/#/incrementSlider`);
 			await incrementSliderPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await incrementSliderPage.waitForSelector('#incrementSlider');
-			await incrementSliderPage.focus('#incrementSlider');
-			await new Promise(r => setTimeout(r, 300));
-			await incrementSliderPage.keyboard.down('Enter');
-			await incrementSliderPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 300));
-			await incrementSliderPage.keyboard.down('ArrowRight');
-			await incrementSliderPage.keyboard.up('ArrowRight');
-			await new Promise(r => setTimeout(r, 300));
-			await incrementSliderPage.keyboard.down('ArrowRight');
-			await incrementSliderPage.keyboard.up('ArrowRight');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(incrementSliderPage);
 
@@ -88,7 +76,8 @@ describe('IncrementSlider', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -116,6 +105,19 @@ describe('IncrementSlider', () => {
 				}
 				);
 			});
+
+			await incrementSliderPage.waitForSelector('#incrementSlider');
+			await incrementSliderPage.focus('#incrementSlider');
+			await new Promise(r => setTimeout(r, 300));
+			await incrementSliderPage.keyboard.down('Enter');
+			await incrementSliderPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 300));
+			await incrementSliderPage.keyboard.down('ArrowRight');
+			await incrementSliderPage.keyboard.up('ArrowRight');
+			await new Promise(r => setTimeout(r, 300));
+			await incrementSliderPage.keyboard.down('ArrowRight');
+			await incrementSliderPage.keyboard.up('ArrowRight');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

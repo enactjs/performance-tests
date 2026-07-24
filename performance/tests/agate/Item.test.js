@@ -76,10 +76,6 @@ describe('Item', () => {
 			await itemPage.goto(`http://${serverAddr}/#/item`);
 			await itemPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await itemPage.waitForSelector('#item');
-			await new Promise(r => setTimeout(r, 100));
-			await itemPage.click('#item');
-			await new Promise(r => setTimeout(r, 100));
 
 			const stepVitals = collectWebVitals(itemPage);
 
@@ -88,7 +84,8 @@ describe('Item', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -116,6 +113,11 @@ describe('Item', () => {
 				}
 				);
 			});
+
+			await itemPage.waitForSelector('#item');
+			await new Promise(r => setTimeout(r, 100));
+			await itemPage.click('#item');
+			await new Promise(r => setTimeout(r, 100));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

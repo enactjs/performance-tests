@@ -35,10 +35,6 @@ describe('KeyGuide', () => {
 			await keyGuidePage.goto(`http://${serverAddr}/#/keyGuide`);
 			await keyGuidePage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await keyGuidePage.waitForSelector('#keyGuide');
-			await new Promise(r => setTimeout(r, 200));
-			await keyGuidePage.click('#keyGuide');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(keyGuidePage);
 
@@ -47,7 +43,8 @@ describe('KeyGuide', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -75,6 +72,11 @@ describe('KeyGuide', () => {
 				}
 				);
 			});
+
+			await keyGuidePage.waitForSelector('#keyGuide');
+			await new Promise(r => setTimeout(r, 200));
+			await keyGuidePage.click('#keyGuide');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 			avgCLS = avgCLS + (stepVitals.CLS || 0);
 			avgINP = avgINP + (stepVitals.INP || 0);

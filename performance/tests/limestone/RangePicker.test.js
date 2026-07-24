@@ -77,10 +77,6 @@ describe('RangePicker', () => {
 				await rangePickerPage.goto(`http://${serverAddr}/#/rangePicker`);
 				await rangePickerPage.addScriptTag({path: webVitalsPath});
 				await new Promise(r => setTimeout(r, 100));
-				await rangePickerPage.waitForSelector('#rangePickerDefault');
-				await new Promise(r => setTimeout(r, 300));
-				await rangePickerPage.click('[aria-label$="press ok button to increase the value"]');
-				await new Promise(r => setTimeout(r, 300));
 
 				const stepVitals = collectWebVitals(rangePickerPage);
 
@@ -89,7 +85,8 @@ describe('RangePicker', () => {
 						console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 					},
 					{
-						reportAllChanges: true
+						reportAllChanges: true,
+						durationThreshold: 0
 					}
 					);
 
@@ -117,6 +114,11 @@ describe('RangePicker', () => {
 					}
 					);
 				});
+
+				await rangePickerPage.waitForSelector('#rangePickerDefault');
+				await new Promise(r => setTimeout(r, 300));
+				await rangePickerPage.click('[aria-label$="press ok button to increase the value"]');
+				await new Promise(r => setTimeout(r, 300));
 				await new Promise(r => setTimeout(r, 1000));
 				avgCLS = avgCLS + (stepVitals.CLS || 0);
 				avgINP = avgINP + (stepVitals.INP || 0);
@@ -218,12 +220,6 @@ describe('RangePicker', () => {
 				await rangePickerPage.goto(`http://${serverAddr}/#/rangePickerJoined`);
 				await rangePickerPage.addScriptTag({path: webVitalsPath});
 				await new Promise(r => setTimeout(r, 100));
-				await rangePickerPage.waitForSelector('#rangePickerJoined');
-				await new Promise(r => setTimeout(r, 300));
-				await rangePickerPage.click('#rangePickerJoined');
-				await new Promise(r => setTimeout(r, 300));
-				await rangePickerPage.click('#rangePickerJoined');
-				await new Promise(r => setTimeout(r, 300));
 
 				const stepVitals = collectWebVitals(rangePickerPage);
 
@@ -232,7 +228,8 @@ describe('RangePicker', () => {
 						console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 					},
 					{
-						reportAllChanges: true
+						reportAllChanges: true,
+						durationThreshold: 0
 					}
 					);
 
@@ -260,6 +257,13 @@ describe('RangePicker', () => {
 					}
 					);
 				});
+
+				await rangePickerPage.waitForSelector('#rangePickerJoined');
+				await new Promise(r => setTimeout(r, 300));
+				await rangePickerPage.click('#rangePickerJoined');
+				await new Promise(r => setTimeout(r, 300));
+				await rangePickerPage.click('#rangePickerJoined');
+				await new Promise(r => setTimeout(r, 300));
 				await new Promise(r => setTimeout(r, 1000));
 				avgCLS = avgCLS + (stepVitals.CLS || 0);
 				avgINP = avgINP + (stepVitals.INP || 0);

@@ -76,12 +76,6 @@ describe('Button', () => {
 			await buttonPage.goto(`http://${serverAddr}/#/button`);
 			await buttonPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await buttonPage.waitForSelector('#agate-button');
-			await buttonPage.focus('#agate-button');
-			await new Promise(r => setTimeout(r, 200));
-			await buttonPage.keyboard.down('Enter');
-			await buttonPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(buttonPage);
 
@@ -90,7 +84,8 @@ describe('Button', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -118,6 +113,13 @@ describe('Button', () => {
 				}
 				);
 			});
+
+			await buttonPage.waitForSelector('#agate-button');
+			await buttonPage.focus('#agate-button');
+			await new Promise(r => setTimeout(r, 200));
+			await buttonPage.keyboard.down('Enter');
+			await buttonPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

@@ -77,10 +77,6 @@ describe('Picker', () => {
 				await pickerPage.goto(`http://${serverAddr}/#/picker`);
 				await pickerPage.addScriptTag({path: webVitalsPath});
 				await new Promise(r => setTimeout(r, 100));
-				await pickerPage.waitForSelector('#pickerDefault');
-				await new Promise(r => setTimeout(r, 300));
-				await pickerPage.click('[aria-label$="next item"]');
-				await new Promise(r => setTimeout(r, 300));
 
 				const stepVitals = collectWebVitals(pickerPage);
 
@@ -89,7 +85,8 @@ describe('Picker', () => {
 						console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 					},
 					{
-						reportAllChanges: true
+						reportAllChanges: true,
+						durationThreshold: 0
 					}
 					);
 
@@ -117,6 +114,11 @@ describe('Picker', () => {
 					}
 					);
 				});
+
+				await pickerPage.waitForSelector('#pickerDefault');
+				await new Promise(r => setTimeout(r, 300));
+				await pickerPage.click('[aria-label$="next item"]');
+				await new Promise(r => setTimeout(r, 300));
 				await new Promise(r => setTimeout(r, 1000));
 				avgCLS = avgCLS + (stepVitals.CLS || 0);
 				avgINP = avgINP + (stepVitals.INP || 0);
@@ -218,10 +220,6 @@ describe('Picker', () => {
 				await pickerPage.goto(`http://${serverAddr}/#/pickerJoined`);
 				await pickerPage.addScriptTag({path: webVitalsPath});
 				await new Promise(r => setTimeout(r, 100));
-				await pickerPage.waitForSelector('#pickerJoined');
-				await new Promise(r => setTimeout(r, 300));
-				await pickerPage.click('#pickerJoined');
-				await new Promise(r => setTimeout(r, 300));
 
 				const stepVitals = collectWebVitals(pickerPage);
 
@@ -230,7 +228,8 @@ describe('Picker', () => {
 						console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 					},
 					{
-						reportAllChanges: true
+						reportAllChanges: true,
+						durationThreshold: 0
 					}
 					);
 
@@ -258,6 +257,11 @@ describe('Picker', () => {
 					}
 					);
 				});
+
+				await pickerPage.waitForSelector('#pickerJoined');
+				await new Promise(r => setTimeout(r, 300));
+				await pickerPage.click('#pickerJoined');
+				await new Promise(r => setTimeout(r, 300));
 				await new Promise(r => setTimeout(r, 1000));
 				avgCLS = avgCLS + (stepVitals.CLS || 0);
 				avgINP = avgINP + (stepVitals.INP || 0);

@@ -85,12 +85,6 @@ describe('DatePicker', () => {
 			await datePickerPage.goto(`http://${serverAddr}/#/datePicker`);
 			await datePickerPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await datePickerPage.waitForSelector('[data-webos-voice-group-label="month"]');
-			await datePickerPage.focus('[data-webos-voice-group-label="month"]');
-			await new Promise(r => setTimeout(r, 200));
-			await datePickerPage.keyboard.down('Enter');
-			await datePickerPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(datePickerPage);
 
@@ -99,7 +93,8 @@ describe('DatePicker', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -127,6 +122,13 @@ describe('DatePicker', () => {
 				}
 				);
 			});
+
+			await datePickerPage.waitForSelector('[data-webos-voice-group-label="month"]');
+			await datePickerPage.focus('[data-webos-voice-group-label="month"]');
+			await new Promise(r => setTimeout(r, 200));
+			await datePickerPage.keyboard.down('Enter');
+			await datePickerPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

@@ -65,13 +65,6 @@ describe('FlexiblePopupPanels', () => {
 			await flexiblePopupPanelsPage.goto(`http://${serverAddr}/#/flexiblePopupPanels`);
 			await flexiblePopupPanelsPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await flexiblePopupPanelsPage.waitForSelector('#button');
-			await flexiblePopupPanelsPage.focus('#button');
-			await new Promise(r => setTimeout(r, 200));
-			await flexiblePopupPanelsPage.keyboard.down('Enter');
-			await flexiblePopupPanelsPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
-
 
 			const stepVitals = collectWebVitals(flexiblePopupPanelsPage);
 
@@ -80,7 +73,8 @@ describe('FlexiblePopupPanels', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -108,6 +102,14 @@ describe('FlexiblePopupPanels', () => {
 				}
 				);
 			});
+
+			await flexiblePopupPanelsPage.waitForSelector('#button');
+			await flexiblePopupPanelsPage.focus('#button');
+			await new Promise(r => setTimeout(r, 200));
+			await flexiblePopupPanelsPage.keyboard.down('Enter');
+			await flexiblePopupPanelsPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
+
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

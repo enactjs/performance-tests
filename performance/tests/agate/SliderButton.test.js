@@ -60,11 +60,6 @@ describe('SliderButton', () => {
 			await sliderButtonPage.goto(`http://${serverAddr}/#/sliderButton`);
 			await sliderButtonPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await sliderButtonPage.waitForSelector('#sliderButton');
-			await new Promise(r => setTimeout(r, 200));
-			await sliderButtonPage.keyboard.down('ArrowRight');
-			await sliderButtonPage.keyboard.up('ArrowRight');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(sliderButtonPage);
 
@@ -73,7 +68,8 @@ describe('SliderButton', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -101,6 +97,12 @@ describe('SliderButton', () => {
 				}
 				);
 			});
+
+			await sliderButtonPage.waitForSelector('#sliderButton');
+			await new Promise(r => setTimeout(r, 200));
+			await sliderButtonPage.keyboard.down('ArrowRight');
+			await sliderButtonPage.keyboard.up('ArrowRight');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

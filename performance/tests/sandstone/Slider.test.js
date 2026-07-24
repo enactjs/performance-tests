@@ -68,15 +68,6 @@ describe('Slider', () => {
 			await sliderPage.goto(`http://${serverAddr}/#/slider`);
 			await sliderPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await sliderPage.waitForSelector('#slider');
-			await sliderPage.focus('#slider');
-			await new Promise(r => setTimeout(r, 300));
-			await sliderPage.keyboard.down('ArrowRight');
-			await sliderPage.keyboard.up('ArrowRight');
-			await new Promise(r => setTimeout(r, 300));
-			await sliderPage.keyboard.down('ArrowRight');
-			await sliderPage.keyboard.up('ArrowRight');
-			await new Promise(r => setTimeout(r, 300));
 
 			const stepVitals = collectWebVitals(sliderPage);
 
@@ -85,7 +76,8 @@ describe('Slider', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -113,6 +105,19 @@ describe('Slider', () => {
 				}
 				);
 			});
+
+			await sliderPage.waitForSelector('#slider');
+			await sliderPage.focus('#slider');
+			await new Promise(r => setTimeout(r, 300));
+			// Activate the slider for keyboard control, then drive several presses with
+			// small gaps. A couple of quick presses can land before Spotlight/focus has
+			// settled on the first pages, producing no interaction and no INP; the loop
+			// guarantees a qualifying interaction every step.
+			await sliderPage.keyboard.press('Enter');
+			for (let i = 0; i < 6; i++) {
+				await sliderPage.keyboard.press('ArrowRight');
+				await new Promise(r => setTimeout(r, 80));
+			}
 			await new Promise(r => setTimeout(r, 1000));
 			avgCLS = avgCLS + (stepVitals.CLS || 0);
 			avgINP = avgINP + (stepVitals.INP || 0);

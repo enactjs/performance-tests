@@ -61,19 +61,6 @@ describe('Panels', () => {
 				await panelsPage.goto(`http://${serverAddr}/#/panels`);
 				await panelsPage.addScriptTag({path: webVitalsPath});
 				await new Promise(r => setTimeout(r, 100));
-				await panelsPage.waitForSelector(nextPanelButton);
-				await panelsPage.click(nextPanelButton);
-				await new Promise(r => setTimeout(r, 500));
-				await panelsPage.click(previousPanelButton);
-				await new Promise(r => setTimeout(r, 500));
-				await panelsPage.click(nextPanelButton);
-				await new Promise(r => setTimeout(r, 500));
-				await panelsPage.click(previousPanelButton);
-				await new Promise(r => setTimeout(r, 500));
-				await panelsPage.click(nextPanelButton);
-				await new Promise(r => setTimeout(r, 500));
-				await panelsPage.click(previousPanelButton);
-				await new Promise(r => setTimeout(r, 500));
 
 				const stepVitals = collectWebVitals(panelsPage);
 
@@ -82,7 +69,8 @@ describe('Panels', () => {
 						console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 					},
 					{
-						reportAllChanges: true
+						reportAllChanges: true,
+						durationThreshold: 0
 					}
 					);
 
@@ -110,6 +98,20 @@ describe('Panels', () => {
 					}
 					);
 				});
+
+				await panelsPage.waitForSelector(nextPanelButton);
+				await panelsPage.click(nextPanelButton);
+				await new Promise(r => setTimeout(r, 500));
+				await panelsPage.click(previousPanelButton);
+				await new Promise(r => setTimeout(r, 500));
+				await panelsPage.click(nextPanelButton);
+				await new Promise(r => setTimeout(r, 500));
+				await panelsPage.click(previousPanelButton);
+				await new Promise(r => setTimeout(r, 500));
+				await panelsPage.click(nextPanelButton);
+				await new Promise(r => setTimeout(r, 500));
+				await panelsPage.click(previousPanelButton);
+				await new Promise(r => setTimeout(r, 500));
 				await new Promise(r => setTimeout(r, 1000));
 				avgCLS = avgCLS + (stepVitals.CLS || 0);
 				avgINP = avgINP + (stepVitals.INP || 0);
@@ -188,23 +190,6 @@ describe('Panels', () => {
 				await panelsPage.goto(`http://${serverAddr}/#/panels`);
 				await panelsPage.addScriptTag({path: webVitalsPath});
 				await new Promise(r => setTimeout(r, 100));
-				await panelsPage.waitForSelector(nextPanelButton);
-				await panelsPage.click(nextPanelButton);
-				await new Promise(r => setTimeout(r, 500));
-				await panelsPage.keyboard.down('ArrowDown');
-				await new Promise(r => setTimeout(r, 100));
-				await panelsPage.keyboard.down('ArrowRight');
-				await new Promise(r => setTimeout(r, 100));
-				await panelsPage.keyboard.down('ArrowRight');
-				await new Promise(r => setTimeout(r, 100));
-				await panelsPage.keyboard.down('ArrowLeft');
-				await new Promise(r => setTimeout(r, 100));
-				await panelsPage.keyboard.down('ArrowLeft');
-				await new Promise(r => setTimeout(r, 100));
-				await panelsPage.keyboard.down('ArrowDown');
-				await new Promise(r => setTimeout(r, 100));
-				await panelsPage.keyboard.down('ArrowRight');
-				await new Promise(r => setTimeout(r, 1000));
 
 				const stepVitals = collectWebVitals(panelsPage);
 
@@ -213,7 +198,8 @@ describe('Panels', () => {
 						console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 					},
 					{
-						reportAllChanges: true
+						reportAllChanges: true,
+						durationThreshold: 0
 					}
 					);
 
@@ -241,6 +227,24 @@ describe('Panels', () => {
 					}
 					);
 				});
+
+				await panelsPage.waitForSelector(nextPanelButton);
+				await panelsPage.click(nextPanelButton);
+				await new Promise(r => setTimeout(r, 500));
+				await panelsPage.keyboard.down('ArrowDown');
+				await new Promise(r => setTimeout(r, 100));
+				await panelsPage.keyboard.down('ArrowRight');
+				await new Promise(r => setTimeout(r, 100));
+				await panelsPage.keyboard.down('ArrowRight');
+				await new Promise(r => setTimeout(r, 100));
+				await panelsPage.keyboard.down('ArrowLeft');
+				await new Promise(r => setTimeout(r, 100));
+				await panelsPage.keyboard.down('ArrowLeft');
+				await new Promise(r => setTimeout(r, 100));
+				await panelsPage.keyboard.down('ArrowDown');
+				await new Promise(r => setTimeout(r, 100));
+				await panelsPage.keyboard.down('ArrowRight');
+				await new Promise(r => setTimeout(r, 1000));
 				await new Promise(r => setTimeout(r, 1000));
 				avgCLS = avgCLS + (stepVitals.CLS || 0);
 				avgINP = avgINP + (stepVitals.INP || 0);

@@ -77,20 +77,6 @@ describe('DayPicker', () => {
 			await dayPickerPage.goto(`http://${serverAddr}/#/dayPicker`);
 			await dayPickerPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await dayPickerPage.waitForSelector('#dayPicker');
-			await new Promise(r => setTimeout(r, 200));
-			await dayPickerPage.keyboard.down('ArrowDown');
-			await dayPickerPage.keyboard.up('ArrowDown');
-			await new Promise(r => setTimeout(r, 200));
-			await dayPickerPage.keyboard.down('Enter');
-			await dayPickerPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
-			await dayPickerPage.keyboard.down('ArrowDown');
-			await dayPickerPage.keyboard.up('ArrowDown');
-			await new Promise(r => setTimeout(r, 200));
-			await dayPickerPage.keyboard.down('Enter');
-			await dayPickerPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(dayPickerPage);
 
@@ -99,7 +85,8 @@ describe('DayPicker', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -127,6 +114,21 @@ describe('DayPicker', () => {
 				}
 				);
 			});
+
+			await dayPickerPage.waitForSelector('#dayPicker');
+			await new Promise(r => setTimeout(r, 200));
+			await dayPickerPage.keyboard.down('ArrowDown');
+			await dayPickerPage.keyboard.up('ArrowDown');
+			await new Promise(r => setTimeout(r, 200));
+			await dayPickerPage.keyboard.down('Enter');
+			await dayPickerPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
+			await dayPickerPage.keyboard.down('ArrowDown');
+			await dayPickerPage.keyboard.up('ArrowDown');
+			await new Promise(r => setTimeout(r, 200));
+			await dayPickerPage.keyboard.down('Enter');
+			await dayPickerPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

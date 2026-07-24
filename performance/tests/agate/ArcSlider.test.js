@@ -76,12 +76,6 @@ describe('ArcSlider', () => {
 			await arcSliderPage.goto(`http://${serverAddr}/#/arcSlider`);
 			await arcSliderPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await arcSliderPage.waitForSelector('#arcSlider');
-			await arcSliderPage.focus('#arcSlider');
-			await new Promise(r => setTimeout(r, 200));
-			await arcSliderPage.keyboard.down('ArrowUp');
-			await arcSliderPage.keyboard.up('ArrowUp');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(arcSliderPage);
 
@@ -90,7 +84,8 @@ describe('ArcSlider', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -118,6 +113,13 @@ describe('ArcSlider', () => {
 				}
 				);
 			});
+
+			await arcSliderPage.waitForSelector('#arcSlider');
+			await arcSliderPage.focus('#arcSlider');
+			await new Promise(r => setTimeout(r, 200));
+			await arcSliderPage.keyboard.down('ArrowUp');
+			await arcSliderPage.keyboard.up('ArrowUp');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

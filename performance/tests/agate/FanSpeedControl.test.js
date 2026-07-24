@@ -76,12 +76,6 @@ describe('FanSpeedControl', () => {
 			await fanSpeedControlPage.goto(`http://${serverAddr}/#/fanSpeedControl`);
 			await fanSpeedControlPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await fanSpeedControlPage.waitForSelector('#fanSpeedControl');
-			await fanSpeedControlPage.focus('#fanSpeedControl');
-			await new Promise(r => setTimeout(r, 200));
-			await fanSpeedControlPage.keyboard.down('ArrowUp');
-			await fanSpeedControlPage.keyboard.up('ArrowUp');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(fanSpeedControlPage);
 
@@ -90,7 +84,8 @@ describe('FanSpeedControl', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -118,6 +113,13 @@ describe('FanSpeedControl', () => {
 				}
 				);
 			});
+
+			await fanSpeedControlPage.waitForSelector('#fanSpeedControl');
+			await fanSpeedControlPage.focus('#fanSpeedControl');
+			await new Promise(r => setTimeout(r, 200));
+			await fanSpeedControlPage.keyboard.down('ArrowUp');
+			await fanSpeedControlPage.keyboard.up('ArrowUp');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

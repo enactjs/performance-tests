@@ -76,12 +76,6 @@ describe('RadioItem', () => {
 			await radioItemPage.goto(`http://${serverAddr}/#/radioItem`);
 			await radioItemPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await radioItemPage.waitForSelector('#radioItem');
-			await new Promise(r => setTimeout(r, 100));
-			await radioItemPage.click('#radioItem');
-			await new Promise(r => setTimeout(r, 100));
-			await radioItemPage.click('#radioItem');
-			await new Promise(r => setTimeout(r, 100));
 
 			const stepVitals = collectWebVitals(radioItemPage);
 
@@ -90,7 +84,8 @@ describe('RadioItem', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -118,6 +113,13 @@ describe('RadioItem', () => {
 				}
 				);
 			});
+
+			await radioItemPage.waitForSelector('#radioItem');
+			await new Promise(r => setTimeout(r, 100));
+			await radioItemPage.click('#radioItem');
+			await new Promise(r => setTimeout(r, 100));
+			await radioItemPage.click('#radioItem');
+			await new Promise(r => setTimeout(r, 100));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

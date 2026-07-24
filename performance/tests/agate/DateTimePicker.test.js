@@ -84,15 +84,6 @@ describe('DateTimePicker', () => {
 			await dateTimePickerPage.goto(`http://${serverAddr}/#/dateTimePicker`);
 			await dateTimePickerPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await dateTimePickerPage.waitForSelector('#agate-dateTimePicker');
-			await dateTimePickerPage.focus('[aria-label$="hour previous item"]');
-			await new Promise(r => setTimeout(r, 300));
-			await dateTimePickerPage.keyboard.down('Enter');
-			await dateTimePickerPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 300));
-			await dateTimePickerPage.keyboard.down('Enter');
-			await dateTimePickerPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(dateTimePickerPage);
 
@@ -101,7 +92,8 @@ describe('DateTimePicker', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -129,6 +121,16 @@ describe('DateTimePicker', () => {
 				}
 				);
 			});
+
+			await dateTimePickerPage.waitForSelector('#agate-dateTimePicker');
+			await dateTimePickerPage.focus('[aria-label$="hour previous item"]');
+			await new Promise(r => setTimeout(r, 300));
+			await dateTimePickerPage.keyboard.down('Enter');
+			await dateTimePickerPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 300));
+			await dateTimePickerPage.keyboard.down('Enter');
+			await dateTimePickerPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

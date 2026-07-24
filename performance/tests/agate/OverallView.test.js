@@ -93,13 +93,6 @@ describe('OverallView', () => {
 			await overallPage.goto(`http://${serverAddr}/#/overallView`);
 			await overallPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await overallPage.waitForSelector('#tooltipButton');
-			await overallPage.click('[aria-label="Next Tab"]'); // to move to the next tab.
-			await overallPage.waitForSelector('#virtualGridListSecond');
-			await new Promise(r => setTimeout(r, 200));
-			await overallPage.click(('[aria-label="Previous Tab"]')); // to move to the previous tab.
-			await overallPage.waitForSelector('#tooltipButton');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(overallPage);
 
@@ -108,7 +101,8 @@ describe('OverallView', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -136,6 +130,14 @@ describe('OverallView', () => {
 				}
 				);
 			});
+
+			await overallPage.waitForSelector('#tooltipButton');
+			await overallPage.click('[aria-label="Next Tab"]'); // to move to the next tab.
+			await overallPage.waitForSelector('#virtualGridListSecond');
+			await new Promise(r => setTimeout(r, 200));
+			await overallPage.click(('[aria-label="Previous Tab"]')); // to move to the previous tab.
+			await overallPage.waitForSelector('#tooltipButton');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

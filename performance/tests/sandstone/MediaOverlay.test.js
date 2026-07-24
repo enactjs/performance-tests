@@ -51,12 +51,6 @@ describe('MediaOverlay', () => {
 			await mediaOverlayPage.goto(`http://${serverAddr}/#/mediaoverlay`);
 			await mediaOverlayPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await mediaOverlayPage.waitForSelector('#mediaOverlay');
-			await mediaOverlayPage.focus('#mediaOverlay');
-			await new Promise(r => setTimeout(r, 200));
-			await mediaOverlayPage.keyboard.down('Enter');
-			await mediaOverlayPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(mediaOverlayPage);
 
@@ -65,7 +59,8 @@ describe('MediaOverlay', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -93,6 +88,13 @@ describe('MediaOverlay', () => {
 				}
 				);
 			});
+
+			await mediaOverlayPage.waitForSelector('#mediaOverlay');
+			await mediaOverlayPage.focus('#mediaOverlay');
+			await new Promise(r => setTimeout(r, 200));
+			await mediaOverlayPage.keyboard.down('Enter');
+			await mediaOverlayPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 			avgCLS = avgCLS + (stepVitals.CLS || 0);
 			avgINP = avgINP + (stepVitals.INP || 0);

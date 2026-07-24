@@ -76,12 +76,6 @@ describe('TemperatureControl', () => {
 			await temperatureControlPage.goto(`http://${serverAddr}/#/temperatureControl`);
 			await temperatureControlPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await temperatureControlPage.waitForSelector('#agate-temperatureControl');
-			await temperatureControlPage.focus('#agate-temperatureControl');
-			await new Promise(r => setTimeout(r, 200));
-			await temperatureControlPage.keyboard.down('ArrowUp');
-			await temperatureControlPage.keyboard.up('ArrowUp');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(temperatureControlPage);
 
@@ -90,7 +84,8 @@ describe('TemperatureControl', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -118,6 +113,13 @@ describe('TemperatureControl', () => {
 				}
 				);
 			});
+
+			await temperatureControlPage.waitForSelector('#agate-temperatureControl');
+			await temperatureControlPage.focus('#agate-temperatureControl');
+			await new Promise(r => setTimeout(r, 200));
+			await temperatureControlPage.keyboard.down('ArrowUp');
+			await temperatureControlPage.keyboard.up('ArrowUp');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

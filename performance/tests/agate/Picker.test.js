@@ -76,10 +76,6 @@ describe('Picker', () => {
 			await pickerPage.goto(`http://${serverAddr}/#/picker`);
 			await pickerPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await pickerPage.waitForSelector('#picker');
-			await new Promise(r => setTimeout(r, 200));
-			await pickerPage.click('[aria-label$="next item"]');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(pickerPage);
 
@@ -88,7 +84,8 @@ describe('Picker', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -116,6 +113,11 @@ describe('Picker', () => {
 				}
 				);
 			});
+
+			await pickerPage.waitForSelector('#picker');
+			await new Promise(r => setTimeout(r, 200));
+			await pickerPage.click('[aria-label$="next item"]');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

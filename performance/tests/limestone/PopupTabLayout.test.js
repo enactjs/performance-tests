@@ -68,16 +68,6 @@ describe('PopupTabLayout', () => {
 			await popupTabLayoutPage.goto(`http://${serverAddr}/#/popupTabLayout`);
 			await popupTabLayoutPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await popupTabLayoutPage.waitForSelector('#popupTabLayout');
-			await new Promise(r => setTimeout(r, 200));
-			await popupTabLayoutPage.keyboard.down('ArrowDown');
-			await popupTabLayoutPage.keyboard.up('ArrowDown');
-			await new Promise(r => setTimeout(r, 200));
-			await popupTabLayoutPage.keyboard.down('ArrowRight');
-			await popupTabLayoutPage.keyboard.up('ArrowRight');
-			await new Promise(r => setTimeout(r, 200));
-			await popupTabLayoutPage.keyboard.down('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(popupTabLayoutPage);
 
@@ -86,7 +76,8 @@ describe('PopupTabLayout', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -114,6 +105,17 @@ describe('PopupTabLayout', () => {
 				}
 				);
 			});
+
+			await popupTabLayoutPage.waitForSelector('#popupTabLayout');
+			await new Promise(r => setTimeout(r, 200));
+			await popupTabLayoutPage.keyboard.down('ArrowDown');
+			await popupTabLayoutPage.keyboard.up('ArrowDown');
+			await new Promise(r => setTimeout(r, 200));
+			await popupTabLayoutPage.keyboard.down('ArrowRight');
+			await popupTabLayoutPage.keyboard.up('ArrowRight');
+			await new Promise(r => setTimeout(r, 200));
+			await popupTabLayoutPage.keyboard.down('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 			avgCLS = avgCLS + (stepVitals.CLS || 0);
 			avgINP = avgINP + (stepVitals.INP || 0);

@@ -37,10 +37,6 @@ describe('Marquee', () => {
 			await marqueePage.goto(`http://${serverAddr}/#/marquee`);
 			await marqueePage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await marqueePage.waitForSelector('#marquee');
-			await new Promise(r => setTimeout(r, 100));
-			await marqueePage.click('#marquee');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(marqueePage);
 
@@ -49,7 +45,8 @@ describe('Marquee', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -77,6 +74,11 @@ describe('Marquee', () => {
 				}
 				);
 			});
+
+			await marqueePage.waitForSelector('#marquee');
+			await new Promise(r => setTimeout(r, 100));
+			await marqueePage.click('#marquee');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

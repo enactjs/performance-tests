@@ -85,12 +85,6 @@ describe('ContextualMenuDecorator', () => {
 			await contextualMenuDecoratorPage.goto(`http://${serverAddr}/#/contextualMenuDecorator`);
 			await contextualMenuDecoratorPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await contextualMenuDecoratorPage.waitForSelector('[data-index="0"]');
-			await contextualMenuDecoratorPage.focus('[data-index="0"]');
-			await new Promise(r => setTimeout(r, 200));
-			await contextualMenuDecoratorPage.keyboard.down('Enter');
-			await contextualMenuDecoratorPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(contextualMenuDecoratorPage);
 
@@ -99,7 +93,8 @@ describe('ContextualMenuDecorator', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -127,6 +122,13 @@ describe('ContextualMenuDecorator', () => {
 				}
 				);
 			});
+
+			await contextualMenuDecoratorPage.waitForSelector('[data-index="0"]');
+			await contextualMenuDecoratorPage.focus('[data-index="0"]');
+			await new Promise(r => setTimeout(r, 200));
+			await contextualMenuDecoratorPage.keyboard.down('Enter');
+			await contextualMenuDecoratorPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

@@ -76,12 +76,6 @@ describe('ToggleButton', () => {
 			await toggleButtonPage.goto(`http://${serverAddr}/#/toggleButton`);
 			await toggleButtonPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await toggleButtonPage.waitForSelector('#agate-togglebutton');
-			await toggleButtonPage.focus('#agate-togglebutton');
-			await new Promise(r => setTimeout(r, 200));
-			await toggleButtonPage.keyboard.down('Enter');
-			await toggleButtonPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(toggleButtonPage);
 
@@ -90,7 +84,8 @@ describe('ToggleButton', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -118,6 +113,13 @@ describe('ToggleButton', () => {
 				}
 				);
 			});
+
+			await toggleButtonPage.waitForSelector('#agate-togglebutton');
+			await toggleButtonPage.focus('#agate-togglebutton');
+			await new Promise(r => setTimeout(r, 200));
+			await toggleButtonPage.keyboard.down('Enter');
+			await toggleButtonPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

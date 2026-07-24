@@ -43,11 +43,6 @@ describe('TabGroup', () => {
 			await tabGroupPage.goto(`http://${serverAddr}/#/tabGroup`);
 			await tabGroupPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await tabGroupPage.waitForSelector('#tabGroup');
-			await new Promise(r => setTimeout(r, 100));
-			await tabGroupPage.keyboard.down('ArrowRight');
-			await tabGroupPage.keyboard.up('ArrowRight');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(tabGroupPage);
 
@@ -56,7 +51,8 @@ describe('TabGroup', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -84,6 +80,12 @@ describe('TabGroup', () => {
 				}
 				);
 			});
+
+			await tabGroupPage.waitForSelector('#tabGroup');
+			await new Promise(r => setTimeout(r, 100));
+			await tabGroupPage.keyboard.down('ArrowRight');
+			await tabGroupPage.keyboard.up('ArrowRight');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

@@ -38,12 +38,6 @@ describe('TooltipDecorator', () => {
 			await tooltipDecoratorPage.goto(`http://${serverAddr}/#/tooltipDecorator`);
 			await tooltipDecoratorPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await tooltipDecoratorPage.waitForSelector('#tooltipDecorator');
-			await tooltipDecoratorPage.focus('#tooltipDecorator');
-			await new Promise(r => setTimeout(r, 200));
-			await tooltipDecoratorPage.keyboard.down('Enter');
-			await tooltipDecoratorPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(tooltipDecoratorPage);
 
@@ -52,7 +46,8 @@ describe('TooltipDecorator', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -80,6 +75,13 @@ describe('TooltipDecorator', () => {
 				}
 				);
 			});
+
+			await tooltipDecoratorPage.waitForSelector('#tooltipDecorator');
+			await tooltipDecoratorPage.focus('#tooltipDecorator');
+			await new Promise(r => setTimeout(r, 200));
+			await tooltipDecoratorPage.keyboard.down('Enter');
+			await tooltipDecoratorPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 			avgCLS = avgCLS + (stepVitals.CLS || 0);
 			avgINP = avgINP + (stepVitals.INP || 0);

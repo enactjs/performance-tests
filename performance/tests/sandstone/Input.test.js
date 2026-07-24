@@ -84,28 +84,6 @@ describe('Input', () => {
 			await inputPage.goto(`http://${serverAddr}/#/input`);
 			await inputPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await inputPage.waitForSelector('.inputView');
-			await new Promise(r => setTimeout(r, 100));
-			await inputPage.click('.inputView');
-			await new Promise(r => setTimeout(r, 100));
-			await inputPage.keyboard.down('A');
-			await inputPage.keyboard.up('A');
-			await new Promise(r => setTimeout(r, 100));
-			await inputPage.keyboard.down('B');
-			await inputPage.keyboard.up('B');
-			await new Promise(r => setTimeout(r, 100));
-			await inputPage.keyboard.down('B');
-			await inputPage.keyboard.up('B');
-			await new Promise(r => setTimeout(r, 100));
-			await inputPage.keyboard.down('A');
-			await inputPage.keyboard.up('A');
-			await new Promise(r => setTimeout(r, 100));
-			await inputPage.keyboard.down('Backspace');
-			await inputPage.keyboard.up('Backspace');
-			await new Promise(r => setTimeout(r, 100));
-			await inputPage.keyboard.down('Backspace');
-			await inputPage.keyboard.up('Backspace');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(inputPage);
 
@@ -114,7 +92,8 @@ describe('Input', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -142,6 +121,29 @@ describe('Input', () => {
 				}
 				);
 			});
+
+			await inputPage.waitForSelector('.inputView');
+			await new Promise(r => setTimeout(r, 100));
+			await inputPage.click('.inputView');
+			await new Promise(r => setTimeout(r, 100));
+			await inputPage.keyboard.down('A');
+			await inputPage.keyboard.up('A');
+			await new Promise(r => setTimeout(r, 100));
+			await inputPage.keyboard.down('B');
+			await inputPage.keyboard.up('B');
+			await new Promise(r => setTimeout(r, 100));
+			await inputPage.keyboard.down('B');
+			await inputPage.keyboard.up('B');
+			await new Promise(r => setTimeout(r, 100));
+			await inputPage.keyboard.down('A');
+			await inputPage.keyboard.up('A');
+			await new Promise(r => setTimeout(r, 100));
+			await inputPage.keyboard.down('Backspace');
+			await inputPage.keyboard.up('Backspace');
+			await new Promise(r => setTimeout(r, 100));
+			await inputPage.keyboard.down('Backspace');
+			await inputPage.keyboard.up('Backspace');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 			avgCLS = avgCLS + (stepVitals.CLS || 0);
 			avgINP = avgINP + (stepVitals.INP || 0);

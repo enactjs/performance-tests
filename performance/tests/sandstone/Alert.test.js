@@ -78,12 +78,6 @@ describe('Alert', () => {
 			await alertPage.goto(`http://${serverAddr}/#/alert`);
 			await alertPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await new Promise(r => setTimeout(r, 100));
-			await alertPage.waitForSelector('#button');
-			await alertPage.focus('#button');
-			await alertPage.keyboard.down('Enter');
-			await alertPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(alertPage);
 
@@ -92,7 +86,8 @@ describe('Alert', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -120,6 +115,13 @@ describe('Alert', () => {
 				}
 				);
 			});
+
+			await new Promise(r => setTimeout(r, 100));
+			await alertPage.waitForSelector('#button');
+			await alertPage.focus('#button');
+			await alertPage.keyboard.down('Enter');
+			await alertPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

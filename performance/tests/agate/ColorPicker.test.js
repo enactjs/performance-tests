@@ -74,12 +74,6 @@ describe('ColorPicker', () => {
 			await colorPickerPage.goto(`http://${serverAddr}/#/colorPicker`);
 			await colorPickerPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await colorPickerPage.waitForSelector('#agate-colorPicker');
-			await colorPickerPage.focus('#agate-colorPicker');
-			await new Promise(r => setTimeout(r, 200));
-			await colorPickerPage.keyboard.down('Enter');
-			await colorPickerPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(colorPickerPage);
 
@@ -88,7 +82,8 @@ describe('ColorPicker', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -116,6 +111,13 @@ describe('ColorPicker', () => {
 				}
 				);
 			});
+
+			await colorPickerPage.waitForSelector('#agate-colorPicker');
+			await colorPickerPage.focus('#agate-colorPicker');
+			await new Promise(r => setTimeout(r, 200));
+			await colorPickerPage.keyboard.down('Enter');
+			await colorPickerPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

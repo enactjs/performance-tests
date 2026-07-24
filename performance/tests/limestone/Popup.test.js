@@ -50,21 +50,6 @@ describe('Popup', () => {
 			await popupPage.goto(`http://${serverAddr}/#/popup`);
 			await popupPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await popupPage.waitForSelector('#popup');
-			await popupPage.click(close);
-			await new Promise(r => setTimeout(r, 500));
-			await popupPage.click(open);
-			await new Promise(r => setTimeout(r, 500));
-			await popupPage.click(close);
-			await new Promise(r => setTimeout(r, 500));
-			await popupPage.click(open);
-			await new Promise(r => setTimeout(r, 500));
-			await popupPage.click(close);
-			await new Promise(r => setTimeout(r, 500));
-			await popupPage.click(open);
-			await new Promise(r => setTimeout(r, 500));
-			await popupPage.click(close);
-			await new Promise(r => setTimeout(r, 500));
 
 			const stepVitals = collectWebVitals(popupPage);
 
@@ -73,7 +58,8 @@ describe('Popup', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -101,6 +87,22 @@ describe('Popup', () => {
 				}
 				);
 			});
+
+			await popupPage.waitForSelector('#popup');
+			await popupPage.click(close);
+			await new Promise(r => setTimeout(r, 500));
+			await popupPage.click(open);
+			await new Promise(r => setTimeout(r, 500));
+			await popupPage.click(close);
+			await new Promise(r => setTimeout(r, 500));
+			await popupPage.click(open);
+			await new Promise(r => setTimeout(r, 500));
+			await popupPage.click(close);
+			await new Promise(r => setTimeout(r, 500));
+			await popupPage.click(open);
+			await new Promise(r => setTimeout(r, 500));
+			await popupPage.click(close);
+			await new Promise(r => setTimeout(r, 500));
 			await new Promise(r => setTimeout(r, 1000));
 			avgCLS = avgCLS + (stepVitals.CLS || 0);
 			avgINP = avgINP + (stepVitals.INP || 0);

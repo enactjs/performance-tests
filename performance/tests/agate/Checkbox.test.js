@@ -76,14 +76,6 @@ describe('Checkbox', () => {
 			await checkboxPage.goto(`http://${serverAddr}/#/checkbox`);
 			await checkboxPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await checkboxPage.waitForSelector('#agate-checkbox');
-			await new Promise(r => setTimeout(r, 200));
-			await checkboxPage.keyboard.down('Enter');
-			await checkboxPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
-			await checkboxPage.keyboard.down('Enter');
-			await checkboxPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(checkboxPage);
 
@@ -92,7 +84,8 @@ describe('Checkbox', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -120,6 +113,15 @@ describe('Checkbox', () => {
 				}
 				);
 			});
+
+			await checkboxPage.waitForSelector('#agate-checkbox');
+			await new Promise(r => setTimeout(r, 200));
+			await checkboxPage.keyboard.down('Enter');
+			await checkboxPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
+			await checkboxPage.keyboard.down('Enter');
+			await checkboxPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

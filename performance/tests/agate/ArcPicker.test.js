@@ -76,12 +76,6 @@ describe('ArcPicker', () => {
 			await arcPickerPage.goto(`http://${serverAddr}/#/arcPicker`);
 			await arcPickerPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await arcPickerPage.waitForSelector('#arcPicker');
-			await arcPickerPage.focus('#arcPicker');
-			await new Promise(r => setTimeout(r, 200));
-			await arcPickerPage.keyboard.down('ArrowUp');
-			await arcPickerPage.keyboard.up('ArrowUp');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(arcPickerPage);
 
@@ -90,7 +84,8 @@ describe('ArcPicker', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -118,6 +113,13 @@ describe('ArcPicker', () => {
 				}
 				);
 			});
+
+			await arcPickerPage.waitForSelector('#arcPicker');
+			await arcPickerPage.focus('#arcPicker');
+			await new Promise(r => setTimeout(r, 200));
+			await arcPickerPage.keyboard.down('ArrowUp');
+			await arcPickerPage.keyboard.up('ArrowUp');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

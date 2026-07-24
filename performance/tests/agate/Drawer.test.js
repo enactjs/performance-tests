@@ -80,13 +80,6 @@ describe('Drawer', () => {
 			await drawerPage.goto(`http://${serverAddr}/#/drawer`);
 			await drawerPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await drawerPage.waitForSelector('#agate-drawer');
-			await drawerPage.click(closeButton);
-			await new Promise(r => setTimeout(r, 500));
-			await drawerPage.click(open);
-			await new Promise(r => setTimeout(r, 500));
-			await drawerPage.click(closeButton);
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(drawerPage);
 
@@ -95,7 +88,8 @@ describe('Drawer', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -123,6 +117,14 @@ describe('Drawer', () => {
 				}
 				);
 			});
+
+			await drawerPage.waitForSelector('#agate-drawer');
+			await drawerPage.click(closeButton);
+			await new Promise(r => setTimeout(r, 500));
+			await drawerPage.click(open);
+			await new Promise(r => setTimeout(r, 500));
+			await drawerPage.click(closeButton);
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

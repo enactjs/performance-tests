@@ -60,13 +60,6 @@ describe('FixedPopupPanels', () => {
 			await fixedPopupPanelsPage.goto(`http://${serverAddr}/#/fixedPopupPanels`);
 			await fixedPopupPanelsPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await fixedPopupPanelsPage.waitForSelector('#button');
-			await fixedPopupPanelsPage.focus('#button');
-			await new Promise(r => setTimeout(r, 200));
-			await fixedPopupPanelsPage.keyboard.down('Enter');
-			await fixedPopupPanelsPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
-
 
 			const stepVitals = collectWebVitals(fixedPopupPanelsPage);
 
@@ -75,7 +68,8 @@ describe('FixedPopupPanels', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -103,6 +97,14 @@ describe('FixedPopupPanels', () => {
 				}
 				);
 			});
+
+			await fixedPopupPanelsPage.waitForSelector('#button');
+			await fixedPopupPanelsPage.focus('#button');
+			await new Promise(r => setTimeout(r, 200));
+			await fixedPopupPanelsPage.keyboard.down('Enter');
+			await fixedPopupPanelsPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
+
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

@@ -61,12 +61,6 @@ describe( 'Scroller', () => {
 			await scrollerPage.goto(`http://${serverAddr}/#/scroller`);
 			await scrollerPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await scrollerPage.waitForSelector('#scroller');
-			await scrollerPage.focus('[aria-label="scroll up or down with up down button"]');
-			await new Promise(r => setTimeout(r, 200));
-			await scrollerPage.keyboard.down('Enter');
-			await scrollerPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(scrollerPage);
 
@@ -75,7 +69,8 @@ describe( 'Scroller', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -103,6 +98,13 @@ describe( 'Scroller', () => {
 				}
 				);
 			});
+
+			await scrollerPage.waitForSelector('#scroller');
+			await scrollerPage.focus('[aria-label="scroll up or down with up down button"]');
+			await new Promise(r => setTimeout(r, 200));
+			await scrollerPage.keyboard.down('Enter');
+			await scrollerPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 			avgCLS = avgCLS + (stepVitals.CLS || 0);
 			avgINP = avgINP + (stepVitals.INP || 0);

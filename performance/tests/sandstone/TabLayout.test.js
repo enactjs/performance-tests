@@ -39,20 +39,6 @@ describe('TabLayout', () => {
 			await tabLayoutPage.goto(`http://${serverAddr}/#/tabLayout`);
 			await tabLayoutPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await tabLayoutPage.waitForSelector('#tabLayout');
-			await new Promise(r => setTimeout(r, 200));
-			await tabLayoutPage.keyboard.down('ArrowDown');
-			await tabLayoutPage.keyboard.up('ArrowDown');
-			await new Promise(r => setTimeout(r, 200));
-			await tabLayoutPage.keyboard.down('ArrowDown');
-			await tabLayoutPage.keyboard.up('ArrowDown');
-			await new Promise(r => setTimeout(r, 200));
-			await tabLayoutPage.keyboard.down('ArrowRight');
-			await tabLayoutPage.keyboard.up('ArrowRight');
-			await new Promise(r => setTimeout(r, 200));
-			await tabLayoutPage.keyboard.down('Enter');
-			await tabLayoutPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(tabLayoutPage);
 
@@ -61,7 +47,8 @@ describe('TabLayout', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -89,6 +76,21 @@ describe('TabLayout', () => {
 				}
 				);
 			});
+
+			await tabLayoutPage.waitForSelector('#tabLayout');
+			await new Promise(r => setTimeout(r, 200));
+			await tabLayoutPage.keyboard.down('ArrowDown');
+			await tabLayoutPage.keyboard.up('ArrowDown');
+			await new Promise(r => setTimeout(r, 200));
+			await tabLayoutPage.keyboard.down('ArrowDown');
+			await tabLayoutPage.keyboard.up('ArrowDown');
+			await new Promise(r => setTimeout(r, 200));
+			await tabLayoutPage.keyboard.down('ArrowRight');
+			await tabLayoutPage.keyboard.up('ArrowRight');
+			await new Promise(r => setTimeout(r, 200));
+			await tabLayoutPage.keyboard.down('Enter');
+			await tabLayoutPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 			avgCLS = avgCLS + (stepVitals.CLS || 0);
 			avgINP = avgINP + (stepVitals.INP || 0);

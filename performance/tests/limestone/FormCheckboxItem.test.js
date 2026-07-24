@@ -76,13 +76,6 @@ describe('FormCheckboxItem', () => {
 			await formCheckboxItemPage.goto(`http://${serverAddr}/#/formCheckboxItem`);
 			await formCheckboxItemPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await formCheckboxItemPage.waitForSelector('#formCheckboxItem');
-			await formCheckboxItemPage.focus('#formCheckboxItem');
-			await new Promise(r => setTimeout(r, 200));
-			await formCheckboxItemPage.keyboard.down('Enter');
-			await formCheckboxItemPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
-
 
 			const stepVitals = collectWebVitals(formCheckboxItemPage);
 
@@ -91,7 +84,8 @@ describe('FormCheckboxItem', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -119,6 +113,14 @@ describe('FormCheckboxItem', () => {
 				}
 				);
 			});
+
+			await formCheckboxItemPage.waitForSelector('#formCheckboxItem');
+			await formCheckboxItemPage.focus('#formCheckboxItem');
+			await new Promise(r => setTimeout(r, 200));
+			await formCheckboxItemPage.keyboard.down('Enter');
+			await formCheckboxItemPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
+
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

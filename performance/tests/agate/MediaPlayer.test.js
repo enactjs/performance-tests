@@ -63,10 +63,6 @@ describe('MediaPlayer', () => {
 			await mediaPlayerPage.goto(`http://${serverAddr}/#/mediaPlayer`);
 			await mediaPlayerPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await mediaPlayerPage.waitForSelector('#agate-mediaPlayer');
-			await new Promise(r => setTimeout(r, 100));
-			await mediaPlayerPage.click('[aria-label="Play"]'); // play the audio.
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(mediaPlayerPage);
 
@@ -75,7 +71,8 @@ describe('MediaPlayer', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -103,6 +100,11 @@ describe('MediaPlayer', () => {
 				}
 				);
 			});
+
+			await mediaPlayerPage.waitForSelector('#agate-mediaPlayer');
+			await new Promise(r => setTimeout(r, 100));
+			await mediaPlayerPage.click('[aria-label="Play"]'); // play the audio.
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

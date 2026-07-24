@@ -78,10 +78,6 @@ describe('Keypad', () => {
 			await keypadPage.goto(`http://${serverAddr}/#/keypad`);
 			await keypadPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await keypadPage.waitForSelector('#keypad');
-			await new Promise(r => setTimeout(r, 100));
-			await keypadPage.click('[aria-label$="1"]');
-			await new Promise(r => setTimeout(r, 100));
 
 			const stepVitals = collectWebVitals(keypadPage);
 
@@ -90,7 +86,8 @@ describe('Keypad', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -118,6 +115,11 @@ describe('Keypad', () => {
 				}
 				);
 			});
+
+			await keypadPage.waitForSelector('#keypad');
+			await new Promise(r => setTimeout(r, 100));
+			await keypadPage.click('[aria-label$="1"]');
+			await new Promise(r => setTimeout(r, 100));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

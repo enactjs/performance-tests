@@ -57,12 +57,6 @@ describe('VideoPlayer', () => {
 			await videoPlayerPage.goto(`http://${serverAddr}/#/videoPlayer`);
 			await videoPlayerPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await videoPlayerPage.waitForSelector('#videoPlayer');
-			await videoPlayerPage.focus('[aria-label="Next"]');
-			await new Promise(r => setTimeout(r, 200));
-			await videoPlayerPage.keyboard.down('Enter');
-			await videoPlayerPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
 			const stepVitals = collectWebVitals(videoPlayerPage);
 
@@ -71,7 +65,8 @@ describe('VideoPlayer', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -99,6 +94,13 @@ describe('VideoPlayer', () => {
 				}
 				);
 			});
+
+			await videoPlayerPage.waitForSelector('#videoPlayer');
+			await videoPlayerPage.focus('[aria-label="Next"]');
+			await new Promise(r => setTimeout(r, 200));
+			await videoPlayerPage.keyboard.down('Enter');
+			await videoPlayerPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 			avgCLS = avgCLS + (stepVitals.CLS || 0);
 			avgINP = avgINP + (stepVitals.INP || 0);

@@ -61,19 +61,6 @@ describe('QuickGuidePanels', () => {
 				await quickGuidePanelsPage.goto(`http://${serverAddr}/#/quickGuidePanels`);
 				await quickGuidePanelsPage.addScriptTag({path: webVitalsPath});
 				await new Promise(r => setTimeout(r, 100));
-				await quickGuidePanelsPage.waitForSelector(nextQuickPanelButton);
-				await quickGuidePanelsPage.click(nextQuickPanelButton);
-				await new Promise(r => setTimeout(r, 500));
-				await quickGuidePanelsPage.click(previousQuickPanelButton);
-				await new Promise(r => setTimeout(r, 500));
-				await quickGuidePanelsPage.click(nextQuickPanelButton);
-				await new Promise(r => setTimeout(r, 500));
-				await quickGuidePanelsPage.click(previousQuickPanelButton);
-				await new Promise(r => setTimeout(r, 500));
-				await quickGuidePanelsPage.click(nextQuickPanelButton);
-				await new Promise(r => setTimeout(r, 500));
-				await quickGuidePanelsPage.click(previousQuickPanelButton);
-				await new Promise(r => setTimeout(r, 200));
 
 				const stepVitals = collectWebVitals(quickGuidePanelsPage);
 
@@ -82,7 +69,8 @@ describe('QuickGuidePanels', () => {
 						console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 					},
 					{
-						reportAllChanges: true
+						reportAllChanges: true,
+						durationThreshold: 0
 					}
 					);
 
@@ -110,6 +98,20 @@ describe('QuickGuidePanels', () => {
 					}
 					);
 				});
+
+				await quickGuidePanelsPage.waitForSelector(nextQuickPanelButton);
+				await quickGuidePanelsPage.click(nextQuickPanelButton);
+				await new Promise(r => setTimeout(r, 500));
+				await quickGuidePanelsPage.click(previousQuickPanelButton);
+				await new Promise(r => setTimeout(r, 500));
+				await quickGuidePanelsPage.click(nextQuickPanelButton);
+				await new Promise(r => setTimeout(r, 500));
+				await quickGuidePanelsPage.click(previousQuickPanelButton);
+				await new Promise(r => setTimeout(r, 500));
+				await quickGuidePanelsPage.click(nextQuickPanelButton);
+				await new Promise(r => setTimeout(r, 500));
+				await quickGuidePanelsPage.click(previousQuickPanelButton);
+				await new Promise(r => setTimeout(r, 200));
 				await new Promise(r => setTimeout(r, 1000));
 				avgCLS = avgCLS + (stepVitals.CLS || 0);
 				avgINP = avgINP + (stepVitals.INP || 0);
@@ -193,29 +195,6 @@ describe('QuickGuidePanels', () => {
 				await quickGuidePanelsPage.emulateCPUThrottling(CPUThrottling);
 				await quickGuidePanelsPage.goto(`http://${serverAddr}/#/quickGuidePanels`);
 				await quickGuidePanelsPage.addScriptTag({path: webVitalsPath});
-				await quickGuidePanelsPage.waitForSelector(nextQuickPanelButton);
-				await new Promise(r => setTimeout(r, 500));
-				await quickGuidePanelsPage.keyboard.down('ArrowRight');
-				await quickGuidePanelsPage.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 100));
-				await quickGuidePanelsPage.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 100));
-				await quickGuidePanelsPage.keyboard.down('ArrowLeft');
-				await quickGuidePanelsPage.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 100));
-				await quickGuidePanelsPage.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 100));
-				await quickGuidePanelsPage.keyboard.down('ArrowRight');
-				await quickGuidePanelsPage.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 100));
-				await quickGuidePanelsPage.keyboard.down('ArrowLeft');
-				await quickGuidePanelsPage.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 100));
-				await quickGuidePanelsPage.keyboard.down('ArrowRight');
-				await quickGuidePanelsPage.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 100));
-				await quickGuidePanelsPage.keyboard.down('Enter');
-				await new Promise(r => setTimeout(r, 100));
 
 				const stepVitals = collectWebVitals(quickGuidePanelsPage);
 
@@ -224,7 +203,8 @@ describe('QuickGuidePanels', () => {
 						console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 					},
 					{
-						reportAllChanges: true
+						reportAllChanges: true,
+						durationThreshold: 0
 					}
 					);
 
@@ -252,6 +232,30 @@ describe('QuickGuidePanels', () => {
 					}
 					);
 				});
+
+				await quickGuidePanelsPage.waitForSelector(nextQuickPanelButton);
+				await new Promise(r => setTimeout(r, 500));
+				await quickGuidePanelsPage.keyboard.down('ArrowRight');
+				await quickGuidePanelsPage.keyboard.down('Enter');
+				await new Promise(r => setTimeout(r, 100));
+				await quickGuidePanelsPage.keyboard.down('Enter');
+				await new Promise(r => setTimeout(r, 100));
+				await quickGuidePanelsPage.keyboard.down('ArrowLeft');
+				await quickGuidePanelsPage.keyboard.down('Enter');
+				await new Promise(r => setTimeout(r, 100));
+				await quickGuidePanelsPage.keyboard.down('Enter');
+				await new Promise(r => setTimeout(r, 100));
+				await quickGuidePanelsPage.keyboard.down('ArrowRight');
+				await quickGuidePanelsPage.keyboard.down('Enter');
+				await new Promise(r => setTimeout(r, 100));
+				await quickGuidePanelsPage.keyboard.down('ArrowLeft');
+				await quickGuidePanelsPage.keyboard.down('Enter');
+				await new Promise(r => setTimeout(r, 100));
+				await quickGuidePanelsPage.keyboard.down('ArrowRight');
+				await quickGuidePanelsPage.keyboard.down('Enter');
+				await new Promise(r => setTimeout(r, 100));
+				await quickGuidePanelsPage.keyboard.down('Enter');
+				await new Promise(r => setTimeout(r, 100));
 				await new Promise(r => setTimeout(r, 1000));
 				avgCLS = avgCLS + (stepVitals.CLS || 0);
 				avgINP = avgINP + (stepVitals.INP || 0);

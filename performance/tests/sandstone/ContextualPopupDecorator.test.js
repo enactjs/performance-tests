@@ -42,10 +42,6 @@ describe('ContextualPopupDecorator', () => {
 			await contextualPopupDecoratorPage.goto(`http://${serverAddr}/#/contextualPopupDecorator`);
 			await contextualPopupDecoratorPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await contextualPopupDecoratorPage.waitForSelector('#contextualPopupDecorator');
-			await new Promise(r => setTimeout(r, 100));
-			await contextualPopupDecoratorPage.click('#contextualPopupDecorator');
-			await new Promise(r => setTimeout(r, 100));
 
 			const stepVitals = collectWebVitals(contextualPopupDecoratorPage);
 
@@ -54,7 +50,8 @@ describe('ContextualPopupDecorator', () => {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -82,6 +79,11 @@ describe('ContextualPopupDecorator', () => {
 				}
 				);
 			});
+
+			await contextualPopupDecoratorPage.waitForSelector('#contextualPopupDecorator');
+			await new Promise(r => setTimeout(r, 100));
+			await contextualPopupDecoratorPage.click('#contextualPopupDecorator');
+			await new Promise(r => setTimeout(r, 100));
 			await new Promise(r => setTimeout(r, 1000));
 
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

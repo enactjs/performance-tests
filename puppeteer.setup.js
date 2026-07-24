@@ -1,7 +1,7 @@
 /* global page, targetEnv */
 
 const path = require('path');
-const puppeteer = require('puppeteer-core');
+const puppeteer = require('puppeteer');
 const {ipAddress} = require('./performance/utils');
 
 global.maxCLS = 0.1;
@@ -27,8 +27,7 @@ if (targetEnv === 'PC') {
 	global.beforeAll(async () => {
 		browser = await puppeteer.launch({
 			args: ['--window-size=1920,1080'],
-			executablePath: require('puppeteer').executablePath(),
-			headless: 'chrome'
+			headless: true
 		});
 		global.testMultiple = browser;
 	});

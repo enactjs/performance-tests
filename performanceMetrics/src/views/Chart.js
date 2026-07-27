@@ -1,5 +1,5 @@
 import kind from '@enact/core/kind';
-import {Heading} from '@enact/sandstone/Heading';
+import {Heading} from '@enact/limestone/Heading';
 import PropTypes from 'prop-types';
 import {CartesianGrid, Label, Line, LineChart, ReferenceLine, Tooltip, XAxis, YAxis} from 'recharts';
 
@@ -65,7 +65,7 @@ const Chart = kind({
 		},
 		referenceLabel: ({title}) => {
 			if (title.includes('FPS') || title.includes('Frames Per Second')) return 'Min Value';
-			else if (title.includes('CLS') || title.includes('FID') | title.includes('INP') || title.includes('FCP') || title.includes('LCP') || title.includes('DCL')) return 'Max Value';
+			else if (title.includes('CLS') || title.includes('FID') || title.includes('INP') || title.includes('FCP') || title.includes('LCP') || title.includes('DCL')) return 'Max Value';
 		},
 		xLabel: ({xAxis}) => {
 			if (xAxis.includes('LimestoneVersion')) return 'Limestone Version';

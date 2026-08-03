@@ -1,8 +1,8 @@
-/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
+/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsPath */
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {isValidJSON, newPageMultiple} = require('../../utils');
+const {collectWebVitals, newPageMultiple} = require('../../utils');
 
 describe('Panels', () => {
 	const component = 'Panels';
@@ -58,58 +58,18 @@ describe('Panels', () => {
 			const panelsPage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await panelsPage.emulateCPUThrottling(CPUThrottling);
 			await panelsPage.goto(`http://${serverAddr}/#/panels`);
-			await panelsPage.addScriptTag({url: webVitalsURL});
+			await panelsPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await panelsPage.waitForSelector(nextPanelButton);
-			await panelsPage.click(nextPanelButton);
-			await new Promise(r => setTimeout(r, 1000));
-			await panelsPage.click(previousPanelButton);
-			await new Promise(r => setTimeout(r, 1000));
-			await panelsPage.click(nextPanelButton);
-			await new Promise(r => setTimeout(r, 1000));
-			await panelsPage.click(previousPanelButton);
-			await new Promise(r => setTimeout(r, 1000));
-			await panelsPage.click(nextPanelButton);
-			await new Promise(r => setTimeout(r, 1000));
-			await panelsPage.click(previousPanelButton);
-			await new Promise(r => setTimeout(r, 1000));
 
-			panelsPage.on("console", (msg) => {
-				let jsonMsg = {};
-
-				if (isValidJSON(msg.text())) {
-					jsonMsg = JSON.parse(msg.text());
-				}
-
-				if (jsonMsg.name === 'CLS') {
-					avgCLS = avgCLS + jsonMsg.value;
-					if (jsonMsg.value < maxCLS) {
-						passContCLS += 1;
-					}
-				} else if (jsonMsg.name === 'INP') {
-					avgINP = avgINP + jsonMsg.value;
-					if (jsonMsg.value < maxINP) {
-						passContINP += 1;
-					}
-				} else if (jsonMsg.name === 'FCP') {
-					avgFCP = avgFCP + jsonMsg.value;
-					if (jsonMsg.value < maxFCP) {
-						passContFCP += 1;
-					}
-				} else if (jsonMsg.name === 'LCP') {
-					avgLCP = avgLCP + jsonMsg.value;
-					if (jsonMsg.value < maxLCP) {
-						passContLCP += 1;
-					}
-				}
-			});
+			const stepVitals = collectWebVitals(panelsPage);
 
 			await panelsPage.evaluateHandle(() => {
 				webVitals.onINP(function (inp) {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -137,7 +97,31 @@ describe('Panels', () => {
 				}
 				);
 			});
+
+			await panelsPage.waitForSelector(nextPanelButton);
+			await panelsPage.click(nextPanelButton);
 			await new Promise(r => setTimeout(r, 1000));
+			await panelsPage.click(previousPanelButton);
+			await new Promise(r => setTimeout(r, 1000));
+			await panelsPage.click(nextPanelButton);
+			await new Promise(r => setTimeout(r, 1000));
+			await panelsPage.click(previousPanelButton);
+			await new Promise(r => setTimeout(r, 1000));
+			await panelsPage.click(nextPanelButton);
+			await new Promise(r => setTimeout(r, 1000));
+			await panelsPage.click(previousPanelButton);
+			await new Promise(r => setTimeout(r, 1000));
+			await new Promise(r => setTimeout(r, 1000));
+
+			avgCLS = avgCLS + (stepVitals.CLS || 0);
+			avgINP = avgINP + (stepVitals.INP || 0);
+			avgFCP = avgFCP + (stepVitals.FCP || 0);
+			avgLCP = avgLCP + (stepVitals.LCP || 0);
+
+			if (stepVitals.CLS < maxCLS) passContCLS += 1;
+			if (stepVitals.INP < maxINP) passContINP += 1;
+			if (stepVitals.FCP < maxFCP) passContFCP += 1;
+			if (stepVitals.LCP < maxLCP) passContLCP += 1;
 
 			if (targetEnv === 'PC') await panelsPage.close();
 		}

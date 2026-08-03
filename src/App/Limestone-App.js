@@ -2,10 +2,14 @@ import kind from '@enact/core/kind';
 import ThemeDecorator from '@enact/limestone/ThemeDecorator';
 import {HashRouter as Router, Route, Routes} from 'react-router-dom';
 
+import ActionGuide from '../views/limestone/ActionGuide';
 import Alert from '../views/limestone/Alert';
 import Button from '../views/limestone/Button';
 import BodyText from '../views/limestone/BodyText';
+import Card from '../views/limestone/Card';
 import Checkbox from '../views/limestone/Checkbox';
+import Chips from '../views/limestone/Chips';
+import ColorPicker from '../views/limestone/ColorPicker';
 import CheckboxItem from '../views/limestone/CheckboxItem';
 import ContextualMenuDecorator from '../views/limestone/ContextualMenuDecorator';
 import ContextualPopupDecorator from '../views/limestone/ContextualPopupDecorator';
@@ -28,6 +32,7 @@ import Marquee from '../views/limestone/Marquee';
 import MarqueeMultiple from '../views/limestone/MarqueeMultiple';
 import MediaOverlay from '../views/limestone/MediaOverlay';
 import OverallView from '../views/limestone/OverallView';
+import PageViews from '../views/limestone/PageViews';
 import Panels from '../views/limestone/Panels';
 import Picker from '../views/limestone/Picker';
 import PickerJoined from '../views/limestone/PickerJoined';
@@ -67,11 +72,15 @@ const LimestoneApp = kind({
 		<Router>
 			<div {...props}>
 				<Routes>
+					<Route path="/actionGuide" element={<ActionGuide />} />
 					<Route path="/alert" element={<Alert />} />
 					<Route path="/button" element={<Button />} />
 					<Route path="/bodyText" element={<BodyText />} />
+					<Route path="/card" element={<Card />} />
 					<Route path="/checkbox" element={<Checkbox />} />
 					<Route path="/checkboxItem" element={<CheckboxItem />} />
+					<Route path="/chips" element={<Chips />} />
+					<Route path="/colorPicker" element={<ColorPicker />} />
 					<Route path="/contextualMenuDecorator" element={<ContextualMenuDecorator />} />
 					<Route path="/contextualPopupDecorator" element={<ContextualPopupDecorator />} />
 					<Route path="/datePicker" element={<DatePicker />} />
@@ -93,6 +102,7 @@ const LimestoneApp = kind({
 					<Route path="/marqueeMultiple" element={<MarqueeMultiple />} />
 					<Route path="/mediaOverlay" element={<MediaOverlay />} />
 					<Route path="/overallView" element={<OverallView />} />
+					<Route path="/pageViews" element={<PageViews />} />
 					<Route path="/panels" element={<Panels />} />
 					<Route path="/picker" element={<Picker />} />
 					<Route path="/pickerJoined" element={<PickerJoined />} />

@@ -1,10 +1,10 @@
-import DatePicker from '@enact/sandstone/DatePicker';
-import Dropdown from '@enact/sandstone/Dropdown';
-import {Heading} from '@enact/sandstone/Heading';
-import Scroller from '@enact/sandstone/Scroller';
-import Spinner from '@enact/sandstone/Spinner';
-import TabLayout, {Tab} from '@enact/sandstone/TabLayout';
-import ThemeDecorator from '@enact/sandstone/ThemeDecorator';
+import DatePicker from '@enact/limestone/DatePicker';
+import Dropdown from '@enact/limestone/Dropdown';
+import {Heading} from '@enact/limestone/Heading';
+import Scroller from '@enact/limestone/Scroller';
+import Spinner from '@enact/limestone/Spinner';
+import TabLayout, {Tab} from '@enact/limestone/TabLayout';
+import ThemeDecorator from '@enact/limestone/ThemeDecorator';
 import Layout, {Cell} from '@enact/ui/Layout';
 import classnames from 'classnames';
 import {useCallback, useEffect, useState} from 'react';
@@ -15,11 +15,15 @@ import css from './App.module.less';
 
 const listOfLimestoneComponent = [
 	'Overall',
+	'ActionGuide',
 	'Alert',
 	'BodyText',
 	'Button',
+	'Card',
 	'Checkbox',
 	'CheckboxItem',
+	'Chips',
+	'ColorPicker',
 	'ContextualMenuDecorator',
 	'ContextualPopupDecorator',
 	'DatePicker',
@@ -38,6 +42,7 @@ const listOfLimestoneComponent = [
 	'KeyGuide',
 	'Marquee',
 	'MediaOverlay',
+	'PageViews',
 	'Panels',
 	'Picker joined',
 	'Picker',
@@ -162,6 +167,34 @@ const listOfAgateComponent = [
 
 const listOfThemes = ['Limestone', 'Sandstone', 'Agate'];
 
+// Pure date helpers — kept at module scope so they are not recreated on every
+// render and do not need to be listed as effect dependencies.
+const convertDateFromMillisToYMD = (timestamp) => {
+	const date = new Date(timestamp);
+
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
+
+	return year + '-' + month + '-' + day;
+};
+
+const getDateFromBuildDate = (buildDate) => {
+	const date = buildDate.split('-').pop();
+	const year = date.slice(0, 4);
+	const month = date.slice(4, 6);
+	const day = date.slice(6, 8);
+
+	return new Date(year, month - 1, day).getTime();
+};
+
+const getDefaultStartDate = () => {
+	let date = new Date();
+	date.setMonth(date.getMonth() - 1);
+
+	return date.getTime() - (9 * 60 * 60 * 1000);
+};
+
 const App = (props) => {
 	const [componentReleasedData, setComponentReleasedData] = useState([]);
 	const [componentDevelopData, setComponentDevelopData] = useState([]);
@@ -172,60 +205,42 @@ const App = (props) => {
 	const [listOfVersions, setListOfVersions] = useState([]);
 	const [listOfTestDates, setListOfTestDates] = useState([]);
 
-	const [startDate, setStartDate] = useState();
-	const [endDate, setEndDate] = useState();
-
-	const convertDateFromMillisToYMD = (timestamp) => {
-		const date = new Date(timestamp);
-
-		const year = date.getFullYear();
-		const month = date.getMonth() + 1;
-		const day = date.getDate();
-
-		return year + '-' + month + '-' + day;
-	};
-
-	const getDateFromBuildDate = (buildDate) => {
-		const date = buildDate.split('-').pop();
-		const year = date.slice(0, 4);
-		const month = date.slice(4, 6);
-		const day = date.slice(6, 8);
-
-		return new Date(year, month - 1, day).getTime();
-	};
-
-	const getDefaultStartDate = () => {
-		let date = new Date();
-		date.setMonth(date.getMonth() - 1);
-
-		return date.getTime() - (9 * 60 * 60 * 1000);
-	};
+	// Lazy initial state so the date range is valid on the first render
+	// (avoids passing `new Date(undefined)` — an Invalid Date — to DatePicker).
+	const [startDate, setStartDate] = useState(getDefaultStartDate);
+	const [endDate, setEndDate] = useState(() => Date.now());
 
 	useEffect (() => {
+		let ignore = false;
 		let developTestDatesStringArray, releaseVersionsStringArray = [];
-		setSelectedComponent(null);
 
 		fetch('./' + selectedTheme.toLowerCase() + '/releaseVersions.txt')
 			.then(result => result.text())
 			.then(result => {
+				if (ignore) return;
 				releaseVersionsStringArray = result.split('\n');
 				releaseVersionsStringArray.pop();
 
 				setListOfVersions(releaseVersionsStringArray);
-				setSelectedComponent(selectedListOfComponents[0]);
 			});
 
 		fetch('./' + selectedTheme.toLowerCase() + '/developTestDate.txt')
 			.then(result => result.text())
 			.then(result => {
+				if (ignore) return;
 				developTestDatesStringArray = result.split('\n');
 				developTestDatesStringArray.pop();
 
 				setListOfTestDates(developTestDatesStringArray);
 			});
-	}, [selectedTheme]); // eslint-disable-line react-hooks/exhaustive-deps
+
+		return () => {
+			ignore = true;
+		};
+	}, [selectedTheme]);
 
 	useEffect (() => {
+		let ignore = false;
 		let componentMetrics = [], promises = [];
 
 		if (selectedComponent) {
@@ -234,7 +249,8 @@ const App = (props) => {
 			}
 
 			Promise.allSettled(promises).then((results) => {
-				const successfulResults = results.filter((result) => result.value.includes('ReactVersion'));
+				if (ignore) return;
+				const successfulResults = results.filter((result) => result.status === 'fulfilled' && result.value.includes('ReactVersion'));
 
 				for (let result of successfulResults) {
 					let resultJSON  = result.value.split('\n');
@@ -254,9 +270,14 @@ const App = (props) => {
 				setListOfMetrics([...new Set(componentMetrics.map(item => item.type))]);
 			});
 		}
-	}, [listOfVersions, selectedComponent]); // eslint-disable-line react-hooks/exhaustive-deps
+
+		return () => {
+			ignore = true;
+		};
+	}, [listOfVersions, selectedComponent, selectedTheme]);
 
 	useEffect (() => {
+		let ignore = false;
 		let componentMetrics = [], promises = [];
 
 		if (selectedComponent) {
@@ -268,7 +289,8 @@ const App = (props) => {
 			}
 
 			Promise.allSettled(promises).then((results) => {
-				const successfulResults = results.filter((result) => result.value.includes('ReactVersion'));
+				if (ignore) return;
+				const successfulResults = results.filter((result) => result.status === 'fulfilled' && result.value.includes('ReactVersion'));
 
 				for (let result of successfulResults) {
 					let resultJSON  = result.value.split('\n');
@@ -287,14 +309,11 @@ const App = (props) => {
 				setComponentDevelopData(componentMetrics);
 			});
 		}
-	}, [endDate, listOfTestDates, selectedComponent, startDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	useEffect(() => {
-		if (listOfTestDates.length > 0) {
-			setStartDate(getDefaultStartDate());
-			setEndDate(Date.now());
-		}
-	}, [listOfTestDates]);
+		return () => {
+			ignore = true;
+		};
+	}, [endDate, listOfTestDates, selectedComponent, selectedTheme, startDate]);
 
 	const onThemeSelect = useCallback(({data}) => {
 		let listOfComponents;
@@ -312,8 +331,15 @@ const App = (props) => {
 				listOfComponents = listOfLimestoneComponent;
 		}
 
+		// Reset selection, cached data and date range in the event handler rather
+		// than in a cascading effect that reacts to the theme change.
 		setSelectedTheme(data);
 		setSelectedListOfComponents(listOfComponents);
+		setSelectedComponent(listOfComponents[0]);
+		setComponentReleasedData([]);
+		setComponentDevelopData([]);
+		setStartDate(getDefaultStartDate());
+		setEndDate(Date.now());
 	}, []);
 
 	const onComponentSelect = useCallback(({data}) => {

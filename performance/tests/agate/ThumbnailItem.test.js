@@ -1,7 +1,7 @@
-/* global CPUThrottling, page, maxCLS, stepNumber, maxFCP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
+/* global CPUThrottling, page, maxCLS, stepNumber, maxFCP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsPath */
 
 const TestResults = require('../../TestResults');
-const {isValidJSON, newPageMultiple} = require('../../utils');
+const {collectWebVitals, newPageMultiple} = require('../../utils');
 
 describe('ThumbnailItem', () => {
 	const component = 'ThumbnailItem';
@@ -18,37 +18,14 @@ describe('ThumbnailItem', () => {
 			const thumbnailItemPage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await thumbnailItemPage.emulateCPUThrottling(CPUThrottling);
 			await thumbnailItemPage.goto(`http://${serverAddr}/#/thumbnailItem`);
-			await thumbnailItemPage.addScriptTag({url: webVitalsURL});
+			await thumbnailItemPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
 			await thumbnailItemPage.waitForSelector('#thumbnailItem');
 			await thumbnailItemPage.focus('#thumbnailItem');
 			await thumbnailItemPage.keyboard.down('Enter');
 			await new Promise(r => setTimeout(r, 200));
 
-			thumbnailItemPage.on("console", (msg) => {
-				let jsonMsg = {};
-
-				if (isValidJSON(msg.text())) {
-					jsonMsg = JSON.parse(msg.text());
-				}
-
-				if (jsonMsg.name === 'CLS') {
-					avgCLS = avgCLS + jsonMsg.value;
-					if (jsonMsg.value < maxCLS) {
-						passContCLS += 1;
-					}
-				} else if (jsonMsg.name === 'FCP') {
-					avgFCP = avgFCP + jsonMsg.value;
-					if (jsonMsg.value < maxFCP) {
-						passContFCP += 1;
-					}
-				} else if (jsonMsg.name === 'LCP') {
-					avgLCP = avgLCP + jsonMsg.value;
-					if (jsonMsg.value < maxLCP) {
-						passContLCP += 1;
-					}
-				}
-			});
+			const stepVitals = collectWebVitals(thumbnailItemPage);
 
 			await thumbnailItemPage.evaluateHandle(() => {
 				webVitals.onCLS(function (cls) {
@@ -76,6 +53,14 @@ describe('ThumbnailItem', () => {
 				);
 			});
 			await new Promise(r => setTimeout(r, 1000));
+
+			avgCLS = avgCLS + (stepVitals.CLS || 0);
+			avgFCP = avgFCP + (stepVitals.FCP || 0);
+			avgLCP = avgLCP + (stepVitals.LCP || 0);
+
+			if (stepVitals.CLS < maxCLS) passContCLS += 1;
+			if (stepVitals.FCP < maxFCP) passContFCP += 1;
+			if (stepVitals.LCP < maxLCP) passContLCP += 1;
 
 			if (targetEnv === 'PC') await thumbnailItemPage.close();
 		}

@@ -1,7 +1,7 @@
-/* global CPUThrottling, page, maxCLS, stepNumber, maxFCP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
+/* global CPUThrottling, page, maxCLS, stepNumber, maxFCP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsPath */
 
 const TestResults = require('../../TestResults');
-const {isValidJSON, newPageMultiple} = require("../../utils");
+const {collectWebVitals, newPageMultiple} = require("../../utils");
 
 describe('BodyText', () => {
 	const component = 'BodyText';
@@ -18,37 +18,14 @@ describe('BodyText', () => {
 			const bodyTextPage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await bodyTextPage.emulateCPUThrottling(CPUThrottling);
 			await bodyTextPage.goto(`http://${serverAddr}/#/bodyText`);
-			await bodyTextPage.addScriptTag({url: webVitalsURL});
+			await bodyTextPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
 			await bodyTextPage.waitForSelector('#bodyText');
 			await bodyTextPage.focus('#bodyText');
 			await bodyTextPage.keyboard.down('Enter');
 			await new Promise(r => setTimeout(r, 200));
 
-			bodyTextPage.on("console", (msg) => {
-				let jsonMsg = {};
-
-				if (isValidJSON(msg.text())) {
-					jsonMsg = JSON.parse(msg.text());
-				}
-
-				if (jsonMsg.name === 'CLS') {
-					avgCLS = avgCLS + jsonMsg.value;
-					if (jsonMsg.value < maxCLS) {
-						passContCLS += 1;
-					}
-				} else if (jsonMsg.name === 'FCP') {
-					avgFCP = avgFCP + jsonMsg.value;
-					if (jsonMsg.value < maxFCP) {
-						passContFCP += 1;
-					}
-				} else if (jsonMsg.name === 'LCP') {
-					avgLCP = avgLCP + jsonMsg.value;
-					if (jsonMsg.value < maxLCP) {
-						passContLCP += 1;
-					}
-				}
-			});
+			const stepVitals = collectWebVitals(bodyTextPage);
 
 			await bodyTextPage.evaluateHandle(() => {
 				webVitals.onCLS(function (cls) {
@@ -76,6 +53,14 @@ describe('BodyText', () => {
 				);
 			});
 			await new Promise(r => setTimeout(r, 1000));
+			avgCLS = avgCLS + (stepVitals.CLS || 0);
+			avgFCP = avgFCP + (stepVitals.FCP || 0);
+			avgLCP = avgLCP + (stepVitals.LCP || 0);
+
+			if (stepVitals.CLS < maxCLS) passContCLS += 1;
+			if (stepVitals.FCP < maxFCP) passContFCP += 1;
+			if (stepVitals.LCP < maxLCP) passContLCP += 1;
+
 			if (targetEnv === 'PC') await bodyTextPage.close();
 		}
 

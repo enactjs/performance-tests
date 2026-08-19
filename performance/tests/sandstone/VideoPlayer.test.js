@@ -1,8 +1,8 @@
-/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsURL */
+/* global CPUThrottling, page, minFPS, maxCLS, stepNumber, maxFCP, maxINP, maxLCP, passRatio, serverAddr, targetEnv, webVitals, webVitalsPath */
 
 const TestResults = require('../../TestResults');
 const {FPS, getAverageFPS} = require('../../TraceModel');
-const {isValidJSON, newPageMultiple} = require('../../utils');
+const {collectWebVitals, newPageMultiple} = require('../../utils');
 
 describe('VideoPlayer', () => {
 	const component = 'VideoPlayer';
@@ -55,51 +55,18 @@ describe('VideoPlayer', () => {
 			const videoPlayerPage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await videoPlayerPage.emulateCPUThrottling(CPUThrottling);
 			await videoPlayerPage.goto(`http://${serverAddr}/#/videoPlayer`);
-			await videoPlayerPage.addScriptTag({url: webVitalsURL});
+			await videoPlayerPage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
-			await videoPlayerPage.waitForSelector('#videoPlayer');
-			await videoPlayerPage.focus('[aria-label="Next"]');
-			await new Promise(r => setTimeout(r, 200));
-			await videoPlayerPage.keyboard.down('Enter');
-			await videoPlayerPage.keyboard.up('Enter');
-			await new Promise(r => setTimeout(r, 200));
 
-			videoPlayerPage.on("console", (msg) => {
-				let jsonMsg = {};
-
-				if (isValidJSON(msg.text())) {
-					jsonMsg = JSON.parse(msg.text());
-				}
-
-				if (jsonMsg.name === 'CLS') {
-					avgCLS = avgCLS + jsonMsg.value;
-					if (jsonMsg.value < maxCLS) {
-						passContCLS += 1;
-					}
-				} else if (jsonMsg.name === 'INP') {
-					avgINP = avgINP + jsonMsg.value;
-					if (jsonMsg.value < maxINP) {
-						passContINP += 1;
-					}
-				} else if (jsonMsg.name === 'FCP') {
-					avgFCP = avgFCP + jsonMsg.value;
-					if (jsonMsg.value < maxFCP) {
-						passContFCP += 1;
-					}
-				} else if (jsonMsg.name === 'LCP') {
-					avgLCP = avgLCP + jsonMsg.value;
-					if (jsonMsg.value < maxLCP) {
-						passContLCP += 1;
-					}
-				}
-			});
+			const stepVitals = collectWebVitals(videoPlayerPage);
 
 			await videoPlayerPage.evaluateHandle(() => {
 				webVitals.onINP(function (inp) {
 					console.log(JSON.stringify({"name": inp.name, "value": inp.value})); // eslint-disable-line no-console
 				},
 				{
-					reportAllChanges: true
+					reportAllChanges: true,
+					durationThreshold: 0
 				}
 				);
 
@@ -127,7 +94,24 @@ describe('VideoPlayer', () => {
 				}
 				);
 			});
+
+			await videoPlayerPage.waitForSelector('#videoPlayer');
+			await videoPlayerPage.focus('[aria-label="Next"]');
+			await new Promise(r => setTimeout(r, 200));
+			await videoPlayerPage.keyboard.down('Enter');
+			await videoPlayerPage.keyboard.up('Enter');
+			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
+			avgCLS = avgCLS + (stepVitals.CLS || 0);
+			avgINP = avgINP + (stepVitals.INP || 0);
+			avgFCP = avgFCP + (stepVitals.FCP || 0);
+			avgLCP = avgLCP + (stepVitals.LCP || 0);
+
+			if (stepVitals.CLS < maxCLS) passContCLS += 1;
+			if (stepVitals.INP < maxINP) passContINP += 1;
+			if (stepVitals.FCP < maxFCP) passContFCP += 1;
+			if (stepVitals.LCP < maxLCP) passContLCP += 1;
+
 			if (targetEnv === 'PC') await videoPlayerPage.close();
 		}
 

@@ -46,32 +46,33 @@
 		"qs": "^6.16.0",
 		"react": "^19.2.7",
 		"react-dom": "^19.2.7",
-		"react-router-dom": "^7.18.4",
+		"react-router-dom": "^7.17.0",
 		"shelljs": "^0.10.0"
 	},
 	"devDependencies": {
 		"cross-env": "^10.1.0",
 		"jest": "^30.4.2",
 		"npm-run-all": "^4.1.5",
-		"puppeteer": "^25.12.0",
+		"puppeteer": "^24.43.1",
 		"serve": "^14.2.6",
 		"wait-on": "^9.0.10",
 		"web-vitals": "5.1.0"
 	},
 	"overrides": {
-		"baseline-browser-mapping": "^2.11.26",
-		"brace-expansion@1": "1.1.21",
-		"brace-expansion@2": "2.1.7",
-		"brace-expansion@4": "5.0.12",
-		"brace-expansion@5": "5.0.12",
-		"browserslist": "^4.29.3",
 		"axios": "^1.20.0",
+		"baseline-browser-mapping": "^2.11.0",
+		"brace-expansion@1": "^1.1.21",
+		"brace-expansion@2": "^2.1.7",
+		"browserslist": "^4.28.7",
+		"compression": "^1.8.2",
 		"fast-uri": "^3.1.8",
 		"form-data": "^4.0.6",
-		"ip-address": "^10.7.2",
-		"js-yaml@3": "3.15.2",
-		"js-yaml@4": "4.3.2",
+		"ip-address": "^10.7.1",
+		"joi": "^18.2.9",
+		"js-yaml@4": "^4.3.2",
 		"qs": "^6.16.0",
-		"shell-quote": "^1.11.0"
+		"react-router": "^7.18.2",
+		"shell-quote": "^1.9.0",
+		"ws": "^7.5.11"
 	}
 }

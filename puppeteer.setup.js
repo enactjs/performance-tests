@@ -1,10 +1,7 @@
 /* global page, targetEnv */
 
 const path = require('path');
-// Puppeteer 25 ships only ESM. Jest's loader cannot parse `export`, while Node's
-// own require can. Load it through the builtin module loader.
-const {createRequire} = process.getBuiltinModule('module');
-const puppeteer = createRequire(__filename)('puppeteer');
+const puppeteer = require('puppeteer');
 const {ipAddress} = require('./performance/utils');
 
 global.maxCLS = 0.1;

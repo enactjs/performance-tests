@@ -52,7 +52,7 @@ const TestResult = module.exports = {
 		}
 		const txtPath = path.join(__dirname, dir, `${component}.txt`); // eslint-disable-line
 
-		fs.access(txtPath, fs.F_OK, (err) => {
+		fs.access(txtPath, fs.constants.F_OK, (err) => {
 			if (err) {
 				fs.writeFileSync(txtPath, '');
 			}

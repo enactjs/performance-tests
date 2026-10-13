@@ -1,4 +1,4 @@
-require('dotenv').config({quiet: true});
+require('dotenv').config({fast: true, quiet: true});
 const  fs = require('fs');
 const path = require('path');
 const fetchAPI = (...args) => import('node-fetch').then(({default: fetchData}) => fetchData(...args));

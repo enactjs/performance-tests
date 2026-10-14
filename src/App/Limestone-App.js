@@ -54,6 +54,7 @@ import SwitchItem from '../views/limestone/SwitchItem';
 import TabLayout from '../views/limestone/TabLayout';
 import TimePicker from '../views/limestone/TimePicker';
 import TooltipDecorator from '../views/limestone/TooltipDecorator';
+import VerticalMarquee from '../views/limestone/VerticalMarquee';
 import VideoPlayer from '../views/limestone/VideoPlayer';
 import VirtualList from '../views/limestone/VirtualList';
 import WizardPanels from '../views/limestone/WizardPanels';
@@ -124,6 +125,7 @@ const LimestoneApp = kind({
 					<Route path="/tabLayout" element={<TabLayout />} />
 					<Route path="/timePicker" element={<TimePicker />} />
 					<Route path="/tooltipDecorator" element={<TooltipDecorator />} />
+					<Route path="/verticalMarquee" element={<VerticalMarquee />} />
 					<Route path="/videoPlayer" element={<VideoPlayer />} />
 					<Route path="/virtualList" element={<VirtualList />} />
 					<Route path="/wizardPanels" element={<WizardPanels />} />

@@ -6,19 +6,53 @@ const {collectWebVitals, newPageMultiple} = require('../../utils');
 
 const component = 'VerticalMarquee';
 
+const viewUrl = (query) => `http://${serverAddr}/#/verticalMarquee${query ? `?${query}` : ''}`;
+
+const countCycles = async (targetPage) => {
+	await targetPage.$eval('#verticalMarquee', (node) => {
+		const track = node.querySelector('[data-vertical-marquee-track]');
+		window.__verticalMarqueeEnds = 0;
+		if (!track) return;
+
+		track.addEventListener('transitionend', (ev) => {
+			if (ev.target === track && (!ev.propertyName || ev.propertyName === 'transform')) {
+				window.__verticalMarqueeEnds += 1;
+			}
+		});
+	});
+};
+
+const waitForCycles = (targetPage) => targetPage.waitForFunction(() => window.__verticalMarqueeEnds >= 2, {timeout: 20000});
+
 describe('VerticalMarquee', () => {
 	TestResults.newFile(component);
 
 	it('FPS on hover', async () => {
 		await FPS();
 		await page.emulateCPUThrottling(CPUThrottling);
-		await page.goto(`http://${serverAddr}/#/verticalMarquee`);
+		await page.goto(viewUrl('marqueeSpeed=4000'));
 		await page.waitForSelector('#verticalMarquee');
+		await countCycles(page);
 		await page.hover('#verticalMarquee');
-		await new Promise(r => setTimeout(r, 500));
+		await waitForCycles(page);
 
 		const averageFPS = await getAverageFPS();
 		TestResults.addResult({component: component, type: 'FPS', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
+
+		expect(averageFPS).toBeGreaterThan(minFPS);
+	});
+
+	it('FPS on focus', async () => {
+		await FPS();
+		await page.emulateCPUThrottling(CPUThrottling);
+		await page.goto(viewUrl('marqueeOn=focus&marqueeSpeed=4000'));
+		await page.waitForSelector('#verticalMarquee');
+		await countCycles(page);
+		await page.focus('#verticalMarquee');
+		await waitForCycles(page);
+
+		const averageFPS = await getAverageFPS();
+		TestResults.addResult({component: component, type: 'FPS Focus', actualValue: Math.round((averageFPS + Number.EPSILON) * 1000) / 1000});
 
 		expect(averageFPS).toBeGreaterThan(minFPS);
 	});
@@ -35,7 +69,7 @@ describe('VerticalMarquee', () => {
 		for (let step = 0; step < stepNumber; step++) {
 			const verticalMarqueePage = targetEnv === 'TV' ? page : await newPageMultiple();
 			await verticalMarqueePage.emulateCPUThrottling(CPUThrottling);
-			await verticalMarqueePage.goto(`http://${serverAddr}/#/verticalMarquee`);
+			await verticalMarqueePage.goto(viewUrl('marqueeOn=focus&marqueeSpeed=4000'));
 			await verticalMarqueePage.addScriptTag({path: webVitalsPath});
 			await new Promise(r => setTimeout(r, 100));
 
@@ -78,7 +112,11 @@ describe('VerticalMarquee', () => {
 
 			await verticalMarqueePage.waitForSelector('#verticalMarquee');
 			await new Promise(r => setTimeout(r, 200));
-			await verticalMarqueePage.click('#verticalMarquee');
+			await verticalMarqueePage.evaluate(() => {
+				if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+			});
+			await verticalMarqueePage.keyboard.down('ArrowDown');
+			await verticalMarqueePage.keyboard.up('ArrowDown');
 			await new Promise(r => setTimeout(r, 200));
 			await new Promise(r => setTimeout(r, 1000));
 			avgCLS = avgCLS + (stepVitals.CLS || 0);

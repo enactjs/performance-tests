@@ -1,7 +1,6 @@
 /* global page, targetEnv */
 
 const path = require('path');
-const puppeteer = require('puppeteer');
 const {ipAddress} = require('./performance/utils');
 
 global.maxCLS = 0.1;
@@ -25,6 +24,8 @@ global.webVitalsPath = path.join(path.dirname(require.resolve('web-vitals')), 'w
 
 if (targetEnv === 'PC') {
 	global.beforeAll(async () => {
+		const puppeteer = await import('puppeteer');
+
 		browser = await puppeteer.launch({
 			args: ['--window-size=1920,1080'],
 			headless: true
@@ -53,6 +54,7 @@ if (targetEnv === 'PC') {
 } else if (targetEnv === 'TV') {
 	global.beforeAll(async () => {
 		const TVAddr = process.env.TV_IP;
+		const puppeteer = await import('puppeteer');
 
 		browser = await puppeteer.connect({
 			browserURL: `http://${TVAddr}:9998`,

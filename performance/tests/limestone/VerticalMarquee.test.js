@@ -48,6 +48,8 @@ describe('VerticalMarquee', () => {
 		await page.goto(viewUrl('marqueeOn=focus&marqueeSpeed=4000'));
 		await page.waitForSelector('#verticalMarquee');
 		await countCycles(page);
+		await page.mouse.move(0, 0);
+		await page.$eval('#verticalMarquee', (node) => node.blur());
 		await page.focus('#verticalMarquee');
 		await waitForCycles(page);
 

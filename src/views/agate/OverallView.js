@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-no-bind */
+/* eslint-disable enact/jsx-no-bind */
 
 import Button from '@enact/agate/Button';
 import CheckboxItem from '@enact/agate/CheckboxItem';
@@ -76,7 +76,7 @@ const OverallView = () => {
 			<TabbedPanels
 				index={index}
 				noCloseButton
-				onSelect={onSelect} // eslint-disable-line react/jsx-no-bind
+				onSelect={onSelect} // eslint-disable-line enact/jsx-no-bind
 				orientation="vertical"
 				tabs={[
 					{title: 'First Tab', icon: 'netbook'},
@@ -89,7 +89,7 @@ const OverallView = () => {
 						aria-label="Previous Tab"
 						icon="arrowlargeleft"
 						id="backwardButton"
-						onClick={onBeforeTabs} // eslint-disable-line react/jsx-no-bind
+						onClick={onBeforeTabs} // eslint-disable-line enact/jsx-no-bind
 						size="small"
 						type="grid"
 					/>
@@ -99,7 +99,7 @@ const OverallView = () => {
 						aria-label="Next Tab"
 						icon="arrowlargeright"
 						id="forwardButton"
-						onClick={onAfterTabs} // eslint-disable-line react/jsx-no-bind
+						onClick={onAfterTabs} // eslint-disable-line enact/jsx-no-bind
 						size="small"
 						type="grid"
 					/>
